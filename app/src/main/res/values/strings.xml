@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">game-trail-tracker</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="editTextDate">Select Date</string>
+    <string name="editTextName">Name</string>
+    <string name="editTextCountry">Country</string>
+    <string name="buttonSelectImages">Select Images</string>
+    <string name="editTextSpecieName">Specie Name</string>
+    <string name="editTextWeapon">Weapon</string>
+    <string name="locationFragment">Location</string>
+    <string name="animalFragment">Animal</string>
+    <string name="weaponFragment">Weapon</string>
+    <string name="title_activity_view">ViewActivity</string>
 </resources>

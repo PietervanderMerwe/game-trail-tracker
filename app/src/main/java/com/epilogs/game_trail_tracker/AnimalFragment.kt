@@ -11,6 +11,7 @@ import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
+import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import java.util.Calendar
 
 // TODO: Rename parameter arguments, choose names that match
@@ -47,17 +48,11 @@ class AnimalFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val editTextDate: EditText = view.findViewById(R.id.editTextDate)
-        editTextDate.setOnClickListener {
-            val calendar = Calendar.getInstance()
-            val year = calendar.get(Calendar.YEAR)
-            val month = calendar.get(Calendar.MONTH)
-            val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
 
-            DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
-                // Format the selected date and set it as the EditText content
-                val selectedDate = "${selectedDay}/${selectedMonth + 1}/${selectedYear}"
+        editTextDate.setOnClickListener {
+            showDatePickerDialog(requireContext()) { selectedDate ->
                 editTextDate.setText(selectedDate)
-            }, year, month, dayOfMonth).show()
+            }
         }
 
         val imagesRecyclerView: RecyclerView = view.findViewById(R.id.imagesRecyclerView)

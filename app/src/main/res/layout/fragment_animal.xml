@@ -5,34 +5,39 @@
     android:layout_height="match_parent"
     tools:context=".AnimalFragment"
     android:orientation="vertical"
-    android:padding="16dp">>
+    android:padding="16dp">
 
     <EditText
-        android:id="@+id/editTextName"
+        android:id="@+id/editTextSpecieName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Name" />
+        android:hint="@string/editTextSpecieName"/>
 
     <EditText
         android:id="@+id/editTextDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Select Date"
+        android:hint="@string/editTextDate"
         android:focusable="false"
         android:clickable="true"
         android:cursorVisible="false" />
 
     <EditText
-        android:id="@+id/editTextCountry"
+        android:id="@+id/editTextWeapon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Country" />
+        android:hint="@string/editTextWeapon" />
+
+    <Spinner
+        android:id="@+id/spinnerWeapon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/buttonSelectImages"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select Images" />
+        android:text="@string/buttonSelectImages" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/imagesRecyclerView"
