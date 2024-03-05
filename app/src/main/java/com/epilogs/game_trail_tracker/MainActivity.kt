@@ -6,6 +6,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,28 +22,9 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val firstFragment = FirstFragment()
-        val secondFragment = SecondFragment()
-        val buttonFragment1: Button = findViewById(R.id.btnFragment1)
-        val buttonFragment2: Button = findViewById(R.id.btnFragment2)
-
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.flFragment, firstFragment)
-            commit()
-        }
-
-        buttonFragment1.setOnClickListener {
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.flFragment, firstFragment)
-                commit()
-            }
-        }
-
-        buttonFragment2.setOnClickListener {
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.flFragment, secondFragment)
-                commit()
-            }
-        }
+        val navView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        navView.setupWithNavController(navController)
     }
 }
