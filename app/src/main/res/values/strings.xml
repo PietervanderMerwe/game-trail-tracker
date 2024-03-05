@@ -10,4 +10,6 @@
     <string name="animalFragment">Animal</string>
     <string name="weaponFragment">Weapon</string>
     <string name="title_activity_view">ViewActivity</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
