@@ -13,4 +13,5 @@
     <string name="viewFragment">Home</string>
     <string name="searchFragment">Search</string>
     <string name="addFragment">Add</string>
+    <string name="checkBoxIsContinues">No date</string>
 </resources>

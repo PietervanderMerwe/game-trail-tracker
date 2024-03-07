@@ -2,10 +2,13 @@ package com.epilogs.game_trail_tracker.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.epilogs.game_trail_tracker.utils.ImagePathListConverter
 
 @Entity
 data class Weapon (
     @PrimaryKey val id: Int,
     val name: String,
-    val notes: String
+    val notes: String,
+    @TypeConverters(ImagePathListConverter::class) val imagePaths: List<String>?
 )

@@ -5,6 +5,7 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.epilogs.game_trail_tracker.utils.DateConverter
+import com.epilogs.game_trail_tracker.utils.ImagePathListConverter
 import java.util.Date
 
 @Entity(
@@ -31,5 +32,6 @@ data class Animal(
     @TypeConverters(DateConverter::class) val harvestDate: Date,
     val notes: String,
     val locationId: Int?,
-    val weaponId: Int?
+    val weaponId: Int?,
+    @TypeConverters(ImagePathListConverter::class) val imagePaths: List<String>?
 )

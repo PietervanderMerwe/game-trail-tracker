@@ -31,6 +31,12 @@
         android:clickable="true"
         android:cursorVisible="false" />
 
+    <CheckBox
+        android:id="@+id/checkBoxIsContinues"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/checkBoxIsContinues" />
+
     <Button
         android:id="@+id/buttonSelectImages"
         android:layout_width="wrap_content"

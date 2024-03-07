@@ -43,7 +43,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.10"
     }
     packaging {
         resources {
@@ -70,8 +70,7 @@ dependencies {
     implementation(libs.room.runtime)
 
     // this should actually be Kapt or ksp so check if database breaks
-    implementation(libs.room.compiler)
-
+    ksp(libs.room.compiler)
 
     implementation(libs.room.ktx)
     implementation(libs.gson)

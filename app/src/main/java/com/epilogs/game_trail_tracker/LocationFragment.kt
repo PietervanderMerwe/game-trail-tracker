@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import com.epilogs.game_trail_tracker.utils.ImagePickerUtil
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
@@ -42,13 +43,23 @@ class LocationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val editTextDate: EditText = view.findViewById(R.id.editTextDate)
+        val checkBoxIsContinues = view.findViewById<CheckBox>(R.id.checkBoxIsContinues)
+        val editTextStartDate = view.findViewById<EditText>(R.id.editTextStartDate)
+        val editTextEndDate = view.findViewById<EditText>(R.id.editTextEndDate)
 
-        editTextDate.setOnClickListener {
-            showDatePickerDialog(requireContext()) { selectedDate ->
-                editTextDate.setText(selectedDate)
+        // Set a listener on the CheckBox
+        checkBoxIsContinues.setOnCheckedChangeListener { _, isChecked ->
+            // Enable or disable the EditText fields based on the CheckBox state
+            editTextStartDate.isEnabled = !isChecked
+            editTextEndDate.isEnabled = !isChecked
+
+            // Optionally clear the EditText fields when CheckBox is checked
+            if (isChecked) {
+                editTextStartDate.text.clear()
+                editTextEndDate.text.clear()
             }
         }
+
         val buttonSelectImages: Button = view.findViewById(R.id.buttonSelectImages)
         buttonSelectImages.setOnClickListener {
             showImagePicker()

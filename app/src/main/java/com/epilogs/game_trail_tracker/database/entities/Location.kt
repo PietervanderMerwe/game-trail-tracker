@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.epilogs.game_trail_tracker.utils.DateConverter
+import com.epilogs.game_trail_tracker.utils.ImagePathListConverter
 import java.util.Date
 
 @Entity
@@ -13,5 +14,6 @@ data class Location (
     val isContinues: Boolean,
     @TypeConverters(DateConverter::class) val startDate: Date,
     @TypeConverters(DateConverter::class) val endDate: Date,
-    val notes: String
+    val notes: String,
+    @TypeConverters(ImagePathListConverter::class) val imagePaths: List<String>?
 )
