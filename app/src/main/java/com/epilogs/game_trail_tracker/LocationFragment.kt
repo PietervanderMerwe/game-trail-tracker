@@ -43,24 +43,34 @@ class LocationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val editTextName: EditText = view.findViewById(R.id.editTextName)
         val checkBoxIsContinues = view.findViewById<CheckBox>(R.id.checkBoxIsContinues)
         val editTextStartDate = view.findViewById<EditText>(R.id.editTextStartDate)
         val editTextEndDate = view.findViewById<EditText>(R.id.editTextEndDate)
+        val buttonSelectImages: Button = view.findViewById(R.id.buttonSelectImages)
 
-        // Set a listener on the CheckBox
+        editTextStartDate.setOnClickListener {
+            showDatePickerDialog(requireContext()) { selectedDate ->
+                editTextStartDate.setText(selectedDate)
+            }
+        }
+
+        editTextEndDate.setOnClickListener {
+            showDatePickerDialog(requireContext()) { selectedDate ->
+                editTextEndDate.setText(selectedDate)
+            }
+        }
+
         checkBoxIsContinues.setOnCheckedChangeListener { _, isChecked ->
-            // Enable or disable the EditText fields based on the CheckBox state
             editTextStartDate.isEnabled = !isChecked
             editTextEndDate.isEnabled = !isChecked
 
-            // Optionally clear the EditText fields when CheckBox is checked
             if (isChecked) {
                 editTextStartDate.text.clear()
                 editTextEndDate.text.clear()
             }
         }
 
-        val buttonSelectImages: Button = view.findViewById(R.id.buttonSelectImages)
         buttonSelectImages.setOnClickListener {
             showImagePicker()
         }
