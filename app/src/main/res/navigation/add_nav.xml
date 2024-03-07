@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_nav"
+    app:startDestination="@id/locationFragment">
+    <fragment
+        android:id="@+id/animalFragment"
+        android:name="com.epilogs.game_trail_tracker.AnimalFragment"
+        android:label="fragment_animal"
+        tools:layout="@layout/fragment_animal" >
+        <action
+            android:id="@+id/action_animalFragment_to_weaponFragment"
+            app:destination="@id/weaponFragment" />
+        <action
+            android:id="@+id/action_animalFragment_to_locationFragment"
+            app:destination="@id/locationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/locationFragment"
+        android:name="com.epilogs.game_trail_tracker.LocationFragment"
+        android:label="fragment_location"
+        tools:layout="@layout/fragment_location" >
+        <action
+            android:id="@+id/action_locationFragment_to_animalFragment"
+            app:destination="@id/animalFragment" />
+        <action
+            android:id="@+id/action_locationFragment_to_weaponFragment"
+            app:destination="@id/weaponFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/weaponFragment"
+        android:name="com.epilogs.game_trail_tracker.WeaponFragment"
+        android:label="fragment_weapon"
+        tools:layout="@layout/fragment_weapon" >
+        <action
+            android:id="@+id/action_weaponFragment_to_animalFragment"
+            app:destination="@id/animalFragment" />
+        <action
+            android:id="@+id/action_weaponFragment_to_locationFragment2"
+            app:destination="@id/locationFragment" />
+    </fragment>
+</navigation>

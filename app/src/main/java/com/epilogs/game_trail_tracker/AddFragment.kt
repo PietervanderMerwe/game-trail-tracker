@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,16 +41,23 @@ class AddFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_add, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Ensure you're using the correct ID for the NavHostFragment
+        val navHostFragment = childFragmentManager.findFragmentById(R.id.nav_host_add_fragment) as? NavHostFragment
+        val navController = navHostFragment?.navController
+
+        // Setup BottomNavigationView with NavController
+        val bottomNavigationView = view.findViewById<BottomNavigationView>(R.id.bottom_add_navigation)
+        bottomNavigationView.setOnApplyWindowInsetsListener(null)
+        bottomNavigationView.setPadding(0,0,0,0)
+        navController?.let {
+            NavigationUI.setupWithNavController(bottomNavigationView, it)
+        }
+    }
+
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AddFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             AddFragment().apply {
