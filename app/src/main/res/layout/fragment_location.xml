@@ -14,7 +14,7 @@
         android:hint="@string/editTextName"/>
 
     <EditText
-        android:id="@+id/editTextDate"
+        android:id="@+id/editTextStartDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/editTextDate"
@@ -23,10 +23,13 @@
         android:cursorVisible="false" />
 
     <EditText
-        android:id="@+id/editTextCountry"
+        android:id="@+id/editTextEndDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/editTextCountry" />
+        android:hint="@string/editTextDate"
+        android:focusable="false"
+        android:clickable="true"
+        android:cursorVisible="false" />
 
     <Button
         android:id="@+id/buttonSelectImages"
