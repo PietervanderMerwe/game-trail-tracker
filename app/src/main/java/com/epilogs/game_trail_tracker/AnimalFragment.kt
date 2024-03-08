@@ -55,7 +55,7 @@ class AnimalFragment : Fragment() {
         val editTextDate : EditText = view.findViewById(R.id.editTextDate)
         val editTextWeight : EditText = view.findViewById(R.id.editTextWeight)
         val editTextMeasurement : EditText = view.findViewById(R.id.editTextMeasurement)
-        val editTextWeapon: EditText = view.findViewById(R.id.editTextWeapon)
+        val spinnerLocation: Spinner = view.findViewById(R.id.spinnerLocation)
         val spinnerWeapon: Spinner = view.findViewById(R.id.spinnerWeapon)
         val buttonSelectAnimalImages: Button = view.findViewById(R.id.buttonSelectAnimalImages)
         val buttonSaveAnimal: Button = view.findViewById(R.id.buttonSaveAnimal)

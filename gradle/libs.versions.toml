@@ -18,6 +18,8 @@ composeBom = "2023.08.00"
 room = "2.6.1"
 ksp = "1.9.22-1.0.17"
 gson = "2.10.1"
+coroutines = "1.4.3"
+livedata = "2.3.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -47,6 +49,8 @@ room_compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 room_ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room_testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "livedata" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

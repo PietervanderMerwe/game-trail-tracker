@@ -74,6 +74,8 @@ dependencies {
 
     implementation(libs.room.ktx)
     implementation(libs.gson)
+    implementation(libs.coroutines)
+    implementation(libs.livedata)
     testImplementation(libs.room.testing)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
