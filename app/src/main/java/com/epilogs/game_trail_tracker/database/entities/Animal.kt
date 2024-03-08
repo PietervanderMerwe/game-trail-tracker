@@ -25,7 +25,7 @@ import java.util.Date
     ]
 )
 data class Animal(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int? = null,
     val name: String,
     val weight: Double,
     val measurement: Double,

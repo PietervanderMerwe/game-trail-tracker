@@ -9,11 +9,11 @@ import java.util.Date
 
 @Entity
 data class Location (
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int? = null,
     val name: String,
     val isContinues: Boolean,
-    @TypeConverters(DateConverter::class) val startDate: Date,
-    @TypeConverters(DateConverter::class) val endDate: Date,
+    @TypeConverters(DateConverter::class) val startDate: Date?,
+    @TypeConverters(DateConverter::class) val endDate: Date?,
     val notes: String,
     @TypeConverters(ImagePathListConverter::class) val imagePaths: List<String>?
 )

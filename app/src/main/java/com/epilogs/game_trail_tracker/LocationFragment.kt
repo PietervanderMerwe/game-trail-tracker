@@ -3,6 +3,8 @@ package com.epilogs.game_trail_tracker
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +12,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.ImageView
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import com.epilogs.game_trail_tracker.database.entities.Location
+import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.ImagePickerUtil
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
+import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,7 +31,7 @@ class LocationFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private val pickImagesRequestCode = 100
-
+    private val viewModel: LocationViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -48,6 +56,8 @@ class LocationFragment : Fragment() {
         val editTextStartDate = view.findViewById<EditText>(R.id.editTextStartDate)
         val editTextEndDate = view.findViewById<EditText>(R.id.editTextEndDate)
         val buttonSelectImages: Button = view.findViewById(R.id.buttonSelectImages)
+        val buttonSaveLocation: Button = view.findViewById(R.id.buttonSaveLocation)
+        val dateConverter = DateConverter()
 
         editTextStartDate.setOnClickListener {
             showDatePickerDialog(requireContext()) { selectedDate ->
@@ -74,6 +84,42 @@ class LocationFragment : Fragment() {
         buttonSelectImages.setOnClickListener {
             showImagePicker()
         }
+
+        buttonSaveLocation.setOnClickListener {
+            val name = editTextName.text.toString()
+            val isContinues = checkBoxIsContinues.isChecked
+            val startDateString = editTextStartDate.text.toString()
+            val endDateString = editTextEndDate.text.toString()
+
+            val startDate = dateConverter.parseDate(startDateString)
+            val endDate = dateConverter.parseDate(endDateString)
+            val notes = "Some notes"
+            val imagePaths = listOf<String>()
+
+            val location = Location(name = name, isContinues = isContinues, startDate = startDate, endDate = endDate, notes = notes, imagePaths = imagePaths)
+
+            viewModel.insertLocation(location)
+        }
+
+        viewModel.getInsertionSuccess().observe(viewLifecycleOwner, Observer { success ->
+            if (success == true) {
+                // Clear the input fields
+                editTextName.text.clear()
+                checkBoxIsContinues.isChecked = false
+                editTextStartDate.text.clear()
+                editTextEndDate.text.clear()
+                // Reset LiveData to prevent multiple triggers
+                viewModel.resetInsertionSuccess()
+
+                // Show a check mark, assuming you have an ImageView for it
+                val checkMarkImageView: ImageView = view.findViewById(R.id.checkMarkImageView)
+                checkMarkImageView.visibility = View.VISIBLE
+                // Optionally, hide the check mark after a few seconds
+                Handler(Looper.getMainLooper()).postDelayed({
+                    checkMarkImageView.visibility = View.GONE
+                }, 3000) // Hide after 3 seconds
+            }
+        })
     }
 
     private fun showImagePicker() {

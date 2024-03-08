@@ -14,4 +14,6 @@
     <string name="searchFragment">Search</string>
     <string name="addFragment">Add</string>
     <string name="checkBoxIsContinues">No date</string>
+    <string name="buttonSaveLocation">Save location</string>
+    <string name="check_mark_image_description">Check mark</string>
 </resources>
