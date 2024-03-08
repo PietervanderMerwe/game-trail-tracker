@@ -16,4 +16,7 @@
     <string name="checkBoxIsContinues">No date</string>
     <string name="buttonSaveLocation">Save location</string>
     <string name="check_mark_image_description">Check mark</string>
+    <string name="buttonSaveAnimal">Save animal</string>
+    <string name="editTextWeight">Set weight</string>
+    <string name="editTextMeasurement">Set measurement</string>
 </resources>

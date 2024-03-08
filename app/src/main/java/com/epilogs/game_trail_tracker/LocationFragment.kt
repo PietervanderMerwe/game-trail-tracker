@@ -55,7 +55,7 @@ class LocationFragment : Fragment() {
         val checkBoxIsContinues = view.findViewById<CheckBox>(R.id.checkBoxIsContinues)
         val editTextStartDate = view.findViewById<EditText>(R.id.editTextStartDate)
         val editTextEndDate = view.findViewById<EditText>(R.id.editTextEndDate)
-        val buttonSelectImages: Button = view.findViewById(R.id.buttonSelectImages)
+        val buttonSelectLocationImages: Button = view.findViewById(R.id.buttonSelectLocationImages)
         val buttonSaveLocation: Button = view.findViewById(R.id.buttonSaveLocation)
         val dateConverter = DateConverter()
 
@@ -81,7 +81,7 @@ class LocationFragment : Fragment() {
             }
         }
 
-        buttonSelectImages.setOnClickListener {
+        buttonSelectLocationImages.setOnClickListener {
             showImagePicker()
         }
 
@@ -103,21 +103,17 @@ class LocationFragment : Fragment() {
 
         viewModel.getInsertionSuccess().observe(viewLifecycleOwner, Observer { success ->
             if (success == true) {
-                // Clear the input fields
                 editTextName.text.clear()
                 checkBoxIsContinues.isChecked = false
                 editTextStartDate.text.clear()
                 editTextEndDate.text.clear()
-                // Reset LiveData to prevent multiple triggers
                 viewModel.resetInsertionSuccess()
 
-                // Show a check mark, assuming you have an ImageView for it
-                val checkMarkImageView: ImageView = view.findViewById(R.id.checkMarkImageView)
+                val checkMarkImageView: ImageView = view.findViewById(R.id.checkMarkLocationAdd)
                 checkMarkImageView.visibility = View.VISIBLE
-                // Optionally, hide the check mark after a few seconds
                 Handler(Looper.getMainLooper()).postDelayed({
                     checkMarkImageView.visibility = View.GONE
-                }, 3000) // Hide after 3 seconds
+                }, 3000)
             }
         })
     }

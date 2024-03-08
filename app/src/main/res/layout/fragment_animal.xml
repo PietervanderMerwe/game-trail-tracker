@@ -14,6 +14,24 @@
         android:hint="@string/editTextSpecieName"/>
 
     <EditText
+        android:id="@+id/editTextWeight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/editTextWeight"
+        android:focusable="false"
+        android:clickable="true"
+        android:cursorVisible="false" />
+
+    <EditText
+        android:id="@+id/editTextMeasurement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/editTextMeasurement"
+        android:focusable="false"
+        android:clickable="true"
+        android:cursorVisible="false" />
+
+    <EditText
         android:id="@+id/editTextDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +52,7 @@
         android:layout_height="wrap_content"/>
 
     <Button
-        android:id="@+id/buttonSelectImages"
+        android:id="@+id/buttonSelectAnimalImages"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/buttonSelectImages" />
@@ -43,6 +61,22 @@
         android:id="@+id/imagesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/buttonSaveAnimal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/buttonSaveAnimal" />
+
+    <ImageView
+        android:id="@+id/checkMarkAnimalAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_checkmark"
+        android:contentDescription="@string/check_mark_image_description"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"/>
 
 </LinearLayout>

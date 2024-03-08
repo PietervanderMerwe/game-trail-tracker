@@ -29,7 +29,7 @@ data class Animal(
     val name: String,
     val weight: Double,
     val measurement: Double,
-    @TypeConverters(DateConverter::class) val harvestDate: Date,
+    @TypeConverters(DateConverter::class) val harvestDate: Date?,
     val notes: String,
     val locationId: Int?,
     val weaponId: Int?,
