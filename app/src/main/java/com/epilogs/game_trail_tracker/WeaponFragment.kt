@@ -5,6 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import androidx.fragment.app.viewModels
+import com.epilogs.game_trail_tracker.database.entities.Animal
+import com.epilogs.game_trail_tracker.database.entities.Weapon
+import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
+import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,6 +27,7 @@ class WeaponFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private val viewModel: WeaponViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,16 +45,22 @@ class WeaponFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_weapon, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val editTextWeaponName: EditText = view.findViewById(R.id.editTextWeaponName)
+        val editTextWeaponNotes : EditText = view.findViewById(R.id.editTextWeaponNotes)
+        val buttonSaveWeapon: Button = view.findViewById(R.id.buttonSaveWeapon)
+
+        buttonSaveWeapon.setOnClickListener {
+            val name = editTextWeaponName.text.toString()
+            val notes = editTextWeaponNotes.text.toString()
+            val weapon = Weapon(name = name, notes = notes, imagePaths = null)
+
+            viewModel.insertWeapon(weapon)
+        }
+    }
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment WeaponFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             WeaponFragment().apply {

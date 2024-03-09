@@ -12,12 +12,15 @@ import com.epilogs.game_trail_tracker.database.entities.Animal
 import kotlinx.coroutines.launch
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import com.epilogs.game_trail_tracker.database.daos.WeaponDao
 import com.epilogs.game_trail_tracker.database.entities.Location
+import com.epilogs.game_trail_tracker.database.entities.Weapon
 
 class AnimalViewModel (application: Application) : AndroidViewModel(application) {
     private val db: AppDatabase = DatabaseProvider.getDatabase(application)
     private val animalDao: AnimalDao = db.animalDao()
     private val locationDao: LocationDao = db.locationDao()
+    private val weaponDao: WeaponDao = db.weaponDao()
 
     private val insertionSuccess = MutableLiveData<Boolean?>()
 
@@ -29,8 +32,13 @@ class AnimalViewModel (application: Application) : AndroidViewModel(application)
     }
 
     fun getAllLocations(): LiveData<List<Location>> = liveData {
-        val locations = locationDao.getAllLocations() // This needs to be a suspend function call
+        val locations = locationDao.getAllLocations()
         emit(locations)
+    }
+
+    fun getAllWeapons(): LiveData<List<Weapon>> = liveData {
+        val weapons = weaponDao.getAllWeapons()
+        emit(weapons)
     }
 
     fun resetInsertionSuccess() {

@@ -6,14 +6,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
+import com.epilogs.game_trail_tracker.adapters.LocationAdapter
+import com.epilogs.game_trail_tracker.adapters.WeaponAdapter
 import com.epilogs.game_trail_tracker.database.entities.Animal
+import com.epilogs.game_trail_tracker.database.entities.Location
+import com.epilogs.game_trail_tracker.database.entities.Weapon
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
@@ -67,6 +74,26 @@ class AnimalFragment : Fragment() {
             }
         }
 
+        val locations = mutableListOf<Location>()
+        val locationAdapter = LocationAdapter(requireContext(), locations)
+        spinnerLocation.adapter = locationAdapter
+
+        viewModel.getAllLocations().observe(viewLifecycleOwner) { newLocations  ->
+            locationAdapter.clear()
+            locationAdapter.addAll(newLocations )
+            locationAdapter.notifyDataSetChanged()
+        }
+
+        val weapons = mutableListOf<Weapon>()
+        val weaponAdapter = WeaponAdapter(requireContext(), weapons)
+        spinnerWeapon.adapter = weaponAdapter
+
+        viewModel.getAllWeapons().observe(viewLifecycleOwner) { newWeapons  ->
+            weaponAdapter.clear()
+            weaponAdapter.addAll(newWeapons)
+            weaponAdapter.notifyDataSetChanged()
+        }
+
         val imagesRecyclerView: RecyclerView = view.findViewById(R.id.imagesRecyclerView)
         imagesRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
@@ -77,6 +104,17 @@ class AnimalFragment : Fragment() {
         )
 
         imagesRecyclerView.adapter = ImagesAdapter(imageUris)
+
+        spinnerLocation.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                val selectedLocation = parent.getItemAtPosition(position) as Location
+                val locationId = selectedLocation.id
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Handle case when nothing is selected if needed
+            }
+        }
 
         buttonSaveAnimal.setOnClickListener {
             val name = editTextSpecieName.text.toString()
