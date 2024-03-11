@@ -8,7 +8,11 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import androidx.viewpager2.widget.ViewPager2
+import com.epilogs.game_trail_tracker.adapters.ViewPagerAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,17 +48,14 @@ class AddFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Ensure you're using the correct ID for the NavHostFragment
-        val navHostFragment = childFragmentManager.findFragmentById(R.id.nav_host_add_fragment) as? NavHostFragment
-        val navController = navHostFragment?.navController
+        val viewPager: ViewPager2 = view.findViewById(R.id.view_pager)
+        val adapter = ViewPagerAdapter(this)
+        viewPager.adapter = adapter
 
-        // Setup BottomNavigationView with NavController
-        val bottomNavigationView = view.findViewById<BottomNavigationView>(R.id.bottom_add_navigation)
-        bottomNavigationView.setOnApplyWindowInsetsListener(null)
-        bottomNavigationView.setPadding(0,0,0,0)
-        navController?.let {
-            NavigationUI.setupWithNavController(bottomNavigationView, it)
-        }
+        val tabLayout: TabLayout = view.findViewById(R.id.top_tabs)
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = adapter.getPageTitle(position)
+        }.attach()
     }
 
     companion object {

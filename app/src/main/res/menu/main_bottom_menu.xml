@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/viewFragment"
-        android:icon="@drawable/ic_location"
-        android:title="@string/viewFragment" />
-    <item
-        android:id="@+id/searchFragment"
+        android:id="@+id/dashboardFragment"
         android:icon="@drawable/ic_animal"
-        android:title="@string/searchFragment" />
+        android:title="@string/dashboardFragment" />
     <item
         android:id="@+id/addFragment"
         android:icon="@drawable/ic_weapon"
         android:title="@string/addFragment" />
+    <item
+        android:id="@+id/viewFragment"
+        android:icon="@drawable/ic_location"
+        android:title="@string/viewFragment" />
 </menu>

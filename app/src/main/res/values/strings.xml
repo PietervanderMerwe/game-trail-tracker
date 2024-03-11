@@ -10,8 +10,8 @@
     <string name="animalFragment">Animal</string>
     <string name="weaponFragment">Weapon</string>
     <string name="title_activity_view">ViewActivity</string>
-    <string name="viewFragment">Home</string>
-    <string name="searchFragment">Search</string>
+    <string name="viewFragment">View</string>
+    <string name="dashboardFragment">Dashboard</string>
     <string name="addFragment">Add</string>
     <string name="checkBoxIsContinues">No date</string>
     <string name="buttonSaveLocation">Save location</string>
@@ -22,4 +22,6 @@
     <string name="editTextWeaponName">Weapon name</string>
     <string name="buttonSaveWeapon">Add weapon</string>
     <string name="editTextWeaponNotes">Add notes</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

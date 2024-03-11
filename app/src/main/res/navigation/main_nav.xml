@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_nav"
-    app:startDestination="@id/viewFragment">
+    app:startDestination="@id/dashboardFragment">
 
     <fragment
         android:id="@+id/addFragment"
@@ -14,20 +14,8 @@
             android:id="@+id/action_addFragment_to_viewFragment"
             app:destination="@id/viewFragment" />
         <action
-            android:id="@+id/action_addFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.epilogs.game_trail_tracker.SearchFragment"
-        android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
-        <action
-            android:id="@+id/action_searchFragment_to_addFragment"
-            app:destination="@id/addFragment" />
-        <action
-            android:id="@+id/action_searchFragment_to_viewFragment"
-            app:destination="@id/viewFragment" />
+            android:id="@+id/action_addFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
     </fragment>
     <fragment
         android:id="@+id/viewFragment"
@@ -35,10 +23,22 @@
         android:label="fragment_view"
         tools:layout="@layout/fragment_view" >
         <action
-            android:id="@+id/action_viewFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
-        <action
             android:id="@+id/action_viewFragment_to_addFragment"
+            app:destination="@id/addFragment" />
+        <action
+            android:id="@+id/action_viewFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.epilogs.game_trail_tracker.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_dashboardFragment_to_viewFragment"
+            app:destination="@id/viewFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_addFragment"
             app:destination="@id/addFragment" />
     </fragment>
 </navigation>
