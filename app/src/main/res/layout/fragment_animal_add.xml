@@ -3,18 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.Add.LocationFragment"
+    tools:context=".Fragments.Add.AnimalAddFragment"
     android:orientation="vertical"
     android:padding="16dp">
 
     <EditText
-        android:id="@+id/editTextName"
+        android:id="@+id/editTextSpecieName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/editTextName"/>
+        android:hint="@string/editTextSpecieName"/>
 
     <EditText
-        android:id="@+id/editTextStartDate"
+        android:id="@+id/editTextWeight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/editTextWeight" />
+
+    <EditText
+        android:id="@+id/editTextMeasurement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/editTextMeasurement" />
+
+    <EditText
+        android:id="@+id/editTextDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/editTextDate"
@@ -22,23 +34,18 @@
         android:clickable="true"
         android:cursorVisible="false" />
 
-    <EditText
-        android:id="@+id/editTextEndDate"
+    <Spinner
+        android:id="@+id/spinnerLocation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/editTextDate"
-        android:focusable="false"
-        android:clickable="true"
-        android:cursorVisible="false" />
+        android:layout_height="wrap_content"/>
 
-    <CheckBox
-        android:id="@+id/checkBoxIsContinues"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/checkBoxIsContinues" />
+    <Spinner
+        android:id="@+id/spinnerWeapon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <Button
-        android:id="@+id/buttonSelectLocationImages"
+        android:id="@+id/buttonSelectAnimalImages"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/buttonSelectImages" />
@@ -50,13 +57,13 @@
         android:layout_marginTop="16dp"/>
 
     <Button
-        android:id="@+id/buttonSaveLocation"
+        android:id="@+id/buttonSaveAnimal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/buttonSaveLocation" />
+        android:text="@string/buttonSaveAnimal" />
 
     <ImageView
-        android:id="@+id/checkMarkLocationAdd"
+        android:id="@+id/checkMarkAnimalAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_checkmark"

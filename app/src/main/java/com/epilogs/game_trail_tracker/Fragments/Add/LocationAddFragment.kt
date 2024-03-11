@@ -22,7 +22,7 @@ import com.epilogs.game_trail_tracker.utils.ImagePickerUtil
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
 
-class LocationFragment : Fragment() {
+class LocationAddFragment : Fragment() {
     private val pickImagesRequestCode = 100
     private val viewModel: LocationViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +34,7 @@ class LocationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_location, container, false)
+        return inflater.inflate(R.layout.fragment_location_add, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -129,7 +129,7 @@ class LocationFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            LocationFragment().apply {
+            LocationAddFragment().apply {
             }
     }
 }

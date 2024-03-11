@@ -18,10 +18,10 @@ import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
 
 /**
  * A simple [Fragment] subclass.
- * Use the [WeaponFragment.newInstance] factory method to
+ * Use the [WeaponAddFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class WeaponFragment : Fragment() {
+class WeaponAddFragment : Fragment() {
     private val viewModel: WeaponViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +33,7 @@ class WeaponFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_weapon, container, false)
+        return inflater.inflate(R.layout.fragment_weapon_add, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,7 +68,7 @@ class WeaponFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            WeaponFragment().apply {
+            WeaponAddFragment().apply {
             }
     }
 }

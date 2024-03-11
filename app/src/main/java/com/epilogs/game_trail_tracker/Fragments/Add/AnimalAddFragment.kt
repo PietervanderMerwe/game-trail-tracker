@@ -30,10 +30,10 @@ import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 
 /**
  * A simple [Fragment] subclass.
- * Use the [AnimalFragment.newInstance] factory method to
+ * Use the [AnimalAddFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class AnimalFragment : Fragment() {
+class AnimalAddFragment : Fragment() {
     private val viewModel: AnimalViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +44,7 @@ class AnimalFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_animal, container, false)
+        return inflater.inflate(R.layout.fragment_animal_add, container, false)
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -153,7 +153,7 @@ class AnimalFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            AnimalFragment().apply {
+            AnimalAddFragment().apply {
             }
     }
 }
