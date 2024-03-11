@@ -2,9 +2,9 @@ package com.epilogs.game_trail_tracker.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.epilogs.game_trail_tracker.AnimalFragment
-import com.epilogs.game_trail_tracker.LocationFragment
-import com.epilogs.game_trail_tracker.WeaponFragment
+import com.epilogs.game_trail_tracker.Fragments.Add.AnimalFragment
+import com.epilogs.game_trail_tracker.Fragments.Add.LocationFragment
+import com.epilogs.game_trail_tracker.Fragments.Add.WeaponFragment
 
 class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     private val fragments = arrayOf(LocationFragment(), AnimalFragment(), WeaponFragment())
