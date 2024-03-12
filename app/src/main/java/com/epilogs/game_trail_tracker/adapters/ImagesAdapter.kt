@@ -8,24 +8,32 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
 import com.bumptech.glide.Glide
-class ImagesAdapter(private val imageUris: List<Uri>) : RecyclerView.Adapter<ImagesAdapter.ImageViewHolder>() {
+class ImagesAdapter(private val images: MutableList<String>) : RecyclerView.Adapter<ImagesAdapter.ImageViewHolder>() {
 
-    class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageView: ImageView = itemView.findViewById(R.id.imageViewItem)
+    class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val imageView: ImageView = view.findViewById(R.id.imageItemView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_image, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.image_item, parent, false)
         return ImageViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        val imageUri = imageUris[position]
-        // Using Glide to load the image
-        Glide.with(holder.imageView.context)
-            .load(imageUri)
-            .into(holder.imageView)
+        val imagePath = images[position]
+        Glide.with(holder.imageView.context).load(imagePath).into(holder.imageView)
     }
 
-    override fun getItemCount() = imageUris.size
+    override fun getItemCount() = images.size
+
+    fun updateImages(newImages: List<String>) {
+        images.clear()
+        images.addAll(newImages)
+        notifyDataSetChanged()
+    }
+    fun clearImages() {
+        images.clear()
+        notifyDataSetChanged()
+    }
+
 }

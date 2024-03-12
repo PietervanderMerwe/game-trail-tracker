@@ -15,7 +15,10 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
+import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.database.entities.Location
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.ImagePickerUtil
@@ -23,9 +26,10 @@ import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
 
 class LocationAddFragment : Fragment() {
-    private val pickImagesRequestCode = 100
     private val viewModel: LocationViewModel by viewModels()
+    private val pickImagesRequestCode = 100
     private val selectedImageUris = mutableListOf<String>()
+    private lateinit var imageAdapter: ImagesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,6 +80,11 @@ class LocationAddFragment : Fragment() {
             showImagePicker()
         }
 
+        val imagesRecyclerView = view.findViewById<RecyclerView>(R.id.imagesLocationRecyclerView)
+        imageAdapter = ImagesAdapter(mutableListOf())
+        imagesRecyclerView.adapter = imageAdapter
+        imagesRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
         buttonSaveLocation.setOnClickListener {
             val name = editTextName.text.toString()
             val isContinues = checkBoxIsContinues.isChecked
@@ -106,7 +115,7 @@ class LocationAddFragment : Fragment() {
                 editTextStartDate.text.clear()
                 editTextEndDate.text.clear()
                 viewModel.resetInsertionSuccess()
-
+                imageAdapter.clearImages()
                 val checkMarkImageView: ImageView = view.findViewById(R.id.checkMarkLocationAdd)
                 checkMarkImageView.visibility = View.VISIBLE
                 Handler(Looper.getMainLooper()).postDelayed({
@@ -126,6 +135,7 @@ class LocationAddFragment : Fragment() {
             val imagesUris = ImagePickerUtil.extractSelectedImages(data)
             selectedImageUris.clear()
             selectedImageUris.addAll(imagesUris.map { it.toString() })
+            imageAdapter.updateImages(selectedImageUris)
         }
     }
 

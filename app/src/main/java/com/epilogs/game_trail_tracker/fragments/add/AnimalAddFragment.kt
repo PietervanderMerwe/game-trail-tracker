@@ -1,5 +1,7 @@
 package com.epilogs.game_trail_tracker.fragments.add
 
+import android.app.Activity
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -25,11 +27,15 @@ import com.epilogs.game_trail_tracker.database.entities.Animal
 import com.epilogs.game_trail_tracker.database.entities.Location
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 import com.epilogs.game_trail_tracker.utils.DateConverter
+import com.epilogs.game_trail_tracker.utils.ImagePickerUtil
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 
 class AnimalAddFragment : Fragment() {
     private val viewModel: AnimalViewModel by viewModels()
+    private val pickImagesRequestCode = 100
+    private val selectedImageUris = mutableListOf<String>()
+    private lateinit var imageAdapter: ImagesAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -60,6 +66,10 @@ class AnimalAddFragment : Fragment() {
             }
         }
 
+        buttonSelectAnimalImages.setOnClickListener {
+            showImagePicker()
+        }
+
         val locations = mutableListOf<Location>()
         val locationAdapter = LocationAdapter(requireContext(), locations)
         spinnerLocation.adapter = locationAdapter
@@ -80,17 +90,11 @@ class AnimalAddFragment : Fragment() {
             weaponAdapter.notifyDataSetChanged()
         }
 
-        val imagesRecyclerView: RecyclerView = view.findViewById(R.id.imagesRecyclerView)
-        imagesRecyclerView.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        val imagesRecyclerView = view.findViewById<RecyclerView>(R.id.imagesAnimalRecyclerView)
+        imageAdapter = ImagesAdapter(mutableListOf())
+        imagesRecyclerView.adapter = imageAdapter
+        imagesRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-        // Example image URIs, replace with your actual image URIs
-        val imageUris = listOf(
-            Uri.parse("android.resource://your.package.name/drawable/image1"),
-            Uri.parse("android.resource://your.package.name/drawable/image2")
-        )
-
-        imagesRecyclerView.adapter = ImagesAdapter(imageUris)
 
         spinnerLocation.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
@@ -108,10 +112,10 @@ class AnimalAddFragment : Fragment() {
             val weightString  = editTextWeight.text.toString()
             val measurementString  = editTextMeasurement.text.toString()
             val dateString = editTextDate.text.toString()
-
+            imageAdapter.clearImages()
             val date = dateConverter.parseDate(dateString)
             val notes = "Some notes"
-            val imagePaths = listOf<String>()
+            val imagePaths = selectedImageUris
             val weight = weightString.toDoubleOrNull() ?: 0.0
             val measurement = measurementString.toDoubleOrNull() ?: 0.0
             val animal = Animal(
@@ -143,6 +147,20 @@ class AnimalAddFragment : Fragment() {
                 }, 3000)
             }
         })
+    }
+
+    private fun showImagePicker() {
+        ImagePickerUtil.openImagePicker(this, pickImagesRequestCode)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == pickImagesRequestCode && resultCode == Activity.RESULT_OK) {
+            val imagesUris = ImagePickerUtil.extractSelectedImages(data)
+            selectedImageUris.clear()
+            selectedImageUris.addAll(imagesUris.map { it.toString() })
+            imageAdapter.updateImages(selectedImageUris)
+        }
     }
 
     companion object {
