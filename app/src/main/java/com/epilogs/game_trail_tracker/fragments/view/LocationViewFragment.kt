@@ -39,10 +39,6 @@ class LocationViewFragment : Fragment() {
         val adapter = LocationViewAdapter(emptyList())
         recyclerView.adapter = adapter
 
-        viewModel.getAllLocations().observe(viewLifecycleOwner, Observer { locations ->
-            adapter.updateLocations(locations)
-        })
-
         val searchView = view.findViewById<SearchView>(R.id.search_view)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -53,6 +49,10 @@ class LocationViewFragment : Fragment() {
                 adapter.filter.filter(newText)
                 return true
             }
+        })
+
+        viewModel.getAllLocations().observe(viewLifecycleOwner, Observer { locations ->
+            adapter.updateLocations(locations)
         })
     }
 

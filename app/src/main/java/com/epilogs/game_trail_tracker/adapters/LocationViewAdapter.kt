@@ -39,27 +39,21 @@ class LocationViewAdapter(private var locations: List<Location>) : RecyclerView.
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charSearch = constraint.toString()
-                locationsFiltered = if (charSearch.isEmpty()) {
+                locationsFiltered = if (charSearch.isNullOrEmpty()) {
                     locations
                 } else {
-                    val resultList = ArrayList<Location>()
-                    for (location in locations) {
-                        // Implement your search filter logic here
-                        if (location.name.toLowerCase(Locale.ROOT).contains(charSearch.toLowerCase(Locale.ROOT))) {
-                            resultList.add(location)
-                        }
-                        // Add more conditions here if needed
+                    // Apply filtering
+                    locations.filter {
+                        it.name.contains(charSearch, ignoreCase = true)
+                        // Add more conditions here for additional fields like dates
                     }
-                    resultList
                 }
-                val filterResults = FilterResults()
-                filterResults.values = locationsFiltered
-                return filterResults
+                return FilterResults().apply { values = locationsFiltered }
             }
 
             @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                locationsFiltered = results?.values as ArrayList<Location>
+                locationsFiltered = results?.values as List<Location>
                 notifyDataSetChanged()
             }
         }
