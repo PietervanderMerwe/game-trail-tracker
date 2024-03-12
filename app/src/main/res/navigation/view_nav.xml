@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/animalViewFragment"
-        android:name="com.epilogs.game_trail_tracker.Fragments.View.AnimalViewFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.view.AnimalViewFragment"
         android:label="fragment_animal_view"
         tools:layout="@layout/fragment_animal_view" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/locationViewFragment"
-        android:name="com.epilogs.game_trail_tracker.Fragments.View.LocationViewFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.view.LocationViewFragment"
         android:label="fragment_location_view"
         tools:layout="@layout/fragment_location_view" >
         <action
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/weaponViewFragment"
-        android:name="com.epilogs.game_trail_tracker.Fragments.View.WeaponViewFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.view.WeaponViewFragment"
         android:label="fragment_weapon_view"
         tools:layout="@layout/fragment_weapon_view" >
         <action

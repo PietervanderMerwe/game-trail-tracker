@@ -1,4 +1,4 @@
-package com.epilogs.game_trail_tracker.Fragments.Dashboard
+package com.epilogs.game_trail_tracker.fragments.dashboard
 
 import android.os.Bundle
 import android.view.LayoutInflater

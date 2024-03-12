@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.View.WeaponViewFragment">
+    tools:context=".fragments.view.WeaponViewFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/weapon_view_list"

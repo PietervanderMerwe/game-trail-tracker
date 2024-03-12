@@ -1,4 +1,4 @@
-package com.epilogs.game_trail_tracker.Fragments.View
+package com.epilogs.game_trail_tracker.fragments.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

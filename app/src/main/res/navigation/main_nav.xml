@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/addFragment"
-        android:name="com.epilogs.game_trail_tracker.Fragments.Add.AddFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.add.AddFragment"
         android:label="fragment_add"
         tools:layout="@layout/fragment_add" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/viewFragment"
-        android:name="com.epilogs.game_trail_tracker.Fragments.View.ViewFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.view.ViewFragment"
         android:label="fragment_view"
         tools:layout="@layout/fragment_view" >
         <action
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/dashboardFragment"
-        android:name="com.epilogs.game_trail_tracker.Fragments.Dashboard.DashboardFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.dashboard.DashboardFragment"
         android:label="fragment_dashboard"
         tools:layout="@layout/fragment_dashboard" >
         <action

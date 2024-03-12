@@ -1,4 +1,4 @@
-package com.epilogs.game_trail_tracker.Fragments.Add
+package com.epilogs.game_trail_tracker.fragments.add
 
 import android.app.Activity
 import android.content.Intent
@@ -25,6 +25,8 @@ import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
 class LocationAddFragment : Fragment() {
     private val pickImagesRequestCode = 100
     private val viewModel: LocationViewModel by viewModels()
+    private val selectedImageUris = mutableListOf<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -83,7 +85,7 @@ class LocationAddFragment : Fragment() {
             val startDate = dateConverter.parseDate(startDateString)
             val endDate = dateConverter.parseDate(endDateString)
             val notes = "Some notes"
-            val imagePaths = listOf<String>()
+            val imagePaths = selectedImageUris
 
             val location = Location(
                 name = name,
@@ -122,7 +124,8 @@ class LocationAddFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == pickImagesRequestCode && resultCode == Activity.RESULT_OK) {
             val imagesUris = ImagePickerUtil.extractSelectedImages(data)
-            // Handle selected images
+            selectedImageUris.clear()
+            selectedImageUris.addAll(imagesUris.map { it.toString() })
         }
     }
 

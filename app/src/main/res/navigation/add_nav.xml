@@ -6,7 +6,7 @@
     app:startDestination="@id/locationFragment">
     <fragment
         android:id="@+id/animalFragment"
-        android:name="com.epilogs.game_trail_tracker.Fragments.Add.AnimalAddFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.add.AnimalAddFragment"
         android:label="fragment_animal"
         tools:layout="@layout/fragment_animal_add" >
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/locationFragment"
-        android:name="com.epilogs.game_trail_tracker.Fragments.Add.LocationAddFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.add.LocationAddFragment"
         android:label="fragment_location"
         tools:layout="@layout/fragment_location_add" >
         <action
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/weaponFragment"
-        android:name="com.epilogs.game_trail_tracker.Fragments.Add.WeaponAddFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.add.WeaponAddFragment"
         android:label="fragment_weapon"
         tools:layout="@layout/fragment_weapon_add" >
         <action

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.View.ViewFragment">
+    tools:context=".fragments.view.ViewFragment">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/top_view_tabs"

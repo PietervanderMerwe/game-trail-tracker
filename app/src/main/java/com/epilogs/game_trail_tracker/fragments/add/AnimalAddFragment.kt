@@ -1,4 +1,4 @@
-package com.epilogs.game_trail_tracker.Fragments.Add
+package com.epilogs.game_trail_tracker.fragments.add
 
 import android.net.Uri
 import android.os.Bundle
@@ -28,11 +28,6 @@ import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AnimalAddFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AnimalAddFragment : Fragment() {
     private val viewModel: AnimalViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,4 +1,4 @@
-package com.epilogs.game_trail_tracker.Fragments.View
+package com.epilogs.game_trail_tracker.fragments.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,12 +10,13 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
-import com.epilogs.game_trail_tracker.adapters.WeaponViewAdapter
-import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
+import com.epilogs.game_trail_tracker.adapters.AnimalViewAdapter
+import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 
-class WeaponViewFragment : Fragment() {
+class AnimalViewFragment : Fragment() {
 
-    private val viewModel: WeaponViewModel by viewModels()
+    private val viewModel: AnimalViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -24,29 +25,28 @@ class WeaponViewFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_weapon_view, container, false)
+        return inflater.inflate(R.layout.fragment_animal_view, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.weapon_view_list).apply {
+        val recyclerView = view.findViewById<RecyclerView>(R.id.animal_view_list).apply {
             layoutManager = LinearLayoutManager(context)
         }
 
-        val adapter = WeaponViewAdapter(emptyList())
+        val adapter = AnimalViewAdapter(emptyList())
         recyclerView.adapter = adapter
 
-        viewModel.getAllWeapons().observe(viewLifecycleOwner, Observer { weapons ->
-            adapter.updateLocations(weapons)
+        viewModel.getAllAnimals().observe(viewLifecycleOwner, Observer { animals ->
+            adapter.updateAnimals(animals)
         })
     }
 
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            WeaponViewFragment().apply {
+            AnimalViewFragment().apply {
             }
     }
 }

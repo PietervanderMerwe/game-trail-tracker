@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.View.LocationViewFragment">
+    tools:context=".fragments.view.LocationViewFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/location_view_list"

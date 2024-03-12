@@ -1,4 +1,4 @@
-package com.epilogs.game_trail_tracker.Fragments.Add
+package com.epilogs.game_trail_tracker.fragments.add
 
 import android.os.Bundle
 import android.os.Handler
@@ -16,11 +16,6 @@ import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
 
-/**
- * A simple [Fragment] subclass.
- * Use the [WeaponAddFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class WeaponAddFragment : Fragment() {
     private val viewModel: WeaponViewModel by viewModels()
 
