@@ -3,6 +3,8 @@ package com.epilogs.game_trail_tracker.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -12,23 +14,53 @@ import com.epilogs.game_trail_tracker.database.entities.Location
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class LocationViewAdapter(private var locations: List<Location>) : RecyclerView.Adapter<LocationViewAdapter.LocationViewHolder>() {
+class LocationViewAdapter(private var locations: List<Location>) : RecyclerView.Adapter<LocationViewAdapter.LocationViewHolder>(),
+    Filterable {
+
+    private var locationsFiltered = locations
 
     class LocationViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(location: Location) {
-            // Bind your data to your views here
             itemView.findViewById<TextView>(R.id.location_view_item_name).text = location.name
             val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
             val startDateStr = location.startDate?.let { dateFormat.format(it) } ?: "N/A"
             val endDateStr = location.endDate?.let { dateFormat.format(it) } ?: "N/A"
 
             itemView.findViewById<TextView>(R.id.location_view_item_dates).text = "$startDateStr - $endDateStr"
-            // Load the first image from imagePaths as an example
             location.imagePaths?.let {
                 if (it.isNotEmpty()) {
-                    // Assuming you're using Glide or a similar library to load images
                     Glide.with(itemView.context).load(it[0]).into(itemView.findViewById<ImageView>(R.id.location_view_item_image))
                 }
+            }
+        }
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charSearch = constraint.toString()
+                locationsFiltered = if (charSearch.isEmpty()) {
+                    locations
+                } else {
+                    val resultList = ArrayList<Location>()
+                    for (location in locations) {
+                        // Implement your search filter logic here
+                        if (location.name.toLowerCase(Locale.ROOT).contains(charSearch.toLowerCase(Locale.ROOT))) {
+                            resultList.add(location)
+                        }
+                        // Add more conditions here if needed
+                    }
+                    resultList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = locationsFiltered
+                return filterResults
+            }
+
+            @Suppress("UNCHECKED_CAST")
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                locationsFiltered = results?.values as ArrayList<Location>
+                notifyDataSetChanged()
             }
         }
     }
@@ -40,10 +72,10 @@ class LocationViewAdapter(private var locations: List<Location>) : RecyclerView.
     }
 
     override fun onBindViewHolder(holder: LocationViewHolder, position: Int) {
-        holder.bind(locations[position])
+        holder.bind(locationsFiltered[position])
     }
 
-    override fun getItemCount() = locations.size
+    override fun getItemCount() = locationsFiltered.size
 
     fun updateLocations(newLocations: List<Location>) {
         locations = newLocations
