@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.AnimalViewAdapter
-import com.epilogs.game_trail_tracker.adapters.LocationViewAdapter
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 
 class AnimalViewFragment : Fragment() {
