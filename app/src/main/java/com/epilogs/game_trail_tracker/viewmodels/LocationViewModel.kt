@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.epilogs.game_trail_tracker.database.AppDatabase
 import com.epilogs.game_trail_tracker.database.DatabaseProvider
@@ -26,5 +27,10 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
 
     fun resetInsertionSuccess() {
         insertionSuccess.value = null
+    }
+
+    fun getAllLocations(): LiveData<List<Location>> = liveData {
+        val locations = locationDao.getAllLocations()
+        emit(locations)
     }
 }

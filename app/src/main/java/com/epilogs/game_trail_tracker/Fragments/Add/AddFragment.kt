@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.epilogs.game_trail_tracker.R
-import com.epilogs.game_trail_tracker.adapters.ViewPagerAdapter
+import com.epilogs.game_trail_tracker.adapters.ViewPagerAddAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -17,9 +17,6 @@ import com.google.android.material.tabs.TabLayoutMediator
  * create an instance of this fragment.
  */
 class AddFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,11 +32,11 @@ class AddFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viewPager: ViewPager2 = view.findViewById(R.id.view_pager)
-        val adapter = ViewPagerAdapter(this)
+        val viewPager: ViewPager2 = view.findViewById(R.id.view_pager_add)
+        val adapter = ViewPagerAddAdapter(this)
         viewPager.adapter = adapter
 
-        val tabLayout: TabLayout = view.findViewById(R.id.top_tabs)
+        val tabLayout: TabLayout = view.findViewById(R.id.top_add_tabs)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = adapter.getPageTitle(position)
         }.attach()

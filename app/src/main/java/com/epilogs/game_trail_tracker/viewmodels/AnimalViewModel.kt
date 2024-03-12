@@ -31,6 +31,11 @@ class AnimalViewModel (application: Application) : AndroidViewModel(application)
         insertionSuccess.postValue(true)
     }
 
+    fun getAllAnimals(): LiveData<List<Animal>> = liveData {
+        val animals = animalDao.getAllAnimals()
+        emit(animals)
+    }
+
     fun getAllLocations(): LiveData<List<Location>> = liveData {
         val locations = locationDao.getAllLocations()
         emit(locations)

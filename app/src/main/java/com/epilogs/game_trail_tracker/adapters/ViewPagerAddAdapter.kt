@@ -6,7 +6,7 @@ import com.epilogs.game_trail_tracker.Fragments.Add.AnimalAddFragment
 import com.epilogs.game_trail_tracker.Fragments.Add.LocationAddFragment
 import com.epilogs.game_trail_tracker.Fragments.Add.WeaponAddFragment
 
-class ViewPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+class ViewPagerAddAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     private val fragments = arrayOf(LocationAddFragment(), AnimalAddFragment(), WeaponAddFragment())
     private val fragmentTitles = arrayOf("Location", "Animal", "Weapon") // Custom titles
 
