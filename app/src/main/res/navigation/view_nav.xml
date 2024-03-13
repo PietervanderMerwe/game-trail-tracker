@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_animalViewFragment_to_locationViewFragment"
             app:destination="@id/locationViewFragment" />
+        <action
+            android:id="@+id/action_animalViewFragment_to_animalViewDetailFragment"
+            app:destination="@id/animalViewDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/locationViewFragment"
@@ -28,6 +31,9 @@
         <action
             android:id="@+id/action_locationViewFragment_to_weaponViewFragment"
             app:destination="@id/weaponViewFragment" />
+        <action
+            android:id="@+id/action_locationViewFragment_to_locationViewDetailFragment"
+            app:destination="@id/locationViewDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/weaponViewFragment"
@@ -40,5 +46,38 @@
         <action
             android:id="@+id/action_weaponViewFragment_to_locationViewFragment"
             app:destination="@id/locationViewFragment" />
+        <action
+            android:id="@+id/action_weaponViewFragment_to_weaponViewDetailFragment"
+            app:destination="@id/weaponViewDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/animalViewDetailFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.view.AnimalViewDetailFragment"
+        android:label="fragment_animal_view_detail"
+        tools:layout="@layout/fragment_animal_view_detail" >
+        <action
+            android:id="@+id/action_animalViewDetailFragment_to_weaponViewDetailFragment"
+            app:destination="@id/weaponViewDetailFragment" />
+        <action
+            android:id="@+id/action_animalViewDetailFragment_to_locationViewDetailFragment"
+            app:destination="@id/locationViewDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/locationViewDetailFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.view.LocationViewDetailFragment"
+        android:label="fragment_location_view_detail"
+        tools:layout="@layout/fragment_location_view_detail" >
+        <action
+            android:id="@+id/action_locationViewDetailFragment_to_animalViewDetailFragment"
+            app:destination="@id/animalViewDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/weaponViewDetailFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.view.WeaponViewDetailFragment"
+        android:label="fragment_weapon_view_detail"
+        tools:layout="@layout/fragment_weapon_view_detail" >
+        <action
+            android:id="@+id/action_weaponViewDetailFragment_to_animalViewDetailFragment"
+            app:destination="@id/animalViewDetailFragment" />
     </fragment>
 </navigation>
