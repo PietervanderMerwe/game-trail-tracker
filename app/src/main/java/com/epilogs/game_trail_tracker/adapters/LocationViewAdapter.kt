@@ -11,15 +11,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.database.entities.Location
+import com.epilogs.game_trail_tracker.interfaces.OnLocationItemClickListener
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class LocationViewAdapter(private var locations: List<Location>) : RecyclerView.Adapter<LocationViewAdapter.LocationViewHolder>(),
+class LocationViewAdapter(private var locations: List<Location>,
+                          private val listener: OnLocationItemClickListener
+) : RecyclerView.Adapter<LocationViewAdapter.LocationViewHolder>(),
     Filterable {
 
     private var locationsFiltered = locations
 
-    class LocationViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class LocationViewHolder(private val view: View, private val listener: OnLocationItemClickListener) : RecyclerView.ViewHolder(view) {
+
         fun bind(location: Location) {
             itemView.findViewById<TextView>(R.id.location_view_item_name).text = location.name
             val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
@@ -29,7 +33,14 @@ class LocationViewAdapter(private var locations: List<Location>) : RecyclerView.
             itemView.findViewById<TextView>(R.id.location_view_item_dates).text = "$startDateStr - $endDateStr"
             location.imagePaths?.let {
                 if (it.isNotEmpty()) {
-                    Glide.with(itemView.context).load(it[0]).into(itemView.findViewById<ImageView>(R.id.location_view_item_image))
+                    Glide.with(view.context).load(it[0]).into(itemView.findViewById<ImageView>(R.id.location_view_item_image))
+                }
+            }
+
+            // Move the click listener setup here
+            itemView.setOnClickListener {
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    listener.onLocationItemClick(location)
                 }
             }
         }
@@ -62,11 +73,12 @@ class LocationViewAdapter(private var locations: List<Location>) : RecyclerView.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LocationViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.location_view_item, parent, false)
-        return LocationViewHolder(view)
+        return LocationViewHolder(view, listener)
     }
 
     override fun onBindViewHolder(holder: LocationViewHolder, position: Int) {
-        holder.bind(locationsFiltered[position])
+        val locationItem = locationsFiltered[position]
+        holder.bind(locationItem)
     }
 
     override fun getItemCount() = locationsFiltered.size

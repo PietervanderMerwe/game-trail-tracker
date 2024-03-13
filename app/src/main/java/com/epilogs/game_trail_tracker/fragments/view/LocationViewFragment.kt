@@ -12,9 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.LocationViewAdapter
+import com.epilogs.game_trail_tracker.database.entities.Location
+import com.epilogs.game_trail_tracker.interfaces.OnLocationItemClickListener
 import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
 
-class LocationViewFragment : Fragment() {
+class LocationViewFragment : Fragment(), OnLocationItemClickListener {
 
     private val viewModel: LocationViewModel by viewModels()
 
@@ -32,11 +34,10 @@ class LocationViewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.location_view_list).apply {
-            layoutManager = LinearLayoutManager(context)
-        }
+        val recyclerView: RecyclerView = view.findViewById(R.id.animal_view_list)
+        recyclerView.layoutManager = LinearLayoutManager(context)
 
-        val adapter = LocationViewAdapter(emptyList())
+        val adapter = LocationViewAdapter(emptyList(), this)
         recyclerView.adapter = adapter
 
         val searchView = view.findViewById<SearchView>(R.id.search_location_view)
@@ -54,6 +55,11 @@ class LocationViewFragment : Fragment() {
         viewModel.getAllLocations().observe(viewLifecycleOwner, Observer { locations ->
             adapter.updateLocations(locations)
         })
+
+    }
+
+    override fun onLocationItemClick(location: Location) {
+        // Handle the click event, e.g., navigate to a details screen
     }
 
     companion object {
