@@ -39,7 +39,7 @@ class LocationViewFragment : Fragment() {
         val adapter = LocationViewAdapter(emptyList())
         recyclerView.adapter = adapter
 
-        val searchView = view.findViewById<SearchView>(R.id.search_view)
+        val searchView = view.findViewById<SearchView>(R.id.search_location_view)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false // if you want to handle the submit button click

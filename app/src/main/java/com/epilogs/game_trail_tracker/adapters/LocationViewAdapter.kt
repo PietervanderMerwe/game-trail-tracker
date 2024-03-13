@@ -73,6 +73,7 @@ class LocationViewAdapter(private var locations: List<Location>) : RecyclerView.
 
     fun updateLocations(newLocations: List<Location>) {
         locations = newLocations
-        notifyDataSetChanged() // Notify the adapter to refresh the data
+        locationsFiltered = newLocations
+        notifyDataSetChanged()
     }
 }

@@ -3,6 +3,8 @@ package com.epilogs.game_trail_tracker.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +15,10 @@ import com.epilogs.game_trail_tracker.database.entities.Weapon
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class WeaponViewAdapter (private var weapons: List<Weapon>) : RecyclerView.Adapter<WeaponViewAdapter.WeaponViewHolder>() {
+class WeaponViewAdapter (private var weapons: List<Weapon>) : RecyclerView.Adapter<WeaponViewAdapter.WeaponViewHolder>(),
+    Filterable {
+
+    private var weaponsFiltered = weapons
 
     class WeaponViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(weapon: Weapon) {
@@ -29,6 +34,28 @@ class WeaponViewAdapter (private var weapons: List<Weapon>) : RecyclerView.Adapt
         }
     }
 
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charSearch = constraint.toString()
+                weaponsFiltered = if (charSearch.isNullOrEmpty()) {
+                    weapons
+                } else {
+                    weapons.filter {
+                        it.name.contains(charSearch, ignoreCase = true)
+                    }
+                }
+                return FilterResults().apply { values = weaponsFiltered }
+            }
+
+            @Suppress("UNCHECKED_CAST")
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                weaponsFiltered = results?.values as List<Weapon>
+                notifyDataSetChanged()
+            }
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeaponViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.weapon_view_item, parent, false)
@@ -36,13 +63,14 @@ class WeaponViewAdapter (private var weapons: List<Weapon>) : RecyclerView.Adapt
     }
 
     override fun onBindViewHolder(holder: WeaponViewHolder, position: Int) {
-        holder.bind(weapons[position])
+        holder.bind(weaponsFiltered[position])
     }
 
-    override fun getItemCount() = weapons.size
+    override fun getItemCount() = weaponsFiltered.size
 
     fun updateLocations(newWeapons: List<Weapon>) {
         weapons = newWeapons
+        weaponsFiltered = newWeapons
         notifyDataSetChanged()
     }
 }
