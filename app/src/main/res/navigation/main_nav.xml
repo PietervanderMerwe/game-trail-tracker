@@ -28,6 +28,15 @@
         <action
             android:id="@+id/action_viewFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment" />
+        <action
+            android:id="@+id/action_viewFragment_to_locationViewDetailFragment"
+            app:destination="@id/locationViewDetailFragment2" />
+        <action
+            android:id="@+id/action_viewFragment_to_weaponViewDetailFragment"
+            app:destination="@id/weaponViewDetailFragment2" />
+        <action
+            android:id="@+id/action_viewFragment_to_animalViewDetailFragment"
+            app:destination="@id/animalViewDetailFragment2" />
     </fragment>
     <fragment
         android:id="@+id/dashboardFragment"
@@ -40,5 +49,35 @@
         <action
             android:id="@+id/action_dashboardFragment_to_addFragment"
             app:destination="@id/addFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/animalViewDetailFragment2"
+        android:name="com.epilogs.game_trail_tracker.fragments.view.AnimalViewDetailFragment"
+        android:label="fragment_animal_view_detail"
+        tools:layout="@layout/fragment_animal_view_detail" >
+        <action
+            android:id="@+id/action_animalViewDetailFragment_to_viewFragment"
+            app:destination="@id/viewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/locationViewDetailFragment2"
+        android:name="com.epilogs.game_trail_tracker.fragments.view.LocationViewDetailFragment"
+        android:label="fragment_location_view_detail"
+        tools:layout="@layout/fragment_location_view_detail" >
+        <argument
+            android:name="locationId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_locationViewDetailFragment_to_viewFragment"
+            app:destination="@id/viewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/weaponViewDetailFragment2"
+        android:name="com.epilogs.game_trail_tracker.fragments.view.WeaponViewDetailFragment"
+        android:label="fragment_weapon_view_detail"
+        tools:layout="@layout/fragment_weapon_view_detail" >
+        <action
+            android:id="@+id/action_weaponViewDetailFragment_to_viewFragment"
+            app:destination="@id/viewFragment" />
     </fragment>
 </navigation>

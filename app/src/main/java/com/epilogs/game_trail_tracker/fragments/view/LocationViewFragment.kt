@@ -1,5 +1,6 @@
 package com.epilogs.game_trail_tracker.fragments.view
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.LocationViewAdapter
 import com.epilogs.game_trail_tracker.database.entities.Location
@@ -21,9 +23,25 @@ import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
 class LocationViewFragment : Fragment(), OnLocationItemClickListener {
 
     private val viewModel: LocationViewModel by viewModels()
+    private var locationItemClickListener: OnLocationItemClickListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            locationItemClickListener = parentFragment as? OnLocationItemClickListener
+        } catch (e: ClassCastException) {
+            throw ClassCastException("$parentFragment must implement OnLocationItemClickListener")
+        }
+    }
+
+    // Ensure you nullify the reference on detach to prevent memory leaks
+    override fun onDetach() {
+        super.onDetach()
+        locationItemClickListener = null
     }
 
     override fun onCreateView(
@@ -61,12 +79,8 @@ class LocationViewFragment : Fragment(), OnLocationItemClickListener {
     }
 
     override fun onLocationItemClick(location: Location) {
-        val fragmentManager = requireActivity().supportFragmentManager
-        fragmentManager.beginTransaction().apply {
-            replace(android.R.id.content, LocationViewDetailFragment()) // Use the ID of the container in the activity
-            addToBackStack(null) // Add to back stack for navigation
-            commit()
-        }
+        val action = ViewFragmentDirections.actionViewFragmentToLocationViewDetailFragment(location.id!!)
+        findNavController().navigate(action)
     }
 
     companion object {

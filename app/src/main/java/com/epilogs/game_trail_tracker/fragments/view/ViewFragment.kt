@@ -5,20 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ViewPagerViewAdapter
-import com.epilogs.game_trail_tracker.fragments.view.LocationViewFragmentDirections.Companion.actionLocationViewFragmentToLocationViewDetailFragment
-import com.epilogs.game_trail_tracker.interfaces.OnLocationSelectedListener
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ViewFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ViewFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
