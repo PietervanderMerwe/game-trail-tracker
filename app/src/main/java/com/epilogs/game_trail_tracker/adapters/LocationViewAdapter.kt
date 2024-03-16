@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class LocationViewAdapter(private var locations: List<Location>,
-                          private val listener: OnLocationItemClickListener
+                          private val listener: OnLocationItemClickListener,
 ) : RecyclerView.Adapter<LocationViewAdapter.LocationViewHolder>(),
     Filterable {
 

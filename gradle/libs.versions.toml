@@ -20,6 +20,7 @@ ksp = "1.9.22-1.0.17"
 gson = "2.10.1"
 coroutines = "1.4.3"
 livedata = "2.3.1"
+navigation = "2.5.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -55,4 +56,5 @@ livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", vers
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+androidx-navigation-safe-args = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

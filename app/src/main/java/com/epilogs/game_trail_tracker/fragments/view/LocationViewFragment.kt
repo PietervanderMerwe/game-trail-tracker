@@ -8,12 +8,14 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.LocationViewAdapter
 import com.epilogs.game_trail_tracker.database.entities.Location
 import com.epilogs.game_trail_tracker.interfaces.OnLocationItemClickListener
+import com.epilogs.game_trail_tracker.interfaces.OnLocationSelectedListener
 import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
 
 class LocationViewFragment : Fragment(), OnLocationItemClickListener {
@@ -34,7 +36,7 @@ class LocationViewFragment : Fragment(), OnLocationItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView: RecyclerView = view.findViewById(R.id.animal_view_list)
+        val recyclerView: RecyclerView = view.findViewById(R.id.location_view_list)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         val adapter = LocationViewAdapter(emptyList(), this)
@@ -59,7 +61,12 @@ class LocationViewFragment : Fragment(), OnLocationItemClickListener {
     }
 
     override fun onLocationItemClick(location: Location) {
-        // Handle the click event, e.g., navigate to a details screen
+        val fragmentManager = requireActivity().supportFragmentManager
+        fragmentManager.beginTransaction().apply {
+            replace(android.R.id.content, LocationViewDetailFragment()) // Use the ID of the container in the activity
+            addToBackStack(null) // Add to back stack for navigation
+            commit()
+        }
     }
 
     companion object {

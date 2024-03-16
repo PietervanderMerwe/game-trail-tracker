@@ -2,5 +2,6 @@
 plugins {
     alias(libs.plugins.androidApplication) apply false
     alias(libs.plugins.jetbrainsKotlinAndroid) apply false
+    alias(libs.plugins.androidx.navigation.safe.args) apply false
     alias(libs.plugins.ksp) apply false
 }

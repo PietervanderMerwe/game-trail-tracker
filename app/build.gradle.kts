@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.androidx.navigation.safe.args)
     alias(libs.plugins.ksp)
 }
 

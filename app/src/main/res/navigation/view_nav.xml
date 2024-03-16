@@ -61,15 +61,24 @@
         <action
             android:id="@+id/action_animalViewDetailFragment_to_locationViewDetailFragment"
             app:destination="@id/locationViewDetailFragment" />
+        <action
+            android:id="@+id/action_animalViewDetailFragment_to_animalViewFragment"
+            app:destination="@id/animalViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/locationViewDetailFragment"
         android:name="com.epilogs.game_trail_tracker.fragments.view.LocationViewDetailFragment"
         android:label="fragment_location_view_detail"
         tools:layout="@layout/fragment_location_view_detail" >
+        <argument
+            android:name="locationId"
+            app:argType="integer" />
         <action
             android:id="@+id/action_locationViewDetailFragment_to_animalViewDetailFragment"
             app:destination="@id/animalViewDetailFragment" />
+        <action
+            android:id="@+id/action_locationViewDetailFragment_to_locationViewFragment"
+            app:destination="@id/locationViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/weaponViewDetailFragment"
@@ -79,5 +88,8 @@
         <action
             android:id="@+id/action_weaponViewDetailFragment_to_animalViewDetailFragment"
             app:destination="@id/animalViewDetailFragment" />
+        <action
+            android:id="@+id/action_weaponViewDetailFragment_to_weaponViewFragment"
+            app:destination="@id/weaponViewFragment" />
     </fragment>
 </navigation>
