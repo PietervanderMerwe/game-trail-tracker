@@ -12,12 +12,10 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.LocationViewAdapter
 import com.epilogs.game_trail_tracker.database.entities.Location
 import com.epilogs.game_trail_tracker.interfaces.OnLocationItemClickListener
-import com.epilogs.game_trail_tracker.interfaces.OnLocationSelectedListener
 import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
 
 class LocationViewFragment : Fragment(), OnLocationItemClickListener {
@@ -63,7 +61,7 @@ class LocationViewFragment : Fragment(), OnLocationItemClickListener {
         val searchView = view.findViewById<SearchView>(R.id.search_location_view)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                return false // if you want to handle the submit button click
+                return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {

@@ -8,13 +8,16 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.AnimalViewAdapter
+import com.epilogs.game_trail_tracker.database.entities.Animal
+import com.epilogs.game_trail_tracker.interfaces.OnAnimalItemClickListener
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 
-class AnimalViewFragment : Fragment() {
+class AnimalViewFragment : Fragment(), OnAnimalItemClickListener {
 
     private val viewModel: AnimalViewModel by viewModels()
 
@@ -36,7 +39,7 @@ class AnimalViewFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
         }
 
-        val adapter = AnimalViewAdapter(emptyList())
+        val adapter = AnimalViewAdapter(emptyList(), this)
         recyclerView.adapter = adapter
 
         val searchView = view.findViewById<SearchView>(R.id.search_animal_view)
@@ -54,6 +57,11 @@ class AnimalViewFragment : Fragment() {
         viewModel.getAllAnimals().observe(viewLifecycleOwner, Observer { animals ->
             adapter.updateAnimals(animals)
         })
+    }
+
+    override fun onAnimalItemClick(animal: Animal) {
+        val action = ViewFragmentDirections.actionViewFragmentToAnimalViewDetailFragment(animal.id!!)
+        findNavController().navigate(action)
     }
 
     companion object {

@@ -55,6 +55,9 @@
         android:name="com.epilogs.game_trail_tracker.fragments.view.AnimalViewDetailFragment"
         android:label="fragment_animal_view_detail"
         tools:layout="@layout/fragment_animal_view_detail" >
+        <argument
+            android:name="weaponId"
+            app:argType="integer" />
         <action
             android:id="@+id/action_animalViewDetailFragment_to_viewFragment"
             app:destination="@id/viewFragment" />
@@ -76,6 +79,9 @@
         android:name="com.epilogs.game_trail_tracker.fragments.view.WeaponViewDetailFragment"
         android:label="fragment_weapon_view_detail"
         tools:layout="@layout/fragment_weapon_view_detail" >
+        <argument
+            android:name="weaponId"
+            app:argType="integer" />
         <action
             android:id="@+id/action_weaponViewDetailFragment_to_viewFragment"
             app:destination="@id/viewFragment" />

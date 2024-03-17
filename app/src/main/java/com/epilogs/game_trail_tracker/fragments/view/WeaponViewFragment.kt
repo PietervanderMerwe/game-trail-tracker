@@ -8,13 +8,16 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.WeaponViewAdapter
+import com.epilogs.game_trail_tracker.database.entities.Weapon
+import com.epilogs.game_trail_tracker.interfaces.OnWeaponItemClickListener
 import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
 
-class WeaponViewFragment : Fragment() {
+class WeaponViewFragment : Fragment(), OnWeaponItemClickListener {
 
     private val viewModel: WeaponViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +39,7 @@ class WeaponViewFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
         }
 
-        val adapter = WeaponViewAdapter(emptyList())
+        val adapter = WeaponViewAdapter(emptyList(), this)
         recyclerView.adapter = adapter
 
         val searchView = view.findViewById<SearchView>(R.id.search_weapon_view)
@@ -54,6 +57,11 @@ class WeaponViewFragment : Fragment() {
         viewModel.getAllWeapons().observe(viewLifecycleOwner, Observer { weapons ->
             adapter.updateLocations(weapons)
         })
+    }
+
+    override fun onWeaponItemClick(weapon: Weapon) {
+        val action = ViewFragmentDirections.actionViewFragmentToWeaponViewDetailFragment(weapon.id!!)
+        findNavController().navigate(action)
     }
 
     companion object {
