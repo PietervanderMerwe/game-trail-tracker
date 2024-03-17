@@ -32,11 +32,11 @@ class LocationViewDetailFragment : Fragment() {
     }
 
     companion object {
-        // If you decide you need param1 and param2, you can include them in the newInstance method
-        @JvmStatic fun newInstance(locationId: Long, param1: String? = null, param2: String? = null) =
+        @JvmStatic
+        fun newInstance(locationId: Int) =
             LocationViewDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putLong("locationId", locationId)
+                    putInt("locationId", locationId)
                 }
             }
     }
