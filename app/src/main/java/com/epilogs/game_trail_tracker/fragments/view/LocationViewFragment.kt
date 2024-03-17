@@ -21,25 +21,9 @@ import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
 class LocationViewFragment : Fragment(), OnLocationItemClickListener {
 
     private val viewModel: LocationViewModel by viewModels()
-    private var locationItemClickListener: OnLocationItemClickListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        try {
-            locationItemClickListener = parentFragment as? OnLocationItemClickListener
-        } catch (e: ClassCastException) {
-            throw ClassCastException("$parentFragment must implement OnLocationItemClickListener")
-        }
-    }
-
-    // Ensure you nullify the reference on detach to prevent memory leaks
-    override fun onDetach() {
-        super.onDetach()
-        locationItemClickListener = null
     }
 
     override fun onCreateView(
