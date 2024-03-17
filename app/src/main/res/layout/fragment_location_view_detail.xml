@@ -1,15 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.view.LocationViewDetailFragment">
+    tools:context=".fragments.view.LocationViewDetailFragment"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/view_detail_text"
+    <EditText
+        android:id="@+id/editTextNameViewDetail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:hint="@string/editTextName"/>
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/editTextStartDateViewDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/editTextDate"
+        android:focusable="false"
+        android:clickable="true"
+        android:cursorVisible="false" />
+
+    <EditText
+        android:id="@+id/editTextEndDateViewDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/editTextDate"
+        android:focusable="false"
+        android:clickable="true"
+        android:cursorVisible="false" />
+
+    <CheckBox
+        android:id="@+id/checkBoxIsContinuesViewDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/checkBoxIsContinues" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/imagesLocationRecyclerViewDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>

@@ -46,6 +46,11 @@ class AnimalViewModel (application: Application) : AndroidViewModel(application)
         emit(weapons)
     }
 
+    fun getAnimalById(id: Int): LiveData<Animal?> = liveData {
+        val animal = animalDao.getAnimalById(id)
+        emit(animal)
+    }
+
     fun resetInsertionSuccess() {
         insertionSuccess.value = null
     }

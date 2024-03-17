@@ -29,6 +29,11 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
         insertionSuccess.value = null
     }
 
+    fun getLocationById(id: Int): LiveData<Location?> = liveData {
+        val location = locationDao.getLocationById(id)
+        emit(location)
+    }
+
     fun getAllLocations(): LiveData<List<Location>> = liveData {
         val locations = locationDao.getAllLocations()
         emit(locations)

@@ -30,6 +30,11 @@ class WeaponViewModel (application: Application) : AndroidViewModel(application)
         emit(weapons)
     }
 
+    fun getWeaponById(id: Int): LiveData<Weapon?> = liveData {
+        val weapon = weaponDao.getWeaponById(id)
+        emit(weapon)
+    }
+
     fun resetInsertionSuccess() {
         insertionSuccess.value = null
     }
