@@ -1,14 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.view.WeaponViewDetailFragment">
+    tools:context=".fragments.view.WeaponViewDetailFragment"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <EditText
+        android:id="@+id/editTextWeaponNameViewDetail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:hint="@string/editTextWeaponName"/>
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/editTextWeaponNotesViewDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/editTextWeaponNotes"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/imagesWeaponRecyclerViewViewDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/buttonSaveWeaponViewDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/buttonSaveWeapon" />
+
+    <ImageView
+        android:id="@+id/checkMarkWeaponAddViewDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_checkmark"
+        android:contentDescription="@string/check_mark_image_description"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>

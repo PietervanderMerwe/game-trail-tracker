@@ -9,14 +9,21 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
+import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
+import com.epilogs.game_trail_tracker.adapters.LocationViewAdapter
 import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class LocationViewDetailFragment : Fragment() {
 
     private var locationId: Int? = null
     private val viewModel: LocationViewModel by viewModels()
+    private lateinit var imageAdapter: ImagesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,12 +39,27 @@ class LocationViewDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
         val name: TextView = view.findViewById(R.id.editTextNameViewDetail)
         val startDate: TextView = view.findViewById(R.id.editTextStartDateViewDetail)
         val endDate: TextView = view.findViewById(R.id.editTextEndDateViewDetail)
         val checkBoxIsContinues = view.findViewById<CheckBox>(R.id.checkBoxIsContinuesViewDetail)
         val imagesRecyclerView = view.findViewById<RecyclerView>(R.id.imagesLocationRecyclerViewDetail)
-        val location = viewModel.getLocationById(locationId!!)
+
+        viewModel.getLocationById(locationId!!).observe(viewLifecycleOwner, Observer { location ->
+            name.text = location?.name
+            startDate.text = location?.startDate?.let { dateFormat.format(it) } ?: "N/A"
+            endDate.text = location?.endDate?.let { dateFormat.format(it) } ?: "N/A"
+            checkBoxIsContinues.isChecked = location?.isContinues!!
+
+            imageAdapter = ImagesAdapter(mutableListOf())
+            imagesRecyclerView.adapter = imageAdapter
+            imagesRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+            location.imagePaths?.let { imageUrls ->
+                imageAdapter.updateImages(imageUrls)
+            }
+        })
     }
 
     companion object {

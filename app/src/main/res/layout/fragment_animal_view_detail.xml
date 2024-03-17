@@ -1,14 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.view.AnimalViewDetailFragment">
+    tools:context=".fragments.view.AnimalViewDetailFragment"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <EditText
+        android:id="@+id/editTextSpecieNameViewDetail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:hint="@string/editTextSpecieName"/>
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/editTextWeightViewDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/editTextWeight" />
+
+    <EditText
+        android:id="@+id/editTextMeasurementViewDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/editTextMeasurement" />
+
+    <EditText
+        android:id="@+id/editTextDateViewDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/editTextDate"
+        android:focusable="false"
+        android:clickable="true"
+        android:cursorVisible="false" />
+
+    <EditText
+        android:id="@+id/LocationViewDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/editTextDate"
+        android:focusable="false"
+        android:clickable="true"
+        android:cursorVisible="false" />
+
+    <EditText
+        android:id="@+id/WeaponViewDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/editTextDate"
+        android:focusable="false"
+        android:clickable="true"
+        android:cursorVisible="false" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/imagesAnimalRecyclerViewViewDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"/>
+
+
+</LinearLayout>
