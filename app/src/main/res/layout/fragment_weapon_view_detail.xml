@@ -47,4 +47,5 @@
             android:text="@string/delete"
             style="?android:attr/buttonBarButtonStyle" />
     </LinearLayout>
+
 </LinearLayout>
