@@ -1,11 +1,12 @@
 package com.epilogs.game_trail_tracker.fragments.view
 
+import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -82,6 +83,22 @@ class AnimalViewDetailFragment : Fragment() {
                 imageAdapter.updateImages(imageUrls)
             }
         })
+
+        val deleteButton: Button = view.findViewById(R.id.button_delete_animal)
+        deleteButton.setOnClickListener {
+            showDeleteConfirmationDialog()
+        }
+    }
+
+    private fun showDeleteConfirmationDialog() {
+        AlertDialog.Builder(context)
+            .setTitle("Confirm Delete")
+            .setMessage("Are you sure you want to delete this animal?")
+            .setPositiveButton("Delete") { dialog, which ->
+                // Code to delete the item goes here
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     companion object {

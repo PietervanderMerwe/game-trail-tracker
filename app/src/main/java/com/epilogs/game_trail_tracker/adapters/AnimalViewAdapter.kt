@@ -48,7 +48,7 @@ class AnimalViewAdapter(private var animals: List<Animal>,
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charSearch = constraint.toString()
-                animalsFiltered = if (charSearch.isNullOrEmpty()) {
+                animalsFiltered = if (charSearch.isEmpty()) {
                     animals
                 } else {
                     animals.filter {

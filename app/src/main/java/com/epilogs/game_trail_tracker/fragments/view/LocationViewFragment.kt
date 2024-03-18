@@ -57,7 +57,6 @@ class LocationViewFragment : Fragment(), OnLocationItemClickListener {
         viewModel.getAllLocations().observe(viewLifecycleOwner, Observer { locations ->
             adapter.updateLocations(locations)
         })
-
     }
 
     override fun onLocationItemClick(location: Location) {
