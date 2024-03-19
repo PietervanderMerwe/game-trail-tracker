@@ -76,7 +76,6 @@ class WeaponViewDetailFragment : Fragment() {
         })
 
         saveButton.setOnClickListener {
-            val dateConverter = DateConverter()
             currentWeapon?.let { weapon ->
 
                 weapon.name = name.text.toString()
@@ -111,7 +110,7 @@ class WeaponViewDetailFragment : Fragment() {
 
     private fun disableEditText(editText: EditText) {
         editText.isFocusable = false
-        editText.isClickable = true
+        editText.isClickable = false
         editText.isCursorVisible = false
     }
 

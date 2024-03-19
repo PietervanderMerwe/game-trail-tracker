@@ -149,7 +149,7 @@ class LocationViewDetailFragment : Fragment() {
 
     private fun disableEditText(editText: EditText) {
         editText.isFocusable = false
-        editText.isClickable = true
+        editText.isClickable = false
         editText.isCursorVisible = false
     }
 

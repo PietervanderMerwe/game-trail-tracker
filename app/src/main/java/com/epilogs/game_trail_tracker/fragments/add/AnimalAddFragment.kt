@@ -36,6 +36,8 @@ class AnimalAddFragment : Fragment() {
     private val pickImagesRequestCode = 100
     private val selectedImageUris = mutableListOf<String>()
     private lateinit var imageAdapter: ImagesAdapter
+    private var locationId = 0;
+    private var weaponId = 0;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -99,7 +101,18 @@ class AnimalAddFragment : Fragment() {
         spinnerLocation.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val selectedLocation = parent.getItemAtPosition(position) as Location
-                val locationId = selectedLocation.id
+                locationId = selectedLocation.id!!
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Handle case when nothing is selected if needed
+            }
+        }
+
+        spinnerWeapon.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                val selectedWeapon = parent.getItemAtPosition(position) as Weapon
+                weaponId = selectedWeapon.id!!
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -124,8 +137,8 @@ class AnimalAddFragment : Fragment() {
                 measurement = measurement,
                 harvestDate = date,
                 notes = notes,
-                locationId = 1,
-                weaponId = 1,
+                locationId = locationId,
+                weaponId = weaponId,
                 imagePaths = imagePaths
             )
 

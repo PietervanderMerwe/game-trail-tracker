@@ -56,6 +56,13 @@
             android:focusable="false"
             android:hint="@string/editTextDate" />
 
+        <Spinner
+            android:id="@+id/spinnerLocationViewDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+
         <EditText
             android:id="@+id/WeaponViewDetail"
             android:layout_width="match_parent"
@@ -64,6 +71,12 @@
             android:cursorVisible="false"
             android:focusable="false"
             android:hint="@string/editTextDate" />
+
+        <Spinner
+            android:id="@+id/spinnerWeaponViewDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/imagesAnimalRecyclerViewViewDetail"
