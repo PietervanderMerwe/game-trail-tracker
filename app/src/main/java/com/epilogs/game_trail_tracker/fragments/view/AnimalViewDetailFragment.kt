@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -14,6 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
+import com.epilogs.game_trail_tracker.database.entities.Animal
+import com.epilogs.game_trail_tracker.database.entities.Location
+import com.epilogs.game_trail_tracker.utils.DateConverter
+import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
 import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
@@ -27,7 +32,7 @@ class AnimalViewDetailFragment : Fragment() {
     private val weaponViewModel: WeaponViewModel by viewModels()
     private val locationViewModel: LocationViewModel by viewModels()
     private lateinit var imageAdapter: ImagesAdapter
-
+    private var currentAnimal: Animal? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -45,32 +50,59 @@ class AnimalViewDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-        val editTextSpecieName: TextView = view.findViewById(R.id.editTextSpecieNameViewDetail)
-        val editTextDate: TextView = view.findViewById(R.id.editTextDateViewDetail)
-        val editTextWeight: TextView = view.findViewById(R.id.editTextWeightViewDetail)
-        val editTextMeasurement: TextView = view.findViewById(R.id.editTextMeasurementViewDetail)
-        val locationViewDetail: TextView = view.findViewById(R.id.LocationViewDetail)
-        val weaponViewDetail: TextView = view.findViewById(R.id.WeaponViewDetail)
+        val specieName: EditText = view.findViewById(R.id.editTextSpecieNameViewDetail)
+        val date: EditText = view.findViewById(R.id.editTextDateViewDetail)
+        val weight: EditText = view.findViewById(R.id.editTextWeightViewDetail)
+        val measurement: EditText = view.findViewById(R.id.editTextMeasurementViewDetail)
+        val locationViewDetail: EditText = view.findViewById(R.id.LocationViewDetail)
+        val weaponViewDetail: EditText = view.findViewById(R.id.WeaponViewDetail)
         val imagesRecyclerView =
             view.findViewById<RecyclerView>(R.id.imagesAnimalRecyclerViewViewDetail)
+        val deleteButton: Button = view.findViewById(R.id.button_delete_animal)
+        val editButton: Button = view.findViewById(R.id.button_edit_animal)
+        val saveButton: Button = view.findViewById(R.id.button_save_animal)
+
+        disableEditText(specieName)
+        disableEditText(date)
+        disableEditText(weight)
+        disableEditText(measurement)
+
+        date.setOnClickListener {
+            showDatePickerDialog(requireContext()) { selectedDate ->
+                date.setText(selectedDate)
+            }
+        }
+
+        editButton.setOnClickListener {
+            enableEditText(specieName)
+            enableEditText(date)
+            enableEditText(weight)
+            enableEditText(measurement)
+
+            editButton.visibility = View.GONE
+            deleteButton.visibility = View.GONE
+            saveButton.visibility = View.VISIBLE
+        }
+
 
         animalViewModel.getAnimalById(animalId!!).observe(viewLifecycleOwner, Observer { animal ->
-            editTextSpecieName.text = animal?.name
-            editTextDate.text = animal?.harvestDate?.let { dateFormat.format(it) } ?: "N/A"
-            editTextWeight.text = animal?.weight?.toString()
-            editTextMeasurement.text = animal?.measurement?.toString()
+            currentAnimal = animal
+            specieName.setText(animal?.name)
+            date.setText(animal?.harvestDate?.let { dateFormat.format(it) } ?: "N/A")
+            weight.setText(animal?.weight?.toString())
+            measurement.setText(animal?.measurement?.toString())
 
             animal?.weaponId?.let { weaponId ->
                 weaponViewModel.getWeaponById(weaponId)
                     .observe(viewLifecycleOwner, Observer { weapon ->
-                        weaponViewDetail.text = weapon?.name
+                        weaponViewDetail.setText(weapon?.name)
                     })
             }
 
             animal?.locationId?.let { animalId ->
                 locationViewModel.getLocationById(animalId)
                     .observe(viewLifecycleOwner, Observer { location ->
-                        locationViewDetail.text = location?.name
+                        locationViewDetail.setText(location?.name)
                     })
             }
 
@@ -84,7 +116,28 @@ class AnimalViewDetailFragment : Fragment() {
             }
         })
 
-        val deleteButton: Button = view.findViewById(R.id.button_delete_animal)
+        saveButton.setOnClickListener {
+            val dateConverter = DateConverter()
+            currentAnimal?.let { animal ->
+
+                animal.name = specieName.text.toString()
+                animal.harvestDate = dateConverter.parseDate(date.text.toString())
+                animal.measurement = measurement.text.toString().toDoubleOrNull() ?: 0.0
+                animal.weight = weight.text.toString().toDoubleOrNull() ?: 0.0
+
+                animalViewModel.updateAnimal(animal)
+            }
+
+            disableEditText(specieName)
+            disableEditText(date)
+            disableEditText(weight)
+            disableEditText(measurement)
+
+            editButton.visibility = View.VISIBLE
+            deleteButton.visibility = View.VISIBLE
+            saveButton.visibility = View.GONE
+        }
+
         deleteButton.setOnClickListener {
             showDeleteConfirmationDialog()
         }
@@ -95,10 +148,22 @@ class AnimalViewDetailFragment : Fragment() {
             .setTitle("Confirm Delete")
             .setMessage("Are you sure you want to delete this animal?")
             .setPositiveButton("Delete") { dialog, which ->
-                // Code to delete the item goes here
+                animalViewModel.deleteAnimal(currentAnimal!!)
             }
             .setNegativeButton("Cancel", null)
             .show()
+    }
+
+    private fun disableEditText(editText: EditText) {
+        editText.isFocusable = false
+        editText.isClickable = true
+        editText.isCursorVisible = false
+    }
+
+    private fun enableEditText(editText: EditText) {
+        editText.isFocusableInTouchMode = true
+        editText.isClickable = true
+        editText.isCursorVisible = true
     }
 
     companion object {

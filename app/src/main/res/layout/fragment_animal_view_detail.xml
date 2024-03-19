@@ -1,83 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.view.AnimalViewDetailFragment"
-    android:orientation="vertical"
-    android:padding="16dp">
-
-    <EditText
-        android:id="@+id/editTextSpecieNameViewDetail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/editTextSpecieName"/>
-
-    <EditText
-        android:id="@+id/editTextWeightViewDetail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/editTextWeight" />
-
-    <EditText
-        android:id="@+id/editTextMeasurementViewDetail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/editTextMeasurement" />
-
-    <EditText
-        android:id="@+id/editTextDateViewDetail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/editTextDate"
-        android:focusable="false"
-        android:clickable="true"
-        android:cursorVisible="false" />
-
-    <EditText
-        android:id="@+id/LocationViewDetail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/editTextDate"
-        android:focusable="false"
-        android:clickable="true"
-        android:cursorVisible="false" />
-
-    <EditText
-        android:id="@+id/WeaponViewDetail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/editTextDate"
-        android:focusable="false"
-        android:clickable="true"
-        android:cursorVisible="false" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/imagesAnimalRecyclerViewViewDetail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"/>
+    android:padding="16dp"
+    tools:context=".fragments.view.AnimalViewDetailFragment">
 
     <LinearLayout
+        android:id="@+id/contentLayoutAnimal"
+        android:layout_width="352dp"
+        android:layout_height="611dp"
+        android:layout_above="@+id/buttonLayoutAnimal"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/editTextSpecieNameViewDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/editTextSpecieName" />
+
+        <EditText
+            android:id="@+id/editTextWeightViewDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/editTextWeight" />
+
+        <EditText
+            android:id="@+id/editTextMeasurementViewDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/editTextMeasurement" />
+
+        <EditText
+            android:id="@+id/editTextDateViewDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:hint="@string/editTextDate" />
+
+        <EditText
+            android:id="@+id/LocationViewDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:hint="@string/editTextDate" />
+
+        <EditText
+            android:id="@+id/WeaponViewDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:hint="@string/editTextDate" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/imagesAnimalRecyclerViewViewDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttonLayoutAnimal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="16dp"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/button_edit_animal"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/edit"
             android:layout_marginEnd="8dp"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:text="@string/edit" />
 
         <Button
             android:id="@+id/button_delete_animal"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/delete"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:text="@string/delete" />
+
+        <Button
+            android:id="@+id/button_save_animal"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/save"
+            android:visibility="gone" />
     </LinearLayout>
-</LinearLayout>
+
+</RelativeLayout>

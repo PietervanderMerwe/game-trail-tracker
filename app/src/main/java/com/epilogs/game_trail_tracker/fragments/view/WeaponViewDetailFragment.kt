@@ -15,13 +15,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
+import com.epilogs.game_trail_tracker.database.entities.Location
+import com.epilogs.game_trail_tracker.database.entities.Weapon
+import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
 
 class WeaponViewDetailFragment : Fragment() {
     private var weaponId: Int? = null
     private val viewModel: WeaponViewModel by viewModels()
     private lateinit var imageAdapter: ImagesAdapter
-
+    private var currentWeapon: Weapon? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -39,13 +42,29 @@ class WeaponViewDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val name: TextView = view.findViewById(R.id.editTextWeaponNameViewDetail)
-        val notes : TextView = view.findViewById(R.id.editTextWeaponNotesViewDetail)
+        val name: EditText = view.findViewById(R.id.editTextWeaponNameViewDetail)
+        val notes : EditText = view.findViewById(R.id.editTextWeaponNotesViewDetail)
         val imagesRecyclerView = view.findViewById<RecyclerView>(R.id.imagesWeaponRecyclerViewViewDetail)
+        val deleteButton: Button = view.findViewById(R.id.button_delete_weapon)
+        val editButton: Button = view.findViewById(R.id.button_edit_weapon)
+        val saveButton: Button = view.findViewById(R.id.button_save_weapon)
+
+        disableEditText(name)
+        disableEditText(notes)
+
+        editButton.setOnClickListener {
+            enableEditText(name)
+            enableEditText(notes)
+
+            editButton.visibility = View.GONE
+            deleteButton.visibility = View.GONE
+            saveButton.visibility = View.VISIBLE
+        }
 
         viewModel.getWeaponById(weaponId!!).observe(viewLifecycleOwner, Observer { weapon ->
-            name.text = weapon?.name
-            notes.text = weapon?.notes
+            currentWeapon = weapon
+            name.setText(weapon?.name)
+            notes.setText(weapon?.notes)
 
             imageAdapter = ImagesAdapter(mutableListOf())
             imagesRecyclerView.adapter = imageAdapter
@@ -56,7 +75,24 @@ class WeaponViewDetailFragment : Fragment() {
             }
         })
 
-        val deleteButton: Button = view.findViewById(R.id.button_delete_weapon)
+        saveButton.setOnClickListener {
+            val dateConverter = DateConverter()
+            currentWeapon?.let { weapon ->
+
+                weapon.name = name.text.toString()
+                weapon.notes = notes.text.toString()
+
+                viewModel.updateWeapon(weapon)
+            }
+
+            disableEditText(name)
+            disableEditText(notes)
+
+            editButton.visibility = View.VISIBLE
+            deleteButton.visibility = View.VISIBLE
+            saveButton.visibility = View.GONE
+        }
+
         deleteButton.setOnClickListener {
             showDeleteConfirmationDialog()
         }
@@ -67,10 +103,22 @@ class WeaponViewDetailFragment : Fragment() {
             .setTitle("Confirm Delete")
             .setMessage("Are you sure you want to delete this weapon?")
             .setPositiveButton("Delete") { dialog, which ->
-                // Code to delete the item goes here
+                viewModel.deleteWeapon(currentWeapon!!)
             }
             .setNegativeButton("Cancel", null)
             .show()
+    }
+
+    private fun disableEditText(editText: EditText) {
+        editText.isFocusable = false
+        editText.isClickable = true
+        editText.isCursorVisible = false
+    }
+
+    private fun enableEditText(editText: EditText) {
+        editText.isFocusableInTouchMode = true
+        editText.isClickable = true
+        editText.isCursorVisible = true
     }
 
     companion object {

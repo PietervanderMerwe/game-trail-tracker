@@ -7,8 +7,8 @@ import com.epilogs.game_trail_tracker.utils.ImagePathListConverter
 
 @Entity
 data class Weapon (
-    @PrimaryKey(autoGenerate = true) val id: Int? = null,
-    val name: String,
-    val notes: String,
-    @TypeConverters(ImagePathListConverter::class) val imagePaths: List<String>?
+    @PrimaryKey(autoGenerate = true) var id: Int? = null,
+    var name: String,
+    var notes: String,
+    @TypeConverters(ImagePathListConverter::class) var imagePaths: List<String>?
 )

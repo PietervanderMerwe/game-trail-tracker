@@ -23,7 +23,11 @@ class AnimalViewModel (application: Application) : AndroidViewModel(application)
     private val weaponDao: WeaponDao = db.weaponDao()
 
     private val insertionSuccess = MutableLiveData<Boolean?>()
+    private val updateSuccess = MutableLiveData<Boolean?>()
+    private val deleteSuccess = MutableLiveData<Boolean?>()
 
+    fun getUpdateSuccess(): LiveData<Boolean?> = updateSuccess
+    fun getDeleteSuccess(): LiveData<Boolean?> = deleteSuccess
     fun getInsertionSuccess(): MutableLiveData<Boolean?> = insertionSuccess
 
     fun insertAnimal(animal: Animal) = viewModelScope.launch {
@@ -50,8 +54,25 @@ class AnimalViewModel (application: Application) : AndroidViewModel(application)
         val animal = animalDao.getAnimalById(id)
         emit(animal)
     }
+    fun updateAnimal(animal: Animal) = viewModelScope.launch {
+        animalDao.updateAnimal(animal)
+        updateSuccess.postValue(true)
+    }
+
+    fun deleteAnimal(animal: Animal) = viewModelScope.launch {
+        animalDao.deleteAnimal(animal)
+        deleteSuccess.postValue(true)
+    }
 
     fun resetInsertionSuccess() {
         insertionSuccess.value = null
+    }
+
+    fun resetUpdateSuccess() {
+        updateSuccess.value = null
+    }
+
+    fun resetDeleteSuccess() {
+        deleteSuccess.value = null
     }
 }

@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.epilogs.game_trail_tracker.database.AppDatabase
 import com.epilogs.game_trail_tracker.database.DatabaseProvider
 import com.epilogs.game_trail_tracker.database.daos.WeaponDao
+import com.epilogs.game_trail_tracker.database.entities.Animal
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 import kotlinx.coroutines.launch
 
@@ -17,7 +18,11 @@ class WeaponViewModel (application: Application) : AndroidViewModel(application)
     private val weaponDao: WeaponDao = db.weaponDao()
 
     private val insertionSuccess = MutableLiveData<Boolean?>()
+    private val updateSuccess = MutableLiveData<Boolean?>()
+    private val deleteSuccess = MutableLiveData<Boolean?>()
 
+    fun getUpdateSuccess(): LiveData<Boolean?> = updateSuccess
+    fun getDeleteSuccess(): LiveData<Boolean?> = deleteSuccess
     fun getInsertionSuccess(): MutableLiveData<Boolean?> = insertionSuccess
 
     fun insertWeapon(weapon: Weapon) = viewModelScope.launch {
@@ -35,7 +40,25 @@ class WeaponViewModel (application: Application) : AndroidViewModel(application)
         emit(weapon)
     }
 
+    fun updateWeapon(weapon: Weapon) = viewModelScope.launch {
+        weaponDao.updateWeapon(weapon)
+        updateSuccess.postValue(true)
+    }
+
+    fun deleteWeapon(weapon: Weapon) = viewModelScope.launch {
+        weaponDao.updateWeapon(weapon)
+        deleteSuccess.postValue(true)
+    }
+
     fun resetInsertionSuccess() {
         insertionSuccess.value = null
+    }
+
+    fun resetUpdateSuccess() {
+        updateSuccess.value = null
+    }
+
+    fun resetDeleteSuccess() {
+        deleteSuccess.value = null
     }
 }

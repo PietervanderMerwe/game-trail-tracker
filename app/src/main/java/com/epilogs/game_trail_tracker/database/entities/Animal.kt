@@ -25,13 +25,13 @@ import java.util.Date
     ]
 )
 data class Animal(
-    @PrimaryKey(autoGenerate = true) val id: Int? = null,
-    val name: String,
-    val weight: Double,
-    val measurement: Double,
-    @TypeConverters(DateConverter::class) val harvestDate: Date?,
-    val notes: String,
-    val locationId: Int?,
-    val weaponId: Int?,
-    @TypeConverters(ImagePathListConverter::class) val imagePaths: List<String>?
+    @PrimaryKey(autoGenerate = true) var id: Int? = null,
+    var name: String,
+    var weight: Double,
+    var measurement: Double,
+    @TypeConverters(DateConverter::class) var harvestDate: Date?,
+    var notes: String,
+    var locationId: Int?,
+    var weaponId: Int?,
+    @TypeConverters(ImagePathListConverter::class) var imagePaths: List<String>?
 )
