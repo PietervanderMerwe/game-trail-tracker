@@ -99,7 +99,6 @@ class LocationViewDetailFragment : Fragment() {
         }
 
         editButton.setOnClickListener {
-            // Enable EditTexts for editing
             enableEditText(name)
             enableEditText(startDate)
             enableEditText(endDate)
