@@ -17,6 +17,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.adapters.LocationViewAdapter
+import com.epilogs.game_trail_tracker.database.entities.Location
+import com.epilogs.game_trail_tracker.utils.DateConverter
+import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -26,6 +29,7 @@ class LocationViewDetailFragment : Fragment() {
     private var locationId: Int? = null
     private val viewModel: LocationViewModel by viewModels()
     private lateinit var imageAdapter: ImagesAdapter
+    private var currentLocation: Location? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,17 +46,26 @@ class LocationViewDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-        val name: TextView = view.findViewById(R.id.editTextNameViewDetail)
-        val startDate: TextView = view.findViewById(R.id.editTextStartDateViewDetail)
-        val endDate: TextView = view.findViewById(R.id.editTextEndDateViewDetail)
-        val checkBoxIsContinues = view.findViewById<CheckBox>(R.id.checkBoxIsContinuesViewDetail)
+        val name: EditText = view.findViewById(R.id.editTextNameViewDetail)
+        val startDate: EditText = view.findViewById(R.id.editTextStartDateViewDetail)
+        val endDate: EditText = view.findViewById(R.id.editTextEndDateViewDetail)
+        val checkBoxIsContinuous = view.findViewById<CheckBox>(R.id.checkBoxIsContinuesViewDetail)
         val imagesRecyclerView = view.findViewById<RecyclerView>(R.id.imagesLocationRecyclerViewDetail)
+        val deleteButton: Button = view.findViewById(R.id.button_delete_location)
+        val editButton: Button = view.findViewById(R.id.button_edit_location)
+        val saveButton: Button = view.findViewById(R.id.button_save_location)
+
+        disableEditText(name)
+        disableEditText(startDate)
+        disableEditText(endDate)
+        checkBoxIsContinuous.isEnabled = false
 
         viewModel.getLocationById(locationId!!).observe(viewLifecycleOwner, Observer { location ->
-            name.text = location?.name
-            startDate.text = location?.startDate?.let { dateFormat.format(it) } ?: "N/A"
-            endDate.text = location?.endDate?.let { dateFormat.format(it) } ?: "N/A"
-            checkBoxIsContinues.isChecked = location?.isContinues!!
+            currentLocation = location
+            name.setText(location?.name)
+            startDate.setText(location?.startDate?.let { dateFormat.format(it) } ?: "N/A")
+            endDate.setText(location?.endDate?.let { dateFormat.format(it) } ?: "N/A")
+            checkBoxIsContinuous.isChecked = location?.isContinues!!
 
             imageAdapter = ImagesAdapter(mutableListOf())
             imagesRecyclerView.adapter = imageAdapter
@@ -63,7 +76,62 @@ class LocationViewDetailFragment : Fragment() {
             }
         })
 
-        val deleteButton: Button = view.findViewById(R.id.button_delete_location)
+        startDate.setOnClickListener {
+            showDatePickerDialog(requireContext()) { selectedDate ->
+                startDate.setText(selectedDate)
+            }
+        }
+
+        endDate.setOnClickListener {
+            showDatePickerDialog(requireContext()) { selectedDate ->
+                endDate.setText(selectedDate)
+            }
+        }
+
+        checkBoxIsContinuous.setOnCheckedChangeListener { _, isChecked ->
+            startDate.isEnabled = !isChecked
+            endDate.isEnabled = !isChecked
+
+            if (isChecked) {
+                startDate.text.clear()
+                endDate.text.clear()
+            }
+        }
+
+        editButton.setOnClickListener {
+            // Enable EditTexts for editing
+            enableEditText(name)
+            enableEditText(startDate)
+            enableEditText(endDate)
+            checkBoxIsContinuous.isEnabled = true
+
+            editButton.visibility = View.GONE
+            deleteButton.visibility = View.GONE
+            saveButton.visibility = View.VISIBLE
+        }
+
+        saveButton.setOnClickListener {
+            val dateConverter = DateConverter()
+            currentLocation?.let { location ->
+
+                location.name = name.text.toString()
+                location.startDate = dateConverter.parseDate(startDate.text.toString())
+                location.endDate = dateConverter.parseDate(endDate.text.toString())
+                location.isContinues = checkBoxIsContinuous.isChecked
+
+                viewModel.updateLocation(location)
+            }
+
+            disableEditText(name)
+            disableEditText(startDate)
+            disableEditText(endDate)
+            checkBoxIsContinuous.isEnabled = false
+
+            editButton.visibility = View.VISIBLE
+            deleteButton.visibility = View.VISIBLE
+            saveButton.visibility = View.GONE
+        }
+
         deleteButton.setOnClickListener {
             showDeleteConfirmationDialog()
         }
@@ -74,10 +142,22 @@ class LocationViewDetailFragment : Fragment() {
             .setTitle("Confirm Delete")
             .setMessage("Are you sure you want to delete this location?")
             .setPositiveButton("Delete") { dialog, which ->
-                // Code to delete the item goes here
+                viewModel.deleteLocation(currentLocation!!)
             }
             .setNegativeButton("Cancel", null)
             .show()
+    }
+
+    private fun disableEditText(editText: EditText) {
+        editText.isFocusable = false
+        editText.isClickable = true
+        editText.isCursorVisible = false
+    }
+
+    private fun enableEditText(editText: EditText) {
+        editText.isFocusableInTouchMode = true
+        editText.isClickable = true
+        editText.isCursorVisible = true
     }
 
     companion object {

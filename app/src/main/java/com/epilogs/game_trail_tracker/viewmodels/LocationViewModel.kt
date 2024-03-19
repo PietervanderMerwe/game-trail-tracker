@@ -17,16 +17,16 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
     private val locationDao: LocationDao = db.locationDao()
 
     private val insertionSuccess = MutableLiveData<Boolean?>()
+    private val updateSuccess = MutableLiveData<Boolean?>()
+    private val deleteSuccess = MutableLiveData<Boolean?>()
 
+    fun getUpdateSuccess(): LiveData<Boolean?> = updateSuccess
+    fun getDeleteSuccess(): LiveData<Boolean?> = deleteSuccess
     fun getInsertionSuccess(): MutableLiveData<Boolean?> = insertionSuccess
 
     fun insertLocation(location: Location) = viewModelScope.launch {
         locationDao.insertLocation(location)
         insertionSuccess.postValue(true)
-    }
-
-    fun resetInsertionSuccess() {
-        insertionSuccess.value = null
     }
 
     fun getLocationById(id: Int): LiveData<Location?> = liveData {
@@ -38,4 +38,27 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
         val locations = locationDao.getAllLocations()
         emit(locations)
     }
+
+    fun updateLocation(location: Location) = viewModelScope.launch {
+        locationDao.updateLocation(location)
+        updateSuccess.postValue(true)
+    }
+
+    fun deleteLocation(location: Location) = viewModelScope.launch {
+        locationDao.deleteLocation(location)
+        deleteSuccess.postValue(true)
+    }
+
+    fun resetInsertionSuccess() {
+        insertionSuccess.value = null
+    }
+
+    fun resetUpdateSuccess() {
+        updateSuccess.value = null
+    }
+
+    fun resetDeleteSuccess() {
+        deleteSuccess.value = null
+    }
+
 }
