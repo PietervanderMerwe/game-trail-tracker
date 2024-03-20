@@ -73,6 +73,7 @@ class AnimalViewDetailFragment : Fragment() {
         val deleteButton: Button = view.findViewById(R.id.button_delete_animal)
         val editButton: Button = view.findViewById(R.id.button_edit_animal)
         val saveButton: Button = view.findViewById(R.id.button_save_animal)
+        val cancelButton: Button = view.findViewById(R.id.button_cancel_animal)
         val locationLayout : LinearLayout = view.findViewById(R.id.LocationLayoutViewDetail)
         val weaponLayout : LinearLayout = view.findViewById(R.id.WeaponLayoutViewDetail)
         val viewLocationButton: Button = view.findViewById(R.id.button_view_location)
@@ -115,6 +116,7 @@ class AnimalViewDetailFragment : Fragment() {
             locationSpinnerViewDetail.visibility = View.VISIBLE
             weaponSpinnerViewDetail.visibility = View.VISIBLE
             saveButton.visibility = View.VISIBLE
+            cancelButton.visibility = View.VISIBLE
 
             val locations = mutableListOf<Location>()
             val locationAdapter = LocationAdapter(requireContext(), locations)
@@ -226,6 +228,24 @@ class AnimalViewDetailFragment : Fragment() {
             locationSpinnerViewDetail.visibility = View.GONE
             weaponSpinnerViewDetail.visibility = View.GONE
             saveButton.visibility = View.GONE
+            cancelButton.visibility = View.GONE
+        }
+
+        cancelButton.setOnClickListener {
+            disableEditText(specieName)
+            disableEditText(date)
+            disableEditText(weight)
+            disableEditText(measurement)
+            date.setOnClickListener(null)
+
+            editButton.visibility = View.VISIBLE
+            deleteButton.visibility = View.VISIBLE
+            locationLayout.visibility = View.VISIBLE
+            weaponLayout.visibility = View.VISIBLE
+            locationSpinnerViewDetail.visibility = View.GONE
+            weaponSpinnerViewDetail.visibility = View.GONE
+            saveButton.visibility = View.GONE
+            cancelButton.visibility = View.GONE
         }
 
         deleteButton.setOnClickListener {

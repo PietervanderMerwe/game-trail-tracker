@@ -45,11 +45,13 @@ class WeaponViewDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val name: EditText = view.findViewById(R.id.editTextWeaponNameViewDetail)
-        val notes : EditText = view.findViewById(R.id.editTextWeaponNotesViewDetail)
-        val imagesRecyclerView = view.findViewById<RecyclerView>(R.id.imagesWeaponRecyclerViewViewDetail)
+        val notes: EditText = view.findViewById(R.id.editTextWeaponNotesViewDetail)
+        val imagesRecyclerView =
+            view.findViewById<RecyclerView>(R.id.imagesWeaponRecyclerViewViewDetail)
         val deleteButton: Button = view.findViewById(R.id.button_delete_weapon)
         val editButton: Button = view.findViewById(R.id.button_edit_weapon)
         val saveButton: Button = view.findViewById(R.id.button_save_weapon)
+        val cancelButton: Button = view.findViewById(R.id.button_cancel_weapon)
         val backButton: ImageView = view.findViewById(R.id.backButtonWeaponViewDetail)
 
         backButton.setOnClickListener {
@@ -66,6 +68,7 @@ class WeaponViewDetailFragment : Fragment() {
             editButton.visibility = View.GONE
             deleteButton.visibility = View.GONE
             saveButton.visibility = View.VISIBLE
+            cancelButton.visibility = View.VISIBLE
         }
 
         viewModel.getWeaponById(weaponId!!).observe(viewLifecycleOwner, Observer { weapon ->
@@ -75,7 +78,8 @@ class WeaponViewDetailFragment : Fragment() {
 
             imageAdapter = ImagesAdapter(mutableListOf())
             imagesRecyclerView.adapter = imageAdapter
-            imagesRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            imagesRecyclerView.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
             weapon?.imagePaths?.let { imageUrls ->
                 imageAdapter.updateImages(imageUrls)
@@ -97,6 +101,17 @@ class WeaponViewDetailFragment : Fragment() {
             editButton.visibility = View.VISIBLE
             deleteButton.visibility = View.VISIBLE
             saveButton.visibility = View.GONE
+            cancelButton.visibility = View.GONE
+        }
+
+        cancelButton.setOnClickListener {
+            disableEditText(name)
+            disableEditText(notes)
+
+            editButton.visibility = View.VISIBLE
+            deleteButton.visibility = View.VISIBLE
+            saveButton.visibility = View.GONE
+            cancelButton.visibility = View.GONE
         }
 
         deleteButton.setOnClickListener {

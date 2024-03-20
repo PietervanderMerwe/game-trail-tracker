@@ -56,6 +56,7 @@ class LocationViewDetailFragment : Fragment() {
         val deleteButton: Button = view.findViewById(R.id.button_delete_location)
         val editButton: Button = view.findViewById(R.id.button_edit_location)
         val saveButton: Button = view.findViewById(R.id.button_save_location)
+        val cancelButton: Button = view.findViewById(R.id.button_cancel_location)
         val backButton: ImageView = view.findViewById(R.id.backButtonLocationViewDetail)
 
         backButton.setOnClickListener {
@@ -105,6 +106,7 @@ class LocationViewDetailFragment : Fragment() {
             editButton.visibility = View.GONE
             deleteButton.visibility = View.GONE
             saveButton.visibility = View.VISIBLE
+            cancelButton.visibility = View.VISIBLE
 
             startDate.setOnClickListener {
                 showDatePickerDialog(requireContext()) { selectedDate ->
@@ -139,6 +141,22 @@ class LocationViewDetailFragment : Fragment() {
             editButton.visibility = View.VISIBLE
             deleteButton.visibility = View.VISIBLE
             saveButton.visibility = View.GONE
+            cancelButton.visibility = View.GONE
+
+            startDate.setOnClickListener(null)
+            endDate.setOnClickListener(null)
+        }
+
+        cancelButton.setOnClickListener {
+            disableEditText(name)
+            disableEditText(startDate)
+            disableEditText(endDate)
+            checkBoxIsContinuous.isEnabled = false
+
+            editButton.visibility = View.VISIBLE
+            deleteButton.visibility = View.VISIBLE
+            saveButton.visibility = View.GONE
+            cancelButton.visibility = View.GONE
 
             startDate.setOnClickListener(null)
             endDate.setOnClickListener(null)
@@ -174,6 +192,9 @@ class LocationViewDetailFragment : Fragment() {
         editText.setBackgroundResource(android.R.drawable.edit_text)
     }
 
+    private fun disableEditing() {
+
+    }
     companion object {
         @JvmStatic
         fun newInstance(locationId: Int) =
