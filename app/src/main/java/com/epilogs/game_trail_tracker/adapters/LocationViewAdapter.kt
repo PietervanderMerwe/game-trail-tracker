@@ -1,5 +1,6 @@
 package com.epilogs.game_trail_tracker.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class LocationViewAdapter(private var locations: List<Location>,
-                          private val listener: OnLocationItemClickListener?,
+                          private val listener: OnLocationItemClickListener,
 ) : RecyclerView.Adapter<LocationViewAdapter.LocationViewHolder>(),
     Filterable {
 
@@ -57,6 +58,7 @@ class LocationViewAdapter(private var locations: List<Location>,
                     locations
                 } else {
                     locations.filter { location ->
+                        Log.d("LocationViewAdapter", "Current Filter Criteria: $currentFilterCriteria")
                         val matchesSearch = charSearch.isEmpty() || location.name.contains(charSearch, ignoreCase = true)
 
                         val matchesCriteria = currentFilterCriteria.let { criteria ->
@@ -82,7 +84,7 @@ class LocationViewAdapter(private var locations: List<Location>,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LocationViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.location_view_item, parent, false)
-        return LocationViewHolder(view, listener!!)
+        return LocationViewHolder(view, listener)
     }
 
     override fun onBindViewHolder(holder: LocationViewHolder, position: Int) {
@@ -99,7 +101,7 @@ class LocationViewAdapter(private var locations: List<Location>,
     }
 
     fun updateFilterCriteria(criteria: LocationFilterCriteria) {
-        this.currentFilterCriteria = criteria
-        this.filter.filter(null)
+        currentFilterCriteria = criteria
+        filter.filter(null)
     }
 }
