@@ -20,6 +20,16 @@
         android:layout_marginBottom="10dp"
         android:orientation="vertical">
 
+        <ImageView
+            android:id="@+id/backButtonAnimalViewDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:contentDescription="@string/back_button"
+            android:focusable="true"
+            android:padding="8dp"
+            android:src="@drawable/ic_back_navigation" />
+
         <EditText
             android:id="@+id/editTextSpecieNameViewDetail"
             android:layout_width="match_parent"
@@ -47,36 +57,66 @@
             android:focusable="false"
             android:hint="@string/editTextDate" />
 
-        <EditText
-            android:id="@+id/LocationViewDetail"
+        <LinearLayout
+            android:id="@+id/LocationLayoutViewDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:cursorVisible="false"
-            android:focusable="false"
-            android:hint="@string/editTextDate" />
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/LocationViewDetail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:hint="@string/hunting_location" />
+
+            <Button
+                android:id="@+id/button_view_location"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view" />
+        </LinearLayout>
 
         <Spinner
             android:id="@+id/spinnerLocationViewDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
 
-        <EditText
-            android:id="@+id/WeaponViewDetail"
+        <LinearLayout
+            android:id="@+id/WeaponLayoutViewDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:cursorVisible="false"
-            android:focusable="false"
-            android:hint="@string/editTextDate" />
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/WeaponViewDetail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:hint="@string/hunting_weapon" />
+
+            <Button
+                android:id="@+id/button_view_weapon"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view" />
+        </LinearLayout>
 
         <Spinner
             android:id="@+id/spinnerWeaponViewDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/imagesAnimalRecyclerViewViewDetail"

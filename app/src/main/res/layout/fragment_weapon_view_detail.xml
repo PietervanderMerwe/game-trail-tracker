@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.view.WeaponViewDetailFragment"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context=".fragments.view.WeaponViewDetailFragment">
 
     <LinearLayout
         android:id="@+id/contentLayoutWeapon"
@@ -20,21 +20,32 @@
         android:layout_marginBottom="10dp"
         android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/editTextWeaponNameViewDetail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 
-    <EditText
-        android:id="@+id/editTextWeaponNotesViewDetail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/backButtonWeaponViewDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:contentDescription="@string/back_button"
+            android:focusable="true"
+            android:padding="8dp"
+            android:src="@drawable/ic_back_navigation" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/imagesWeaponRecyclerViewViewDetail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"/>
+        <EditText
+            android:id="@+id/editTextWeaponNameViewDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/editTextWeaponNotesViewDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/imagesWeaponRecyclerViewViewDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" />
 
     </LinearLayout>
 
@@ -49,18 +60,18 @@
 
         <Button
             android:id="@+id/button_edit_weapon"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/edit"
             android:layout_marginEnd="8dp"
-            style="?android:attr/buttonBarButtonStyle"/>
+            android:text="@string/edit" />
 
         <Button
             android:id="@+id/button_delete_weapon"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/delete"
-            style="?android:attr/buttonBarButtonStyle"/>
+            android:text="@string/delete" />
 
         <Button
             android:id="@+id/button_save_weapon"

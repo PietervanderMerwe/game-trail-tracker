@@ -9,10 +9,13 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
@@ -72,17 +75,21 @@ class AnimalViewDetailFragment : Fragment() {
         val deleteButton: Button = view.findViewById(R.id.button_delete_animal)
         val editButton: Button = view.findViewById(R.id.button_edit_animal)
         val saveButton: Button = view.findViewById(R.id.button_save_animal)
+        val locationLayout : LinearLayout = view.findViewById(R.id.LocationLayoutViewDetail)
+        val weaponLayout : LinearLayout = view.findViewById(R.id.WeaponLayoutViewDetail)
+        val backButton: ImageView = view.findViewById(R.id.backButtonAnimalViewDetail)
+        backButton.setOnClickListener {
+            findNavController().navigateUp()
+        }
 
         disableEditText(specieName)
         disableEditText(date)
         disableEditText(weight)
         disableEditText(measurement)
+        disableEditText(locationViewDetail)
+        disableEditText(weaponViewDetail)
 
-        date.setOnClickListener {
-            showDatePickerDialog(requireContext()) { selectedDate ->
-                date.setText(selectedDate)
-            }
-        }
+        date.setOnClickListener(null)
 
         editButton.setOnClickListener {
             enableEditText(specieName)
@@ -92,8 +99,8 @@ class AnimalViewDetailFragment : Fragment() {
 
             editButton.visibility = View.GONE
             deleteButton.visibility = View.GONE
-            locationViewDetail.visibility = View.GONE
-            weaponViewDetail.visibility = View.GONE
+            locationLayout.visibility = View.GONE
+            weaponLayout.visibility = View.GONE
             locationSpinnerViewDetail.visibility = View.VISIBLE
             weaponSpinnerViewDetail.visibility = View.VISIBLE
             saveButton.visibility = View.VISIBLE
@@ -139,6 +146,12 @@ class AnimalViewDetailFragment : Fragment() {
 
                 override fun onNothingSelected(parent: AdapterView<*>) {
                     // Handle case when nothing is selected if needed
+                }
+            }
+
+            date.setOnClickListener {
+                showDatePickerDialog(requireContext()) { selectedDate ->
+                    date.setText(selectedDate)
                 }
             }
         }
@@ -193,11 +206,12 @@ class AnimalViewDetailFragment : Fragment() {
             disableEditText(date)
             disableEditText(weight)
             disableEditText(measurement)
+            date.setOnClickListener(null)
 
             editButton.visibility = View.VISIBLE
             deleteButton.visibility = View.VISIBLE
-            locationViewDetail.visibility = View.VISIBLE
-            weaponViewDetail.visibility = View.VISIBLE
+            locationLayout.visibility = View.VISIBLE
+            weaponLayout.visibility = View.VISIBLE
             locationSpinnerViewDetail.visibility = View.GONE
             weaponSpinnerViewDetail.visibility = View.GONE
             saveButton.visibility = View.GONE
@@ -223,12 +237,14 @@ class AnimalViewDetailFragment : Fragment() {
         editText.isFocusable = false
         editText.isClickable = false
         editText.isCursorVisible = false
+        editText.background = null
     }
 
     private fun enableEditText(editText: EditText) {
         editText.isFocusableInTouchMode = true
         editText.isClickable = true
         editText.isCursorVisible = true
+        editText.setBackgroundResource(android.R.drawable.edit_text)
     }
 
     companion object {

@@ -28,4 +28,8 @@
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="save">Save</string>
+    <string name="back_button">Back</string>
+    <string name="view">View</string>
+    <string name="hunting_location">Hunting location</string>
+    <string name="hunting_weapon">Hunting weapon</string>
 </resources>
