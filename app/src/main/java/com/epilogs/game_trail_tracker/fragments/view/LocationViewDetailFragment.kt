@@ -56,8 +56,8 @@ class LocationViewDetailFragment : Fragment() {
         val deleteButton: Button = view.findViewById(R.id.button_delete_location)
         val editButton: Button = view.findViewById(R.id.button_edit_location)
         val saveButton: Button = view.findViewById(R.id.button_save_location)
-
         val backButton: ImageView = view.findViewById(R.id.backButtonLocationViewDetail)
+
         backButton.setOnClickListener {
             findNavController().navigateUp()
         }
@@ -83,17 +83,8 @@ class LocationViewDetailFragment : Fragment() {
             }
         })
 
-        startDate.setOnClickListener {
-            showDatePickerDialog(requireContext()) { selectedDate ->
-                startDate.setText(selectedDate)
-            }
-        }
-
-        endDate.setOnClickListener {
-            showDatePickerDialog(requireContext()) { selectedDate ->
-                endDate.setText(selectedDate)
-            }
-        }
+        startDate.setOnClickListener(null)
+        endDate.setOnClickListener(null)
 
         checkBoxIsContinuous.setOnCheckedChangeListener { _, isChecked ->
             startDate.isEnabled = !isChecked
@@ -114,6 +105,18 @@ class LocationViewDetailFragment : Fragment() {
             editButton.visibility = View.GONE
             deleteButton.visibility = View.GONE
             saveButton.visibility = View.VISIBLE
+
+            startDate.setOnClickListener {
+                showDatePickerDialog(requireContext()) { selectedDate ->
+                    startDate.setText(selectedDate)
+                }
+            }
+
+            endDate.setOnClickListener {
+                showDatePickerDialog(requireContext()) { selectedDate ->
+                    endDate.setText(selectedDate)
+                }
+            }
         }
 
         saveButton.setOnClickListener {
@@ -136,6 +139,9 @@ class LocationViewDetailFragment : Fragment() {
             editButton.visibility = View.VISIBLE
             deleteButton.visibility = View.VISIBLE
             saveButton.visibility = View.GONE
+
+            startDate.setOnClickListener(null)
+            endDate.setOnClickListener(null)
         }
 
         deleteButton.setOnClickListener {
@@ -158,12 +164,14 @@ class LocationViewDetailFragment : Fragment() {
         editText.isFocusable = false
         editText.isClickable = false
         editText.isCursorVisible = false
+        editText.background = null
     }
 
     private fun enableEditText(editText: EditText) {
         editText.isFocusableInTouchMode = true
         editText.isClickable = true
         editText.isCursorVisible = true
+        editText.setBackgroundResource(android.R.drawable.edit_text)
     }
 
     companion object {

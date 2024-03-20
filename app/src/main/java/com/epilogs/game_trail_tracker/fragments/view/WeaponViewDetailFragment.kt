@@ -50,8 +50,8 @@ class WeaponViewDetailFragment : Fragment() {
         val deleteButton: Button = view.findViewById(R.id.button_delete_weapon)
         val editButton: Button = view.findViewById(R.id.button_edit_weapon)
         val saveButton: Button = view.findViewById(R.id.button_save_weapon)
-
         val backButton: ImageView = view.findViewById(R.id.backButtonWeaponViewDetail)
+
         backButton.setOnClickListener {
             findNavController().navigateUp()
         }
@@ -119,12 +119,14 @@ class WeaponViewDetailFragment : Fragment() {
         editText.isFocusable = false
         editText.isClickable = false
         editText.isCursorVisible = false
+        editText.background = null
     }
 
     private fun enableEditText(editText: EditText) {
         editText.isFocusableInTouchMode = true
         editText.isClickable = true
         editText.isCursorVisible = true
+        editText.setBackgroundResource(android.R.drawable.edit_text)
     }
 
     companion object {
