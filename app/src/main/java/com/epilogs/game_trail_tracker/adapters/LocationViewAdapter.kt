@@ -54,7 +54,7 @@ class LocationViewAdapter(private var locations: List<Location>,
 
                 val filterResults = FilterResults()
                 filterResults.values = if (charSearch.isEmpty() && currentFilterCriteria == null) {
-                    locations // No filtering needed
+                    locations
                 } else {
                     locations.filter { location ->
                         val matchesSearch = charSearch.isEmpty() || location.name.contains(charSearch, ignoreCase = true)
@@ -100,5 +100,6 @@ class LocationViewAdapter(private var locations: List<Location>,
 
     fun updateFilterCriteria(criteria: LocationFilterCriteria) {
         this.currentFilterCriteria = criteria
+        this.filter.filter(null)
     }
 }
