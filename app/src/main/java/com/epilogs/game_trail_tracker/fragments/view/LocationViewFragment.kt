@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.LocationViewAdapter
 import com.epilogs.game_trail_tracker.database.entities.Location
+import com.epilogs.game_trail_tracker.fragments.view.filter.AdvancedLocationFilterFragment
 import com.epilogs.game_trail_tracker.interfaces.OnLocationItemClickListener
 import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
 
@@ -57,6 +59,12 @@ class LocationViewFragment : Fragment(), OnLocationItemClickListener {
         viewModel.getAllLocations().observe(viewLifecycleOwner, Observer { locations ->
             adapter.updateLocations(locations)
         })
+
+        val advancedFilterButton: ImageView = view.findViewById(R.id.advanced_filter_button)
+        advancedFilterButton.setOnClickListener {
+            val advancedFilterFragment = AdvancedLocationFilterFragment()
+            advancedFilterFragment.show(requireActivity().supportFragmentManager, advancedFilterFragment.tag)
+        }
     }
 
     override fun onLocationItemClick(location: Location) {

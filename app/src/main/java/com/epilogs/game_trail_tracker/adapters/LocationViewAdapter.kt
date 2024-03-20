@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.epilogs.game_trail_tracker.R
+import com.epilogs.game_trail_tracker.data.LocationFilterCriteria
 import com.epilogs.game_trail_tracker.database.entities.Location
 import com.epilogs.game_trail_tracker.interfaces.OnLocationItemClickListener
 import java.text.SimpleDateFormat
@@ -21,7 +22,7 @@ class LocationViewAdapter(private var locations: List<Location>,
     Filterable {
 
     private var locationsFiltered = locations
-
+    private var currentFilterCriteria = LocationFilterCriteria()
     class LocationViewHolder(private val view: View, private val listener: OnLocationItemClickListener) : RecyclerView.ViewHolder(view) {
 
         fun bind(location: Location) {
@@ -50,16 +51,24 @@ class LocationViewAdapter(private var locations: List<Location>,
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charSearch = constraint.toString()
-                locationsFiltered = if (charSearch.isNullOrEmpty()) {
-                    locations
+
+                val filterResults = FilterResults()
+                filterResults.values = if (charSearch.isEmpty() && currentFilterCriteria == null) {
+                    locations // No filtering needed
                 } else {
-                    // Apply filtering
-                    locations.filter {
-                        it.name.contains(charSearch, ignoreCase = true)
-                        // Add more conditions here for additional fields like dates
+                    locations.filter { location ->
+                        val matchesSearch = charSearch.isEmpty() || location.name.contains(charSearch, ignoreCase = true)
+
+                        val matchesCriteria = currentFilterCriteria?.let { criteria ->
+                            val matchesStartDate = criteria.startDate?.let { location.startDate >= it } ?: true
+                            val matchesEndDate = criteria.endDate?.let { location.date <= it } ?: true
+                            matchesStartDate && matchesEndDate
+                        } ?: true
+
+                        matchesSearch && matchesCriteria
                     }
                 }
-                return FilterResults().apply { values = locationsFiltered }
+                return filterResults
             }
 
             @Suppress("UNCHECKED_CAST")

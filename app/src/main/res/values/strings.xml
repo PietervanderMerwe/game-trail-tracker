@@ -33,4 +33,6 @@
     <string name="hunting_location">Hunting location</string>
     <string name="hunting_weapon">Hunting weapon</string>
     <string name="cancel">Cancel</string>
+    <string name="filter">Filter</string>
+    <string name="apply_filters">Apply</string>
 </resources>
