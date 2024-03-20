@@ -61,6 +61,12 @@
         <action
             android:id="@+id/action_animalViewDetailFragment_to_viewFragment"
             app:destination="@id/viewFragment" />
+        <action
+            android:id="@+id/action_animalViewDetailFragment2_to_locationViewDetailFragment2"
+            app:destination="@id/locationViewDetailFragment2" />
+        <action
+            android:id="@+id/action_animalViewDetailFragment2_to_weaponViewDetailFragment2"
+            app:destination="@id/weaponViewDetailFragment2" />
     </fragment>
     <fragment
         android:id="@+id/locationViewDetailFragment2"
@@ -73,6 +79,9 @@
         <action
             android:id="@+id/action_locationViewDetailFragment_to_viewFragment"
             app:destination="@id/viewFragment" />
+        <action
+            android:id="@+id/action_locationViewDetailFragment2_to_animalViewDetailFragment2"
+            app:destination="@id/animalViewDetailFragment2" />
     </fragment>
     <fragment
         android:id="@+id/weaponViewDetailFragment2"
@@ -85,5 +94,8 @@
         <action
             android:id="@+id/action_weaponViewDetailFragment_to_viewFragment"
             app:destination="@id/viewFragment" />
+        <action
+            android:id="@+id/action_weaponViewDetailFragment2_to_animalViewDetailFragment2"
+            app:destination="@id/animalViewDetailFragment2" />
     </fragment>
 </navigation>

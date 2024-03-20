@@ -43,8 +43,6 @@ class AnimalViewDetailFragment : Fragment() {
     private var currentAnimal: Animal? = null
     private var locationId = 0;
     private var weaponId = 0;
-    private var weaponName = ""
-    private var locationName = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -77,9 +75,22 @@ class AnimalViewDetailFragment : Fragment() {
         val saveButton: Button = view.findViewById(R.id.button_save_animal)
         val locationLayout : LinearLayout = view.findViewById(R.id.LocationLayoutViewDetail)
         val weaponLayout : LinearLayout = view.findViewById(R.id.WeaponLayoutViewDetail)
+        val viewLocationButton: Button = view.findViewById(R.id.button_view_location)
+        val viewWeaponButton: Button = view.findViewById(R.id.button_view_weapon)
         val backButton: ImageView = view.findViewById(R.id.backButtonAnimalViewDetail)
+
         backButton.setOnClickListener {
             findNavController().navigateUp()
+        }
+
+        viewLocationButton.setOnClickListener {
+            val action = AnimalViewDetailFragmentDirections.actionAnimalViewDetailFragment2ToLocationViewDetailFragment2(locationId)
+            findNavController().navigate(action)
+        }
+
+        viewWeaponButton.setOnClickListener {
+            val action = AnimalViewDetailFragmentDirections.actionAnimalViewDetailFragment2ToWeaponViewDetailFragment2(weaponId)
+            findNavController().navigate(action)
         }
 
         disableEditText(specieName)
