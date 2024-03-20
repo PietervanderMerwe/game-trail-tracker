@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class LocationViewAdapter(private var locations: List<Location>,
-                          private val listener: OnLocationItemClickListener,
+                          private val listener: OnLocationItemClickListener?,
 ) : RecyclerView.Adapter<LocationViewAdapter.LocationViewHolder>(),
     Filterable {
 
@@ -59,9 +59,9 @@ class LocationViewAdapter(private var locations: List<Location>,
                     locations.filter { location ->
                         val matchesSearch = charSearch.isEmpty() || location.name.contains(charSearch, ignoreCase = true)
 
-                        val matchesCriteria = currentFilterCriteria?.let { criteria ->
-                            val matchesStartDate = criteria.startDate?.let { location.startDate >= it } ?: true
-                            val matchesEndDate = criteria.endDate?.let { location.date <= it } ?: true
+                        val matchesCriteria = currentFilterCriteria.let { criteria ->
+                            val matchesStartDate = criteria.startDate?.let { location.startDate!! >= it } ?: true
+                            val matchesEndDate = criteria.endDate?.let { location.endDate!! <= it } ?: true
                             matchesStartDate && matchesEndDate
                         } ?: true
 
@@ -82,7 +82,7 @@ class LocationViewAdapter(private var locations: List<Location>,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LocationViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.location_view_item, parent, false)
-        return LocationViewHolder(view, listener)
+        return LocationViewHolder(view, listener!!)
     }
 
     override fun onBindViewHolder(holder: LocationViewHolder, position: Int) {
@@ -96,5 +96,9 @@ class LocationViewAdapter(private var locations: List<Location>,
         locations = newLocations
         locationsFiltered = newLocations
         notifyDataSetChanged()
+    }
+
+    fun updateFilterCriteria(criteria: LocationFilterCriteria) {
+        this.currentFilterCriteria = criteria
     }
 }

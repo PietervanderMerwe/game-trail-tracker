@@ -5,7 +5,23 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Add your date range pickers and apply button here -->
+    <EditText
+        android:id="@+id/editTextStartDateLocationFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:hint="@string/edit_text_start_date_location_filter" />
+
+    <EditText
+        android:id="@+id/editTextEndDateLocationFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:hint="@string/edit_text_end_date_location_filter" />
 
     <Button
         android:id="@+id/apply_filters_button"
