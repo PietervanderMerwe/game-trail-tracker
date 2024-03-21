@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_height="match_parent"
+    tools:context=".fragments.view.filter.AdvancedAnimalFilterFragment"
+    android:orientation="vertical">
 
     <EditText
-        android:id="@+id/editTextStartDateLocationFilter"
+        android:id="@+id/editTextStartDateAnimalFilter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:cursorVisible="false"
         android:focusable="false"
-        android:hint="@string/edit_text_start_date_location_filter" />
+        android:hint="@string/edit_text_start_date_animal_filter" />
 
     <EditText
-        android:id="@+id/editTextEndDateLocationFilter"
+        android:id="@+id/editTextEndDateAnimalFilter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:cursorVisible="false"
         android:focusable="false"
-        android:hint="@string/edit_text_end_date_location_filter" />
+        android:hint="@string/edit_text_end_date_animal_filter" />
 
     <Button
-        android:id="@+id/apply_location_filters_button"
+        android:id="@+id/apply_animal_filters_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/apply_filters" />

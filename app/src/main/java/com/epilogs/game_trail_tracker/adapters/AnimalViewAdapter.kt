@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.epilogs.game_trail_tracker.R
+import com.epilogs.game_trail_tracker.data.AnimalFilterCriteria
 import com.epilogs.game_trail_tracker.database.entities.Animal
 import com.epilogs.game_trail_tracker.interfaces.OnAnimalItemClickListener
 import java.text.SimpleDateFormat
@@ -21,6 +22,8 @@ class AnimalViewAdapter(private var animals: List<Animal>,
     Filterable {
 
     private var animalsFiltered = animals
+    var currentFilterCriteria: AnimalFilterCriteria? = null
+    private var currentSearchText: String? = ""
 
     class AnimalViewHolder(view: View, private val listener: OnAnimalItemClickListener) : RecyclerView.ViewHolder(view) {
         fun bind(animal: Animal) {
@@ -35,7 +38,6 @@ class AnimalViewAdapter(private var animals: List<Animal>,
                 }
             }
 
-            // Move the click listener setup here
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     listener.onAnimalItemClick(animal)
@@ -47,20 +49,28 @@ class AnimalViewAdapter(private var animals: List<Animal>,
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val charSearch = constraint.toString()
-                animalsFiltered = if (charSearch.isEmpty()) {
+                val charSearch = constraint?.toString() ?: ""
+
+                val filterResults = FilterResults()
+                filterResults.values = if (charSearch.isEmpty() && currentFilterCriteria == null) {
                     animals
                 } else {
-                    animals.filter {
-                        it.name.contains(charSearch, ignoreCase = true)
+                    animals.filter { animal ->
+                        val matchesSearch = charSearch.isEmpty() || animal.name.contains(charSearch, ignoreCase = true)
+                        val matchesCriteria = currentFilterCriteria?.let { criteria ->
+                            val matchesStartDate = criteria.startDate?.let { animal.harvestDate?.compareTo(it) ?: -1 } ?: -1 >= 0
+                            val matchesEndDate = criteria.endDate?.let { animal.harvestDate?.compareTo(it) ?: 1 } ?: 1 <= 0
+                            matchesStartDate && matchesEndDate
+                        } ?: true
+
+                        matchesSearch && matchesCriteria
                     }
                 }
-                return FilterResults().apply { values = animalsFiltered }
+                return filterResults
             }
 
-            @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                animalsFiltered = results?.values as List<Animal>
+                animalsFiltered = results?.values as? List<Animal> ?: emptyList()
                 notifyDataSetChanged()
             }
         }
@@ -81,6 +91,15 @@ class AnimalViewAdapter(private var animals: List<Animal>,
     fun updateAnimals(newAnimals: List<Animal>) {
         animals = newAnimals
         animalsFiltered = newAnimals
-        notifyDataSetChanged()
+        applyFilter()
+    }
+
+    fun updateFilterCriteria(criteria: AnimalFilterCriteria?) {
+        currentFilterCriteria = criteria
+        applyFilter()
+    }
+
+    private fun applyFilter() {
+        filter.filter(currentSearchText)
     }
 }

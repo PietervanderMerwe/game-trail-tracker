@@ -1,6 +1,5 @@
 package com.epilogs.game_trail_tracker.fragments.view
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -18,11 +17,11 @@ import com.epilogs.game_trail_tracker.adapters.LocationViewAdapter
 import com.epilogs.game_trail_tracker.data.LocationFilterCriteria
 import com.epilogs.game_trail_tracker.database.entities.Location
 import com.epilogs.game_trail_tracker.fragments.view.filter.AdvancedLocationFilterFragment
-import com.epilogs.game_trail_tracker.interfaces.FilterCriteriaListener
+import com.epilogs.game_trail_tracker.interfaces.FilterLocationCriteriaListener
 import com.epilogs.game_trail_tracker.interfaces.OnLocationItemClickListener
 import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
 
-class LocationViewFragment : Fragment(), OnLocationItemClickListener, FilterCriteriaListener {
+class LocationViewFragment : Fragment(), OnLocationItemClickListener, FilterLocationCriteriaListener {
 
     private val viewModel: LocationViewModel by viewModels()
     private lateinit var adapter: LocationViewAdapter
@@ -64,7 +63,7 @@ class LocationViewFragment : Fragment(), OnLocationItemClickListener, FilterCrit
             adapter.updateLocations(locations)
         })
 
-        val advancedFilterButton: ImageView = view.findViewById(R.id.advanced_filter_button)
+        val advancedFilterButton: ImageView = view.findViewById(R.id.advanced_location_filter_button)
         advancedFilterButton.setOnClickListener {
             val advancedFilterFragment = AdvancedLocationFilterFragment.newInstance(adapter.currentFilterCriteria)
             advancedFilterFragment.show(childFragmentManager, advancedFilterFragment.tag)

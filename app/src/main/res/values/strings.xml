@@ -37,4 +37,6 @@
     <string name="apply_filters">Apply</string>
     <string name="edit_text_start_date_location_filter">Start Date</string>
     <string name="edit_text_end_date_location_filter">End Date</string>
+    <string name="edit_text_start_date_animal_filter">Start Date</string>
+    <string name="edit_text_end_date_animal_filter">End Date</string>
 </resources>
