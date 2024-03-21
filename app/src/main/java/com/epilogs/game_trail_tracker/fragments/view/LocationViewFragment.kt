@@ -15,15 +15,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.LocationViewAdapter
+import com.epilogs.game_trail_tracker.data.LocationFilterCriteria
 import com.epilogs.game_trail_tracker.database.entities.Location
 import com.epilogs.game_trail_tracker.fragments.view.filter.AdvancedLocationFilterFragment
+import com.epilogs.game_trail_tracker.interfaces.FilterCriteriaListener
 import com.epilogs.game_trail_tracker.interfaces.OnLocationItemClickListener
 import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
 
-class LocationViewFragment : Fragment(), OnLocationItemClickListener {
+class LocationViewFragment : Fragment(), OnLocationItemClickListener, FilterCriteriaListener {
 
     private val viewModel: LocationViewModel by viewModels()
-
+    private lateinit var adapter: LocationViewAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -41,7 +43,7 @@ class LocationViewFragment : Fragment(), OnLocationItemClickListener {
         val recyclerView: RecyclerView = view.findViewById(R.id.location_view_list)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        val adapter = LocationViewAdapter(emptyList(), this)
+        adapter = LocationViewAdapter(emptyList(), this)
         recyclerView.adapter = adapter
 
         val searchView = view.findViewById<SearchView>(R.id.search_location_view)
@@ -63,13 +65,22 @@ class LocationViewFragment : Fragment(), OnLocationItemClickListener {
         val advancedFilterButton: ImageView = view.findViewById(R.id.advanced_filter_button)
         advancedFilterButton.setOnClickListener {
             val advancedFilterFragment = AdvancedLocationFilterFragment()
-            advancedFilterFragment.show(requireActivity().supportFragmentManager, advancedFilterFragment.tag)
+            advancedFilterFragment.show(
+                requireActivity().supportFragmentManager,
+                advancedFilterFragment.tag
+            )
         }
     }
 
     override fun onLocationItemClick(location: Location) {
-        val action = ViewFragmentDirections.actionViewFragmentToLocationViewDetailFragment(location.id!!)
+        val action =
+            ViewFragmentDirections.actionViewFragmentToLocationViewDetailFragment(location.id!!)
         findNavController().navigate(action)
+    }
+
+    override fun onFilterCriteriaSelected(criteria: LocationFilterCriteria) {
+        // Here you receive the filter criteria from the dialog
+        adapter.updateFilterCriteria(criteria)
     }
 
     companion object {

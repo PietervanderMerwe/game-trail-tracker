@@ -1,5 +1,6 @@
 package com.epilogs.game_trail_tracker.fragments.view.filter
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,12 +12,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.LocationViewAdapter
 import com.epilogs.game_trail_tracker.data.LocationFilterCriteria
+import com.epilogs.game_trail_tracker.interfaces.FilterCriteriaListener
 import com.epilogs.game_trail_tracker.interfaces.OnLocationItemClickListener
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class AdvancedLocationFilterFragment : BottomSheetDialogFragment() {
+
+    private var listener: FilterCriteriaListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        listener = parentFragment as? FilterCriteriaListener
+        if (listener == null) {
+            throw RuntimeException("$context must implement FilterCriteriaListener")
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -46,12 +58,12 @@ class AdvancedLocationFilterFragment : BottomSheetDialogFragment() {
 
         applyButton.setOnClickListener {
             val dateConverter = DateConverter()
-            val adapter = LocationViewAdapter(emptyList(), null)
-            val criteria = LocationFilterCriteria (
+            val criteria = LocationFilterCriteria(
                 startDate = dateConverter.parseDate(startDate.text.toString()),
                 endDate = dateConverter.parseDate(endDate.text.toString())
             )
-            adapter.updateFilterCriteria(criteria)
+
+            listener?.onFilterCriteriaSelected(criteria)
             dismiss()
         }
     }
