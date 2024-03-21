@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
+import com.epilogs.game_trail_tracker.adapters.AnimalViewAdapter
 import com.epilogs.game_trail_tracker.adapters.WeaponViewAdapter
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 import com.epilogs.game_trail_tracker.interfaces.OnWeaponItemClickListener
@@ -20,6 +21,8 @@ import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
 class WeaponViewFragment : Fragment(), OnWeaponItemClickListener {
 
     private val viewModel: WeaponViewModel by viewModels()
+    private lateinit var adapter: WeaponViewAdapter
+    private var currentSearchText: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -39,7 +42,7 @@ class WeaponViewFragment : Fragment(), OnWeaponItemClickListener {
             layoutManager = LinearLayoutManager(context)
         }
 
-        val adapter = WeaponViewAdapter(emptyList(), this)
+        adapter = WeaponViewAdapter(emptyList(), this)
         recyclerView.adapter = adapter
 
         val searchView = view.findViewById<SearchView>(R.id.search_weapon_view)
@@ -49,6 +52,7 @@ class WeaponViewFragment : Fragment(), OnWeaponItemClickListener {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                currentSearchText = newText
                 adapter.filter.filter(newText)
                 return true
             }

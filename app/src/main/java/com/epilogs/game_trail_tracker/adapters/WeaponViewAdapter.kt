@@ -10,6 +10,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.epilogs.game_trail_tracker.R
+import com.epilogs.game_trail_tracker.data.LocationFilterCriteria
+import com.epilogs.game_trail_tracker.database.entities.Location
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 import com.epilogs.game_trail_tracker.interfaces.OnWeaponItemClickListener
 
@@ -19,6 +21,7 @@ class WeaponViewAdapter (private var weapons: List<Weapon>,
     Filterable {
 
     private var weaponsFiltered = weapons
+    private var currentSearchText: String? = ""
 
     class WeaponViewHolder(view: View, private val listener: OnWeaponItemClickListener) : RecyclerView.ViewHolder(view) {
         fun bind(weapon: Weapon) {
@@ -44,8 +47,8 @@ class WeaponViewAdapter (private var weapons: List<Weapon>,
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val charSearch = constraint.toString()
-                weaponsFiltered = if (charSearch.isNullOrEmpty()) {
+                val charSearch = constraint?.toString() ?: ""
+                weaponsFiltered = if (charSearch.isEmpty()) {
                     weapons
                 } else {
                     weapons.filter {
@@ -55,9 +58,8 @@ class WeaponViewAdapter (private var weapons: List<Weapon>,
                 return FilterResults().apply { values = weaponsFiltered }
             }
 
-            @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                weaponsFiltered = results?.values as List<Weapon>
+                weaponsFiltered = results?.values as? List<Weapon> ?: emptyList()
                 notifyDataSetChanged()
             }
         }
@@ -78,6 +80,10 @@ class WeaponViewAdapter (private var weapons: List<Weapon>,
     fun updateLocations(newWeapons: List<Weapon>) {
         weapons = newWeapons
         weaponsFiltered = newWeapons
-        notifyDataSetChanged()
+        applyFilter()
+    }
+
+    private fun applyFilter() {
+        filter.filter(currentSearchText)
     }
 }
