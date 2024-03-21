@@ -12,6 +12,7 @@ import com.epilogs.game_trail_tracker.data.AnimalFilterCriteria
 import com.epilogs.game_trail_tracker.interfaces.FilterAnimalCriteriaListener
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -27,6 +28,15 @@ class AdvancedAnimalFilterFragment : BottomSheetDialogFragment() {
             context is FilterAnimalCriteriaListener -> context as FilterAnimalCriteriaListener
             else -> throw RuntimeException("$context must implement FilterAnimalCriteriaListener")
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val bottomSheetDialog = dialog as? BottomSheetDialog
+        val bottomSheet = bottomSheetDialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+        val layoutParams = bottomSheet?.layoutParams
+        layoutParams?.height = (resources.displayMetrics.heightPixels * 0.7).toInt()
+        bottomSheet?.layoutParams = layoutParams
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
