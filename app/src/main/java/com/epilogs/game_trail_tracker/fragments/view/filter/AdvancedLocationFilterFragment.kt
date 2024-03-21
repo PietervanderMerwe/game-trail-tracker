@@ -12,6 +12,7 @@ import com.epilogs.game_trail_tracker.data.LocationFilterCriteria
 import com.epilogs.game_trail_tracker.interfaces.FilterLocationCriteriaListener
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -28,6 +29,15 @@ class AdvancedLocationFilterFragment : BottomSheetDialogFragment() {
             else -> throw RuntimeException("$context must implement FilterCriteriaListener")
         }
     }
+    override fun onStart() {
+        super.onStart()
+        val bottomSheetDialog = dialog as? BottomSheetDialog
+        val bottomSheet =
+            bottomSheetDialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+        val layoutParams = bottomSheet?.layoutParams
+        layoutParams?.height = (resources.displayMetrics.heightPixels * 0.7).toInt()
+        bottomSheet?.layoutParams = layoutParams
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -41,6 +51,7 @@ class AdvancedLocationFilterFragment : BottomSheetDialogFragment() {
         val startDate: EditText = view.findViewById(R.id.editTextStartDateLocationFilter)
         val endDate: EditText = view.findViewById(R.id.editTextEndDateLocationFilter)
         val applyButton: Button = view.findViewById(R.id.apply_location_filters_button)
+        val clearButton: Button = view.findViewById(R.id.clear_location_filters_button)
 
         val currentCriteria = arguments?.getSerializable(ARG_FILTER_CRITERIA) as? LocationFilterCriteria
         currentCriteria?.let {
@@ -77,6 +88,13 @@ class AdvancedLocationFilterFragment : BottomSheetDialogFragment() {
             }
 
             dismiss()
+        }
+
+        clearButton.setOnClickListener {
+            startDate.setText("")
+            endDate.setText("")
+
+            listener?.onFilterCriteriaSelected(null)
         }
     }
 
