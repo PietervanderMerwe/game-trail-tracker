@@ -23,7 +23,7 @@ class LocationViewAdapter(private var locations: List<Location>,
     Filterable {
 
     private var locationsFiltered = locations
-    private var currentFilterCriteria: LocationFilterCriteria? = null
+    var currentFilterCriteria: LocationFilterCriteria? = null
     private var currentSearchText: String? = ""
 
     class LocationViewHolder(private val view: View, private val listener: OnLocationItemClickListener) : RecyclerView.ViewHolder(view) {

@@ -17,6 +17,8 @@ import com.epilogs.game_trail_tracker.interfaces.OnLocationItemClickListener
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class AdvancedLocationFilterFragment : BottomSheetDialogFragment() {
 
@@ -44,6 +46,13 @@ class AdvancedLocationFilterFragment : BottomSheetDialogFragment() {
         val endDate: EditText = view.findViewById(R.id.editTextEndDateLocationFilter)
         val applyButton: Button = view.findViewById(R.id.apply_filters_button)
 
+        val currentCriteria = arguments?.getSerializable(ARG_FILTER_CRITERIA) as? LocationFilterCriteria
+        currentCriteria?.let {
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            startDate.setText(dateFormat.format(it.startDate!!))
+            endDate.setText(dateFormat.format(it.endDate!!))
+        }
+
         startDate.setOnClickListener {
             showDatePickerDialog(requireContext()) { selectedDate ->
                 startDate.setText(selectedDate)
@@ -58,22 +67,32 @@ class AdvancedLocationFilterFragment : BottomSheetDialogFragment() {
 
         applyButton.setOnClickListener {
             val dateConverter = DateConverter()
-            val criteria = LocationFilterCriteria(
-                startDate = dateConverter.parseDate(startDate.text.toString()),
-                endDate = dateConverter.parseDate(endDate.text.toString())
-            )
 
-            listener?.onFilterCriteriaSelected(criteria)
+            if(startDate.text.isNullOrEmpty() && endDate.text.isNullOrEmpty()) {
+                listener?.onFilterCriteriaSelected(null)
+            }
+            else
+            {
+                val criteria = LocationFilterCriteria(
+                    startDate = dateConverter.parseDate(startDate.text.toString()),
+                    endDate = dateConverter.parseDate(endDate.text.toString())
+                )
+                listener?.onFilterCriteriaSelected(criteria)
+            }
+
             dismiss()
         }
     }
 
     companion object {
+        private const val ARG_FILTER_CRITERIA = "filterCriteria"
 
         @JvmStatic
-        fun newInstance() =
+        fun newInstance(filterCriteria: LocationFilterCriteria? = null) =
             AdvancedLocationFilterFragment().apply {
-
+                arguments = Bundle().apply {
+                    putSerializable(ARG_FILTER_CRITERIA, filterCriteria)
+                }
             }
     }
 }

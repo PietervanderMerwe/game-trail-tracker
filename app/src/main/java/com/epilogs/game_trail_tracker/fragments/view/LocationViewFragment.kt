@@ -66,11 +66,8 @@ class LocationViewFragment : Fragment(), OnLocationItemClickListener, FilterCrit
 
         val advancedFilterButton: ImageView = view.findViewById(R.id.advanced_filter_button)
         advancedFilterButton.setOnClickListener {
-            val advancedFilterFragment = AdvancedLocationFilterFragment()
-            advancedFilterFragment.show(
-                childFragmentManager,
-                advancedFilterFragment.tag
-            )
+            val advancedFilterFragment = AdvancedLocationFilterFragment.newInstance(adapter.currentFilterCriteria)
+            advancedFilterFragment.show(childFragmentManager, advancedFilterFragment.tag)
         }
     }
 
@@ -80,7 +77,7 @@ class LocationViewFragment : Fragment(), OnLocationItemClickListener, FilterCrit
         findNavController().navigate(action)
     }
 
-    override fun onFilterCriteriaSelected(criteria: LocationFilterCriteria) {
+    override fun onFilterCriteriaSelected(criteria: LocationFilterCriteria?) {
         adapter.updateFilterCriteria(criteria)
     }
 
