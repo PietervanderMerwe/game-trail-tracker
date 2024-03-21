@@ -33,7 +33,8 @@ class AdvancedAnimalFilterFragment : BottomSheetDialogFragment() {
     override fun onStart() {
         super.onStart()
         val bottomSheetDialog = dialog as? BottomSheetDialog
-        val bottomSheet = bottomSheetDialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+        val bottomSheet =
+            bottomSheetDialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
         val layoutParams = bottomSheet?.layoutParams
         layoutParams?.height = (resources.displayMetrics.heightPixels * 0.7).toInt()
         bottomSheet?.layoutParams = layoutParams
@@ -43,7 +44,11 @@ class AdvancedAnimalFilterFragment : BottomSheetDialogFragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_advanced_animal_filter, container, false)
     }
 
@@ -52,8 +57,10 @@ class AdvancedAnimalFilterFragment : BottomSheetDialogFragment() {
         val startDate: EditText = view.findViewById(R.id.editTextStartDateAnimalFilter)
         val endDate: EditText = view.findViewById(R.id.editTextEndDateAnimalFilter)
         val applyButton: Button = view.findViewById(R.id.apply_animal_filters_button)
+        val clearButton: Button = view.findViewById(R.id.clear_animal_filters_button)
 
-        val currentCriteria = arguments?.getSerializable(AdvancedAnimalFilterFragment.ARG_FILTER_CRITERIA) as? AnimalFilterCriteria
+        val currentCriteria =
+            arguments?.getSerializable(AdvancedAnimalFilterFragment.ARG_FILTER_CRITERIA) as? AnimalFilterCriteria
         currentCriteria?.let {
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             startDate.setText(dateFormat.format(it.startDate!!))
@@ -75,11 +82,9 @@ class AdvancedAnimalFilterFragment : BottomSheetDialogFragment() {
         applyButton.setOnClickListener {
             val dateConverter = DateConverter()
 
-            if(startDate.text.isNullOrEmpty() && endDate.text.isNullOrEmpty()) {
+            if (startDate.text.isNullOrEmpty() && endDate.text.isNullOrEmpty()) {
                 listener?.onFilterCriteriaSelected(null)
-            }
-            else
-            {
+            } else {
                 val criteria = AnimalFilterCriteria(
                     startDate = dateConverter.parseDate(startDate.text.toString()),
                     endDate = dateConverter.parseDate(endDate.text.toString())
@@ -88,6 +93,13 @@ class AdvancedAnimalFilterFragment : BottomSheetDialogFragment() {
             }
 
             dismiss()
+        }
+
+        clearButton.setOnClickListener {
+            startDate.setText("")
+            endDate.setText("")
+
+            listener?.onFilterCriteriaSelected(null)
         }
     }
 
