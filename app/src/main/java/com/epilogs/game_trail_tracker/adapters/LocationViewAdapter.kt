@@ -23,12 +23,14 @@ class LocationViewAdapter(private var locations: List<Location>,
     Filterable {
 
     private var locationsFiltered = locations
-    private var currentFilterCriteria = LocationFilterCriteria()
+    private var currentFilterCriteria: LocationFilterCriteria? = null
+    private var currentSearchText: String? = ""
+
     class LocationViewHolder(private val view: View, private val listener: OnLocationItemClickListener) : RecyclerView.ViewHolder(view) {
 
         fun bind(location: Location) {
             itemView.findViewById<TextView>(R.id.location_view_item_name).text = location.name
-            val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             val startDateStr = location.startDate?.let { dateFormat.format(it) } ?: "N/A"
             val endDateStr = location.endDate?.let { dateFormat.format(it) } ?: "N/A"
 
@@ -39,7 +41,6 @@ class LocationViewAdapter(private var locations: List<Location>,
                 }
             }
 
-            // Move the click listener setup here
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     listener.onLocationItemClick(location)
@@ -51,19 +52,17 @@ class LocationViewAdapter(private var locations: List<Location>,
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val charSearch = constraint.toString()
+                val charSearch = constraint?.toString() ?: ""
 
                 val filterResults = FilterResults()
                 filterResults.values = if (charSearch.isEmpty() && currentFilterCriteria == null) {
                     locations
                 } else {
                     locations.filter { location ->
-                        Log.d("LocationViewAdapter", "Current Filter Criteria: $currentFilterCriteria")
                         val matchesSearch = charSearch.isEmpty() || location.name.contains(charSearch, ignoreCase = true)
-
-                        val matchesCriteria = currentFilterCriteria.let { criteria ->
-                            val matchesStartDate = criteria.startDate?.let { location.startDate!! >= it } ?: true
-                            val matchesEndDate = criteria.endDate?.let { location.endDate!! <= it } ?: true
+                        val matchesCriteria = currentFilterCriteria?.let { criteria ->
+                            val matchesStartDate = criteria.startDate?.let { location.startDate?.compareTo(it) ?: -1 } ?: -1 >= 0
+                            val matchesEndDate = criteria.endDate?.let { location.endDate?.compareTo(it) ?: 1 } ?: 1 <= 0
                             matchesStartDate && matchesEndDate
                         } ?: true
 
@@ -73,9 +72,8 @@ class LocationViewAdapter(private var locations: List<Location>,
                 return filterResults
             }
 
-            @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                locationsFiltered = results?.values as List<Location>
+                locationsFiltered = results?.values as? List<Location> ?: emptyList()
                 notifyDataSetChanged()
             }
         }
@@ -97,11 +95,15 @@ class LocationViewAdapter(private var locations: List<Location>,
     fun updateLocations(newLocations: List<Location>) {
         locations = newLocations
         locationsFiltered = newLocations
-        notifyDataSetChanged()
+        applyFilter()
     }
 
-    fun updateFilterCriteria(criteria: LocationFilterCriteria) {
+    fun updateFilterCriteria(criteria: LocationFilterCriteria?) {
         currentFilterCriteria = criteria
-        filter.filter(null)
+        applyFilter()
+    }
+
+    private fun applyFilter() {
+        filter.filter(currentSearchText)
     }
 }

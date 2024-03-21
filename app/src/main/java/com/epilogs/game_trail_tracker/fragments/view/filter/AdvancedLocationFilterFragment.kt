@@ -24,9 +24,10 @@ class AdvancedLocationFilterFragment : BottomSheetDialogFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = parentFragment as? FilterCriteriaListener
-        if (listener == null) {
-            throw RuntimeException("$context must implement FilterCriteriaListener")
+        listener = when {
+            parentFragment is FilterCriteriaListener -> parentFragment as FilterCriteriaListener
+            context is FilterCriteriaListener -> context as FilterCriteriaListener
+            else -> throw RuntimeException("$context must implement FilterCriteriaListener")
         }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +35,6 @@ class AdvancedLocationFilterFragment : BottomSheetDialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate your custom layout for the fragment
         return inflater.inflate(R.layout.fragment_advanced_location_filter, container, false)
     }
 

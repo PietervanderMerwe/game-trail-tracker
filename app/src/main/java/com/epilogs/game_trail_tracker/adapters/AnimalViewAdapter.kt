@@ -25,7 +25,7 @@ class AnimalViewAdapter(private var animals: List<Animal>,
     class AnimalViewHolder(view: View, private val listener: OnAnimalItemClickListener) : RecyclerView.ViewHolder(view) {
         fun bind(animal: Animal) {
             itemView.findViewById<TextView>(R.id.animal_view_item_name).text = animal.name
-            val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             val harvestDateStr = animal.harvestDate?.let { dateFormat.format(it) } ?: "N/A"
 
             itemView.findViewById<TextView>(R.id.animal_view_item_date).text = "$harvestDateStr"

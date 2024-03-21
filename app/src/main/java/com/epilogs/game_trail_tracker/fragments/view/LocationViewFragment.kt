@@ -26,6 +26,7 @@ class LocationViewFragment : Fragment(), OnLocationItemClickListener, FilterCrit
 
     private val viewModel: LocationViewModel by viewModels()
     private lateinit var adapter: LocationViewAdapter
+    private var currentSearchText: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -53,6 +54,7 @@ class LocationViewFragment : Fragment(), OnLocationItemClickListener, FilterCrit
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                currentSearchText = newText
                 adapter.filter.filter(newText)
                 return true
             }
@@ -66,7 +68,7 @@ class LocationViewFragment : Fragment(), OnLocationItemClickListener, FilterCrit
         advancedFilterButton.setOnClickListener {
             val advancedFilterFragment = AdvancedLocationFilterFragment()
             advancedFilterFragment.show(
-                requireActivity().supportFragmentManager,
+                childFragmentManager,
                 advancedFilterFragment.tag
             )
         }
@@ -79,7 +81,6 @@ class LocationViewFragment : Fragment(), OnLocationItemClickListener, FilterCrit
     }
 
     override fun onFilterCriteriaSelected(criteria: LocationFilterCriteria) {
-        // Here you receive the filter criteria from the dialog
         adapter.updateFilterCriteria(criteria)
     }
 
