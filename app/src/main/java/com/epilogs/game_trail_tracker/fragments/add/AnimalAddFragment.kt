@@ -100,11 +100,30 @@ class AnimalAddFragment : Fragment() {
         sharedViewModel.getWeaponsUpdateSignal().observe(viewLifecycleOwner) { updated ->
             if (updated) {
                 viewModel.getAllWeapons().observe(viewLifecycleOwner) { newWeapons ->
-                    weaponAdapter.clear()
-                    weaponAdapter.addAll(newWeapons)
-                    weaponAdapter.notifyDataSetChanged()
+                    newWeapons?.let { weapons ->
+                        weaponAdapter.clear()
+                        weaponAdapter.addAll(weapons)
+                        weaponAdapter.notifyDataSetChanged()
+                        sharedViewModel.resetWeaponsUpdatedSignal()
+                    } ?: run {
+                        sharedViewModel.resetWeaponsUpdatedSignal()
+                    }
                 }
-                sharedViewModel.resetWeaponsUpdatedSignal()
+            }
+        }
+
+        sharedViewModel.getLocationsUpdateSignal().observe(viewLifecycleOwner) { updated ->
+            if (updated) {
+                viewModel.getAllLocations().observe(viewLifecycleOwner) { newLocations ->
+                    newLocations?.let { locations ->
+                        locationAdapter.clear()
+                        locationAdapter.addAll(locations)
+                        locationAdapter.notifyDataSetChanged()
+                        sharedViewModel.resetLocationsUpdatedSignal()
+                    } ?: run {
+                        sharedViewModel.resetLocationsUpdatedSignal()
+                    }
+                }
             }
         }
 

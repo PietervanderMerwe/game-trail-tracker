@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
     private val weaponsUpdateSignal = MutableLiveData<Boolean>()
-
+    private val locationsUpdateSignal = MutableLiveData<Boolean>()
     fun notifyWeaponsUpdated() {
         weaponsUpdateSignal.value = true
     }
@@ -15,6 +15,15 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     fun getWeaponsUpdateSignal(): LiveData<Boolean> = weaponsUpdateSignal
 
     fun resetWeaponsUpdatedSignal() {
-        weaponsUpdateSignal.value = null
+        weaponsUpdateSignal.value = false
+    }
+    fun notifyLocationsUpdated() {
+        locationsUpdateSignal.value = true
+    }
+
+    fun getLocationsUpdateSignal(): LiveData<Boolean> = locationsUpdateSignal
+
+    fun resetLocationsUpdatedSignal() {
+        locationsUpdateSignal.value = false
     }
 }
