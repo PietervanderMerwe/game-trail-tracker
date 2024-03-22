@@ -31,15 +31,33 @@
             android:padding="8dp"
             android:src="@drawable/ic_back_navigation" />
 
-        <EditText
-            android:id="@+id/editTextWeaponNameViewDetail"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutWeaponNameViewDetail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp">
 
-        <EditText
-            android:id="@+id/editTextWeaponNotesViewDetail"
+            <EditText
+                android:id="@+id/editTextWeaponNameViewDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/weapon_name" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutWeaponNotesViewDetail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp">
+
+            <EditText
+                android:id="@+id/editTextWeaponNotesViewDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/weapon_notes" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/imagesWeaponRecyclerViewViewDetail"

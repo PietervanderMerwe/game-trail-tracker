@@ -46,4 +46,6 @@
     <string name="weight">Weight</string>
     <string name="measurement">Measurement</string>
     <string name="date">Date</string>
+    <string name="weapon_name">Weapon name</string>
+    <string name="weapon_notes">Weapon notes</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.epilogs.game_trail_tracker.fragments.view
 
 import android.app.AlertDialog
+import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -20,13 +22,21 @@ import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.database.entities.Location
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 import com.epilogs.game_trail_tracker.utils.DateConverter
+import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
+import com.google.android.material.textfield.TextInputLayout
 
 class WeaponViewDetailFragment : Fragment() {
     private var weaponId: Int? = null
     private val viewModel: WeaponViewModel by viewModels()
     private lateinit var imageAdapter: ImagesAdapter
     private var currentWeapon: Weapon? = null
+    private lateinit var nameLayout: TextInputLayout
+    private lateinit var noteLayout: TextInputLayout
+    private lateinit var deleteButton: Button
+    private lateinit var editButton: Button
+    private lateinit var saveButton: Button
+    private lateinit var cancelButton: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -43,32 +53,26 @@ class WeaponViewDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        nameLayout = view.findViewById(R.id.textInputLayoutWeaponNameViewDetail)
+        noteLayout = view.findViewById(R.id.textInputLayoutWeaponNotesViewDetail)
         val name: EditText = view.findViewById(R.id.editTextWeaponNameViewDetail)
         val notes: EditText = view.findViewById(R.id.editTextWeaponNotesViewDetail)
         val imagesRecyclerView =
             view.findViewById<RecyclerView>(R.id.imagesWeaponRecyclerViewViewDetail)
-        val deleteButton: Button = view.findViewById(R.id.button_delete_weapon)
-        val editButton: Button = view.findViewById(R.id.button_edit_weapon)
-        val saveButton: Button = view.findViewById(R.id.button_save_weapon)
-        val cancelButton: Button = view.findViewById(R.id.button_cancel_weapon)
+        deleteButton = view.findViewById(R.id.button_delete_weapon)
+        editButton = view.findViewById(R.id.button_edit_weapon)
+        saveButton = view.findViewById(R.id.button_save_weapon)
+        cancelButton = view.findViewById(R.id.button_cancel_weapon)
         val backButton: ImageView = view.findViewById(R.id.backButtonWeaponViewDetail)
 
         backButton.setOnClickListener {
             findNavController().navigateUp()
         }
 
-        disableEditText(name)
-        disableEditText(notes)
+        disableAllText()
 
         editButton.setOnClickListener {
-            enableEditText(name)
-            enableEditText(notes)
-
-            editButton.visibility = View.GONE
-            deleteButton.visibility = View.GONE
-            saveButton.visibility = View.VISIBLE
-            cancelButton.visibility = View.VISIBLE
+            enableAllText()
         }
 
         viewModel.getWeaponById(weaponId!!).observe(viewLifecycleOwner, Observer { weapon ->
@@ -95,28 +99,36 @@ class WeaponViewDetailFragment : Fragment() {
                 viewModel.updateWeapon(weapon)
             }
 
-            disableEditText(name)
-            disableEditText(notes)
-
-            editButton.visibility = View.VISIBLE
-            deleteButton.visibility = View.VISIBLE
-            saveButton.visibility = View.GONE
-            cancelButton.visibility = View.GONE
+            disableAllText()
         }
 
         cancelButton.setOnClickListener {
-            disableEditText(name)
-            disableEditText(notes)
-
-            editButton.visibility = View.VISIBLE
-            deleteButton.visibility = View.VISIBLE
-            saveButton.visibility = View.GONE
-            cancelButton.visibility = View.GONE
+            disableAllText()
         }
 
         deleteButton.setOnClickListener {
             showDeleteConfirmationDialog()
         }
+    }
+
+    private fun disableAllText() {
+        disableEditText(nameLayout)
+        disableEditText(noteLayout)
+
+        editButton.visibility = View.VISIBLE
+        deleteButton.visibility = View.VISIBLE
+        saveButton.visibility = View.GONE
+        cancelButton.visibility = View.GONE
+    }
+
+    private fun enableAllText() {
+        enableEditText(nameLayout)
+        enableEditText(noteLayout)
+
+        editButton.visibility = View.GONE
+        deleteButton.visibility = View.GONE
+        saveButton.visibility = View.VISIBLE
+        cancelButton.visibility = View.VISIBLE
     }
 
     private fun showDeleteConfirmationDialog() {
@@ -130,18 +142,26 @@ class WeaponViewDetailFragment : Fragment() {
             .show()
     }
 
-    private fun disableEditText(editText: EditText) {
-        editText.isFocusable = false
-        editText.isClickable = false
-        editText.isCursorVisible = false
-        editText.background = null
+    private fun disableEditText(textInputLayout: TextInputLayout) {
+        textInputLayout.isEnabled = false
+        textInputLayout.editText?.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_black_disabled))
+        textInputLayout.defaultHintTextColor = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.text_black_disabled))
+        textInputLayout.editText?.apply {
+            isClickable = false
+            isFocusable = false
+            isCursorVisible = false
+        }
     }
 
-    private fun enableEditText(editText: EditText) {
-        editText.isFocusableInTouchMode = true
-        editText.isClickable = true
-        editText.isCursorVisible = true
-        editText.setBackgroundResource(android.R.drawable.edit_text)
+    private fun enableEditText(textInputLayout: TextInputLayout) {
+        textInputLayout.isEnabled = true
+        textInputLayout.editText?.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_black))
+        textInputLayout.defaultHintTextColor = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.text_black))
+        textInputLayout.editText?.apply {
+            isClickable = true
+            isFocusableInTouchMode = true
+            isCursorVisible = true
+        }
     }
 
     companion object {
