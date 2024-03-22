@@ -50,7 +50,7 @@ class DashboardFragment : Fragment() {
                 val animalImageView: ImageView = view.findViewById(R.id.animal_dashboard_image)
 
                 animalName.text = latestAnimal.name
-                animalDate.text = latestAnimal.harvestDate.let { dateFormat.format(it!!) } ?: "N/A"
+                animalDate.text = latestAnimal.harvestDate?.let { dateFormat.format(latestAnimal.harvestDate!!) } ?: "N/A"
                 val imagePaths = latestAnimal.imagePaths
                 if (!imagePaths.isNullOrEmpty()) {
                     Glide.with(view.context).load(imagePaths[0]).into(animalImageView)
@@ -65,7 +65,8 @@ class DashboardFragment : Fragment() {
                 if (latestLocation != null) {
                     val locationName: TextView = view.findViewById(R.id.location_dashboard_name)
                     val locationDate: TextView = view.findViewById(R.id.location_dashboard_dates)
-                    val locationImageView: ImageView = view.findViewById(R.id.location_dashboard_image)
+                    val locationImageView: ImageView =
+                        view.findViewById(R.id.location_dashboard_image)
 
                     locationName.text = latestLocation.name
                     val startDateStr = latestLocation.startDate?.let { dateFormat.format(it) } ?: "N/A"
