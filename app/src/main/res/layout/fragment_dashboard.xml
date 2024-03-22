@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/dashboard_background"
     android:orientation="vertical"
     tools:context=".fragments.dashboard.DashboardFragment">
 
@@ -11,7 +10,6 @@
         android:id="@+id/appNameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:gravity="center"
         android:padding="16dp"
         android:text="@string/dashboard_title"
@@ -23,7 +21,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/location_view_item_image"
+            android:id="@+id/location_dashboard_image"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop" />
@@ -35,14 +33,14 @@
             android:padding="16dp">
 
             <TextView
-                android:id="@+id/location_view_item_name"
+                android:id="@+id/location_dashboard_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/location_view_item_dates"
+                android:id="@+id/location_dashboard_dates"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp" />
@@ -55,7 +53,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/animal_view_item_image"
+            android:id="@+id/animal_dashboard_image"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop" />
@@ -65,17 +63,17 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:orientation="vertical"
-            android:padding="16dp"> <!-- Optional: ensures the LinearLayout doesn't obscure the ImageView -->
+            android:padding="16dp">
 
             <TextView
-                android:id="@+id/animal_view_item_name"
+                android:id="@+id/animal_dashboard_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/animal_view_item_date"
+                android:id="@+id/animal_dashboard_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp" />

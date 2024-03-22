@@ -5,14 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
+import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
 import com.epilogs.game_trail_tracker.views.TrailView
 
 class DashboardFragment : Fragment() {
-    private lateinit var animalViewModel: AnimalViewModel
+    private val animalViewModel: AnimalViewModel by viewModels()
+    private val locationViewModel: LocationViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
