@@ -64,6 +64,11 @@ class AnimalViewModel (application: Application) : AndroidViewModel(application)
         deleteSuccess.postValue(true)
     }
 
+    fun getLatestAnimal(): LiveData<Animal?> = liveData {
+        val animal = animalDao.getLatestAnimal()
+        emit(animal)
+    }
+
     fun resetInsertionSuccess() {
         insertionSuccess.value = null
     }

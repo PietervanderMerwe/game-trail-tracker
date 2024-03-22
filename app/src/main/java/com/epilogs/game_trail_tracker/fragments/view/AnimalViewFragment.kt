@@ -53,7 +53,7 @@ class AnimalViewFragment : Fragment(), OnAnimalItemClickListener, FilterAnimalCr
         val searchView = view.findViewById<SearchView>(R.id.search_animal_view)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                return false // if you want to handle the submit button click
+                return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
