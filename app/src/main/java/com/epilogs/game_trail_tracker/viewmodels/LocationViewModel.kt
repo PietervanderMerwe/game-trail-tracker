@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.epilogs.game_trail_tracker.database.AppDatabase
 import com.epilogs.game_trail_tracker.database.DatabaseProvider
 import com.epilogs.game_trail_tracker.database.daos.LocationDao
+import com.epilogs.game_trail_tracker.database.entities.Animal
 import com.epilogs.game_trail_tracker.database.entities.Location
 import kotlinx.coroutines.launch
 
@@ -42,6 +43,11 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
     fun updateLocation(location: Location) = viewModelScope.launch {
         locationDao.updateLocation(location)
         updateSuccess.postValue(true)
+    }
+
+    fun getLatestLocation(): LiveData<Location?> = liveData {
+        val location = locationDao.getLatestLocation()
+        emit(location)
     }
 
     fun deleteLocation(location: Location) = viewModelScope.launch {

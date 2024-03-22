@@ -19,4 +19,7 @@ interface LocationDao {
     suspend fun getAllLocations(): List<Location>
     @Query("SELECT * FROM Location WHERE id = :locationId")
     suspend fun getLocationById(locationId: Int): Location?
+
+    @Query("SELECT * FROM Location ORDER BY startDate DESC LIMIT 1")
+    suspend fun getLatestLocation(): Location?
 }
