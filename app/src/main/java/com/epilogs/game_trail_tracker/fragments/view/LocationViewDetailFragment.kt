@@ -1,6 +1,7 @@
 package com.epilogs.game_trail_tracker.fragments.view
 
 import android.app.AlertDialog
+import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,7 +11,7 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -18,11 +19,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
-import com.epilogs.game_trail_tracker.adapters.LocationViewAdapter
 import com.epilogs.game_trail_tracker.database.entities.Location
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
+import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -32,7 +33,16 @@ class LocationViewDetailFragment : Fragment() {
     private val viewModel: LocationViewModel by viewModels()
     private lateinit var imageAdapter: ImagesAdapter
     private var currentLocation: Location? = null
-
+    private lateinit var nameLayout: TextInputLayout
+    private lateinit var startDateLayout: TextInputLayout
+    private lateinit var endDateLayout: TextInputLayout
+    private lateinit var deleteButton: Button
+    private lateinit var editButton: Button
+    private lateinit var saveButton: Button
+    private lateinit var cancelButton: Button
+    private lateinit var checkBoxIsContinuous: CheckBox
+    private lateinit var startDate: EditText
+    private lateinit var endDate: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -40,33 +50,35 @@ class LocationViewDetailFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_location_view_detail, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+        nameLayout = view.findViewById(R.id.textInputLayoutNameViewDetail)
+        startDateLayout = view.findViewById(R.id.textInputLayoutStartDateViewDetail)
+        endDateLayout = view.findViewById(R.id.textInputLayoutEndDateViewDetail)
         val name: EditText = view.findViewById(R.id.editTextNameViewDetail)
-        val startDate: EditText = view.findViewById(R.id.editTextStartDateViewDetail)
-        val endDate: EditText = view.findViewById(R.id.editTextEndDateViewDetail)
-        val checkBoxIsContinuous = view.findViewById<CheckBox>(R.id.checkBoxIsContinuesViewDetail)
+        startDate = view.findViewById(R.id.editTextStartDateViewDetail)
+        endDate = view.findViewById(R.id.editTextEndDateViewDetail)
+        checkBoxIsContinuous = view.findViewById(R.id.checkBoxIsContinuesViewDetail)
         val imagesRecyclerView = view.findViewById<RecyclerView>(R.id.imagesLocationRecyclerViewDetail)
-        val deleteButton: Button = view.findViewById(R.id.button_delete_location)
-        val editButton: Button = view.findViewById(R.id.button_edit_location)
-        val saveButton: Button = view.findViewById(R.id.button_save_location)
-        val cancelButton: Button = view.findViewById(R.id.button_cancel_location)
+        deleteButton = view.findViewById(R.id.button_delete_location)
+        editButton = view.findViewById(R.id.button_edit_location)
+        saveButton = view.findViewById(R.id.button_save_location)
+        cancelButton = view.findViewById(R.id.button_cancel_location)
         val backButton: ImageView = view.findViewById(R.id.backButtonLocationViewDetail)
 
         backButton.setOnClickListener {
             findNavController().navigateUp()
         }
 
-        disableEditText(name)
-        disableEditText(startDate)
-        disableEditText(endDate)
-        checkBoxIsContinuous.isEnabled = false
+        disableAllText()
 
         viewModel.getLocationById(locationId!!).observe(viewLifecycleOwner, Observer { location ->
             currentLocation = location
@@ -77,15 +89,13 @@ class LocationViewDetailFragment : Fragment() {
 
             imageAdapter = ImagesAdapter(mutableListOf())
             imagesRecyclerView.adapter = imageAdapter
-            imagesRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            imagesRecyclerView.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
             location.imagePaths?.let { imageUrls ->
                 imageAdapter.updateImages(imageUrls)
             }
         })
-
-        startDate.setOnClickListener(null)
-        endDate.setOnClickListener(null)
 
         checkBoxIsContinuous.setOnCheckedChangeListener { _, isChecked ->
             startDate.isEnabled = !isChecked
@@ -98,27 +108,7 @@ class LocationViewDetailFragment : Fragment() {
         }
 
         editButton.setOnClickListener {
-            enableEditText(name)
-            enableEditText(startDate)
-            enableEditText(endDate)
-            checkBoxIsContinuous.isEnabled = true
-
-            editButton.visibility = View.GONE
-            deleteButton.visibility = View.GONE
-            saveButton.visibility = View.VISIBLE
-            cancelButton.visibility = View.VISIBLE
-
-            startDate.setOnClickListener {
-                showDatePickerDialog(requireContext()) { selectedDate ->
-                    startDate.setText(selectedDate)
-                }
-            }
-
-            endDate.setOnClickListener {
-                showDatePickerDialog(requireContext()) { selectedDate ->
-                    endDate.setText(selectedDate)
-                }
-            }
+            enableAllText()
         }
 
         saveButton.setOnClickListener {
@@ -132,34 +122,11 @@ class LocationViewDetailFragment : Fragment() {
 
                 viewModel.updateLocation(location)
             }
-
-            disableEditText(name)
-            disableEditText(startDate)
-            disableEditText(endDate)
-            checkBoxIsContinuous.isEnabled = false
-
-            editButton.visibility = View.VISIBLE
-            deleteButton.visibility = View.VISIBLE
-            saveButton.visibility = View.GONE
-            cancelButton.visibility = View.GONE
-
-            startDate.setOnClickListener(null)
-            endDate.setOnClickListener(null)
+            disableAllText()
         }
 
         cancelButton.setOnClickListener {
-            disableEditText(name)
-            disableEditText(startDate)
-            disableEditText(endDate)
-            checkBoxIsContinuous.isEnabled = false
-
-            editButton.visibility = View.VISIBLE
-            deleteButton.visibility = View.VISIBLE
-            saveButton.visibility = View.GONE
-            cancelButton.visibility = View.GONE
-
-            startDate.setOnClickListener(null)
-            endDate.setOnClickListener(null)
+            disableAllText()
         }
 
         deleteButton.setOnClickListener {
@@ -178,23 +145,69 @@ class LocationViewDetailFragment : Fragment() {
             .show()
     }
 
-    private fun disableEditText(editText: EditText) {
-        editText.isFocusable = false
-        editText.isClickable = false
-        editText.isCursorVisible = false
-        editText.background = null
+    private fun disableAllText() {
+        disableEditText(nameLayout)
+        disableEditText(startDateLayout)
+        disableEditText(endDateLayout)
+
+        checkBoxIsContinuous.isEnabled = false
+
+        editButton.visibility = View.VISIBLE
+        deleteButton.visibility = View.VISIBLE
+        saveButton.visibility = View.GONE
+        cancelButton.visibility = View.GONE
+
+        startDate.setOnClickListener(null)
+        endDate.setOnClickListener(null)
     }
 
-    private fun enableEditText(editText: EditText) {
-        editText.isFocusableInTouchMode = true
-        editText.isClickable = true
-        editText.isCursorVisible = true
-        editText.setBackgroundResource(android.R.drawable.edit_text)
+    private fun enableAllText() {
+        enableEditText(nameLayout)
+        enableEditText(startDateLayout)
+        enableEditText(endDateLayout)
+
+        checkBoxIsContinuous.isEnabled = true
+
+        editButton.visibility = View.GONE
+        deleteButton.visibility = View.GONE
+        saveButton.visibility = View.VISIBLE
+        cancelButton.visibility = View.VISIBLE
+
+        startDate.setOnClickListener {
+            showDatePickerDialog(requireContext()) { selectedDate ->
+                startDate.setText(selectedDate)
+            }
+        }
+
+        endDate.setOnClickListener {
+            showDatePickerDialog(requireContext()) { selectedDate ->
+                endDate.setText(selectedDate)
+            }
+        }
     }
 
-    private fun disableEditing() {
-
+    private fun disableEditText(textInputLayout: TextInputLayout) {
+        textInputLayout.isEnabled = false
+        textInputLayout.editText?.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_black_disabled))
+        textInputLayout.defaultHintTextColor = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.text_black_disabled))
+        textInputLayout.editText?.apply {
+            isClickable = false
+            isFocusable = false
+            isCursorVisible = false
+        }
     }
+
+    private fun enableEditText(textInputLayout: TextInputLayout) {
+        textInputLayout.isEnabled = true
+        textInputLayout.editText?.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_black))
+        textInputLayout.defaultHintTextColor = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.text_black))
+        textInputLayout.editText?.apply {
+            isClickable = true
+            isFocusableInTouchMode = true
+            isCursorVisible = true
+        }
+    }
+
     companion object {
         @JvmStatic
         fun newInstance(locationId: Int) =

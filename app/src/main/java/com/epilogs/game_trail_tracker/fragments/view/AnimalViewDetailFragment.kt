@@ -144,7 +144,7 @@ class AnimalViewDetailFragment : Fragment() {
 
             weaponViewModel.getAllWeapons().observe(viewLifecycleOwner) { newWeapons  ->
                 val modifiedWeapons = mutableListOf<Weapon>().apply {
-                    add(Weapon(null, "None", "", mutableListOf<String>())) // Similarly, assuming Weapon is a data class
+                    add(Weapon(null, "None", "", mutableListOf<String>()))
                     addAll(newWeapons)
                 }
                 weaponAdapter.clear()
