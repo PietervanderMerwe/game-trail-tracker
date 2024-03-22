@@ -1,7 +1,9 @@
 package com.epilogs.game_trail_tracker.fragments.view
 
 import android.app.AlertDialog
+import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +15,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -30,6 +33,7 @@ import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
 import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
+import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -41,8 +45,22 @@ class AnimalViewDetailFragment : Fragment() {
     private val locationViewModel: LocationViewModel by viewModels()
     private lateinit var imageAdapter: ImagesAdapter
     private var currentAnimal: Animal? = null
-    private var locationId : Int? = 0;
-    private var weaponId : Int? = 0;
+    private var locationId: Int? = 0;
+    private var weaponId: Int? = 0;
+    private lateinit var specieNameLayout: TextInputLayout
+    private lateinit var weightLayout: TextInputLayout
+    private lateinit var measurementLayout: TextInputLayout
+    private lateinit var dateLayout: TextInputLayout
+    private lateinit var deleteButton: Button
+    private lateinit var editButton: Button
+    private lateinit var saveButton: Button
+    private lateinit var cancelButton: Button
+    private lateinit var date: EditText
+    private lateinit var locationLayout: LinearLayout
+    private lateinit var weaponLayout: LinearLayout
+    private lateinit var locationSpinnerViewDetail: Spinner
+    private lateinit var weaponSpinnerViewDetail: Spinner
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -60,22 +78,26 @@ class AnimalViewDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+        specieNameLayout = view.findViewById(R.id.textInputLayoutSpecieNameViewDetail)
+        weightLayout = view.findViewById(R.id.textInputLayoutWeightViewDetail)
+        measurementLayout = view.findViewById(R.id.textInputLayoutMeasurementViewDetail)
+        dateLayout = view.findViewById(R.id.textInputLayoutDateViewDetail)
         val specieName: EditText = view.findViewById(R.id.editTextSpecieNameViewDetail)
-        val date: EditText = view.findViewById(R.id.editTextDateViewDetail)
+        date = view.findViewById(R.id.editTextDateViewDetail)
         val weight: EditText = view.findViewById(R.id.editTextWeightViewDetail)
         val measurement: EditText = view.findViewById(R.id.editTextMeasurementViewDetail)
         val locationViewDetail: EditText = view.findViewById(R.id.LocationViewDetail)
-        val locationSpinnerViewDetail: Spinner = view.findViewById(R.id.spinnerLocationViewDetail)
+        locationSpinnerViewDetail = view.findViewById(R.id.spinnerLocationViewDetail)
         val weaponViewDetail: EditText = view.findViewById(R.id.WeaponViewDetail)
-        val weaponSpinnerViewDetail: Spinner = view.findViewById(R.id.spinnerWeaponViewDetail)
+        weaponSpinnerViewDetail = view.findViewById(R.id.spinnerWeaponViewDetail)
         val imagesRecyclerView =
             view.findViewById<RecyclerView>(R.id.imagesAnimalRecyclerViewViewDetail)
-        val deleteButton: Button = view.findViewById(R.id.button_delete_animal)
-        val editButton: Button = view.findViewById(R.id.button_edit_animal)
-        val saveButton: Button = view.findViewById(R.id.button_save_animal)
-        val cancelButton: Button = view.findViewById(R.id.button_cancel_animal)
-        val locationLayout : LinearLayout = view.findViewById(R.id.LocationLayoutViewDetail)
-        val weaponLayout : LinearLayout = view.findViewById(R.id.WeaponLayoutViewDetail)
+        deleteButton = view.findViewById(R.id.button_delete_animal)
+        editButton = view.findViewById(R.id.button_edit_animal)
+        saveButton = view.findViewById(R.id.button_save_animal)
+        cancelButton = view.findViewById(R.id.button_cancel_animal)
+        locationLayout = view.findViewById(R.id.LocationLayoutViewDetail)
+        weaponLayout = view.findViewById(R.id.WeaponLayoutViewDetail)
         val viewLocationButton: Button = view.findViewById(R.id.button_view_location)
         val viewWeaponButton: Button = view.findViewById(R.id.button_view_weapon)
         val backButton: ImageView = view.findViewById(R.id.backButtonAnimalViewDetail)
@@ -85,50 +107,47 @@ class AnimalViewDetailFragment : Fragment() {
         }
 
         viewLocationButton.setOnClickListener {
-            val action = AnimalViewDetailFragmentDirections.actionAnimalViewDetailFragment2ToLocationViewDetailFragment2(locationId!!)
+            val action =
+                AnimalViewDetailFragmentDirections.actionAnimalViewDetailFragment2ToLocationViewDetailFragment2(
+                    locationId!!
+                )
             findNavController().navigate(action)
         }
 
         viewWeaponButton.setOnClickListener {
-            val action = AnimalViewDetailFragmentDirections.actionAnimalViewDetailFragment2ToWeaponViewDetailFragment2(weaponId!!)
+            val action =
+                AnimalViewDetailFragmentDirections.actionAnimalViewDetailFragment2ToWeaponViewDetailFragment2(
+                    weaponId!!
+                )
             findNavController().navigate(action)
         }
 
-        disableEditText(specieName)
-        disableEditText(date)
-        disableEditText(weight)
-        disableEditText(measurement)
-        disableEditText(locationViewDetail)
-        disableEditText(weaponViewDetail)
-
-        date.setOnClickListener(null)
+        disableAllText()
 
         editButton.setOnClickListener {
-            enableEditText(specieName)
-            enableEditText(date)
-            enableEditText(weight)
-            enableEditText(measurement)
-
-            editButton.visibility = View.GONE
-            deleteButton.visibility = View.GONE
-            locationLayout.visibility = View.GONE
-            weaponLayout.visibility = View.GONE
-            locationSpinnerViewDetail.visibility = View.VISIBLE
-            weaponSpinnerViewDetail.visibility = View.VISIBLE
-            saveButton.visibility = View.VISIBLE
-            cancelButton.visibility = View.VISIBLE
+            enableAllText()
 
             val locations = mutableListOf<Location>()
             val locationAdapter = LocationAdapter(requireContext(), locations)
             locationSpinnerViewDetail.adapter = locationAdapter
 
-            locationViewModel.getAllLocations().observe(viewLifecycleOwner) { newLocations  ->
+            locationViewModel.getAllLocations().observe(viewLifecycleOwner) { newLocations ->
                 val modifiedLocations = mutableListOf<Location>().apply {
-                    add(Location(null, "None",false, null, null,"", mutableListOf<String>())) // Assuming Location is a data class that can handle this
+                    add(
+                        Location(
+                            null,
+                            "None",
+                            false,
+                            null,
+                            null,
+                            "",
+                            mutableListOf<String>()
+                        )
+                    )
                     addAll(newLocations)
                 }
                 locationAdapter.clear()
-                locationAdapter.addAll(modifiedLocations )
+                locationAdapter.addAll(modifiedLocations)
                 locationAdapter.notifyDataSetChanged()
 
                 val defaultPosition = modifiedLocations.indexOfFirst { it.id == locationId }
@@ -142,7 +161,7 @@ class AnimalViewDetailFragment : Fragment() {
             val weaponAdapter = WeaponAdapter(requireContext(), weapons)
             weaponSpinnerViewDetail.adapter = weaponAdapter
 
-            weaponViewModel.getAllWeapons().observe(viewLifecycleOwner) { newWeapons  ->
+            weaponViewModel.getAllWeapons().observe(viewLifecycleOwner) { newWeapons ->
                 val modifiedWeapons = mutableListOf<Weapon>().apply {
                     add(Weapon(null, "None", "", mutableListOf<String>()))
                     addAll(newWeapons)
@@ -158,35 +177,41 @@ class AnimalViewDetailFragment : Fragment() {
                 }
             }
 
-            locationSpinnerViewDetail.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                    val selectedLocation = parent.getItemAtPosition(position) as Location
-                    locationViewDetail.setText(selectedLocation.name)
-                    locationId = selectedLocation.id
+            locationSpinnerViewDetail.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>,
+                        view: View,
+                        position: Int,
+                        id: Long
+                    ) {
+                        val selectedLocation = parent.getItemAtPosition(position) as Location
+                        locationViewDetail.setText(selectedLocation.name)
+                        locationId = selectedLocation.id
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>) {
+                        // Handle case when nothing is selected if needed
+                    }
                 }
 
-                override fun onNothingSelected(parent: AdapterView<*>) {
-                    // Handle case when nothing is selected if needed
-                }
-            }
+            weaponSpinnerViewDetail.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>,
+                        view: View,
+                        position: Int,
+                        id: Long
+                    ) {
+                        val selectedWeapon = parent.getItemAtPosition(position) as Weapon
+                        weaponViewDetail.setText(selectedWeapon.name)
+                        weaponId = selectedWeapon.id
+                    }
 
-            weaponSpinnerViewDetail.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                    val selectedWeapon = parent.getItemAtPosition(position) as Weapon
-                    weaponViewDetail.setText(selectedWeapon.name)
-                    weaponId = selectedWeapon.id
+                    override fun onNothingSelected(parent: AdapterView<*>) {
+                        // Handle case when nothing is selected if needed
+                    }
                 }
-
-                override fun onNothingSelected(parent: AdapterView<*>) {
-                    // Handle case when nothing is selected if needed
-                }
-            }
-
-            date.setOnClickListener {
-                showDatePickerDialog(requireContext()) { selectedDate ->
-                    date.setText(selectedDate)
-                }
-            }
         }
 
         animalViewModel.getAnimalById(animalId!!).observe(viewLifecycleOwner, Observer { animal ->
@@ -196,7 +221,7 @@ class AnimalViewDetailFragment : Fragment() {
             weight.setText(animal?.weight?.toString())
             measurement.setText(animal?.measurement?.toString())
 
-            if(animal?.weaponId == null) {
+            if (animal?.weaponId == null) {
                 weaponLayout.visibility = View.GONE
             } else {
                 animal.weaponId?.let { id ->
@@ -206,8 +231,10 @@ class AnimalViewDetailFragment : Fragment() {
                             weaponId = id
                         })
                 }
+                weaponLayout.visibility = View.VISIBLE
             }
-            if(animal?.locationId == null) {
+
+            if (animal?.locationId == null) {
                 locationLayout.visibility = View.GONE
             } else {
                 animal.locationId?.let { id ->
@@ -217,6 +244,7 @@ class AnimalViewDetailFragment : Fragment() {
                             locationId = id
                         })
                 }
+                locationLayout.visibility = View.VISIBLE
             }
 
             imageAdapter = ImagesAdapter(mutableListOf())
@@ -242,37 +270,11 @@ class AnimalViewDetailFragment : Fragment() {
                 animalViewModel.updateAnimal(animal)
             }
 
-            disableEditText(specieName)
-            disableEditText(date)
-            disableEditText(weight)
-            disableEditText(measurement)
-            date.setOnClickListener(null)
-
-            editButton.visibility = View.VISIBLE
-            deleteButton.visibility = View.VISIBLE
-            locationLayout.visibility = View.VISIBLE
-            weaponLayout.visibility = View.VISIBLE
-            locationSpinnerViewDetail.visibility = View.GONE
-            weaponSpinnerViewDetail.visibility = View.GONE
-            saveButton.visibility = View.GONE
-            cancelButton.visibility = View.GONE
+            disableAllText()
         }
 
         cancelButton.setOnClickListener {
-            disableEditText(specieName)
-            disableEditText(date)
-            disableEditText(weight)
-            disableEditText(measurement)
-            date.setOnClickListener(null)
-
-            editButton.visibility = View.VISIBLE
-            deleteButton.visibility = View.VISIBLE
-            locationLayout.visibility = View.VISIBLE
-            weaponLayout.visibility = View.VISIBLE
-            locationSpinnerViewDetail.visibility = View.GONE
-            weaponSpinnerViewDetail.visibility = View.GONE
-            saveButton.visibility = View.GONE
-            cancelButton.visibility = View.GONE
+            disableAllText()
         }
 
         deleteButton.setOnClickListener {
@@ -291,18 +293,82 @@ class AnimalViewDetailFragment : Fragment() {
             .show()
     }
 
-    private fun disableEditText(editText: EditText) {
-        editText.isFocusable = false
-        editText.isClickable = false
-        editText.isCursorVisible = false
-        editText.background = null
+    private fun disableAllText() {
+        disableEditText(specieNameLayout)
+        disableEditText(weightLayout)
+        disableEditText(measurementLayout)
+        disableEditText(dateLayout)
+
+        editButton.visibility = View.VISIBLE
+        deleteButton.visibility = View.VISIBLE
+        locationLayout.visibility = View.VISIBLE
+        weaponLayout.visibility = View.VISIBLE
+        locationSpinnerViewDetail.visibility = View.GONE
+        weaponSpinnerViewDetail.visibility = View.GONE
+        saveButton.visibility = View.GONE
+        cancelButton.visibility = View.GONE
+
+        date.setOnClickListener(null)
     }
 
-    private fun enableEditText(editText: EditText) {
-        editText.isFocusableInTouchMode = true
-        editText.isClickable = true
-        editText.isCursorVisible = true
-        editText.setBackgroundResource(android.R.drawable.edit_text)
+    private fun enableAllText() {
+        enableEditText(specieNameLayout)
+        enableEditText(weightLayout)
+        enableEditText(measurementLayout)
+        enableEditText(dateLayout)
+
+        editButton.visibility = View.GONE
+        deleteButton.visibility = View.GONE
+        locationLayout.visibility = View.GONE
+        weaponLayout.visibility = View.GONE
+        locationSpinnerViewDetail.visibility = View.VISIBLE
+        weaponSpinnerViewDetail.visibility = View.VISIBLE
+        saveButton.visibility = View.VISIBLE
+        cancelButton.visibility = View.VISIBLE
+
+        date.setOnClickListener {
+            showDatePickerDialog(requireContext()) { selectedDate ->
+                date.setText(selectedDate)
+            }
+        }
+    }
+
+    private fun disableEditText(textInputLayout: TextInputLayout) {
+        textInputLayout.isEnabled = false
+        textInputLayout.editText?.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.text_black_disabled
+            )
+        )
+        textInputLayout.defaultHintTextColor = ColorStateList.valueOf(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.text_black_disabled
+            )
+        )
+        textInputLayout.editText?.apply {
+            isClickable = false
+            isFocusable = false
+            isCursorVisible = false
+        }
+    }
+
+    private fun enableEditText(textInputLayout: TextInputLayout) {
+        textInputLayout.isEnabled = true
+        textInputLayout.editText?.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.text_black
+            )
+        )
+        textInputLayout.defaultHintTextColor =
+            ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.text_black))
+        textInputLayout.editText?.apply {
+            isClickable = true
+            isFocusableInTouchMode = true
+            isCursorVisible = true
+        }
     }
 
     companion object {

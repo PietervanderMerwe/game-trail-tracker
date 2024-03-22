@@ -30,32 +30,64 @@
             android:padding="8dp"
             android:src="@drawable/ic_back_navigation" />
 
-        <EditText
-            android:id="@+id/editTextSpecieNameViewDetail"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutSpecieNameViewDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/editTextSpecieName" />
+            android:paddingTop="8dp">
 
-        <EditText
-            android:id="@+id/editTextWeightViewDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/editTextWeight" />
+            <EditText
+                android:id="@+id/editTextSpecieNameViewDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/specie_name" />
 
-        <EditText
-            android:id="@+id/editTextMeasurementViewDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/editTextMeasurement" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/editTextDateViewDetail"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutWeightViewDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:cursorVisible="false"
-            android:focusable="false"
-            android:hint="@string/editTextDate" />
+            android:paddingTop="8dp">
+
+            <EditText
+                android:id="@+id/editTextWeightViewDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/weight"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutMeasurementViewDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp">
+
+            <EditText
+                android:id="@+id/editTextMeasurementViewDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/measurement" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutDateViewDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp">
+
+            <EditText
+                android:id="@+id/editTextDateViewDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:hint="@string/date" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:id="@+id/LocationLayoutViewDetail"
@@ -63,15 +95,23 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/LocationViewDetail"
-                android:layout_width="0dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutLocationViewDetail"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:cursorVisible="false"
-                android:focusable="false"
-                android:hint="@string/hunting_location" />
+                android:paddingTop="8dp">
+
+                <EditText
+                    android:id="@+id/LocationViewDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:hint="@string/hunting_location" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/button_view_location"
@@ -94,15 +134,23 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/WeaponViewDetail"
-                android:layout_width="0dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutWeaponViewDetail"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:cursorVisible="false"
-                android:focusable="false"
-                android:hint="@string/hunting_weapon" />
+                android:paddingTop="8dp">
+
+                <EditText
+                    android:id="@+id/WeaponViewDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:hint="@string/hunting_weapon" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/button_view_weapon"
@@ -123,6 +171,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp" />
+
     </LinearLayout>
 
     <LinearLayout

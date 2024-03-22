@@ -30,8 +30,8 @@
     <string name="save">Save</string>
     <string name="back_button">Back</string>
     <string name="view">View</string>
-    <string name="hunting_location">Hunting location</string>
-    <string name="hunting_weapon">Hunting weapon</string>
+    <string name="hunting_location">Location</string>
+    <string name="hunting_weapon">Weapon</string>
     <string name="cancel">Cancel</string>
     <string name="filter">Filter</string>
     <string name="apply_filters">Apply</string>
@@ -42,4 +42,8 @@
     <string name="clear_filters">Clear filters</string>
     <string name="start_date">Start date</string>
     <string name="end_date">End date</string>
+    <string name="specie_name">Specie name</string>
+    <string name="weight">Weight</string>
+    <string name="measurement">Measurement</string>
+    <string name="date">Date</string>
 </resources>
