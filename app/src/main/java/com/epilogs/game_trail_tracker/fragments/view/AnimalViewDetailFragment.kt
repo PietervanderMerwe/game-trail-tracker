@@ -41,8 +41,8 @@ class AnimalViewDetailFragment : Fragment() {
     private val locationViewModel: LocationViewModel by viewModels()
     private lateinit var imageAdapter: ImagesAdapter
     private var currentAnimal: Animal? = null
-    private var locationId = 0;
-    private var weaponId = 0;
+    private var locationId : Int? = 0;
+    private var weaponId : Int? = 0;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -85,12 +85,12 @@ class AnimalViewDetailFragment : Fragment() {
         }
 
         viewLocationButton.setOnClickListener {
-            val action = AnimalViewDetailFragmentDirections.actionAnimalViewDetailFragment2ToLocationViewDetailFragment2(locationId)
+            val action = AnimalViewDetailFragmentDirections.actionAnimalViewDetailFragment2ToLocationViewDetailFragment2(locationId!!)
             findNavController().navigate(action)
         }
 
         viewWeaponButton.setOnClickListener {
-            val action = AnimalViewDetailFragmentDirections.actionAnimalViewDetailFragment2ToWeaponViewDetailFragment2(weaponId)
+            val action = AnimalViewDetailFragmentDirections.actionAnimalViewDetailFragment2ToWeaponViewDetailFragment2(weaponId!!)
             findNavController().navigate(action)
         }
 
@@ -123,9 +123,19 @@ class AnimalViewDetailFragment : Fragment() {
             locationSpinnerViewDetail.adapter = locationAdapter
 
             locationViewModel.getAllLocations().observe(viewLifecycleOwner) { newLocations  ->
+                val modifiedLocations = mutableListOf<Location>().apply {
+                    add(Location(null, "None",false, null, null,"", mutableListOf<String>())) // Assuming Location is a data class that can handle this
+                    addAll(newLocations)
+                }
                 locationAdapter.clear()
-                locationAdapter.addAll(newLocations )
+                locationAdapter.addAll(modifiedLocations )
                 locationAdapter.notifyDataSetChanged()
+
+                val defaultPosition = modifiedLocations.indexOfFirst { it.id == locationId }
+
+                if (defaultPosition >= 0) {
+                    locationSpinnerViewDetail.setSelection(defaultPosition)
+                }
             }
 
             val weapons = mutableListOf<Weapon>()
@@ -133,16 +143,26 @@ class AnimalViewDetailFragment : Fragment() {
             weaponSpinnerViewDetail.adapter = weaponAdapter
 
             weaponViewModel.getAllWeapons().observe(viewLifecycleOwner) { newWeapons  ->
+                val modifiedWeapons = mutableListOf<Weapon>().apply {
+                    add(Weapon(null, "None", "", mutableListOf<String>())) // Similarly, assuming Weapon is a data class
+                    addAll(newWeapons)
+                }
                 weaponAdapter.clear()
-                weaponAdapter.addAll(newWeapons)
+                weaponAdapter.addAll(modifiedWeapons)
                 weaponAdapter.notifyDataSetChanged()
+
+                val defaultPosition = modifiedWeapons.indexOfFirst { it.id == weaponId }
+
+                if (defaultPosition >= 0) {
+                    weaponSpinnerViewDetail.setSelection(defaultPosition)
+                }
             }
 
             locationSpinnerViewDetail.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                     val selectedLocation = parent.getItemAtPosition(position) as Location
                     locationViewDetail.setText(selectedLocation.name)
-                    locationId = selectedLocation.id!!
+                    locationId = selectedLocation.id
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>) {
@@ -154,7 +174,7 @@ class AnimalViewDetailFragment : Fragment() {
                 override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                     val selectedWeapon = parent.getItemAtPosition(position) as Weapon
                     weaponViewDetail.setText(selectedWeapon.name)
-                    weaponId = selectedWeapon.id!!
+                    weaponId = selectedWeapon.id
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>) {
@@ -176,20 +196,27 @@ class AnimalViewDetailFragment : Fragment() {
             weight.setText(animal?.weight?.toString())
             measurement.setText(animal?.measurement?.toString())
 
-            animal?.weaponId?.let { id ->
-                weaponViewModel.getWeaponById(id)
-                    .observe(viewLifecycleOwner, Observer { weapon ->
-                        weaponViewDetail.setText(weapon?.name)
-                        weaponId = id
-                    })
+            if(animal?.weaponId == null) {
+                weaponLayout.visibility = View.GONE
+            } else {
+                animal.weaponId?.let { id ->
+                    weaponViewModel.getWeaponById(id)
+                        .observe(viewLifecycleOwner, Observer { weapon ->
+                            weaponViewDetail.setText(weapon?.name)
+                            weaponId = id
+                        })
+                }
             }
-
-            animal?.locationId?.let { id ->
-                locationViewModel.getLocationById(id)
-                    .observe(viewLifecycleOwner, Observer { location ->
-                        locationViewDetail.setText(location?.name)
-                        locationId = id
-                    })
+            if(animal?.locationId == null) {
+                locationLayout.visibility = View.GONE
+            } else {
+                animal.locationId?.let { id ->
+                    locationViewModel.getLocationById(id)
+                        .observe(viewLifecycleOwner, Observer { location ->
+                            locationViewDetail.setText(location?.name)
+                            locationId = id
+                        })
+                }
             }
 
             imageAdapter = ImagesAdapter(mutableListOf())
