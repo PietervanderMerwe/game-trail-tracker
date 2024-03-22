@@ -41,8 +41,8 @@ class AnimalAddFragment : Fragment() {
     private val pickImagesRequestCode = 100
     private val selectedImageUris = mutableListOf<String>()
     private lateinit var imageAdapter: ImagesAdapter
-    private var locationId = 0;
-    private var weaponId = 0;
+    private var locationId :Int? = 0;
+    private var weaponId :Int? = 0;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -82,8 +82,12 @@ class AnimalAddFragment : Fragment() {
         spinnerLocation.adapter = locationAdapter
 
         viewModel.getAllLocations().observe(viewLifecycleOwner) { newLocations  ->
+            val modifiedLocations = mutableListOf<Location>().apply {
+                add(Location(null, "None",false, null, null,"", mutableListOf<String>())) // Assuming Location is a data class that can handle this
+                addAll(newLocations)
+            }
             locationAdapter.clear()
-            locationAdapter.addAll(newLocations )
+            locationAdapter.addAll(modifiedLocations )
             locationAdapter.notifyDataSetChanged()
         }
 
@@ -92,8 +96,12 @@ class AnimalAddFragment : Fragment() {
         spinnerWeapon.adapter = weaponAdapter
 
         viewModel.getAllWeapons().observe(viewLifecycleOwner) { newWeapons  ->
+            val modifiedWeapons = mutableListOf<Weapon>().apply {
+                add(Weapon(null, "None", "", mutableListOf<String>())) // Similarly, assuming Weapon is a data class
+                addAll(newWeapons)
+            }
             weaponAdapter.clear()
-            weaponAdapter.addAll(newWeapons)
+            weaponAdapter.addAll(modifiedWeapons)
             weaponAdapter.notifyDataSetChanged()
         }
 
@@ -136,7 +144,7 @@ class AnimalAddFragment : Fragment() {
         spinnerLocation.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val selectedLocation = parent.getItemAtPosition(position) as Location
-                locationId = selectedLocation.id!!
+                locationId = selectedLocation.id
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -147,7 +155,7 @@ class AnimalAddFragment : Fragment() {
         spinnerWeapon.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val selectedWeapon = parent.getItemAtPosition(position) as Weapon
-                weaponId = selectedWeapon.id!!
+                weaponId = selectedWeapon.id
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
