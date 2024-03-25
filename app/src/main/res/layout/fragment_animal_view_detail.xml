@@ -54,7 +54,7 @@
                 android:id="@+id/editTextWeightViewDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/weight"/>
+                android:hint="@string/weight" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -93,33 +93,35 @@
             android:id="@+id/LocationLayoutViewDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="2">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayoutLocationViewDetail"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1.5"
                 android:paddingTop="8dp">
 
                 <EditText
                     android:id="@+id/LocationViewDetail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:clickable="true"
                     android:cursorVisible="false"
                     android:focusable="false"
                     android:hint="@string/hunting_location" />
-
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/button_view_location"
                 style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.5"
                 android:text="@string/view" />
         </LinearLayout>
+
 
         <Spinner
             android:id="@+id/spinnerLocationViewDetail"
@@ -132,12 +134,14 @@
             android:id="@+id/WeaponLayoutViewDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="2">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayoutWeaponViewDetail"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1.5"
                 android:paddingTop="8dp">
 
                 <EditText
@@ -155,8 +159,9 @@
             <Button
                 android:id="@+id/button_view_weapon"
                 style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.5"
                 android:text="@string/view" />
         </LinearLayout>
 
