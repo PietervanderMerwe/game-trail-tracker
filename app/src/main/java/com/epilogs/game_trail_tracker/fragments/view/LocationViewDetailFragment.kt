@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.database.entities.Location
+import com.epilogs.game_trail_tracker.fragments.extension.ImageDialogFragment
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
@@ -87,14 +88,14 @@ class LocationViewDetailFragment : Fragment() {
             endDate.setText(location?.endDate?.let { dateFormat.format(it) } ?: "N/A")
             checkBoxIsContinuous.isChecked = location?.isContinues!!
 
-            imageAdapter = ImagesAdapter(mutableListOf())
+            imageAdapter = ImagesAdapter(location.imagePaths?.toMutableList() ?: mutableListOf()) { imageUrl ->
+                val dialog = ImageDialogFragment.newInstance(imageUrl)
+                dialog.show(childFragmentManager, "viewImage")
+            }
+
             imagesRecyclerView.adapter = imageAdapter
             imagesRecyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
-            location.imagePaths?.let { imageUrls ->
-                imageAdapter.updateImages(imageUrls)
-            }
         })
 
         checkBoxIsContinuous.setOnCheckedChangeListener { _, isChecked ->

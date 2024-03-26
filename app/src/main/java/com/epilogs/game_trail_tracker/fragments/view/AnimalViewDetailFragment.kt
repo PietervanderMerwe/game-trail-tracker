@@ -28,6 +28,7 @@ import com.epilogs.game_trail_tracker.adapters.WeaponAdapter
 import com.epilogs.game_trail_tracker.database.entities.Animal
 import com.epilogs.game_trail_tracker.database.entities.Location
 import com.epilogs.game_trail_tracker.database.entities.Weapon
+import com.epilogs.game_trail_tracker.fragments.extension.ImageDialogFragment
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
@@ -247,14 +248,14 @@ class AnimalViewDetailFragment : Fragment() {
                 locationLayout.visibility = View.VISIBLE
             }
 
-            imageAdapter = ImagesAdapter(mutableListOf())
+            imageAdapter = ImagesAdapter(animal?.imagePaths?.toMutableList() ?: mutableListOf()) { imageUrl ->
+                val dialog = ImageDialogFragment.newInstance(imageUrl)
+                dialog.show(childFragmentManager, "viewImage")
+            }
+
             imagesRecyclerView.adapter = imageAdapter
             imagesRecyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
-            animal?.imagePaths?.let { imageUrls ->
-                imageAdapter.updateImages(imageUrls)
-            }
         })
 
         saveButton.setOnClickListener {

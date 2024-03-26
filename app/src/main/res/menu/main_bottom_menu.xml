@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/dashboardFragment"
-        android:icon="@drawable/ic_animal"
+        android:icon="@drawable/ic_dashboard"
         android:title="@string/dashboardFragment" />
     <item
         android:id="@+id/addFragment"
-        android:icon="@drawable/ic_weapon"
+        android:icon="@drawable/ic_animal"
         android:title="@string/addFragment" />
     <item
         android:id="@+id/viewFragment"
-        android:icon="@drawable/ic_location"
+        android:icon="@drawable/ic_target"
         android:title="@string/viewFragment" />
 </menu>

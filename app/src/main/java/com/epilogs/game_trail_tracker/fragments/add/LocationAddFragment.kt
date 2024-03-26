@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.database.entities.Location
+import com.epilogs.game_trail_tracker.fragments.extension.ImageDialogFragment
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.ImagePickerUtil
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
@@ -84,7 +85,10 @@ class LocationAddFragment : Fragment() {
         }
 
         val imagesRecyclerView = view.findViewById<RecyclerView>(R.id.imagesLocationRecyclerView)
-        imageAdapter = ImagesAdapter(mutableListOf())
+        imageAdapter = ImagesAdapter(selectedImageUris) { imageUri ->
+            val dialog = ImageDialogFragment.newInstance(imageUri)
+            dialog.show(childFragmentManager, "viewImage")
+        }
         imagesRecyclerView.adapter = imageAdapter
         imagesRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 

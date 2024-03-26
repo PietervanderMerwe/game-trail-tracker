@@ -21,6 +21,7 @@ import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.database.entities.Location
 import com.epilogs.game_trail_tracker.database.entities.Weapon
+import com.epilogs.game_trail_tracker.fragments.extension.ImageDialogFragment
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
@@ -80,14 +81,14 @@ class WeaponViewDetailFragment : Fragment() {
             name.setText(weapon?.name)
             notes.setText(weapon?.notes)
 
-            imageAdapter = ImagesAdapter(mutableListOf())
+            imageAdapter = ImagesAdapter(weapon?.imagePaths?.toMutableList() ?: mutableListOf()) { imageUrl ->
+                val dialog = ImageDialogFragment.newInstance(imageUrl)
+                dialog.show(childFragmentManager, "viewImage")
+            }
+
             imagesRecyclerView.adapter = imageAdapter
             imagesRecyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
-            weapon?.imagePaths?.let { imageUrls ->
-                imageAdapter.updateImages(imageUrls)
-            }
         })
 
         saveButton.setOnClickListener {

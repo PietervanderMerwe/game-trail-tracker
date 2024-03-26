@@ -2,7 +2,6 @@ package com.epilogs.game_trail_tracker.fragments.add
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -28,6 +27,7 @@ import com.epilogs.game_trail_tracker.adapters.WeaponAdapter
 import com.epilogs.game_trail_tracker.database.entities.Animal
 import com.epilogs.game_trail_tracker.database.entities.Location
 import com.epilogs.game_trail_tracker.database.entities.Weapon
+import com.epilogs.game_trail_tracker.fragments.extension.ImageDialogFragment
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.ImagePickerUtil
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
@@ -136,7 +136,10 @@ class AnimalAddFragment : Fragment() {
         }
 
         val imagesRecyclerView = view.findViewById<RecyclerView>(R.id.imagesAnimalRecyclerView)
-        imageAdapter = ImagesAdapter(mutableListOf())
+        imageAdapter = ImagesAdapter(selectedImageUris) { imageUri ->
+            val dialog = ImageDialogFragment.newInstance(imageUri)
+            dialog.show(childFragmentManager, "viewImage")
+        }
         imagesRecyclerView.adapter = imageAdapter
         imagesRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
@@ -168,7 +171,7 @@ class AnimalAddFragment : Fragment() {
             val weightString  = editTextWeight.text.toString()
             val measurementString  = editTextMeasurement.text.toString()
             val dateString = editTextDate.text.toString()
-            imageAdapter.clearImages()
+
             val date = dateConverter.parseDate(dateString)
             val notes = "Some notes"
             val imagePaths = selectedImageUris
@@ -195,7 +198,7 @@ class AnimalAddFragment : Fragment() {
                 editTextWeight.text.clear()
                 editTextMeasurement.text.clear()
                 viewModel.resetInsertionSuccess()
-
+                imageAdapter.clearImages()
                 val checkMarkImageView: ImageView = view.findViewById(R.id.checkMarkAnimalAdd)
                 checkMarkImageView.visibility = View.VISIBLE
                 Handler(Looper.getMainLooper()).postDelayed({
@@ -221,7 +224,7 @@ class AnimalAddFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
             AnimalAddFragment().apply {
             }
     }
