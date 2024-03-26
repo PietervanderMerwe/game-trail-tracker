@@ -19,14 +19,21 @@
             android:id="@+id/weapon_view_item_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/rounded_background"
+            android:padding="8dp"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/weapon_view_item_notes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"/>
+            android:background="@drawable/rounded_background"
+            android:padding="8dp"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />>
     </LinearLayout>
 
 </FrameLayout>
