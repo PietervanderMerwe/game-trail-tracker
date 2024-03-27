@@ -9,7 +9,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
 import com.bumptech.glide.Glide
-class ImagesAdapter(private val images: MutableList<String>, private val itemClickListener: (String) -> Unit) : RecyclerView.Adapter<ImagesAdapter.ImageViewHolder>() {
+class ImagesAdapter(private val images: MutableList<String>, private val itemClickListener: (String, Int) -> Unit) : RecyclerView.Adapter<ImagesAdapter.ImageViewHolder>() {
 
     class ImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.imageItemView)
@@ -24,7 +24,7 @@ class ImagesAdapter(private val images: MutableList<String>, private val itemCli
         val imagePath = images[position]
         Glide.with(holder.imageView.context).load(imagePath).into(holder.imageView)
         holder.itemView.setOnClickListener {
-            itemClickListener(images[position])
+            itemClickListener(imagePath, position)
         }
     }
 

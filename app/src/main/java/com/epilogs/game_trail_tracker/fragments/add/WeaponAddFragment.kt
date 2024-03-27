@@ -79,7 +79,7 @@ class WeaponAddFragment : Fragment() {
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        imageAdapter = ImagesAdapter(selectedImageUris) { imageUri ->
+        imageAdapter = ImagesAdapter(selectedImageUris) { imageUri, postition ->
             ImageDialogFragment.newInstance(imageUri).show(childFragmentManager, "viewImage")
         }
         recyclerView.adapter = imageAdapter

@@ -93,7 +93,7 @@ class LocationAddFragment : Fragment() {
 
     private fun setupImagesRecyclerView(view: View) {
         val imagesRecyclerView = view.findViewById<RecyclerView>(R.id.imagesLocationRecyclerView)
-        imageAdapter = ImagesAdapter(selectedImageUris) { imageUri ->
+        imageAdapter = ImagesAdapter(selectedImageUris) { imageUri, postition ->
             ImageDialogFragment.newInstance(imageUri).show(childFragmentManager, "viewImage")
         }
         imagesRecyclerView.adapter = imageAdapter

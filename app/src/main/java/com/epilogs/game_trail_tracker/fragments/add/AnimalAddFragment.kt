@@ -231,7 +231,7 @@ class AnimalAddFragment : Fragment() {
     }
 
     private fun setupImageView(imagesRecyclerView: RecyclerView) {
-        imageAdapter = ImagesAdapter(selectedImageUris) { imageUri ->
+        imageAdapter = ImagesAdapter(selectedImageUris) { imageUri, postition ->
             val dialog = ImageDialogFragment.newInstance(imageUri)
             dialog.show(childFragmentManager, "viewImage")
         }
