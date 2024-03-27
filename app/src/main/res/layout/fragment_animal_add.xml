@@ -3,46 +3,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.add.AnimalAddFragment"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context=".fragments.add.AnimalAddFragment">
 
-    <EditText
-        android:id="@+id/editTextSpecieName"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/editTextSpecieName"/>
+        android:paddingTop="8dp">
 
-    <EditText
-        android:id="@+id/editTextWeight"
+        <EditText
+            android:id="@+id/editTextSpecieName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/editTextSpecieName" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/editTextWeight" />
+        android:paddingTop="8dp">
 
-    <EditText
-        android:id="@+id/editTextMeasurement"
+        <EditText
+            android:id="@+id/editTextWeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/editTextWeight" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/editTextMeasurement" />
+        android:paddingTop="8dp">
 
-    <EditText
-        android:id="@+id/editTextDate"
+        <EditText
+            android:id="@+id/editTextMeasurement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/editTextMeasurement" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/editTextDate"
-        android:focusable="false"
-        android:clickable="true"
-        android:cursorVisible="false" />
+        android:paddingTop="8dp">
+
+        <EditText
+            android:id="@+id/editTextDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:hint="@string/editTextDate" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Spinner
         android:id="@+id/spinnerLocation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <Spinner
         android:id="@+id/spinnerWeapon"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/buttonSelectAnimalImages"
@@ -54,7 +78,7 @@
         android:id="@+id/imagesAnimalRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp" />
 
     <Button
         android:id="@+id/buttonSaveAnimal"
@@ -66,10 +90,10 @@
         android:id="@+id/checkMarkAnimalAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_checkmark"
-        android:contentDescription="@string/check_mark_image_description"
-        android:visibility="gone"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/check_mark_image_description"
+        android:src="@drawable/ic_checkmark"
+        android:visibility="gone" />
 
 </LinearLayout>

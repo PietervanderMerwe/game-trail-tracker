@@ -81,28 +81,50 @@ class AnimalAddFragment : Fragment() {
         val locationAdapter = LocationAdapter(requireContext(), locations)
         spinnerLocation.adapter = locationAdapter
 
-        viewModel.getAllLocations().observe(viewLifecycleOwner) { newLocations  ->
+        viewModel.getAllLocations().observe(viewLifecycleOwner) { newLocations ->
             val modifiedLocations = mutableListOf<Location>().apply {
-                add(Location(null, "None",false, null, null,"", mutableListOf<String>())) // Assuming Location is a data class that can handle this
+                add(
+                    Location(
+                        null,
+                        "None",
+                        false,
+                        null,
+                        null,
+                        "",
+                        mutableListOf<String>()
+                    )
+                )
                 addAll(newLocations)
             }
             locationAdapter.clear()
-            locationAdapter.addAll(modifiedLocations )
+            locationAdapter.addAll(modifiedLocations)
             locationAdapter.notifyDataSetChanged()
+
+            val defaultPosition = modifiedLocations.indexOfFirst { it.id == locationId }
+
+            if (defaultPosition >= 0) {
+                spinnerLocation.setSelection(defaultPosition)
+            }
         }
 
         val weapons = mutableListOf<Weapon>()
         val weaponAdapter = WeaponAdapter(requireContext(), weapons)
         spinnerWeapon.adapter = weaponAdapter
 
-        viewModel.getAllWeapons().observe(viewLifecycleOwner) { newWeapons  ->
+        viewModel.getAllWeapons().observe(viewLifecycleOwner) { newWeapons ->
             val modifiedWeapons = mutableListOf<Weapon>().apply {
-                add(Weapon(null, "None", "", mutableListOf<String>())) // Similarly, assuming Weapon is a data class
+                add(Weapon(null, "None", "", mutableListOf<String>()))
                 addAll(newWeapons)
             }
             weaponAdapter.clear()
             weaponAdapter.addAll(modifiedWeapons)
             weaponAdapter.notifyDataSetChanged()
+
+            val defaultPosition = modifiedWeapons.indexOfFirst { it.id == weaponId }
+
+            if (defaultPosition >= 0) {
+                spinnerWeapon.setSelection(defaultPosition)
+            }
         }
 
         sharedViewModel.getWeaponsUpdateSignal().observe(viewLifecycleOwner) { updated ->

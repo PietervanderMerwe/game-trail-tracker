@@ -28,17 +28,22 @@
             android:layout_height="200dp"
             android:scaleType="centerCrop" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#80000000" />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:orientation="vertical"
+            android:gravity="center"
             android:padding="16dp">
 
             <TextView
                 android:id="@+id/location_dashboard_name"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_background"
                 android:padding="8dp"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
@@ -46,10 +51,8 @@
 
             <TextView
                 android:id="@+id/location_dashboard_dates"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/rounded_background"
                 android:padding="8dp"
                 android:textColor="@android:color/white" />
         </LinearLayout>
@@ -59,7 +62,8 @@
     <FrameLayout
         android:id="@+id/animal_frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
 
         <ImageView
             android:id="@+id/animal_dashboard_image"
@@ -67,16 +71,21 @@
             android:layout_height="200dp"
             android:scaleType="centerCrop" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#80000000" />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_background"
+            android:layout_height="200dp"
             android:orientation="vertical"
+            android:gravity="center"
             android:padding="16dp">
 
             <TextView
                 android:id="@+id/animal_dashboard_name"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:textColor="@android:color/white"
@@ -85,7 +94,7 @@
 
             <TextView
                 android:id="@+id/animal_dashboard_date"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:textColor="@android:color/white"
@@ -94,4 +103,5 @@
         </LinearLayout>
 
     </FrameLayout>
+
 </LinearLayout>

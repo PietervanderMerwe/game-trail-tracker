@@ -20,7 +20,7 @@
     <string name="editTextWeight">Set weight</string>
     <string name="editTextMeasurement">Set measurement</string>
     <string name="editTextWeaponName">Weapon name</string>
-    <string name="buttonSaveWeapon">Add weapon</string>
+    <string name="buttonSaveWeapon">Save weapon</string>
     <string name="editTextWeaponNotes">Add notes</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>

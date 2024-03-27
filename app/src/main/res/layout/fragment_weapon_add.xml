@@ -3,21 +3,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.add.WeaponAddFragment"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context=".fragments.add.WeaponAddFragment">
 
-    <EditText
-        android:id="@+id/editTextWeaponName"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/editTextWeaponName"/>
+        android:paddingTop="8dp">
 
-    <EditText
-        android:id="@+id/editTextWeaponNotes"
+        <EditText
+            android:id="@+id/editTextWeaponName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/editTextWeaponName" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/editTextWeaponNotes"/>
+        android:paddingTop="8dp">
+
+        <EditText
+            android:id="@+id/editTextWeaponNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/editTextWeaponNotes" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/buttonSelectWeaponImages"
@@ -29,7 +41,7 @@
         android:id="@+id/imagesWeaponRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp" />
 
     <Button
         android:id="@+id/buttonSaveWeapon"
@@ -41,10 +53,10 @@
         android:id="@+id/checkMarkWeaponAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_checkmark"
-        android:contentDescription="@string/check_mark_image_description"
-        android:visibility="gone"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/check_mark_image_description"
+        android:src="@drawable/ic_checkmark"
+        android:visibility="gone" />
 
 </LinearLayout>

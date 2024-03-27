@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp">
 
     <ImageView
         android:id="@+id/animal_view_item_image"
@@ -9,18 +10,23 @@
         android:layout_height="200dp"
         android:scaleType="centerCrop"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#80000000" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:orientation="vertical"
         android:padding="16dp"
-        android:background="@android:color/transparent"> <!-- Optional: ensures the LinearLayout doesn't obscure the ImageView -->
+        android:gravity="top|start"
+        android:background="@android:color/transparent">
 
         <TextView
             android:id="@+id/animal_view_item_name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_background"
             android:padding="8dp"
             android:textColor="@android:color/white"
             android:textSize="18sp"
@@ -28,9 +34,8 @@
 
         <TextView
             android:id="@+id/animal_view_item_date"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_background"
             android:padding="8dp"
             android:textColor="@android:color/white"
             android:textSize="18sp"
