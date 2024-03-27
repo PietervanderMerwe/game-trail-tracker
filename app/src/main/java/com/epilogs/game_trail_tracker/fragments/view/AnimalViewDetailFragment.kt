@@ -1,6 +1,7 @@
 package com.epilogs.game_trail_tracker.fragments.view
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
@@ -21,6 +22,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.adapters.LocationAdapter
@@ -249,8 +251,11 @@ class AnimalViewDetailFragment : Fragment() {
             }
 
             imageAdapter = ImagesAdapter(animal?.imagePaths?.toMutableList() ?: mutableListOf()) { imageUrl ->
-                val dialog = ImageDialogFragment.newInstance(imageUrl)
-                dialog.show(childFragmentManager, "viewImage")
+                val intent = Intent(context, FullScreenImageActivity::class.java).apply {
+                    putExtra("image_url", imageUrl)
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION and Intent.FLAG_GRANT_WRITE_URI_PERMISSION and Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+                }
+                context?.startActivity(intent)
             }
 
             imagesRecyclerView.adapter = imageAdapter
