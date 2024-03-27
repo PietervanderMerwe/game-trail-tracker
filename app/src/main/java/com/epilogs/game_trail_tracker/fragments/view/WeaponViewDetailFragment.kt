@@ -86,7 +86,7 @@ class WeaponViewDetailFragment : Fragment() {
             imageAdapter = ImagesAdapter(weapon?.imagePaths?.toMutableList() ?: mutableListOf()) { imageUrl ->
                 val intent = Intent(context, FullScreenImageActivity::class.java).apply {
                     putExtra("image_url", imageUrl)
-                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION and Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION and Intent.FLAG_GRANT_WRITE_URI_PERMISSION and Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
                 }
                 context?.startActivity(intent)
             }
