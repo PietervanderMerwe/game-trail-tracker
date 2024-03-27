@@ -12,6 +12,8 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -30,120 +32,83 @@ import com.epilogs.game_trail_tracker.viewmodels.SharedViewModel
 
 class LocationAddFragment : Fragment() {
     private val viewModel: LocationViewModel by viewModels()
-    private val pickImagesRequestCode = 100
-    private val selectedImageUris = mutableListOf<String>()
+    private val sharedViewModel: SharedViewModel by viewModels()
+    private lateinit var imagePickerLauncher: ActivityResultLauncher<String>
     private lateinit var imageAdapter: ImagesAdapter
-    private val sharedViewModel: SharedViewModel by activityViewModels()
+    private val selectedImageUris = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
+            selectedImageUris.clear()
+            selectedImageUris.addAll(uris.map { it.toString() })
+            imageAdapter.updateImages(selectedImageUris)
+        }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_location_add, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupUI(view)
+    }
 
-        val editTextName: EditText = view.findViewById(R.id.editTextName)
+    private fun setupUI(view: View) {
+        val editTextName = view.findViewById<EditText>(R.id.editTextName)
         val checkBoxIsContinues = view.findViewById<CheckBox>(R.id.checkBoxIsContinues)
         val editTextStartDate = view.findViewById<EditText>(R.id.editTextStartDate)
         val editTextEndDate = view.findViewById<EditText>(R.id.editTextEndDate)
-        val buttonSelectLocationImages: Button = view.findViewById(R.id.buttonSelectLocationImages)
-        val buttonSaveLocation: Button = view.findViewById(R.id.buttonSaveLocation)
         val dateConverter = DateConverter()
 
-        editTextStartDate.setOnClickListener {
-            showDatePickerDialog(requireContext()) { selectedDate ->
-                editTextStartDate.setText(selectedDate)
-            }
-        }
-
-        editTextEndDate.setOnClickListener {
-            showDatePickerDialog(requireContext()) { selectedDate ->
-                editTextEndDate.setText(selectedDate)
-            }
-        }
+        setupDatePicker(editTextStartDate)
+        setupDatePicker(editTextEndDate)
 
         checkBoxIsContinues.setOnCheckedChangeListener { _, isChecked ->
             editTextStartDate.isEnabled = !isChecked
             editTextEndDate.isEnabled = !isChecked
-
             if (isChecked) {
                 editTextStartDate.text.clear()
                 editTextEndDate.text.clear()
             }
         }
 
-        buttonSelectLocationImages.setOnClickListener {
-            showImagePicker()
+        view.findViewById<Button>(R.id.buttonSelectLocationImages).setOnClickListener {
+            imagePickerLauncher.launch("image/*")
         }
 
+        setupImagesRecyclerView(view)
+        setupSaveButton(view, editTextName, checkBoxIsContinues, editTextStartDate, editTextEndDate, dateConverter)
+    }
+
+    private fun setupDatePicker(editText: EditText) {
+        editText.setOnClickListener {
+            showDatePickerDialog(requireContext()) { selectedDate ->
+                editText.setText(selectedDate)
+            }
+        }
+    }
+
+    private fun setupImagesRecyclerView(view: View) {
         val imagesRecyclerView = view.findViewById<RecyclerView>(R.id.imagesLocationRecyclerView)
         imageAdapter = ImagesAdapter(selectedImageUris) { imageUri ->
-            val dialog = ImageDialogFragment.newInstance(imageUri)
-            dialog.show(childFragmentManager, "viewImage")
+            ImageDialogFragment.newInstance(imageUri).show(childFragmentManager, "viewImage")
         }
         imagesRecyclerView.adapter = imageAdapter
         imagesRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+    }
 
-        buttonSaveLocation.setOnClickListener {
+    private fun setupSaveButton(view: View, editTextName: EditText, checkBoxIsContinues: CheckBox,
+                                editTextStartDate: EditText, editTextEndDate: EditText, dateConverter: DateConverter) {
+        view.findViewById<Button>(R.id.buttonSaveLocation).setOnClickListener {
             val name = editTextName.text.toString()
             val isContinues = checkBoxIsContinues.isChecked
-            val startDateString = editTextStartDate.text.toString()
-            val endDateString = editTextEndDate.text.toString()
-
-            val startDate = dateConverter.parseDate(startDateString)
-            val endDate = dateConverter.parseDate(endDateString)
-            val notes = "Some notes"
-            val imagePaths = selectedImageUris
-
-            val location = Location(
-                name = name,
-                isContinues = isContinues,
-                startDate = startDate,
-                endDate = endDate,
-                notes = notes,
-                imagePaths = imagePaths
-            )
-
+            val startDate = dateConverter.parseDate(editTextStartDate.text.toString())
+            val endDate = dateConverter.parseDate(editTextEndDate.text.toString())
+            val location = Location(name = name, isContinues = isContinues, startDate = startDate,
+                endDate = endDate, notes = "Some notes", imagePaths = selectedImageUris)
             viewModel.insertLocation(location)
-        }
-
-        viewModel.getInsertionSuccess().observe(viewLifecycleOwner, Observer { success ->
-            if (success == true) {
-                editTextName.text.clear()
-                checkBoxIsContinues.isChecked = false
-                editTextStartDate.text.clear()
-                editTextEndDate.text.clear()
-                viewModel.resetInsertionSuccess()
-                imageAdapter.clearImages()
-                val checkMarkImageView: ImageView = view.findViewById(R.id.checkMarkLocationAdd)
-                checkMarkImageView.visibility = View.VISIBLE
-                Handler(Looper.getMainLooper()).postDelayed({
-                    checkMarkImageView.visibility = View.GONE
-                }, 3000)
-                sharedViewModel.notifyLocationsUpdated()
-            }
-        })
-    }
-
-    private fun showImagePicker() {
-        ImagePickerUtil.openImagePicker(this, pickImagesRequestCode)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == pickImagesRequestCode && resultCode == Activity.RESULT_OK) {
-            val imagesUris = ImagePickerUtil.extractSelectedImages(data)
-            selectedImageUris.clear()
-            selectedImageUris.addAll(imagesUris.map { it.toString() })
-            imageAdapter.updateImages(selectedImageUris)
         }
     }
 
