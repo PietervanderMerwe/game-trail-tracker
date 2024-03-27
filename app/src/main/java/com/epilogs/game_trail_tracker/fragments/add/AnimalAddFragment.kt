@@ -1,5 +1,6 @@
 package com.epilogs.game_trail_tracker.fragments.add
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -19,6 +20,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.adapters.LocationAdapter
@@ -231,9 +233,13 @@ class AnimalAddFragment : Fragment() {
     }
 
     private fun setupImageView(imagesRecyclerView: RecyclerView) {
-        imageAdapter = ImagesAdapter(selectedImageUris) { imageUri, postition ->
-            val dialog = ImageDialogFragment.newInstance(imageUri)
-            dialog.show(childFragmentManager, "viewImage")
+        imageAdapter = ImagesAdapter(selectedImageUris) { imageUri, position ->
+            val intent = Intent(context, FullScreenImageActivity::class.java).apply {
+                putStringArrayListExtra("image_urls", ArrayList(selectedImageUris))
+                putExtra("image_position", position)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION and Intent.FLAG_GRANT_WRITE_URI_PERMISSION and Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+            }
+            context?.startActivity(intent)
         }
         imagesRecyclerView.adapter = imageAdapter
         imagesRecyclerView.layoutManager =

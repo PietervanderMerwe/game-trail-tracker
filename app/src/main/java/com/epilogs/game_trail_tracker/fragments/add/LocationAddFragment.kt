@@ -20,6 +20,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.database.entities.Location
@@ -93,8 +94,13 @@ class LocationAddFragment : Fragment() {
 
     private fun setupImagesRecyclerView(view: View) {
         val imagesRecyclerView = view.findViewById<RecyclerView>(R.id.imagesLocationRecyclerView)
-        imageAdapter = ImagesAdapter(selectedImageUris) { imageUri, postition ->
-            ImageDialogFragment.newInstance(imageUri).show(childFragmentManager, "viewImage")
+        imageAdapter = ImagesAdapter(selectedImageUris) { imageUri, position ->
+            val intent = Intent(context, FullScreenImageActivity::class.java).apply {
+                putStringArrayListExtra("image_urls", ArrayList(selectedImageUris))
+                putExtra("image_position", position)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION and Intent.FLAG_GRANT_WRITE_URI_PERMISSION and Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+            }
+            context?.startActivity(intent)
         }
         imagesRecyclerView.adapter = imageAdapter
         imagesRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)

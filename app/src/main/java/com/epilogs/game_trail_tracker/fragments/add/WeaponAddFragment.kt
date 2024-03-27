@@ -1,5 +1,6 @@
 package com.epilogs.game_trail_tracker.fragments.add
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -24,6 +25,7 @@ import com.epilogs.game_trail_tracker.viewmodels.SharedViewModel
 import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
+import com.epilogs.game_trail_tracker.FullScreenImageActivity
 
 class WeaponAddFragment : Fragment() {
     private val viewModel: WeaponViewModel by viewModels()
@@ -79,8 +81,13 @@ class WeaponAddFragment : Fragment() {
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        imageAdapter = ImagesAdapter(selectedImageUris) { imageUri, postition ->
-            ImageDialogFragment.newInstance(imageUri).show(childFragmentManager, "viewImage")
+        imageAdapter = ImagesAdapter(selectedImageUris) { imageUri, position ->
+            val intent = Intent(context, FullScreenImageActivity::class.java).apply {
+                putStringArrayListExtra("image_urls", ArrayList(selectedImageUris))
+                putExtra("image_position", position)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION and Intent.FLAG_GRANT_WRITE_URI_PERMISSION and Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+            }
+            context?.startActivity(intent)
         }
         recyclerView.adapter = imageAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
