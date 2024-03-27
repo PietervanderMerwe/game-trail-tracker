@@ -8,6 +8,7 @@ object ImagePickerUtil {
     fun openImagePicker(fragment: Fragment, requestCode: Int) {
         val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
             type = "image/*"
+            addCategory(Intent.CATEGORY_OPENABLE)
             putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
         }
         fragment.startActivityForResult(Intent.createChooser(intent, "Select Pictures"), requestCode)

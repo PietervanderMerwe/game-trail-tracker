@@ -1,19 +1,17 @@
 package com.epilogs.game_trail_tracker.fragments.add
 
-import android.app.Activity
-import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,93 +20,98 @@ import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 import com.epilogs.game_trail_tracker.fragments.extension.ImageDialogFragment
-import com.epilogs.game_trail_tracker.utils.ImagePickerUtil
 import com.epilogs.game_trail_tracker.viewmodels.SharedViewModel
 import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.activityViewModels
 
 class WeaponAddFragment : Fragment() {
     private val viewModel: WeaponViewModel by viewModels()
-    private val pickImagesRequestCode = 100
-    private val selectedImageUris = mutableListOf<String>()
-    private lateinit var imageAdapter: ImagesAdapter
     private val sharedViewModel: SharedViewModel by activityViewModels()
+    private lateinit var imageAdapter: ImagesAdapter
+    private val selectedImageUris = mutableListOf<String>()
+    private lateinit var imagePickerLauncher: ActivityResultLauncher<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
+            val imagesUris = uris.map(Uri::toString)
+            selectedImageUris.clear()
+            selectedImageUris.addAll(imagesUris)
+            imageAdapter.updateImages(selectedImageUris)
+        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_weapon_add, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupUI(view)
+    }
 
+    private fun setupUI(view: View) {
         val editTextWeaponName: EditText = view.findViewById(R.id.editTextWeaponName)
-        val editTextWeaponNotes : EditText = view.findViewById(R.id.editTextWeaponNotes)
+        val editTextWeaponNotes: EditText = view.findViewById(R.id.editTextWeaponNotes)
         val buttonSaveWeapon: Button = view.findViewById(R.id.buttonSaveWeapon)
         val buttonSelectLocationImages: Button = view.findViewById(R.id.buttonSelectWeaponImages)
-        val imagePaths = selectedImageUris
+        val imagesRecyclerView: RecyclerView = view.findViewById(R.id.imagesWeaponRecyclerView)
 
         buttonSaveWeapon.setOnClickListener {
-            val name = editTextWeaponName.text.toString()
-            val notes = editTextWeaponNotes.text.toString()
-            val weapon = Weapon(name = name, notes = notes, imagePaths = imagePaths)
-
-            viewModel.insertWeapon(weapon)
+            saveWeapon(editTextWeaponName.text.toString(), editTextWeaponNotes.text.toString())
         }
 
         buttonSelectLocationImages.setOnClickListener {
-            showImagePicker()
+            imagePickerLauncher.launch("image/*")
         }
 
-        val imagesRecyclerView = view.findViewById<RecyclerView>(R.id.imagesWeaponRecyclerView)
+        setupRecyclerView(imagesRecyclerView)
+        observeViewModel()
+    }
+
+    private fun saveWeapon(name: String, notes: String) {
+        val weapon = Weapon(name = name, notes = notes, imagePaths = selectedImageUris)
+        viewModel.insertWeapon(weapon)
+    }
+
+    private fun setupRecyclerView(recyclerView: RecyclerView) {
         imageAdapter = ImagesAdapter(selectedImageUris) { imageUri ->
-            val dialog = ImageDialogFragment.newInstance(imageUri)
-            dialog.show(childFragmentManager, "viewImage")
+            ImageDialogFragment.newInstance(imageUri).show(childFragmentManager, "viewImage")
         }
-        imagesRecyclerView.adapter = imageAdapter
-        imagesRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.adapter = imageAdapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+    }
 
+    private fun observeViewModel() {
         viewModel.getInsertionSuccess().observe(viewLifecycleOwner, Observer { success ->
-            if (success == true) {
-                editTextWeaponName.text.clear()
-                editTextWeaponNotes.text.clear()
-                viewModel.resetInsertionSuccess()
-                imageAdapter.clearImages()
-                val checkMarkImageView: ImageView = view.findViewById(R.id.checkMarkWeaponAdd)
-                checkMarkImageView.visibility = View.VISIBLE
-                Handler(Looper.getMainLooper()).postDelayed({
-                    checkMarkImageView.visibility = View.GONE
-                }, 3000)
-                Log.d("Weapon Add notify","True")
-                sharedViewModel.notifyWeaponsUpdated()
-            }
+            if (success!!) handleInsertionSuccess()
         })
     }
 
-    private fun showImagePicker() {
-        ImagePickerUtil.openImagePicker(this, pickImagesRequestCode)
+    private fun handleInsertionSuccess() {
+        view?.findViewById<EditText>(R.id.editTextWeaponName)?.text?.clear()
+        view?.findViewById<EditText>(R.id.editTextWeaponNotes)?.text?.clear()
+        viewModel.resetInsertionSuccess()
+        imageAdapter.clearImages()
+        showCheckMark()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == pickImagesRequestCode && resultCode == Activity.RESULT_OK) {
-            val imagesUris = ImagePickerUtil.extractSelectedImages(data)
-            selectedImageUris.clear()
-            selectedImageUris.addAll(imagesUris.map { it.toString() })
-            imageAdapter.updateImages(selectedImageUris)
+    private fun showCheckMark() {
+        view?.findViewById<ImageView>(R.id.checkMarkWeaponAdd)?.let { checkMarkImageView ->
+            checkMarkImageView.visibility = View.VISIBLE
+            Handler(Looper.getMainLooper()).postDelayed({
+                checkMarkImageView.visibility = View.GONE
+            }, 3000)
         }
+        sharedViewModel.notifyWeaponsUpdated()
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            WeaponAddFragment().apply {
-            }
+        fun newInstance() = WeaponAddFragment()
     }
 }

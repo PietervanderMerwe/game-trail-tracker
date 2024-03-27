@@ -1,5 +1,5 @@
 [versions]
-agp = "8.3.0"
+agp = "8.3.1"
 kotlin = "1.9.22"
 coreKtx = "1.10.1"
 junit = "4.13.2"
@@ -21,6 +21,7 @@ gson = "2.10.1"
 coroutines = "1.4.3"
 livedata = "2.3.1"
 navigation = "2.5.0"
+photoView = "2.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -52,6 +53,7 @@ room_testing = { group = "androidx.room", name = "room-testing", version.ref = "
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "livedata" }
+photoView = { group = "com.github.chrisbanes", name = "PhotoView", version.ref = "photoView" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

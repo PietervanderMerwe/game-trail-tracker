@@ -15,27 +15,25 @@ import com.epilogs.game_trail_tracker.database.entities.Location
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 import com.epilogs.game_trail_tracker.interfaces.OnWeaponItemClickListener
 
-class WeaponViewAdapter (private var weapons: List<Weapon>,
-                         private val listener: OnWeaponItemClickListener
+class WeaponViewAdapter(
+    private var weapons: List<Weapon>,
+    private val listener: OnWeaponItemClickListener
 ) : RecyclerView.Adapter<WeaponViewAdapter.WeaponViewHolder>(),
     Filterable {
 
     private var weaponsFiltered = weapons
     private var currentSearchText: String? = ""
 
-    class WeaponViewHolder(view: View, private val listener: OnWeaponItemClickListener) : RecyclerView.ViewHolder(view) {
+    class WeaponViewHolder(view: View, private val listener: OnWeaponItemClickListener) :
+        RecyclerView.ViewHolder(view) {
         fun bind(weapon: Weapon) {
             itemView.findViewById<TextView>(R.id.weapon_view_item_name).text = weapon.name
             itemView.findViewById<TextView>(R.id.weapon_view_item_notes).text = weapon.notes
 
-            weapon.imagePaths?.let {
-                if (it.isNotEmpty()) {
-                    // Assuming you're using Glide or a similar library to load images
-                    Glide.with(itemView.context).load(it[0]).into(itemView.findViewById<ImageView>(R.id.weapon_view_item_image))
-                }
-            }
+            Glide.with(itemView.context).load(weapon.imagePaths?.get(0))
+                .into(itemView.findViewById<ImageView>(R.id.weapon_view_item_image))
 
-            // Move the click listener setup here
+
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     listener.onWeaponItemClick(weapon)
