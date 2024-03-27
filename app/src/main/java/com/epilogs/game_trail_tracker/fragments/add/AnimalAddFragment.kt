@@ -41,8 +41,8 @@ class AnimalAddFragment : Fragment() {
     private val pickImagesRequestCode = 100
     private val selectedImageUris = mutableListOf<String>()
     private lateinit var imageAdapter: ImagesAdapter
-    private var locationId :Int? = 0;
-    private var weaponId :Int? = 0;
+    private var locationId: Int? = 0;
+    private var weaponId: Int? = 0;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -54,13 +54,14 @@ class AnimalAddFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_animal_add, container, false)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val editTextSpecieName: EditText = view.findViewById(R.id.editTextSpecieName)
-        val editTextDate : EditText = view.findViewById(R.id.editTextDate)
-        val editTextWeight : EditText = view.findViewById(R.id.editTextWeight)
-        val editTextMeasurement : EditText = view.findViewById(R.id.editTextMeasurement)
+        val editTextDate: EditText = view.findViewById(R.id.editTextDate)
+        val editTextWeight: EditText = view.findViewById(R.id.editTextWeight)
+        val editTextMeasurement: EditText = view.findViewById(R.id.editTextMeasurement)
         val spinnerLocation: Spinner = view.findViewById(R.id.spinnerLocation)
         val spinnerWeapon: Spinner = view.findViewById(R.id.spinnerWeapon)
         val buttonSelectAnimalImages: Button = view.findViewById(R.id.buttonSelectAnimalImages)
@@ -163,11 +164,17 @@ class AnimalAddFragment : Fragment() {
             dialog.show(childFragmentManager, "viewImage")
         }
         imagesRecyclerView.adapter = imageAdapter
-        imagesRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        imagesRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
 
         spinnerLocation.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
                 val selectedLocation = parent.getItemAtPosition(position) as Location
                 locationId = selectedLocation.id
             }
@@ -178,7 +185,12 @@ class AnimalAddFragment : Fragment() {
         }
 
         spinnerWeapon.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
                 val selectedWeapon = parent.getItemAtPosition(position) as Weapon
                 weaponId = selectedWeapon.id
             }
@@ -190,8 +202,8 @@ class AnimalAddFragment : Fragment() {
 
         buttonSaveAnimal.setOnClickListener {
             val name = editTextSpecieName.text.toString()
-            val weightString  = editTextWeight.text.toString()
-            val measurementString  = editTextMeasurement.text.toString()
+            val weightString = editTextWeight.text.toString()
+            val measurementString = editTextMeasurement.text.toString()
             val dateString = editTextDate.text.toString()
 
             val date = dateConverter.parseDate(dateString)
