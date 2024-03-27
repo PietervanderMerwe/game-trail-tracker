@@ -80,6 +80,7 @@ class LocationAddFragment : Fragment() {
 
         setupImagesRecyclerView(view)
         setupSaveButton(view, editTextName, checkBoxIsContinues, editTextStartDate, editTextEndDate, dateConverter)
+        setupObserveInsertion(view, editTextName, checkBoxIsContinues, editTextStartDate, editTextEndDate)
     }
 
     private fun setupDatePicker(editText: EditText) {
@@ -111,6 +112,27 @@ class LocationAddFragment : Fragment() {
             viewModel.insertLocation(location)
         }
     }
+
+    private fun setupObserveInsertion(view: View, editTextName: EditText, checkBoxIsContinues: CheckBox,
+                                      editTextStartDate: EditText, editTextEndDate: EditText){
+        viewModel.getInsertionSuccess().observe(viewLifecycleOwner, Observer { success ->
+            if (success == true) {
+                editTextName.text.clear()
+                checkBoxIsContinues.isChecked = false
+                editTextStartDate.text.clear()
+                editTextEndDate.text.clear()
+                viewModel.resetInsertionSuccess()
+                imageAdapter.clearImages()
+                val checkMarkImageView: ImageView = view.findViewById(R.id.checkMarkLocationAdd)
+                checkMarkImageView.visibility = View.VISIBLE
+                Handler(Looper.getMainLooper()).postDelayed({
+                    checkMarkImageView.visibility = View.GONE
+                }, 3000)
+                sharedViewModel.notifyLocationsUpdated()
+            }
+        })
+    }
+
 
     companion object {
         @JvmStatic
