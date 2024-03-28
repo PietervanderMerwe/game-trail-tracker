@@ -40,7 +40,7 @@ class TrophyViewAdapter(private var animals: List<Animal>,
 
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    listener.onAnimalItemClick(animal)
+                    listener.onTrophyItemClick(animal)
                 }
             }
         }

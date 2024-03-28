@@ -3,5 +3,5 @@ package com.epilogs.game_trail_tracker.interfaces
 import com.epilogs.game_trail_tracker.database.entities.Animal
 
 interface OnTrophyItemClickListener {
-    fun onAnimalItemClick(animal: Animal)
+    fun onTrophyItemClick(animal: Animal)
 }

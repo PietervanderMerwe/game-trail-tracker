@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_trophyFragment_to_huntFragment"
             app:destination="@id/huntFragment" />
+        <action
+            android:id="@+id/action_trophyFragment_to_trophyAddFragment"
+            app:destination="@id/trophyAddFragment" />
     </fragment>
     <fragment
         android:id="@+id/weaponFragment"
@@ -39,6 +42,12 @@
         <action
             android:id="@+id/action_weaponFragment_to_huntFragment"
             app:destination="@id/huntFragment" />
+        <action
+            android:id="@+id/action_weaponFragment_to_weaponAddFragment"
+            app:destination="@id/weaponAddFragment" />
+        <action
+            android:id="@+id/action_weaponFragment_to_trophyFragment"
+            app:destination="@id/trophyFragment" />
     </fragment>
     <fragment
         android:id="@+id/huntAddFragment"
@@ -48,5 +57,23 @@
         <action
             android:id="@+id/action_huntAddFragment_to_huntFragment"
             app:destination="@id/huntFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/trophyAddFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.trophy.TrophyAddFragment"
+        android:label="fragment_trophy_add"
+        tools:layout="@layout/fragment_trophy_add" >
+        <action
+            android:id="@+id/action_trophyAddFragment_to_trophyFragment"
+            app:destination="@id/trophyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/weaponAddFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.weapon.WeaponAddFragment"
+        android:label="fragment_weapon_add"
+        tools:layout="@layout/fragment_weapon_add" >
+        <action
+            android:id="@+id/action_weaponAddFragment_to_weaponFragment"
+            app:destination="@id/weaponFragment" />
     </fragment>
 </navigation>

@@ -44,4 +44,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="large_image_description">Zoomed in image</string>
     <string name="add_hunt">Add hunt +</string>
+    <string name="add_trophy">Add trophy +</string>
+    <string name="add_weapon">Add weapon</string>
 </resources>

@@ -70,7 +70,7 @@ class TrophyViewFragment : Fragment(), OnTrophyItemClickListener, FilterTrophyCr
         }
     }
 
-    override fun onAnimalItemClick(animal: Animal) {
+    override fun onTrophyItemClick(animal: Animal) {
 //        val action = ViewFragmentDirections.actionViewFragmentToAnimalViewDetailFragment(animal.id!!)
 //        findNavController().navigate(action)
     }

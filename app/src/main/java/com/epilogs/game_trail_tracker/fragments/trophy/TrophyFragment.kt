@@ -1,52 +1,107 @@
 package com.epilogs.game_trail_tracker.fragments.trophy
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.viewpager2.widget.ViewPager2
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.epilogs.game_trail_tracker.R
-import com.epilogs.game_trail_tracker.adapters.ViewPagerAddAdapter
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
+import com.epilogs.game_trail_tracker.adapters.TrophyViewAdapter
+import com.epilogs.game_trail_tracker.data.TrophyFilterCriteria
+import com.epilogs.game_trail_tracker.database.entities.Animal
+import com.epilogs.game_trail_tracker.databinding.FragmentTrophyBinding
+import com.epilogs.game_trail_tracker.fragments.view.filter.AdvancedTrophyFilterFragment
+import com.epilogs.game_trail_tracker.interfaces.FilterTrophyCriteriaListener
+import com.epilogs.game_trail_tracker.interfaces.OnTrophyItemClickListener
+import com.epilogs.game_trail_tracker.viewmodels.TrophyViewModel
 
-/**
- * A simple [Fragment] subclass.
- * Use the [TrophyFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class TrophyFragment : Fragment() {
+class TrophyFragment : Fragment(R.layout.fragment_trophy), OnTrophyItemClickListener,
+    FilterTrophyCriteriaListener {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_trophy, container, false)
-    }
+    private val viewModel: TrophyViewModel by viewModels()
+    private lateinit var binding: FragmentTrophyBinding
+    private lateinit var adapter: TrophyViewAdapter
+    private var currentSearchText: String? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding = FragmentTrophyBinding.bind(view)
 
-        val viewPager: ViewPager2 = view.findViewById(R.id.view_pager_add)
-        val adapter = ViewPagerAddAdapter(this)
-        viewPager.adapter = adapter
+        setupRecyclerView()
+        setupSearchView()
+        observeViewModel()
+        setupAdvancedFilterButton()
+    }
 
-        val tabLayout: TabLayout = view.findViewById(R.id.top_add_tabs)
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = adapter.getPageTitle(position)
-        }.attach()
+    private fun setupRecyclerView() {
+        with(binding.trophyViewList) {
+            layoutManager = LinearLayoutManager(context)
+            adapter = TrophyViewAdapter(emptyList(), this@TrophyFragment).also {
+                this@TrophyFragment.adapter = it
+            }
+        }
+    }
+
+    private fun setupSearchView() {
+        binding.searchTrophy.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean = false
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                currentSearchText = newText
+                adapter.filter.filter(newText)
+                return true
+            }
+        })
+    }
+
+    private fun observeViewModel() {
+        viewModel.getAllAnimals().observe(viewLifecycleOwner) { trophies ->
+            adapter.updateAnimals(trophies)
+            checkDataAndUpdateUI()
+        }
+    }
+
+    private fun setupAdvancedFilterButton() {
+        binding.advancedTrophyFilterButton.setOnClickListener {
+            AdvancedTrophyFilterFragment.newInstance(adapter.currentFilterCriteria)
+                .show(childFragmentManager, null)
+        }
+    }
+
+    override fun onTrophyItemClick(trophy: Animal) {
+//        val action = ViewFragmentDirections.actionViewFragmentToAnimalViewDetailFragment(animal.id!!)
+//        findNavController().navigate(action)
+    }
+
+    override fun onFilterCriteriaSelected(criteria: TrophyFilterCriteria?) {
+        adapter.updateFilterCriteria(criteria)
+    }
+
+    private fun checkDataAndUpdateUI() {
+        val hasData = adapter.itemCount > 0
+        binding.trophyLayoutList.visibility = if (hasData) View.VISIBLE else View.GONE
+        binding.addTrophyButtonFloat.visibility = if (hasData) View.VISIBLE else View.GONE
+        binding.addTrophyButton.visibility = if (hasData) View.GONE else View.VISIBLE
+
+        binding.addTrophyButton.setOnClickListener {
+            val action =
+                TrophyFragmentDirections.actionTrophyFragmentToTrophyAddFragment()
+            findNavController().navigate(action)
+        }
+
+        binding.addTrophyButtonFloat.setOnClickListener {
+            val action =
+                TrophyFragmentDirections.actionTrophyFragmentToTrophyAddFragment()
+            findNavController().navigate(action)
+        }
+
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TrophyFragment().apply {
-
+        fun newInstance() = TrophyFragment().apply {
             }
     }
 }
