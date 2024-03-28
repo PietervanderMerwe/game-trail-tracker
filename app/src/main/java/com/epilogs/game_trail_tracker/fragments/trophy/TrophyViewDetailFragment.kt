@@ -1,10 +1,9 @@
-package com.epilogs.game_trail_tracker.fragments.view
+package com.epilogs.game_trail_tracker.fragments.trophy
 
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -30,7 +28,6 @@ import com.epilogs.game_trail_tracker.adapters.WeaponAdapter
 import com.epilogs.game_trail_tracker.database.entities.Animal
 import com.epilogs.game_trail_tracker.database.entities.Location
 import com.epilogs.game_trail_tracker.database.entities.Weapon
-import com.epilogs.game_trail_tracker.fragments.extension.ImageDialogFragment
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
@@ -40,7 +37,7 @@ import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class AnimalViewDetailFragment : Fragment() {
+class TrophyViewDetailFragment : Fragment() {
 
     private var animalId: Int? = null
     private val animalViewModel: AnimalViewModel by viewModels()
@@ -75,7 +72,7 @@ class AnimalViewDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_animal_view_detail, container, false)
+        return inflater.inflate(R.layout.fragment_trophy_view_detail, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -111,7 +108,7 @@ class AnimalViewDetailFragment : Fragment() {
 
         viewLocationButton.setOnClickListener {
             val action =
-                AnimalViewDetailFragmentDirections.actionAnimalViewDetailFragment2ToLocationViewDetailFragment2(
+                TrophyViewDetailFragmentDirections.actionAnimalViewDetailFragment2ToLocationViewDetailFragment2(
                     locationId!!
                 )
             findNavController().navigate(action)
@@ -119,7 +116,7 @@ class AnimalViewDetailFragment : Fragment() {
 
         viewWeaponButton.setOnClickListener {
             val action =
-                AnimalViewDetailFragmentDirections.actionAnimalViewDetailFragment2ToWeaponViewDetailFragment2(
+                TrophyViewDetailFragmentDirections.actionAnimalViewDetailFragment2ToWeaponViewDetailFragment2(
                     weaponId!!
                 )
             findNavController().navigate(action)
@@ -381,7 +378,7 @@ class AnimalViewDetailFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(animalId: Int) =
-            AnimalViewDetailFragment().apply {
+            TrophyViewDetailFragment().apply {
                 arguments = Bundle().apply {
                     putInt("animalId", animalId)
                 }

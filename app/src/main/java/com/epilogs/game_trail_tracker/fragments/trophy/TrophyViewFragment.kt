@@ -1,4 +1,4 @@
-package com.epilogs.game_trail_tracker.fragments.view
+package com.epilogs.game_trail_tracker.fragments.trophy
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,19 +13,21 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
-import com.epilogs.game_trail_tracker.adapters.LocationViewAdapter
-import com.epilogs.game_trail_tracker.data.LocationFilterCriteria
-import com.epilogs.game_trail_tracker.database.entities.Location
-import com.epilogs.game_trail_tracker.fragments.view.filter.AdvancedLocationFilterFragment
-import com.epilogs.game_trail_tracker.interfaces.FilterLocationCriteriaListener
-import com.epilogs.game_trail_tracker.interfaces.OnLocationItemClickListener
-import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
+import com.epilogs.game_trail_tracker.adapters.AnimalViewAdapter
+import com.epilogs.game_trail_tracker.data.AnimalFilterCriteria
+import com.epilogs.game_trail_tracker.database.entities.Animal
+import com.epilogs.game_trail_tracker.fragments.view.ViewFragmentDirections
+import com.epilogs.game_trail_tracker.fragments.view.filter.AdvancedAnimalFilterFragment
+import com.epilogs.game_trail_tracker.interfaces.FilterAnimalCriteriaListener
+import com.epilogs.game_trail_tracker.interfaces.OnAnimalItemClickListener
+import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 
-class LocationViewFragment : Fragment(), OnLocationItemClickListener, FilterLocationCriteriaListener {
+class TrophyViewFragment : Fragment(), OnAnimalItemClickListener, FilterAnimalCriteriaListener {
 
-    private val viewModel: LocationViewModel by viewModels()
-    private lateinit var adapter: LocationViewAdapter
+    private val viewModel: AnimalViewModel by viewModels()
+    private lateinit var adapter: AnimalViewAdapter
     private var currentSearchText: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -34,19 +36,19 @@ class LocationViewFragment : Fragment(), OnLocationItemClickListener, FilterLoca
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_location_view, container, false)
+        return inflater.inflate(R.layout.fragment_trophy_view, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView: RecyclerView = view.findViewById(R.id.location_view_list)
+        val recyclerView: RecyclerView = view.findViewById(R.id.animal_view_list)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        adapter = LocationViewAdapter(emptyList(), this)
+        adapter = AnimalViewAdapter(emptyList(), this)
         recyclerView.adapter = adapter
 
-        val searchView = view.findViewById<SearchView>(R.id.search_location_view)
+        val searchView = view.findViewById<SearchView>(R.id.search_animal_view)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
@@ -59,31 +61,30 @@ class LocationViewFragment : Fragment(), OnLocationItemClickListener, FilterLoca
             }
         })
 
-        viewModel.getAllLocations().observe(viewLifecycleOwner, Observer { locations ->
-            adapter.updateLocations(locations)
+        viewModel.getAllAnimals().observe(viewLifecycleOwner, Observer { animals ->
+            adapter.updateAnimals(animals)
         })
 
-        val advancedFilterButton: ImageView = view.findViewById(R.id.advanced_location_filter_button)
+        val advancedFilterButton: ImageView = view.findViewById(R.id.advanced_animal_filter_button)
         advancedFilterButton.setOnClickListener {
-            val advancedFilterFragment = AdvancedLocationFilterFragment.newInstance(adapter.currentFilterCriteria)
+            val advancedFilterFragment = AdvancedAnimalFilterFragment.newInstance(adapter.currentFilterCriteria)
             advancedFilterFragment.show(childFragmentManager, advancedFilterFragment.tag)
         }
     }
 
-    override fun onLocationItemClick(location: Location) {
-        val action =
-            ViewFragmentDirections.actionViewFragmentToLocationViewDetailFragment(location.id!!)
+    override fun onAnimalItemClick(animal: Animal) {
+        val action = ViewFragmentDirections.actionViewFragmentToAnimalViewDetailFragment(animal.id!!)
         findNavController().navigate(action)
     }
 
-    override fun onFilterCriteriaSelected(criteria: LocationFilterCriteria?) {
+    override fun onFilterCriteriaSelected(criteria: AnimalFilterCriteria?) {
         adapter.updateFilterCriteria(criteria)
     }
 
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            LocationViewFragment().apply {
+            TrophyViewFragment().apply {
             }
     }
 }

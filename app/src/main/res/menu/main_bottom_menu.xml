@@ -3,13 +3,13 @@
     <item
         android:id="@+id/dashboardFragment"
         android:icon="@drawable/ic_dashboard"
-        android:title="@string/dashboardFragment" />
+        android:title="@string/huntFragment" />
     <item
         android:id="@+id/addFragment"
         android:icon="@drawable/ic_animal"
-        android:title="@string/addFragment" />
+        android:title="@string/trophyFragment" />
     <item
         android:id="@+id/viewFragment"
         android:icon="@drawable/ic_target"
-        android:title="@string/viewFragment" />
+        android:title="@string/weaponFragment" />
 </menu>

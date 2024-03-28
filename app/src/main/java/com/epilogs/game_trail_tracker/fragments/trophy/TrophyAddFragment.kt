@@ -1,4 +1,4 @@
-package com.epilogs.game_trail_tracker.fragments.add
+package com.epilogs.game_trail_tracker.fragments.trophy
 
 import android.content.Intent
 import android.os.Bundle
@@ -28,13 +28,12 @@ import com.epilogs.game_trail_tracker.adapters.WeaponAdapter
 import com.epilogs.game_trail_tracker.database.entities.Animal
 import com.epilogs.game_trail_tracker.database.entities.Location
 import com.epilogs.game_trail_tracker.database.entities.Weapon
-import com.epilogs.game_trail_tracker.fragments.extension.ImageDialogFragment
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 import com.epilogs.game_trail_tracker.viewmodels.SharedViewModel
 
-class AnimalAddFragment : Fragment() {
+class TrophyAddFragment : Fragment() {
     private val viewModel: AnimalViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val selectedImageUris = mutableListOf<String>()
@@ -53,7 +52,7 @@ class AnimalAddFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_animal_add, container, false)
+        return inflater.inflate(R.layout.fragment_trophy_add, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -249,7 +248,7 @@ class AnimalAddFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() =
-            AnimalAddFragment().apply {
+            TrophyAddFragment().apply {
             }
     }
 }

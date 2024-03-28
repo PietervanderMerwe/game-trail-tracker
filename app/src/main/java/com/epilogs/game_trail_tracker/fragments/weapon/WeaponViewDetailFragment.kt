@@ -1,4 +1,4 @@
-package com.epilogs.game_trail_tracker.fragments.view
+package com.epilogs.game_trail_tracker.fragments.weapon
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -21,11 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
-import com.epilogs.game_trail_tracker.database.entities.Location
 import com.epilogs.game_trail_tracker.database.entities.Weapon
-import com.epilogs.game_trail_tracker.fragments.extension.ImageDialogFragment
-import com.epilogs.game_trail_tracker.utils.DateConverter
-import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
 import com.google.android.material.textfield.TextInputLayout
 

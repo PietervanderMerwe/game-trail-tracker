@@ -1,4 +1,4 @@
-package com.epilogs.game_trail_tracker.fragments.view
+package com.epilogs.game_trail_tracker.fragments.hunt
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -22,7 +22,6 @@ import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.database.entities.Location
-import com.epilogs.game_trail_tracker.fragments.extension.ImageDialogFragment
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
@@ -30,7 +29,7 @@ import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class LocationViewDetailFragment : Fragment() {
+class HuntViewDetailFragment : Fragment() {
 
     private var locationId: Int? = null
     private val viewModel: LocationViewModel by viewModels()
@@ -57,7 +56,7 @@ class LocationViewDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_location_view_detail, container, false)
+        return inflater.inflate(R.layout.fragment_hunt_view_detail, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -218,7 +217,7 @@ class LocationViewDetailFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(locationId: Int) =
-            LocationViewDetailFragment().apply {
+            HuntViewDetailFragment().apply {
                 arguments = Bundle().apply {
                     putInt("locationId", locationId)
                 }

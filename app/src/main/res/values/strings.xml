@@ -2,17 +2,11 @@
     <string name="app_name">game-trail-tracker</string>
     <string name="editTextDate">Select Date</string>
     <string name="editTextName">Name</string>
-    <string name="editTextCountry">Country</string>
     <string name="buttonSelectImages">Select Images</string>
     <string name="editTextSpecieName">Specie Name</string>
-    <string name="editTextWeapon">Weapon</string>
-    <string name="locationFragment">Location</string>
-    <string name="animalFragment">Animal</string>
     <string name="weaponFragment">Weapon</string>
-    <string name="title_activity_view">ViewActivity</string>
-    <string name="viewFragment">View</string>
-    <string name="dashboardFragment">Dashboard</string>
-    <string name="addFragment">Add</string>
+    <string name="huntFragment">Hunt</string>
+    <string name="trophyFragment">Trophy</string>
     <string name="checkBoxIsContinues">No date</string>
     <string name="buttonSaveLocation">Save location</string>
     <string name="check_mark_image_description">Check mark</string>
@@ -48,6 +42,5 @@
     <string name="dashboard_title">Game Trail Tracker</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_detail">DetailActivity</string>
     <string name="large_image_description">Zoomed in image</string>
 </resources>

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.view.LocationViewFragment">
+    tools:context=".fragments.trophy.TrophyViewFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,13 +16,13 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.SearchView
-                android:id="@+id/search_location_view"
+                android:id="@+id/search_animal_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
 
             <ImageView
-                android:id="@+id/advanced_location_filter_button"
+                android:id="@+id/advanced_animal_filter_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -34,9 +34,9 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/location_view_list"
+            android:id="@+id/animal_view_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
+            android:layout_height="match_parent" />
     </LinearLayout>
+
 </FrameLayout>

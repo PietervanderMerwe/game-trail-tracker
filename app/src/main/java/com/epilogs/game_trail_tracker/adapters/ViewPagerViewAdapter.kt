@@ -2,10 +2,10 @@ package com.epilogs.game_trail_tracker.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.epilogs.game_trail_tracker.fragments.view.AnimalViewFragment
-import com.epilogs.game_trail_tracker.fragments.view.LocationViewDetailFragment
-import com.epilogs.game_trail_tracker.fragments.view.LocationViewFragment
-import com.epilogs.game_trail_tracker.fragments.view.WeaponViewFragment
+import com.epilogs.game_trail_tracker.fragments.trophy.TrophyViewFragment
+import com.epilogs.game_trail_tracker.fragments.hunt.HuntViewDetailFragment
+import com.epilogs.game_trail_tracker.fragments.hunt.HuntViewFragment
+import com.epilogs.game_trail_tracker.fragments.weapon.WeaponViewFragment
 
 class ViewPagerViewAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     private val fragmentTitles = arrayOf("Location", "Animal", "Weapon")
@@ -14,10 +14,10 @@ class ViewPagerViewAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) 
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> LocationViewFragment()
-            1 -> AnimalViewFragment()
+            0 -> HuntViewFragment()
+            1 -> TrophyViewFragment()
             2 -> WeaponViewFragment()
-            3 -> LocationViewDetailFragment()
+            3 -> HuntViewDetailFragment()
             else -> throw IllegalStateException("Invalid position")
         }
     }

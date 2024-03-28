@@ -1,4 +1,4 @@
-package com.epilogs.game_trail_tracker.fragments.add
+package com.epilogs.game_trail_tracker.fragments.weapon
 
 import android.content.Intent
 import android.net.Uri
@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.database.entities.Weapon
-import com.epilogs.game_trail_tracker.fragments.extension.ImageDialogFragment
 import com.epilogs.game_trail_tracker.viewmodels.SharedViewModel
 import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
 import androidx.activity.result.contract.ActivityResultContracts

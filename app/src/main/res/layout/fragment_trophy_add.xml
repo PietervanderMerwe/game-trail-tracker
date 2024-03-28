@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".fragments.add.LocationAddFragment">
+    tools:context=".fragments.trophy.TrophyAddFragment">
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -13,10 +13,10 @@
         android:paddingTop="8dp">
 
         <EditText
-            android:id="@+id/editTextName"
+            android:id="@+id/editTextSpecieName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/editTextName" />
+            android:hint="@string/editTextSpecieName" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -25,7 +25,31 @@
         android:paddingTop="8dp">
 
         <EditText
-            android:id="@+id/editTextStartDate"
+            android:id="@+id/editTextWeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/editTextWeight" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp">
+
+        <EditText
+            android:id="@+id/editTextMeasurement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/editTextMeasurement" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp">
+
+        <EditText
+            android:id="@+id/editTextDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -34,29 +58,18 @@
             android:hint="@string/editTextDate" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <Spinner
+        android:id="@+id/spinnerLocation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp">
+        android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/editTextEndDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:cursorVisible="false"
-            android:focusable="false"
-            android:hint="@string/editTextDate" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <CheckBox
-        android:id="@+id/checkBoxIsContinues"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/checkBoxIsContinues" />
+    <Spinner
+        android:id="@+id/spinnerWeapon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/buttonSelectLocationImages"
+        android:id="@+id/buttonSelectAnimalImages"
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -64,7 +77,7 @@
         android:text="@string/buttonSelectImages" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/imagesLocationRecyclerView"
+        android:id="@+id/imagesAnimalRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -78,16 +91,16 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/buttonSaveLocation"
+            android:id="@+id/buttonSaveAnimal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.9"
             android:background="@drawable/button_rounded_less"
-            android:text="@string/buttonSaveLocation" />
+            android:text="@string/buttonSaveAnimal" />
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/checkMarkLocationAdd"
+        android:id="@+id/checkMarkAnimalAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

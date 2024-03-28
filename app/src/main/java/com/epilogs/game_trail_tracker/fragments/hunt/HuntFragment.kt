@@ -1,30 +1,24 @@
-package com.epilogs.game_trail_tracker.fragments.dashboard
+package com.epilogs.game_trail_tracker.fragments.hunt
 
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.epilogs.game_trail_tracker.R
-import com.epilogs.game_trail_tracker.database.entities.Animal
-import com.epilogs.game_trail_tracker.fragments.view.AnimalViewDetailFragmentDirections
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
-import com.epilogs.game_trail_tracker.views.TrailView
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class DashboardFragment : Fragment() {
+class HuntFragment : Fragment() {
     private val animalViewModel: AnimalViewModel by viewModels()
     private val locationViewModel: LocationViewModel by viewModels()
     private lateinit var locationFrameLayout: FrameLayout
@@ -37,7 +31,7 @@ class DashboardFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_dashboard, container, false)
+        return inflater.inflate(R.layout.fragment_hunt, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,7 +56,7 @@ class DashboardFragment : Fragment() {
                 }
                 animalFrameLayout.setOnClickListener {
                     val action =
-                        DashboardFragmentDirections.actionDashboardFragmentToAnimalViewDetailFragment2(
+                        HuntFragmentDirections.actionDashboardFragmentToAnimalViewDetailFragment2(
                             latestAnimal.id!!
                         )
                     findNavController().navigate(action)
@@ -94,7 +88,7 @@ class DashboardFragment : Fragment() {
 
                     locationFrameLayout.setOnClickListener {
                         val action =
-                            DashboardFragmentDirections.actionDashboardFragmentToLocationViewDetailFragment2(
+                            HuntFragmentDirections.actionDashboardFragmentToLocationViewDetailFragment2(
                                 latestLocation.id!!
                             )
                         findNavController().navigate(action)
@@ -109,7 +103,7 @@ class DashboardFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() =
-            DashboardFragment().apply {
+            HuntFragment().apply {
             }
     }
 }

@@ -40,9 +40,9 @@
     </fragment>
     <fragment
         android:id="@+id/dashboardFragment"
-        android:name="com.epilogs.game_trail_tracker.fragments.dashboard.DashboardFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.hunt.HuntFragment"
         android:label="fragment_dashboard"
-        tools:layout="@layout/fragment_dashboard" >
+        tools:layout="@layout/fragment_hunt" >
         <action
             android:id="@+id/action_dashboardFragment_to_viewFragment"
             app:destination="@id/viewFragment" />
@@ -58,9 +58,9 @@
     </fragment>
     <fragment
         android:id="@+id/animalViewDetailFragment2"
-        android:name="com.epilogs.game_trail_tracker.fragments.view.AnimalViewDetailFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.trophy.TrophyViewDetailFragment"
         android:label="fragment_animal_view_detail"
-        tools:layout="@layout/fragment_animal_view_detail" >
+        tools:layout="@layout/fragment_trophy_view_detail" >
         <argument
             android:name="animalId"
             app:argType="integer" />
@@ -79,9 +79,9 @@
     </fragment>
     <fragment
         android:id="@+id/locationViewDetailFragment2"
-        android:name="com.epilogs.game_trail_tracker.fragments.view.LocationViewDetailFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.hunt.HuntViewDetailFragment"
         android:label="fragment_location_view_detail"
-        tools:layout="@layout/fragment_location_view_detail" >
+        tools:layout="@layout/fragment_hunt_view_detail" >
         <argument
             android:name="locationId"
             app:argType="integer" />
@@ -97,7 +97,7 @@
     </fragment>
     <fragment
         android:id="@+id/weaponViewDetailFragment2"
-        android:name="com.epilogs.game_trail_tracker.fragments.view.WeaponViewDetailFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.weapon.WeaponViewDetailFragment"
         android:label="fragment_weapon_view_detail"
         tools:layout="@layout/fragment_weapon_view_detail" >
         <argument
