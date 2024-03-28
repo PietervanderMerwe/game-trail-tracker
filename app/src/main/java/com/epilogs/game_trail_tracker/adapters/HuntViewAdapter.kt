@@ -10,22 +10,22 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.epilogs.game_trail_tracker.R
-import com.epilogs.game_trail_tracker.data.LocationFilterCriteria
+import com.epilogs.game_trail_tracker.data.HuntFilterCriteria
 import com.epilogs.game_trail_tracker.database.entities.Location
-import com.epilogs.game_trail_tracker.interfaces.OnLocationItemClickListener
+import com.epilogs.game_trail_tracker.interfaces.OnHuntItemClickListener
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class HuntViewAdapter(private var locations: List<Location>,
-                      private val listener: OnLocationItemClickListener,
+                      private val listener: OnHuntItemClickListener,
 ) : RecyclerView.Adapter<HuntViewAdapter.LocationViewHolder>(),
     Filterable {
 
     private var locationsFiltered = locations
-    var currentFilterCriteria: LocationFilterCriteria? = null
+    var currentFilterCriteria: HuntFilterCriteria? = null
     private var currentSearchText: String? = ""
 
-    class LocationViewHolder(private val view: View, private val listener: OnLocationItemClickListener) : RecyclerView.ViewHolder(view) {
+    class LocationViewHolder(private val view: View, private val listener: OnHuntItemClickListener) : RecyclerView.ViewHolder(view) {
 
         fun bind(location: Location) {
             itemView.findViewById<TextView>(R.id.location_view_item_name).text = location.name
@@ -97,7 +97,7 @@ class HuntViewAdapter(private var locations: List<Location>,
         applyFilter()
     }
 
-    fun updateFilterCriteria(criteria: LocationFilterCriteria?) {
+    fun updateFilterCriteria(criteria: HuntFilterCriteria?) {
         currentFilterCriteria = criteria
         applyFilter()
     }

@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import com.epilogs.game_trail_tracker.R
-import com.epilogs.game_trail_tracker.data.AnimalFilterCriteria
-import com.epilogs.game_trail_tracker.interfaces.FilterAnimalCriteriaListener
+import com.epilogs.game_trail_tracker.data.TrophyFilterCriteria
+import com.epilogs.game_trail_tracker.interfaces.FilterTrophyCriteriaListener
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -17,15 +17,15 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class AdvancedAnimalFilterFragment : BottomSheetDialogFragment() {
+class AdvancedTrophyFilterFragment : BottomSheetDialogFragment() {
 
-    private var listener: FilterAnimalCriteriaListener? = null
+    private var listener: FilterTrophyCriteriaListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         listener = when {
-            parentFragment is FilterAnimalCriteriaListener -> parentFragment as FilterAnimalCriteriaListener
-            context is FilterAnimalCriteriaListener -> context as FilterAnimalCriteriaListener
+            parentFragment is FilterTrophyCriteriaListener -> parentFragment as FilterTrophyCriteriaListener
+            context is FilterTrophyCriteriaListener -> context as FilterTrophyCriteriaListener
             else -> throw RuntimeException("$context must implement FilterAnimalCriteriaListener")
         }
     }
@@ -60,7 +60,7 @@ class AdvancedAnimalFilterFragment : BottomSheetDialogFragment() {
         val clearButton: Button = view.findViewById(R.id.clear_animal_filters_button)
 
         val currentCriteria =
-            arguments?.getSerializable(AdvancedAnimalFilterFragment.ARG_FILTER_CRITERIA) as? AnimalFilterCriteria
+            arguments?.getSerializable(AdvancedTrophyFilterFragment.ARG_FILTER_CRITERIA) as? TrophyFilterCriteria
         currentCriteria?.let {
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             startDate.setText(dateFormat.format(it.startDate!!))
@@ -85,7 +85,7 @@ class AdvancedAnimalFilterFragment : BottomSheetDialogFragment() {
             if (startDate.text.isNullOrEmpty() && endDate.text.isNullOrEmpty()) {
                 listener?.onFilterCriteriaSelected(null)
             } else {
-                val criteria = AnimalFilterCriteria(
+                val criteria = TrophyFilterCriteria(
                     startDate = dateConverter.parseDate(startDate.text.toString()),
                     endDate = dateConverter.parseDate(endDate.text.toString())
                 )
@@ -107,8 +107,8 @@ class AdvancedAnimalFilterFragment : BottomSheetDialogFragment() {
         private const val ARG_FILTER_CRITERIA = "filterCriteria"
 
         @JvmStatic
-        fun newInstance(filterCriteria: AnimalFilterCriteria? = null) =
-            AdvancedAnimalFilterFragment().apply {
+        fun newInstance(filterCriteria: TrophyFilterCriteria? = null) =
+            AdvancedTrophyFilterFragment().apply {
                 arguments = Bundle().apply {
                     putSerializable(ARG_FILTER_CRITERIA, filterCriteria)
                 }

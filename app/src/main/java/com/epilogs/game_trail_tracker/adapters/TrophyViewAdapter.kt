@@ -10,22 +10,22 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.epilogs.game_trail_tracker.R
-import com.epilogs.game_trail_tracker.data.AnimalFilterCriteria
+import com.epilogs.game_trail_tracker.data.TrophyFilterCriteria
 import com.epilogs.game_trail_tracker.database.entities.Animal
-import com.epilogs.game_trail_tracker.interfaces.OnAnimalItemClickListener
+import com.epilogs.game_trail_tracker.interfaces.OnTrophyItemClickListener
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class TrophyViewAdapter(private var animals: List<Animal>,
-                        private val listener: OnAnimalItemClickListener
+                        private val listener: OnTrophyItemClickListener
 ) : RecyclerView.Adapter<TrophyViewAdapter.AnimalViewHolder>(),
     Filterable {
 
     private var animalsFiltered = animals
-    var currentFilterCriteria: AnimalFilterCriteria? = null
+    var currentFilterCriteria: TrophyFilterCriteria? = null
     private var currentSearchText: String? = ""
 
-    class AnimalViewHolder(view: View, private val listener: OnAnimalItemClickListener) : RecyclerView.ViewHolder(view) {
+    class AnimalViewHolder(view: View, private val listener: OnTrophyItemClickListener) : RecyclerView.ViewHolder(view) {
         fun bind(animal: Animal) {
             itemView.findViewById<TextView>(R.id.animal_view_item_name).text = animal.name
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -94,7 +94,7 @@ class TrophyViewAdapter(private var animals: List<Animal>,
         applyFilter()
     }
 
-    fun updateFilterCriteria(criteria: AnimalFilterCriteria?) {
+    fun updateFilterCriteria(criteria: TrophyFilterCriteria?) {
         currentFilterCriteria = criteria
         applyFilter()
     }

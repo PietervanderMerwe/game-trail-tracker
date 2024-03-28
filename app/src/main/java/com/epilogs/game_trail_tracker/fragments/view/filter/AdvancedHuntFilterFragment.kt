@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import com.epilogs.game_trail_tracker.R
-import com.epilogs.game_trail_tracker.data.LocationFilterCriteria
-import com.epilogs.game_trail_tracker.interfaces.FilterLocationCriteriaListener
+import com.epilogs.game_trail_tracker.data.HuntFilterCriteria
+import com.epilogs.game_trail_tracker.interfaces.FilterHuntCriteriaListener
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -17,15 +17,15 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class AdvancedLocationFilterFragment : BottomSheetDialogFragment() {
+class AdvancedHuntFilterFragment : BottomSheetDialogFragment() {
 
-    private var listener: FilterLocationCriteriaListener? = null
+    private var listener: FilterHuntCriteriaListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         listener = when {
-            parentFragment is FilterLocationCriteriaListener -> parentFragment as FilterLocationCriteriaListener
-            context is FilterLocationCriteriaListener -> context as FilterLocationCriteriaListener
+            parentFragment is FilterHuntCriteriaListener -> parentFragment as FilterHuntCriteriaListener
+            context is FilterHuntCriteriaListener -> context as FilterHuntCriteriaListener
             else -> throw RuntimeException("$context must implement FilterCriteriaListener")
         }
     }
@@ -53,7 +53,7 @@ class AdvancedLocationFilterFragment : BottomSheetDialogFragment() {
         val applyButton: Button = view.findViewById(R.id.apply_location_filters_button)
         val clearButton: Button = view.findViewById(R.id.clear_location_filters_button)
 
-        val currentCriteria = arguments?.getSerializable(ARG_FILTER_CRITERIA) as? LocationFilterCriteria
+        val currentCriteria = arguments?.getSerializable(ARG_FILTER_CRITERIA) as? HuntFilterCriteria
         currentCriteria?.let {
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             startDate.setText(dateFormat.format(it.startDate!!))
@@ -80,7 +80,7 @@ class AdvancedLocationFilterFragment : BottomSheetDialogFragment() {
             }
             else
             {
-                val criteria = LocationFilterCriteria(
+                val criteria = HuntFilterCriteria(
                     startDate = dateConverter.parseDate(startDate.text.toString()),
                     endDate = dateConverter.parseDate(endDate.text.toString())
                 )
@@ -102,8 +102,8 @@ class AdvancedLocationFilterFragment : BottomSheetDialogFragment() {
         private const val ARG_FILTER_CRITERIA = "filterCriteria"
 
         @JvmStatic
-        fun newInstance(filterCriteria: LocationFilterCriteria? = null) =
-            AdvancedLocationFilterFragment().apply {
+        fun newInstance(filterCriteria: HuntFilterCriteria? = null) =
+            AdvancedHuntFilterFragment().apply {
                 arguments = Bundle().apply {
                     putSerializable(ARG_FILTER_CRITERIA, filterCriteria)
                 }

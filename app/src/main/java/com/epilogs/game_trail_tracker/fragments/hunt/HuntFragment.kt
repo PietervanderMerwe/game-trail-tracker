@@ -13,15 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.HuntViewAdapter
-import com.epilogs.game_trail_tracker.data.LocationFilterCriteria
+import com.epilogs.game_trail_tracker.data.HuntFilterCriteria
 import com.epilogs.game_trail_tracker.database.entities.Location
-import com.epilogs.game_trail_tracker.fragments.trophy.TrophyViewFragment
-import com.epilogs.game_trail_tracker.fragments.view.filter.AdvancedLocationFilterFragment
-import com.epilogs.game_trail_tracker.interfaces.FilterLocationCriteriaListener
-import com.epilogs.game_trail_tracker.interfaces.OnLocationItemClickListener
+import com.epilogs.game_trail_tracker.fragments.view.filter.AdvancedHuntFilterFragment
+import com.epilogs.game_trail_tracker.interfaces.FilterHuntCriteriaListener
+import com.epilogs.game_trail_tracker.interfaces.OnHuntItemClickListener
 import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
 
-class HuntFragment : Fragment(), OnLocationItemClickListener, FilterLocationCriteriaListener {
+class HuntFragment : Fragment(), OnHuntItemClickListener, FilterHuntCriteriaListener {
 
     private val viewModel: HuntViewModel by viewModels()
     private lateinit var adapter: HuntViewAdapter
@@ -66,7 +65,7 @@ class HuntFragment : Fragment(), OnLocationItemClickListener, FilterLocationCrit
 
         val advancedFilterButton: ImageView = view.findViewById(R.id.advanced_hunt_filter_button)
         advancedFilterButton.setOnClickListener {
-            val advancedFilterFragment = AdvancedLocationFilterFragment.newInstance(adapter.currentFilterCriteria)
+            val advancedFilterFragment = AdvancedHuntFilterFragment.newInstance(adapter.currentFilterCriteria)
             advancedFilterFragment.show(childFragmentManager, advancedFilterFragment.tag)
         }
     }
@@ -76,7 +75,7 @@ class HuntFragment : Fragment(), OnLocationItemClickListener, FilterLocationCrit
 //        findNavController().navigate(action)
     }
 
-    override fun onFilterCriteriaSelected(criteria: LocationFilterCriteria?) {
+    override fun onFilterCriteriaSelected(criteria: HuntFilterCriteria?) {
         adapter.updateFilterCriteria(criteria)
     }
 

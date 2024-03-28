@@ -13,14 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.TrophyViewAdapter
-import com.epilogs.game_trail_tracker.data.AnimalFilterCriteria
+import com.epilogs.game_trail_tracker.data.TrophyFilterCriteria
 import com.epilogs.game_trail_tracker.database.entities.Animal
-import com.epilogs.game_trail_tracker.fragments.view.filter.AdvancedAnimalFilterFragment
-import com.epilogs.game_trail_tracker.interfaces.FilterAnimalCriteriaListener
-import com.epilogs.game_trail_tracker.interfaces.OnAnimalItemClickListener
+import com.epilogs.game_trail_tracker.fragments.view.filter.AdvancedTrophyFilterFragment
+import com.epilogs.game_trail_tracker.interfaces.FilterTrophyCriteriaListener
+import com.epilogs.game_trail_tracker.interfaces.OnTrophyItemClickListener
 import com.epilogs.game_trail_tracker.viewmodels.TrophyViewModel
 
-class TrophyViewFragment : Fragment(), OnAnimalItemClickListener, FilterAnimalCriteriaListener {
+class TrophyViewFragment : Fragment(), OnTrophyItemClickListener, FilterTrophyCriteriaListener {
 
     private val viewModel: TrophyViewModel by viewModels()
     private lateinit var adapter: TrophyViewAdapter
@@ -65,7 +65,7 @@ class TrophyViewFragment : Fragment(), OnAnimalItemClickListener, FilterAnimalCr
 
         val advancedFilterButton: ImageView = view.findViewById(R.id.advanced_animal_filter_button)
         advancedFilterButton.setOnClickListener {
-            val advancedFilterFragment = AdvancedAnimalFilterFragment.newInstance(adapter.currentFilterCriteria)
+            val advancedFilterFragment = AdvancedTrophyFilterFragment.newInstance(adapter.currentFilterCriteria)
             advancedFilterFragment.show(childFragmentManager, advancedFilterFragment.tag)
         }
     }
@@ -75,7 +75,7 @@ class TrophyViewFragment : Fragment(), OnAnimalItemClickListener, FilterAnimalCr
 //        findNavController().navigate(action)
     }
 
-    override fun onFilterCriteriaSelected(criteria: AnimalFilterCriteria?) {
+    override fun onFilterCriteriaSelected(criteria: TrophyFilterCriteria?) {
         adapter.updateFilterCriteria(criteria)
     }
 

@@ -10,8 +10,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.epilogs.game_trail_tracker.R
-import com.epilogs.game_trail_tracker.data.LocationFilterCriteria
-import com.epilogs.game_trail_tracker.database.entities.Location
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 import com.epilogs.game_trail_tracker.interfaces.OnWeaponItemClickListener
 
