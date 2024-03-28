@@ -2,4 +2,39 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/my_nav" />
+    android:id="@+id/my_nav"
+    app:startDestination="@id/huntFragment">
+    <fragment
+        android:id="@+id/huntFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.hunt.HuntFragment"
+        android:label="fragment_hunt"
+        tools:layout="@layout/fragment_hunt" >
+        <action
+            android:id="@+id/action_huntFragment_to_trophyFragment"
+            app:destination="@id/trophyFragment" />
+        <action
+            android:id="@+id/action_huntFragment_to_weaponFragment"
+            app:destination="@id/weaponFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/trophyFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.trophy.TrophyFragment"
+        android:label="fragment_trophy"
+        tools:layout="@layout/fragment_trophy" >
+        <action
+            android:id="@+id/action_trophyFragment_to_weaponFragment"
+            app:destination="@id/weaponFragment" />
+        <action
+            android:id="@+id/action_trophyFragment_to_huntFragment"
+            app:destination="@id/huntFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/weaponFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.weapon.WeaponFragment"
+        android:label="fragment_weapon"
+        tools:layout="@layout/fragment_weapon" >
+        <action
+            android:id="@+id/action_weaponFragment_to_huntFragment"
+            app:destination="@id/huntFragment" />
+    </fragment>
+</navigation>

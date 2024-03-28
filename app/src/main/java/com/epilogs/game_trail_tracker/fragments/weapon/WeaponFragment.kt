@@ -1,4 +1,4 @@
-package com.epilogs.game_trail_tracker.fragments.view
+package com.epilogs.game_trail_tracker.fragments.weapon
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import com.epilogs.game_trail_tracker.adapters.ViewPagerViewAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-class ViewFragment : Fragment() {
+class WeaponFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +22,7 @@ class ViewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_view, container, false)
+        return inflater.inflate(R.layout.fragment_weapon, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,7 +41,7 @@ class ViewFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            ViewFragment().apply {
+            WeaponFragment().apply {
                 // Implementation details if needed
             }
     }
