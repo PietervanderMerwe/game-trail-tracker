@@ -87,9 +87,8 @@ class HuntViewDetailFragment : Fragment() {
             name.setText(location?.name)
             startDate.setText(location?.startDate?.let { dateFormat.format(it) } ?: "N/A")
             endDate.setText(location?.endDate?.let { dateFormat.format(it) } ?: "N/A")
-            checkBoxIsContinuous.isChecked = location?.isContinues!!
 
-            imageAdapter = ImagesAdapter(location.imagePaths?.toMutableList() ?: mutableListOf()) { imageUrl, position ->
+            imageAdapter = ImagesAdapter(location?.imagePaths?.toMutableList() ?: mutableListOf()) { imageUrl, position ->
                 val intent = Intent(context, FullScreenImageActivity::class.java).apply {
                     putStringArrayListExtra("image_urls", ArrayList(location?.imagePaths))
                     putExtra("image_position", position)
@@ -124,7 +123,6 @@ class HuntViewDetailFragment : Fragment() {
                 location.name = name.text.toString()
                 location.startDate = dateConverter.parseDate(startDate.text.toString())
                 location.endDate = dateConverter.parseDate(endDate.text.toString())
-                location.isContinues = checkBoxIsContinuous.isChecked
 
                 viewModel.updateLocation(location)
             }

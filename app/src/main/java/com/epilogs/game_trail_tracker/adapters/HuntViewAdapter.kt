@@ -42,7 +42,7 @@ class HuntViewAdapter(private var locations: List<Location>,
 
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    listener.onLocationItemClick(location)
+                    listener.onHuntItemClick(location)
                 }
             }
         }

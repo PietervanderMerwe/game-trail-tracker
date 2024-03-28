@@ -135,7 +135,7 @@ class TrophyAddFragment : Fragment() {
 
         viewModel.getAllLocations().observe(viewLifecycleOwner) { newLocations ->
             val modifiedLocations = mutableListOf<Location>().apply {
-                add(Location(null, "None", false, null, null, "", mutableListOf<String>())
+                add(Location(null, "None", null, null, mutableListOf<String>())
                 )
                 addAll(newLocations)
             }

@@ -49,12 +49,6 @@
             android:hint="@string/editTextDate" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <CheckBox
-        android:id="@+id/checkBoxIsContinues"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/checkBoxIsContinues" />
-
     <Button
         android:id="@+id/buttonSelectLocationImages"
         style="?android:attr/buttonBarButtonStyle"

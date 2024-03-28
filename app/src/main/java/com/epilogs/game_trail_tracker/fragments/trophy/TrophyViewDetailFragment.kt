@@ -137,10 +137,8 @@ class TrophyViewDetailFragment : Fragment() {
                         Location(
                             null,
                             "None",
-                            false,
                             null,
                             null,
-                            "",
                             mutableListOf<String>()
                         )
                     )

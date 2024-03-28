@@ -69,7 +69,7 @@ class HuntViewFragment : Fragment(), OnHuntItemClickListener, FilterHuntCriteria
         }
     }
 
-    override fun onLocationItemClick(location: Location) {
+    override fun onHuntItemClick(location: Location) {
 //        val action =
 //            ViewFragmentDirections.actionViewFragmentToLocationViewDetailFragment(location.id!!)
 //        findNavController().navigate(action)

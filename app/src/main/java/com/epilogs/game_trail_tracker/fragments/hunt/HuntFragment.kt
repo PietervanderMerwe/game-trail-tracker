@@ -1,56 +1,53 @@
 package com.epilogs.game_trail_tracker.fragments.hunt
 
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.HuntViewAdapter
 import com.epilogs.game_trail_tracker.data.HuntFilterCriteria
 import com.epilogs.game_trail_tracker.database.entities.Location
+import com.epilogs.game_trail_tracker.databinding.FragmentHuntBinding
 import com.epilogs.game_trail_tracker.fragments.view.filter.AdvancedHuntFilterFragment
 import com.epilogs.game_trail_tracker.interfaces.FilterHuntCriteriaListener
 import com.epilogs.game_trail_tracker.interfaces.OnHuntItemClickListener
 import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
 
-class HuntFragment : Fragment(), OnHuntItemClickListener, FilterHuntCriteriaListener {
+class HuntFragment : Fragment(R.layout.fragment_hunt), OnHuntItemClickListener,
+    FilterHuntCriteriaListener {
 
     private val viewModel: HuntViewModel by viewModels()
+    private lateinit var binding: FragmentHuntBinding
     private lateinit var adapter: HuntViewAdapter
     private var currentSearchText: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_hunt, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding = FragmentHuntBinding.bind(view)
 
-        val recyclerView: RecyclerView = view.findViewById(R.id.hunt_view_list)
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        setupRecyclerView()
+        setupSearchView()
+        observeViewModel()
+        setupAdvancedFilterButton()
+    }
 
-        adapter = HuntViewAdapter(emptyList(), this)
-        recyclerView.adapter = adapter
-
-        val searchView = view.findViewById<SearchView>(R.id.search_hunt)
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
+    private fun setupRecyclerView() {
+        with(binding.huntViewList) {
+            layoutManager = LinearLayoutManager(context)
+            adapter = HuntViewAdapter(emptyList(), this@HuntFragment).also {
+                this@HuntFragment.adapter = it
             }
+        }
+    }
+
+    private fun setupSearchView() {
+        binding.searchHunt.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean = false
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 currentSearchText = newText
@@ -58,19 +55,23 @@ class HuntFragment : Fragment(), OnHuntItemClickListener, FilterHuntCriteriaList
                 return true
             }
         })
+    }
 
-        viewModel.getAllLocations().observe(viewLifecycleOwner, Observer { hunts ->
+    private fun observeViewModel() {
+        viewModel.getAllLocations().observe(viewLifecycleOwner) { hunts ->
             adapter.updateLocations(hunts)
-        })
-
-        val advancedFilterButton: ImageView = view.findViewById(R.id.advanced_hunt_filter_button)
-        advancedFilterButton.setOnClickListener {
-            val advancedFilterFragment = AdvancedHuntFilterFragment.newInstance(adapter.currentFilterCriteria)
-            advancedFilterFragment.show(childFragmentManager, advancedFilterFragment.tag)
+            checkDataAndUpdateUI()
         }
     }
 
-    override fun onLocationItemClick(location: Location) {
+    private fun setupAdvancedFilterButton() {
+        binding.advancedHuntFilterButton.setOnClickListener {
+            AdvancedHuntFilterFragment.newInstance(adapter.currentFilterCriteria)
+                .show(childFragmentManager, null)
+        }
+    }
+
+    override fun onHuntItemClick(location: Location) {
 //        val action = ViewFragmentDirections.actionViewFragmentToAnimalViewDetailFragment(animal.id!!)
 //        findNavController().navigate(action)
     }
@@ -79,10 +80,29 @@ class HuntFragment : Fragment(), OnHuntItemClickListener, FilterHuntCriteriaList
         adapter.updateFilterCriteria(criteria)
     }
 
+    private fun checkDataAndUpdateUI() {
+        val hasData = adapter.itemCount > 0
+        binding.huntLayoutList.visibility = if (hasData) View.VISIBLE else View.GONE
+        binding.addHuntButtonFloat.visibility = if (hasData) View.VISIBLE else View.GONE
+        binding.addHuntButton.visibility = if (hasData) View.GONE else View.VISIBLE
+
+        binding.addHuntButton.setOnClickListener {
+            val action =
+                HuntFragmentDirections.actionHuntFragmentToHuntAddFragment()
+            findNavController().navigate(action)
+        }
+
+        binding.addHuntButtonFloat.setOnClickListener {
+            val action =
+                HuntFragmentDirections.actionHuntFragmentToHuntAddFragment()
+            findNavController().navigate(action)
+        }
+
+    }
+
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HuntFragment().apply {
-            }
+        fun newInstance() = HuntFragment().apply {
+        }
     }
 }

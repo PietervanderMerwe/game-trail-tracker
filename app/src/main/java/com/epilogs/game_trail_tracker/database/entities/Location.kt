@@ -11,9 +11,7 @@ import java.util.Date
 data class Location (
     @PrimaryKey(autoGenerate = true) var id: Int? = null,
     var name: String,
-    var isContinues: Boolean,
     @TypeConverters(DateConverter::class) var startDate: Date?,
     @TypeConverters(DateConverter::class) var endDate: Date?,
-    var notes: String,
     @TypeConverters(ImagePathListConverter::class) var imagePaths: List<String>?
 )

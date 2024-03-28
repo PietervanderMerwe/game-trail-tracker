@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".fragments.hunt.HuntFragment">
 
     <TextView
@@ -21,6 +20,7 @@
         android:id="@+id/hunt_layout_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/appNameTextView"
         android:orientation="vertical">
 
         <LinearLayout
@@ -50,6 +50,25 @@
             android:id="@+id/hunt_view_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
     </LinearLayout>
 
-</LinearLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_hunt_button_float"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_add"
+        android:contentDescription="@string/add_hunt" />
+
+    <Button
+        android:id="@+id/add_hunt_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/add_hunt"
+        android:visibility="gone"/>
+
+</RelativeLayout>
