@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.WeaponViewAdapter
 import com.epilogs.game_trail_tracker.database.entities.Weapon
-import com.epilogs.game_trail_tracker.fragments.view.ViewFragmentDirections
 import com.epilogs.game_trail_tracker.interfaces.OnWeaponItemClickListener
 import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
 
@@ -64,8 +63,8 @@ class WeaponViewFragment : Fragment(), OnWeaponItemClickListener {
     }
 
     override fun onWeaponItemClick(weapon: Weapon) {
-        val action = ViewFragmentDirections.actionViewFragmentToWeaponViewDetailFragment(weapon.id!!)
-        findNavController().navigate(action)
+//        val action = ViewFragmentDirections.actionViewFragmentToWeaponViewDetailFragment(weapon.id!!)
+//        findNavController().navigate(action)
     }
 
     companion object {

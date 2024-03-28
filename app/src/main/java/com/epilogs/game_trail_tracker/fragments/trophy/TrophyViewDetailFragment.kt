@@ -107,19 +107,19 @@ class TrophyViewDetailFragment : Fragment() {
         }
 
         viewLocationButton.setOnClickListener {
-            val action =
-                TrophyViewDetailFragmentDirections.actionAnimalViewDetailFragment2ToLocationViewDetailFragment2(
-                    locationId!!
-                )
-            findNavController().navigate(action)
+//            val action =
+//                TrophyViewDetailFragmentDirections.actionAnimalViewDetailFragment2ToLocationViewDetailFragment2(
+//                    locationId!!
+//                )
+//            findNavController().navigate(action)
         }
 
         viewWeaponButton.setOnClickListener {
-            val action =
-                TrophyViewDetailFragmentDirections.actionAnimalViewDetailFragment2ToWeaponViewDetailFragment2(
-                    weaponId!!
-                )
-            findNavController().navigate(action)
+//            val action =
+//                TrophyViewDetailFragmentDirections.actionAnimalViewDetailFragment2ToWeaponViewDetailFragment2(
+//                    weaponId!!
+//                )
+//            findNavController().navigate(action)
         }
 
         disableAllText()

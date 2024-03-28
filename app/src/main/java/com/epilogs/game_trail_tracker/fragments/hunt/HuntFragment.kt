@@ -55,11 +55,11 @@ class HuntFragment : Fragment() {
                     Glide.with(view.context).load(imagePaths[0]).into(animalImageView)
                 }
                 animalFrameLayout.setOnClickListener {
-                    val action =
-                        HuntFragmentDirections.actionDashboardFragmentToAnimalViewDetailFragment2(
-                            latestAnimal.id!!
-                        )
-                    findNavController().navigate(action)
+//                    val action =
+//                        HuntFragmentDirections.actionHuntFragmentToAnimalViewDetailFragment2(
+//                            latestAnimal.id!!
+//                        )
+//                    findNavController().navigate(action)
                 }
             } else {
                 animalFrameLayout.visibility = View.GONE
@@ -87,11 +87,11 @@ class HuntFragment : Fragment() {
                     }
 
                     locationFrameLayout.setOnClickListener {
-                        val action =
-                            HuntFragmentDirections.actionDashboardFragmentToLocationViewDetailFragment2(
-                                latestLocation.id!!
-                            )
-                        findNavController().navigate(action)
+//                        val action =
+//                            HuntFragmentDirections.actionHuntFragmentToLocationViewDetailFragment2(
+//                                latestLocation.id!!
+//                            )
+//                        findNavController().navigate(action)
                     }
                 } else {
                     locationFrameLayout.visibility = View.GONE

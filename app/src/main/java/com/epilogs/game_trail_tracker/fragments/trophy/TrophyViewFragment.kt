@@ -16,7 +16,6 @@ import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.AnimalViewAdapter
 import com.epilogs.game_trail_tracker.data.AnimalFilterCriteria
 import com.epilogs.game_trail_tracker.database.entities.Animal
-import com.epilogs.game_trail_tracker.fragments.view.ViewFragmentDirections
 import com.epilogs.game_trail_tracker.fragments.view.filter.AdvancedAnimalFilterFragment
 import com.epilogs.game_trail_tracker.interfaces.FilterAnimalCriteriaListener
 import com.epilogs.game_trail_tracker.interfaces.OnAnimalItemClickListener
@@ -73,8 +72,8 @@ class TrophyViewFragment : Fragment(), OnAnimalItemClickListener, FilterAnimalCr
     }
 
     override fun onAnimalItemClick(animal: Animal) {
-        val action = ViewFragmentDirections.actionViewFragmentToAnimalViewDetailFragment(animal.id!!)
-        findNavController().navigate(action)
+//        val action = ViewFragmentDirections.actionViewFragmentToAnimalViewDetailFragment(animal.id!!)
+//        findNavController().navigate(action)
     }
 
     override fun onFilterCriteriaSelected(criteria: AnimalFilterCriteria?) {

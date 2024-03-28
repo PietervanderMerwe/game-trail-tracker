@@ -1,4 +1,4 @@
-package com.epilogs.game_trail_tracker.fragments.add
+package com.epilogs.game_trail_tracker.fragments.trophy
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,10 +13,10 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 /**
  * A simple [Fragment] subclass.
- * Use the [AddFragment.newInstance] factory method to
+ * Use the [TrophyFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class AddFragment : Fragment() {
+class TrophyFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +26,7 @@ class AddFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_add, container, false)
+        return inflater.inflate(R.layout.fragment_trophy, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,7 +45,7 @@ class AddFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            AddFragment().apply {
+            TrophyFragment().apply {
 
             }
     }

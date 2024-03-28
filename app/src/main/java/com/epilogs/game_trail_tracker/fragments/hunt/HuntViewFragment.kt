@@ -16,7 +16,6 @@ import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.LocationViewAdapter
 import com.epilogs.game_trail_tracker.data.LocationFilterCriteria
 import com.epilogs.game_trail_tracker.database.entities.Location
-import com.epilogs.game_trail_tracker.fragments.view.ViewFragmentDirections
 import com.epilogs.game_trail_tracker.fragments.view.filter.AdvancedLocationFilterFragment
 import com.epilogs.game_trail_tracker.interfaces.FilterLocationCriteriaListener
 import com.epilogs.game_trail_tracker.interfaces.OnLocationItemClickListener
@@ -72,9 +71,9 @@ class HuntViewFragment : Fragment(), OnLocationItemClickListener, FilterLocation
     }
 
     override fun onLocationItemClick(location: Location) {
-        val action =
-            ViewFragmentDirections.actionViewFragmentToLocationViewDetailFragment(location.id!!)
-        findNavController().navigate(action)
+//        val action =
+//            ViewFragmentDirections.actionViewFragmentToLocationViewDetailFragment(location.id!!)
+//        findNavController().navigate(action)
     }
 
     override fun onFilterCriteriaSelected(criteria: LocationFilterCriteria?) {
