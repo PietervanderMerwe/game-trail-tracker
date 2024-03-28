@@ -30,11 +30,11 @@ import com.epilogs.game_trail_tracker.database.entities.Location
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
-import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
+import com.epilogs.game_trail_tracker.viewmodels.TrophyViewModel
 import com.epilogs.game_trail_tracker.viewmodels.SharedViewModel
 
 class TrophyAddFragment : Fragment() {
-    private val viewModel: AnimalViewModel by viewModels()
+    private val viewModel: TrophyViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val selectedImageUris = mutableListOf<String>()
     private lateinit var imageAdapter: ImagesAdapter

@@ -16,9 +16,9 @@ import com.epilogs.game_trail_tracker.interfaces.OnAnimalItemClickListener
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class AnimalViewAdapter(private var animals: List<Animal>,
+class TrophyViewAdapter(private var animals: List<Animal>,
                         private val listener: OnAnimalItemClickListener
-) : RecyclerView.Adapter<AnimalViewAdapter.AnimalViewHolder>(),
+) : RecyclerView.Adapter<TrophyViewAdapter.AnimalViewHolder>(),
     Filterable {
 
     private var animalsFiltered = animals

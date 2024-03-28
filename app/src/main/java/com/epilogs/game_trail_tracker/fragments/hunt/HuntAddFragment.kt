@@ -24,11 +24,11 @@ import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.database.entities.Location
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
-import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
+import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
 import com.epilogs.game_trail_tracker.viewmodels.SharedViewModel
 
 class HuntAddFragment : Fragment() {
-    private val viewModel: LocationViewModel by viewModels()
+    private val viewModel: HuntViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
     private lateinit var imagePickerLauncher: ActivityResultLauncher<String>
     private lateinit var imageAdapter: ImagesAdapter

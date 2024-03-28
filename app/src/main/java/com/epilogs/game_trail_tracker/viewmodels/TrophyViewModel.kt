@@ -16,7 +16,7 @@ import com.epilogs.game_trail_tracker.database.daos.WeaponDao
 import com.epilogs.game_trail_tracker.database.entities.Location
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 
-class AnimalViewModel (application: Application) : AndroidViewModel(application) {
+class TrophyViewModel (application: Application) : AndroidViewModel(application) {
     private val db: AppDatabase = DatabaseProvider.getDatabase(application)
     private val animalDao: AnimalDao = db.animalDao()
     private val locationDao: LocationDao = db.locationDao()

@@ -24,7 +24,7 @@ import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.database.entities.Location
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
-import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
+import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
 import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -32,7 +32,7 @@ import java.util.Locale
 class HuntViewDetailFragment : Fragment() {
 
     private var locationId: Int? = null
-    private val viewModel: LocationViewModel by viewModels()
+    private val viewModel: HuntViewModel by viewModels()
     private lateinit var imageAdapter: ImagesAdapter
     private var currentLocation: Location? = null
     private lateinit var nameLayout: TextInputLayout

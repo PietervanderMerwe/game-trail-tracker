@@ -9,22 +9,21 @@ import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
-import com.epilogs.game_trail_tracker.adapters.LocationViewAdapter
+import com.epilogs.game_trail_tracker.adapters.HuntViewAdapter
 import com.epilogs.game_trail_tracker.data.LocationFilterCriteria
 import com.epilogs.game_trail_tracker.database.entities.Location
 import com.epilogs.game_trail_tracker.fragments.view.filter.AdvancedLocationFilterFragment
 import com.epilogs.game_trail_tracker.interfaces.FilterLocationCriteriaListener
 import com.epilogs.game_trail_tracker.interfaces.OnLocationItemClickListener
-import com.epilogs.game_trail_tracker.viewmodels.LocationViewModel
+import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
 
 class HuntViewFragment : Fragment(), OnLocationItemClickListener, FilterLocationCriteriaListener {
 
-    private val viewModel: LocationViewModel by viewModels()
-    private lateinit var adapter: LocationViewAdapter
+    private val viewModel: HuntViewModel by viewModels()
+    private lateinit var adapter: HuntViewAdapter
     private var currentSearchText: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +42,7 @@ class HuntViewFragment : Fragment(), OnLocationItemClickListener, FilterLocation
         val recyclerView: RecyclerView = view.findViewById(R.id.location_view_list)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        adapter = LocationViewAdapter(emptyList(), this)
+        adapter = HuntViewAdapter(emptyList(), this)
         recyclerView.adapter = adapter
 
         val searchView = view.findViewById<SearchView>(R.id.search_location_view)

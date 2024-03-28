@@ -1,6 +1,5 @@
 package com.epilogs.game_trail_tracker.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,9 +16,9 @@ import com.epilogs.game_trail_tracker.interfaces.OnLocationItemClickListener
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class LocationViewAdapter(private var locations: List<Location>,
-                          private val listener: OnLocationItemClickListener,
-) : RecyclerView.Adapter<LocationViewAdapter.LocationViewHolder>(),
+class HuntViewAdapter(private var locations: List<Location>,
+                      private val listener: OnLocationItemClickListener,
+) : RecyclerView.Adapter<HuntViewAdapter.LocationViewHolder>(),
     Filterable {
 
     private var locationsFiltered = locations

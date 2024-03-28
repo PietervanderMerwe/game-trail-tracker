@@ -39,7 +39,7 @@
     <string name="date">Date</string>
     <string name="weapon_name">Weapon name</string>
     <string name="weapon_notes">Weapon notes</string>
-    <string name="dashboard_title">Game Trail Tracker</string>
+    <string name="title">Game Trail Tracker</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="large_image_description">Zoomed in image</string>

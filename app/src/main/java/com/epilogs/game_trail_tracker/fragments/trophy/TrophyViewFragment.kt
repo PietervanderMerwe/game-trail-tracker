@@ -9,22 +9,21 @@ import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.R
-import com.epilogs.game_trail_tracker.adapters.AnimalViewAdapter
+import com.epilogs.game_trail_tracker.adapters.TrophyViewAdapter
 import com.epilogs.game_trail_tracker.data.AnimalFilterCriteria
 import com.epilogs.game_trail_tracker.database.entities.Animal
 import com.epilogs.game_trail_tracker.fragments.view.filter.AdvancedAnimalFilterFragment
 import com.epilogs.game_trail_tracker.interfaces.FilterAnimalCriteriaListener
 import com.epilogs.game_trail_tracker.interfaces.OnAnimalItemClickListener
-import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
+import com.epilogs.game_trail_tracker.viewmodels.TrophyViewModel
 
 class TrophyViewFragment : Fragment(), OnAnimalItemClickListener, FilterAnimalCriteriaListener {
 
-    private val viewModel: AnimalViewModel by viewModels()
-    private lateinit var adapter: AnimalViewAdapter
+    private val viewModel: TrophyViewModel by viewModels()
+    private lateinit var adapter: TrophyViewAdapter
     private var currentSearchText: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +43,7 @@ class TrophyViewFragment : Fragment(), OnAnimalItemClickListener, FilterAnimalCr
         val recyclerView: RecyclerView = view.findViewById(R.id.animal_view_list)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        adapter = AnimalViewAdapter(emptyList(), this)
+        adapter = TrophyViewAdapter(emptyList(), this)
         recyclerView.adapter = adapter
 
         val searchView = view.findViewById<SearchView>(R.id.search_animal_view)

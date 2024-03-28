@@ -9,11 +9,10 @@ import androidx.lifecycle.viewModelScope
 import com.epilogs.game_trail_tracker.database.AppDatabase
 import com.epilogs.game_trail_tracker.database.DatabaseProvider
 import com.epilogs.game_trail_tracker.database.daos.LocationDao
-import com.epilogs.game_trail_tracker.database.entities.Animal
 import com.epilogs.game_trail_tracker.database.entities.Location
 import kotlinx.coroutines.launch
 
-class LocationViewModel(application: Application) : AndroidViewModel(application) {
+class HuntViewModel(application: Application) : AndroidViewModel(application) {
     private val db: AppDatabase = DatabaseProvider.getDatabase(application)
     private val locationDao: LocationDao = db.locationDao()
 
