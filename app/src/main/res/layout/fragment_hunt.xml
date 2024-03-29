@@ -6,62 +6,66 @@
     android:layout_height="match_parent"
     tools:context=".fragments.hunt.HuntFragment">
 
-    <TextView
-        android:id="@+id/appNameTextView"
+    <RelativeLayout
+        android:id="@+id/top_bar_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="16dp"
-        android:text="@string/title"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textStyle="bold" />
+        android:background="@color/secondary_color"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/appNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/search_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp"
+            android:src="@drawable/ic_search_icon" />
+
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_hunt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_bar_container"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/hunt_layout_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/appNameTextView"
+        android:layout_below="@id/search_hunt"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/search_hunt"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-            <ImageView
-                android:id="@+id/advanced_hunt_filter_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:contentDescription="@string/filter"
-                android:focusable="true"
-                android:padding="8dp"
-                android:src="@drawable/ic_filter" />
-
-        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/hunt_view_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/add_hunt_button_float"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:text="@string/add_hunt"
-        android:contentDescription="@string/add_hunt" />
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/add_hunt_button_float"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/fab_margin"
+            android:contentDescription="@string/add_hunt"
+            android:text="@string/add_hunt" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/add_hunt_button"
@@ -69,6 +73,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/add_hunt"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </RelativeLayout>

@@ -2,4 +2,9 @@
 <resources>
     <color name="text_black">#000000</color>
     <color name="text_black_disabled">#000000</color>
+    <color name="primary_color">#4F6F52</color>
+    <color name="secondary_color">#86A789</color>
+    <color name="bottom_navigation_colors">#D2E3C8</color>
+    <color name="highlightedColor">#000000</color>
+    <color name="defaultColor">#4F6F52</color>
 </resources>

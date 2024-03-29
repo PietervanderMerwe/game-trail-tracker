@@ -32,7 +32,6 @@ class HuntFragment : Fragment(R.layout.fragment_hunt), OnHuntItemClickListener,
         setupRecyclerView()
         setupSearchView()
         observeViewModel()
-        setupAdvancedFilterButton()
     }
 
     private fun setupRecyclerView() {
@@ -60,13 +59,6 @@ class HuntFragment : Fragment(R.layout.fragment_hunt), OnHuntItemClickListener,
         viewModel.getAllHunts().observe(viewLifecycleOwner) { hunts ->
             adapter.updateLocations(hunts)
             checkDataAndUpdateUI()
-        }
-    }
-
-    private fun setupAdvancedFilterButton() {
-        binding.advancedHuntFilterButton.setOnClickListener {
-            AdvancedHuntFilterFragment.newInstance(adapter.currentFilterCriteria)
-                .show(childFragmentManager, null)
         }
     }
 

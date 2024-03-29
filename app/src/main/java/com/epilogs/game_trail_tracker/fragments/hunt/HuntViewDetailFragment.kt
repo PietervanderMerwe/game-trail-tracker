@@ -81,9 +81,9 @@ class HuntViewDetailFragment : Fragment(), OnTrophyItemClickListener {
             findNavController().navigate(action)
         }
     }
-    override fun onTrophyItemClick(trophy: Animal) {
-//        val action = ViewFragmentDirections.actionViewFragmentToAnimalViewDetailFragment(animal.id!!)
-//        findNavController().navigate(action)
+    override fun onTrophyItemClick(animal: Animal) {
+        val action = HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToTrophyViewDetailFragment(animal.id!!)
+        findNavController().navigate(action)
     }
 
     companion object {

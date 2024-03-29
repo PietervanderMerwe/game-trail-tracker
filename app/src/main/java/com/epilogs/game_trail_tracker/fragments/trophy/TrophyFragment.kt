@@ -70,9 +70,9 @@ class TrophyFragment : Fragment(R.layout.fragment_trophy), OnTrophyItemClickList
         }
     }
 
-    override fun onTrophyItemClick(trophy: Animal) {
-//        val action = ViewFragmentDirections.actionViewFragmentToAnimalViewDetailFragment(animal.id!!)
-//        findNavController().navigate(action)
+    override fun onTrophyItemClick(animal: Animal) {
+        val action = TrophyFragmentDirections.actionTrophyFragmentToTrophyViewDetailFragment(animal.id!!)
+        findNavController().navigate(action)
     }
 
     override fun onFilterCriteriaSelected(criteria: TrophyFilterCriteria?) {

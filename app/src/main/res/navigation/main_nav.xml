@@ -107,6 +107,9 @@
         <action
             android:id="@+id/action_huntViewDetailFragment_to_trophyAddFragment"
             app:destination="@id/trophyAddFragment" />
+        <action
+            android:id="@+id/action_huntViewDetailFragment_to_trophyViewDetailFragment"
+            app:destination="@id/trophyViewDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/trophyViewDetailFragment"
@@ -120,6 +123,9 @@
         <action
             android:id="@+id/action_trophyViewDetailFragment_to_trophyFragment"
             app:destination="@id/trophyFragment" />
+        <action
+            android:id="@+id/action_trophyViewDetailFragment_to_huntViewDetailFragment"
+            app:destination="@id/huntViewDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/weaponViewDetailFragment"
