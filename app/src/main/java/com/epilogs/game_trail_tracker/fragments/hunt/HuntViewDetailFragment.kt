@@ -38,23 +38,13 @@ class HuntViewDetailFragment : Fragment() {
     private val viewModel: HuntViewModel by viewModels()
     private lateinit var imageAdapter: ImagesAdapter
     private var currentLocation: Location? = null
-//    private lateinit var nameLayout: TextInputLayout
-//    private lateinit var startDateLayout: TextInputLayout
-//    private lateinit var endDateLayout: TextInputLayout
-//    private lateinit var deleteButton: Button
-//    private lateinit var editButton: Button
-//    private lateinit var saveButton: Button
-//    private lateinit var cancelButton: Button
-//    private lateinit var checkBoxIsContinuous: CheckBox
-//    private lateinit var startDate: EditText
-//    private lateinit var endDate: EditText
     private lateinit var binding: FragmentHuntViewDetailBinding
     private var startDate: Calendar? = null
     private var endDate: Calendar? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            locationId = it.getInt("locationId")
+            locationId = it.getInt("id")
         }
     }
 
@@ -96,16 +86,6 @@ class HuntViewDetailFragment : Fragment() {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         })
 
-        binding.checkBoxIsContinuesViewDetail.setOnCheckedChangeListener { _, isChecked ->
-            binding.editTextStartDateViewDetail.isEnabled = !isChecked
-            binding.editTextEndDateViewDetail.isEnabled = !isChecked
-
-            if (isChecked) {
-                binding.editTextStartDateViewDetail.text.clear()
-                binding.editTextEndDateViewDetail.text.clear()
-            }
-        }
-
         binding.buttonEditLocation.setOnClickListener {
             enableAllText()
         }
@@ -127,7 +107,7 @@ class HuntViewDetailFragment : Fragment() {
             disableAllText()
         }
 
-        binding.buttonCancelLocation.setOnClickListener {
+        binding.buttonDeleteLocation.setOnClickListener {
             showDeleteConfirmationDialog()
         }
     }
@@ -148,8 +128,6 @@ class HuntViewDetailFragment : Fragment() {
         disableEditText(binding.textInputLayoutStartDateViewDetail)
         disableEditText(binding.textInputLayoutEndDateViewDetail)
 
-        binding.checkBoxIsContinuesViewDetail.isEnabled = false
-
         binding.buttonEditLocation.visibility = View.VISIBLE
         binding.buttonDeleteLocation.visibility = View.VISIBLE
         binding.buttonSaveLocation.visibility = View.GONE
@@ -163,8 +141,6 @@ class HuntViewDetailFragment : Fragment() {
         enableEditText(binding.textInputLayoutNameViewDetail)
         enableEditText(binding.textInputLayoutStartDateViewDetail)
         enableEditText(binding.textInputLayoutEndDateViewDetail)
-
-        binding.checkBoxIsContinuesViewDetail.isEnabled = true
 
         binding.buttonEditLocation.visibility = View.GONE
         binding.buttonDeleteLocation.visibility = View.GONE

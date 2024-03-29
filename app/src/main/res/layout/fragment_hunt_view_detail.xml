@@ -7,7 +7,7 @@
     android:padding="16dp">
 
     <LinearLayout
-        android:id="@+id/contentLayoutLoccation"
+        android:id="@+id/contentLayoutLocation"
         android:layout_width="352dp"
         android:layout_height="611dp"
         android:layout_above="@+id/buttonLayoutLocation"
@@ -40,7 +40,7 @@
                 android:id="@+id/editTextNameViewDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/editTextName" />
+                android:hint="@string/location" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -77,12 +77,6 @@
                 android:hint="@string/end_date" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
-        <CheckBox
-            android:id="@+id/checkBoxIsContinuesViewDetail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/checkBoxIsContinues" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/imagesLocationRecyclerViewDetail"

@@ -72,8 +72,8 @@ class HuntFragment : Fragment(R.layout.fragment_hunt), OnHuntItemClickListener,
     }
 
     override fun onHuntItemClick(location: Location) {
-//        val action = ViewFragmentDirections.actionViewFragmentToAnimalViewDetailFragment(animal.id!!)
-//        findNavController().navigate(action)
+        val action = HuntFragmentDirections.actionHuntFragmentToHuntViewDetailFragment(location.id!!)
+       findNavController().navigate(action)
     }
 
     override fun onFilterCriteriaSelected(criteria: HuntFilterCriteria?) {
