@@ -8,7 +8,7 @@ import androidx.room.Update
 import com.epilogs.game_trail_tracker.database.entities.Hunt
 
 @Dao
-interface LocationDao {
+interface HuntDao {
     @Insert
     suspend fun insertHunt(hunt: Hunt)
     @Update
