@@ -15,12 +15,12 @@ import com.epilogs.game_trail_tracker.databinding.FragmentTrophyBinding
 import com.epilogs.game_trail_tracker.fragments.view.filter.AdvancedTrophyFilterFragment
 import com.epilogs.game_trail_tracker.interfaces.FilterTrophyCriteriaListener
 import com.epilogs.game_trail_tracker.interfaces.OnTrophyItemClickListener
-import com.epilogs.game_trail_tracker.viewmodels.TrophyViewModel
+import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 
 class TrophyFragment : Fragment(R.layout.fragment_trophy), OnTrophyItemClickListener,
     FilterTrophyCriteriaListener {
 
-    private val viewModel: TrophyViewModel by viewModels()
+    private val viewModel: AnimalViewModel by viewModels()
     private lateinit var binding: FragmentTrophyBinding
     private lateinit var adapter: TrophyViewAdapter
     private var currentSearchText: String? = null

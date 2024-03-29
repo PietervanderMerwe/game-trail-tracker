@@ -10,6 +10,7 @@ import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.database.entities.Hunt
 import com.epilogs.game_trail_tracker.databinding.FragmentHuntViewDetailBinding
+import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -18,12 +19,10 @@ import java.util.Locale
 class HuntViewDetailFragment : Fragment() {
 
     private var huntId: Int? = null
-    private val viewModel: HuntViewModel by viewModels()
-    private lateinit var imageAdapter: ImagesAdapter
-    private var currentLocation: Hunt? = null
+    private val huntViewModel: HuntViewModel by viewModels()
+    private val animalViewModel: AnimalViewModel by viewModels()
     private lateinit var binding: FragmentHuntViewDetailBinding
-    private var startDate: Calendar? = null
-    private var endDate: Calendar? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -44,17 +43,22 @@ class HuntViewDetailFragment : Fragment() {
         binding = FragmentHuntViewDetailBinding.bind(view)
 
         getHunt()
-
+        getTrophies()
     }
 
     private fun getHunt() {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        viewModel.getHuntById(huntId!!).observe(viewLifecycleOwner) { hunt ->
+        huntViewModel.getHuntById(huntId!!).observe(viewLifecycleOwner) { hunt ->
             binding.locationName.text = hunt?.name
             binding.dateRange.text = (hunt?.startDate?.let { dateFormat.format(it) } ?: "N/A") + " - " + (hunt?.endDate?.let { dateFormat.format(it) } ?: "N/A")
         }
     }
 
+    private fun getTrophies() {
+        animalViewModel.getAnimalsByHuntId(huntId!!).observe(viewLifecycleOwner) { animals ->
+
+        }
+    }
     companion object {
         @JvmStatic
         fun newInstance(locationId: Int) =

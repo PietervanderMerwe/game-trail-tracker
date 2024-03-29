@@ -30,7 +30,7 @@ import com.epilogs.game_trail_tracker.database.entities.Hunt
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
-import com.epilogs.game_trail_tracker.viewmodels.TrophyViewModel
+import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
 import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
 import com.google.android.material.textfield.TextInputLayout
@@ -40,7 +40,7 @@ import java.util.Locale
 class TrophyViewDetailFragment : Fragment() {
 
     private var animalId: Int? = null
-    private val trophyViewModel: TrophyViewModel by viewModels()
+    private val animalViewModel: AnimalViewModel by viewModels()
     private val weaponViewModel: WeaponViewModel by viewModels()
     private val huntViewModel: HuntViewModel by viewModels()
     private lateinit var imageAdapter: ImagesAdapter
@@ -212,7 +212,7 @@ class TrophyViewDetailFragment : Fragment() {
                 }
         }
 
-        trophyViewModel.getAnimalById(animalId!!).observe(viewLifecycleOwner, Observer { animal ->
+        animalViewModel.getAnimalById(animalId!!).observe(viewLifecycleOwner, Observer { animal ->
             currentAnimal = animal
             specieName.setText(animal?.name)
             date.setText(animal?.harvestDate?.let { dateFormat.format(it) } ?: "N/A")
@@ -232,10 +232,10 @@ class TrophyViewDetailFragment : Fragment() {
                 weaponLayout.visibility = View.VISIBLE
             }
 
-            if (animal?.locationId == null) {
+            if (animal?.huntId == null) {
                 locationLayout.visibility = View.GONE
             } else {
-                animal.locationId?.let { id ->
+                animal.huntId?.let { id ->
                     huntViewModel.getHuntById(id)
                         .observe(viewLifecycleOwner, Observer { location ->
                             locationViewDetail.setText(location?.name)
@@ -267,9 +267,9 @@ class TrophyViewDetailFragment : Fragment() {
                 animal.harvestDate = dateConverter.parseDate(date.text.toString())
                 animal.measurement = measurement.text.toString().toDoubleOrNull() ?: 0.0
                 animal.weight = weight.text.toString().toDoubleOrNull() ?: 0.0
-                animal.locationId = locationId
+                animal.huntId = locationId
                 animal.weaponId = weaponId
-                trophyViewModel.updateAnimal(animal)
+                animalViewModel.updateAnimal(animal)
             }
 
             disableAllText()
@@ -289,7 +289,7 @@ class TrophyViewDetailFragment : Fragment() {
             .setTitle("Confirm Delete")
             .setMessage("Are you sure you want to delete this animal?")
             .setPositiveButton("Delete") { dialog, which ->
-                trophyViewModel.deleteAnimal(currentAnimal!!)
+                animalViewModel.deleteAnimal(currentAnimal!!)
             }
             .setNegativeButton("Cancel", null)
             .show()

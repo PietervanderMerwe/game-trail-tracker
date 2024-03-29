@@ -13,7 +13,7 @@ import java.util.Date
         ForeignKey(
             entity = Hunt::class,
             parentColumns = arrayOf("id"),
-            childColumns = arrayOf("locationId"),
+            childColumns = arrayOf("huntId"),
             onDelete = ForeignKey.SET_NULL
         ),
         ForeignKey(
@@ -31,7 +31,7 @@ data class Animal(
     var measurement: Double,
     @TypeConverters(DateConverter::class) var harvestDate: Date?,
     var notes: String,
-    var locationId: Int?,
+    var huntId: Int?,
     var weaponId: Int?,
     @TypeConverters(ImagePathListConverter::class) var imagePaths: List<String>?
 )

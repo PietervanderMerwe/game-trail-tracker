@@ -22,4 +22,7 @@ interface AnimalDao {
 
     @Query("SELECT * FROM Animal ORDER BY harvestDate DESC LIMIT 1")
     suspend fun getLatestAnimal(): Animal?
+
+    @Query("SELECT * FROM Animal WHERE huntId = :huntId")
+    suspend fun getAnimalsByHuntId(huntId: Int): List<Animal>
 }

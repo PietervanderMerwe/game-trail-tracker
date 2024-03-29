@@ -16,7 +16,7 @@ import com.epilogs.game_trail_tracker.database.daos.WeaponDao
 import com.epilogs.game_trail_tracker.database.entities.Hunt
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 
-class TrophyViewModel (application: Application) : AndroidViewModel(application) {
+class AnimalViewModel (application: Application) : AndroidViewModel(application) {
     private val db: AppDatabase = DatabaseProvider.getDatabase(application)
     private val animalDao: AnimalDao = db.animalDao()
     private val huntDao: HuntDao = db.huntDao()
@@ -67,6 +67,11 @@ class TrophyViewModel (application: Application) : AndroidViewModel(application)
     fun getLatestAnimal(): LiveData<Animal?> = liveData {
         val animal = animalDao.getLatestAnimal()
         emit(animal)
+    }
+
+    fun getAnimalsByHuntId(huntId: Int): LiveData<List<Animal>> = liveData {
+        val trophies = animalDao.getAnimalsByHuntId(huntId)
+        emit(trophies)
     }
 
     fun resetInsertionSuccess() {
