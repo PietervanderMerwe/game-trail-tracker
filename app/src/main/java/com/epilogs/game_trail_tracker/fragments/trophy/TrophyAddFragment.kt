@@ -44,6 +44,7 @@ class TrophyAddFragment : Fragment() {
     private var locationId: Int? = null
     private var weaponId: Int? = null
     private lateinit var binding: FragmentTrophyAddBinding
+    private var huntId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +53,9 @@ class TrophyAddFragment : Fragment() {
             selectedImageUris.clear()
             selectedImageUris.addAll(imagesUris)
             imageAdapter.updateImages(selectedImageUris)
+        }
+        arguments?.let {
+            huntId = it.getInt("id")
         }
     }
 
@@ -64,10 +68,10 @@ class TrophyAddFragment : Fragment() {
 
         binding = FragmentTrophyAddBinding.bind(view)
 
-        setupUI(view)
+        setupAddUI()
     }
 
-    private fun setupUI(view: View) {
+    private fun setupAddUI() {
         val dateConverter = DateConverter()
 
         binding.editTextDate.setOnClickListener {
@@ -80,9 +84,21 @@ class TrophyAddFragment : Fragment() {
             imagePickerLauncher.launch("image/*")
         }
 
-        setupSpinnerLocation(binding.spinnerLocation)
+        setupSpinnerLocation(binding.spinnerHunt)
         setupWeaponLocation(binding.spinnerWeapon)
         setupImageView(binding.imagesAnimalRecyclerView)
+
+        binding.buttonLinkToHunt.setOnClickListener {
+            binding.spinnerHunt.visibility = if (binding.spinnerHunt.visibility == View.GONE) View.VISIBLE else View.GONE
+            binding.selectHuntTextView.visibility = if (binding.selectHuntTextView.visibility == View.GONE) View.VISIBLE else View.GONE
+            binding.buttonLinkToHunt.visibility = if (binding.buttonLinkToHunt.visibility == View.GONE) View.VISIBLE else View.GONE
+        }
+
+        binding.buttonLinkWeapon.setOnClickListener {
+            binding.spinnerWeapon.visibility = if (binding.spinnerWeapon.visibility == View.GONE) View.VISIBLE else View.GONE
+            binding.selectWeaponTextView.visibility = if (binding.selectWeaponTextView.visibility == View.GONE) View.VISIBLE else View.GONE
+            binding.buttonLinkWeapon.visibility = if (binding.buttonLinkWeapon.visibility == View.GONE) View.VISIBLE else View.GONE
+        }
 
         binding.buttonSaveAnimal.setOnClickListener {
             val name = binding.editTextSpecieName.text.toString()

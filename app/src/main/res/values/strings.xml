@@ -52,4 +52,8 @@
     <string name="startDate">Select start date</string>
     <string name="endtDate">Select end date</string>
     <string name="location">Location</string>
+    <string name="addToHunt">Add to hunt?</string>
+    <string name="addWeapon">Add a weapon?</string>
+    <string name="selectHunt">Select hunt</string>
+    <string name="selectWeapon">Select weapon</string>
 </resources>
