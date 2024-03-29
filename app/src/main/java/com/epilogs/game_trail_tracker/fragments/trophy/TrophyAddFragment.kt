@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -84,21 +85,9 @@ class TrophyAddFragment : Fragment() {
             imagePickerLauncher.launch("image/*")
         }
 
-        setupSpinnerLocation(binding.spinnerHunt)
-        setupWeaponLocation(binding.spinnerWeapon)
+        setupHuntSpinner(binding.spinnerHunt)
+        setupWeaponSpinner(binding.spinnerWeapon)
         setupImageView(binding.imagesAnimalRecyclerView)
-
-        binding.buttonLinkToHunt.setOnClickListener {
-            binding.spinnerHunt.visibility = if (binding.spinnerHunt.visibility == View.GONE) View.VISIBLE else View.GONE
-            binding.selectHuntTextView.visibility = if (binding.selectHuntTextView.visibility == View.GONE) View.VISIBLE else View.GONE
-            binding.buttonLinkToHunt.visibility = if (binding.buttonLinkToHunt.visibility == View.GONE) View.VISIBLE else View.GONE
-        }
-
-        binding.buttonLinkWeapon.setOnClickListener {
-            binding.spinnerWeapon.visibility = if (binding.spinnerWeapon.visibility == View.GONE) View.VISIBLE else View.GONE
-            binding.selectWeaponTextView.visibility = if (binding.selectWeaponTextView.visibility == View.GONE) View.VISIBLE else View.GONE
-            binding.buttonLinkWeapon.visibility = if (binding.buttonLinkWeapon.visibility == View.GONE) View.VISIBLE else View.GONE
-        }
 
         binding.buttonSaveAnimal.setOnClickListener {
             val name = binding.editTextSpecieName.text.toString()
@@ -141,7 +130,7 @@ class TrophyAddFragment : Fragment() {
         })
     }
 
-    private fun setupSpinnerLocation(spinnerLocation: Spinner) {
+    private fun setupHuntSpinner(spinnerLocation: Spinner) {
         val locations = mutableListOf<Hunt>()
         val locationAdapter = LocationAdapter(requireContext(), locations)
         spinnerLocation.adapter = locationAdapter
@@ -156,7 +145,7 @@ class TrophyAddFragment : Fragment() {
             locationAdapter.addAll(modifiedLocations)
             locationAdapter.notifyDataSetChanged()
 
-            val defaultPosition = modifiedLocations.indexOfFirst { it.id == locationId }
+            val defaultPosition = modifiedLocations.indexOfFirst { it.id == huntId }
 
             if (defaultPosition >= 0) {
                 spinnerLocation.setSelection(defaultPosition)
@@ -188,9 +177,23 @@ class TrophyAddFragment : Fragment() {
                 }
             }
         }
+
+        Log.d("huntId",huntId.toString())
+        if(huntId != 0 ) {
+            showSpinnerHunt()
+        }
+
+        binding.buttonLinkToHunt.setOnClickListener {
+            showSpinnerHunt()
+        }
     }
 
-    private fun setupWeaponLocation(spinnerWeapon: Spinner) {
+    private fun showSpinnerHunt() {
+        binding.spinnerHunt.visibility = if (binding.spinnerHunt.visibility == View.GONE) View.VISIBLE else View.GONE
+        binding.selectHuntTextView.visibility = if (binding.selectHuntTextView.visibility == View.GONE) View.VISIBLE else View.GONE
+        binding.buttonLinkToHunt.visibility = if (binding.buttonLinkToHunt.visibility == View.GONE) View.VISIBLE else View.GONE
+    }
+    private fun setupWeaponSpinner(spinnerWeapon: Spinner) {
 
         val weapons = mutableListOf<Weapon>()
         val weaponAdapter = WeaponAdapter(requireContext(), weapons)
@@ -241,6 +244,12 @@ class TrophyAddFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // Handle case when nothing is selected if needed
             }
+        }
+
+        binding.buttonLinkWeapon.setOnClickListener {
+            binding.spinnerWeapon.visibility = if (binding.spinnerWeapon.visibility == View.GONE) View.VISIBLE else View.GONE
+            binding.selectWeaponTextView.visibility = if (binding.selectWeaponTextView.visibility == View.GONE) View.VISIBLE else View.GONE
+            binding.buttonLinkWeapon.visibility = if (binding.buttonLinkWeapon.visibility == View.GONE) View.VISIBLE else View.GONE
         }
     }
 

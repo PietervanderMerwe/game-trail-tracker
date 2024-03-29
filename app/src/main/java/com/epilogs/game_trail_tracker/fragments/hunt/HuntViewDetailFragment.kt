@@ -77,7 +77,7 @@ class HuntViewDetailFragment : Fragment(), OnTrophyItemClickListener {
     private fun setButton() {
         binding.addTrophyButton.setOnClickListener {
             val action =
-                HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToTrophyAddFragment()
+                HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToTrophyAddFragment(huntId!!)
             findNavController().navigate(action)
         }
     }
