@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.epilogs.game_trail_tracker.database.daos.WeaponDao
-import com.epilogs.game_trail_tracker.database.entities.Location
+import com.epilogs.game_trail_tracker.database.entities.Hunt
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 
 class TrophyViewModel (application: Application) : AndroidViewModel(application) {
@@ -40,8 +40,8 @@ class TrophyViewModel (application: Application) : AndroidViewModel(application)
         emit(animals)
     }
 
-    fun getAllLocations(): LiveData<List<Location>> = liveData {
-        val locations = locationDao.getAllLocations()
+    fun getAllLocations(): LiveData<List<Hunt>> = liveData {
+        val locations = locationDao.getAllHunts()
         emit(locations)
     }
 

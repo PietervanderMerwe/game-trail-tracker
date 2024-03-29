@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.epilogs.game_trail_tracker.database.AppDatabase
 import com.epilogs.game_trail_tracker.database.DatabaseProvider
 import com.epilogs.game_trail_tracker.database.daos.LocationDao
-import com.epilogs.game_trail_tracker.database.entities.Location
+import com.epilogs.game_trail_tracker.database.entities.Hunt
 import kotlinx.coroutines.launch
 
 class HuntViewModel(application: Application) : AndroidViewModel(application) {
@@ -24,33 +24,33 @@ class HuntViewModel(application: Application) : AndroidViewModel(application) {
     fun getDeleteSuccess(): LiveData<Boolean?> = deleteSuccess
     fun getInsertionSuccess(): MutableLiveData<Boolean?> = insertionSuccess
 
-    fun insertLocation(location: Location) = viewModelScope.launch {
-        locationDao.insertLocation(location)
+    fun insertHunt(hunt: Hunt) = viewModelScope.launch {
+        locationDao.insertHunt(hunt)
         insertionSuccess.postValue(true)
     }
 
-    fun getLocationById(id: Int): LiveData<Location?> = liveData {
-        val location = locationDao.getLocationById(id)
+    fun getHuntById(id: Int): LiveData<Hunt?> = liveData {
+        val location = locationDao.getHuntById(id)
         emit(location)
     }
 
-    fun getAllLocations(): LiveData<List<Location>> = liveData {
-        val locations = locationDao.getAllLocations()
+    fun getAllHunts(): LiveData<List<Hunt>> = liveData {
+        val locations = locationDao.getAllHunts()
         emit(locations)
     }
 
-    fun updateLocation(location: Location) = viewModelScope.launch {
-        locationDao.updateLocation(location)
+    fun updateHunt(hunt: Hunt) = viewModelScope.launch {
+        locationDao.updateHunt(hunt)
         updateSuccess.postValue(true)
     }
 
-    fun getLatestLocation(): LiveData<Location?> = liveData {
-        val location = locationDao.getLatestLocation()
+    fun getLatestHunt(): LiveData<Hunt?> = liveData {
+        val location = locationDao.getLatestHunt()
         emit(location)
     }
 
-    fun deleteLocation(location: Location) = viewModelScope.launch {
-        locationDao.deleteLocation(location)
+    fun deleteHunt(hunt: Hunt) = viewModelScope.launch {
+        locationDao.deleteHunt(hunt)
         deleteSuccess.postValue(true)
     }
 

@@ -26,7 +26,7 @@ import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.adapters.LocationAdapter
 import com.epilogs.game_trail_tracker.adapters.WeaponAdapter
 import com.epilogs.game_trail_tracker.database.entities.Animal
-import com.epilogs.game_trail_tracker.database.entities.Location
+import com.epilogs.game_trail_tracker.database.entities.Hunt
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
@@ -129,13 +129,13 @@ class TrophyAddFragment : Fragment() {
     }
 
     private fun setupSpinnerLocation(spinnerLocation: Spinner) {
-        val locations = mutableListOf<Location>()
+        val locations = mutableListOf<Hunt>()
         val locationAdapter = LocationAdapter(requireContext(), locations)
         spinnerLocation.adapter = locationAdapter
 
         viewModel.getAllLocations().observe(viewLifecycleOwner) { newLocations ->
-            val modifiedLocations = mutableListOf<Location>().apply {
-                add(Location(null, "None", null, null, mutableListOf<String>())
+            val modifiedLocations = mutableListOf<Hunt>().apply {
+                add(Hunt(null, "None", null, null, mutableListOf<String>())
                 )
                 addAll(newLocations)
             }
@@ -152,7 +152,7 @@ class TrophyAddFragment : Fragment() {
 
         spinnerLocation.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                val selectedLocation = parent.getItemAtPosition(position) as Location
+                val selectedLocation = parent.getItemAtPosition(position) as Hunt
                 locationId = selectedLocation.id
             }
 

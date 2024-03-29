@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.data.HuntFilterCriteria
-import com.epilogs.game_trail_tracker.database.entities.Location
+import com.epilogs.game_trail_tracker.database.entities.Hunt
 import com.epilogs.game_trail_tracker.interfaces.OnHuntItemClickListener
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class HuntViewAdapter(private var locations: List<Location>,
+class HuntViewAdapter(private var locations: List<Hunt>,
                       private val listener: OnHuntItemClickListener,
 ) : RecyclerView.Adapter<HuntViewAdapter.LocationViewHolder>(),
     Filterable {
@@ -27,7 +27,7 @@ class HuntViewAdapter(private var locations: List<Location>,
 
     class LocationViewHolder(private val view: View, private val listener: OnHuntItemClickListener) : RecyclerView.ViewHolder(view) {
 
-        fun bind(location: Location) {
+        fun bind(location: Hunt) {
             itemView.findViewById<TextView>(R.id.location_view_item_name).text = location.name
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             val startDateStr = location.startDate?.let { dateFormat.format(it) } ?: "N/A"
@@ -72,7 +72,7 @@ class HuntViewAdapter(private var locations: List<Location>,
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                locationsFiltered = results?.values as? List<Location> ?: emptyList()
+                locationsFiltered = results?.values as? List<Hunt> ?: emptyList()
                 notifyDataSetChanged()
             }
         }
@@ -91,7 +91,7 @@ class HuntViewAdapter(private var locations: List<Location>,
 
     override fun getItemCount() = locationsFiltered.size
 
-    fun updateLocations(newLocations: List<Location>) {
+    fun updateLocations(newLocations: List<Hunt>) {
         locations = newLocations
         locationsFiltered = newLocations
         applyFilter()

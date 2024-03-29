@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
@@ -22,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
-import com.epilogs.game_trail_tracker.database.entities.Location
+import com.epilogs.game_trail_tracker.database.entities.Hunt
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
@@ -122,9 +121,9 @@ class HuntAddFragment : Fragment() {
             val name = editTextName.text.toString()
             val startDate = dateConverter.parseDate(editTextStartDate.text.toString())
             val endDate = dateConverter.parseDate(editTextEndDate.text.toString())
-            val location = Location(name = name, startDate = startDate,
+            val location = Hunt(name = name, startDate = startDate,
                 endDate = endDate, imagePaths = selectedImageUris)
-            viewModel.insertLocation(location)
+            viewModel.insertHunt(location)
         }
     }
 

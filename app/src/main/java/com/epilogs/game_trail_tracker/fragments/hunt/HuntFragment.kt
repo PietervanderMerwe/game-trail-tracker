@@ -1,7 +1,6 @@
 package com.epilogs.game_trail_tracker.fragments.hunt
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -11,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.HuntViewAdapter
 import com.epilogs.game_trail_tracker.data.HuntFilterCriteria
-import com.epilogs.game_trail_tracker.database.entities.Location
+import com.epilogs.game_trail_tracker.database.entities.Hunt
 import com.epilogs.game_trail_tracker.databinding.FragmentHuntBinding
 import com.epilogs.game_trail_tracker.fragments.view.filter.AdvancedHuntFilterFragment
 import com.epilogs.game_trail_tracker.interfaces.FilterHuntCriteriaListener
@@ -58,7 +57,7 @@ class HuntFragment : Fragment(R.layout.fragment_hunt), OnHuntItemClickListener,
     }
 
     private fun observeViewModel() {
-        viewModel.getAllLocations().observe(viewLifecycleOwner) { hunts ->
+        viewModel.getAllHunts().observe(viewLifecycleOwner) { hunts ->
             adapter.updateLocations(hunts)
             checkDataAndUpdateUI()
         }
@@ -71,7 +70,7 @@ class HuntFragment : Fragment(R.layout.fragment_hunt), OnHuntItemClickListener,
         }
     }
 
-    override fun onHuntItemClick(location: Location) {
+    override fun onHuntItemClick(location: Hunt) {
         val action = HuntFragmentDirections.actionHuntFragmentToHuntViewDetailFragment(location.id!!)
        findNavController().navigate(action)
     }

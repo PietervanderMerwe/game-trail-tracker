@@ -5,10 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import com.epilogs.game_trail_tracker.database.entities.Location
+import com.epilogs.game_trail_tracker.database.entities.Hunt
 
-class LocationAdapter(context: Context, locations: List<Location>) :
-    ArrayAdapter<Location>(context, android.R.layout.simple_spinner_dropdown_item, locations) {
+class LocationAdapter(context: Context, locations: List<Hunt>) :
+    ArrayAdapter<Hunt>(context, android.R.layout.simple_spinner_dropdown_item, locations) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         return super.getView(position, convertView, parent).apply {
             (this as TextView).text = getItem(position)?.name

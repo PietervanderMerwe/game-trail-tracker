@@ -3,127 +3,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.hunt.HuntViewDetailFragment"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context=".fragments.hunt.HuntViewDetailFragment">
 
-    <LinearLayout
-        android:id="@+id/contentLayoutLocation"
-        android:layout_width="352dp"
-        android:layout_height="611dp"
-        android:layout_above="@+id/buttonLayoutLocation"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/backButtonLocationViewDetail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:contentDescription="@string/back_button"
-            android:focusable="true"
-            android:padding="8dp"
-            android:src="@drawable/ic_back_navigation" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutNameViewDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="8dp">
-
-            <EditText
-                android:id="@+id/editTextNameViewDetail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/location" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutStartDateViewDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="8dp">
-
-            <EditText
-                android:id="@+id/editTextStartDateViewDetail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:cursorVisible="false"
-                android:focusable="false"
-                android:hint="@string/start_date" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutEndDateViewDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="8dp">
-
-            <EditText
-                android:id="@+id/editTextEndDateViewDetail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:cursorVisible="false"
-                android:focusable="false"
-                android:hint="@string/end_date" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/imagesLocationRecyclerViewDetail"
-            android:layout_width="match_parent"
-            android:layout_height="397dp"
-            android:layout_marginTop="16dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/buttonLayoutLocation"
+    <TextView
+        android:id="@+id/locationName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:layout_marginTop="16dp">
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="@string/location"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/button_edit_location"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/edit"
-            android:layout_marginEnd="8dp" />
+    <TextView
+        android:id="@+id/dateRange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/locationName"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="@string/date"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/button_delete_location"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/delete" />
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/dateRange"
+        android:background="@android:color/darker_gray" />
 
-        <Button
-            android:id="@+id/button_save_location"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/save"
-            android:visibility="gone" />
+    <Button
+        android:id="@+id/addTrophyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/separator"
+        android:layout_centerHorizontal="true"
+        android:text="@string/add_trophy" />
 
-        <Button
-            android:id="@+id/button_cancel_location"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cancel"
-            android:visibility="gone" />
-    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/hunt_trophy_view_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/addTrophyButton" />
 
 </RelativeLayout>

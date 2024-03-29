@@ -5,21 +5,21 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.epilogs.game_trail_tracker.database.entities.Location
+import com.epilogs.game_trail_tracker.database.entities.Hunt
 
 @Dao
 interface LocationDao {
     @Insert
-    suspend fun insertLocation(location: Location)
+    suspend fun insertHunt(hunt: Hunt)
     @Update
-    suspend fun updateLocation(location: Location)
+    suspend fun updateHunt(hunt: Hunt)
     @Delete
-    suspend fun deleteLocation(location: Location)
-    @Query("SELECT * FROM Location")
-    suspend fun getAllLocations(): List<Location>
-    @Query("SELECT * FROM Location WHERE id = :locationId")
-    suspend fun getLocationById(locationId: Int): Location?
+    suspend fun deleteHunt(hunt: Hunt)
+    @Query("SELECT * FROM Hunt")
+    suspend fun getAllHunts(): List<Hunt>
+    @Query("SELECT * FROM Hunt WHERE id = :huntId")
+    suspend fun getHuntById(huntId: Int): Hunt?
 
-    @Query("SELECT * FROM Location ORDER BY startDate DESC LIMIT 1")
-    suspend fun getLatestLocation(): Location?
+    @Query("SELECT * FROM Hunt ORDER BY startDate DESC LIMIT 1")
+    suspend fun getLatestHunt(): Hunt?
 }

@@ -8,7 +8,7 @@ import com.epilogs.game_trail_tracker.utils.ImagePathListConverter
 import java.util.Date
 
 @Entity
-data class Location (
+data class Hunt (
     @PrimaryKey(autoGenerate = true) var id: Int? = null,
     var name: String,
     @TypeConverters(DateConverter::class) var startDate: Date?,

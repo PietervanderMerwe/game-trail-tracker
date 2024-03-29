@@ -11,7 +11,7 @@ import java.util.Date
 @Entity(
     foreignKeys = [
         ForeignKey(
-            entity = Location::class,
+            entity = Hunt::class,
             parentColumns = arrayOf("id"),
             childColumns = arrayOf("locationId"),
             onDelete = ForeignKey.SET_NULL

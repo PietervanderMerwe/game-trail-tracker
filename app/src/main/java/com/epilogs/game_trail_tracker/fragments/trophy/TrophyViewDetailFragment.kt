@@ -26,7 +26,7 @@ import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.adapters.LocationAdapter
 import com.epilogs.game_trail_tracker.adapters.WeaponAdapter
 import com.epilogs.game_trail_tracker.database.entities.Animal
-import com.epilogs.game_trail_tracker.database.entities.Location
+import com.epilogs.game_trail_tracker.database.entities.Hunt
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
@@ -127,14 +127,14 @@ class TrophyViewDetailFragment : Fragment() {
         editButton.setOnClickListener {
             enableAllText()
 
-            val locations = mutableListOf<Location>()
+            val locations = mutableListOf<Hunt>()
             val locationAdapter = LocationAdapter(requireContext(), locations)
             locationSpinnerViewDetail.adapter = locationAdapter
 
-            huntViewModel.getAllLocations().observe(viewLifecycleOwner) { newLocations ->
-                val modifiedLocations = mutableListOf<Location>().apply {
+            huntViewModel.getAllHunts().observe(viewLifecycleOwner) { newLocations ->
+                val modifiedLocations = mutableListOf<Hunt>().apply {
                     add(
-                        Location(
+                        Hunt(
                             null,
                             "None",
                             null,
@@ -183,7 +183,7 @@ class TrophyViewDetailFragment : Fragment() {
                         position: Int,
                         id: Long
                     ) {
-                        val selectedLocation = parent.getItemAtPosition(position) as Location
+                        val selectedLocation = parent.getItemAtPosition(position) as Hunt
                         locationViewDetail.setText(selectedLocation.name)
                         locationId = selectedLocation.id
                     }
@@ -236,7 +236,7 @@ class TrophyViewDetailFragment : Fragment() {
                 locationLayout.visibility = View.GONE
             } else {
                 animal.locationId?.let { id ->
-                    huntViewModel.getLocationById(id)
+                    huntViewModel.getHuntById(id)
                         .observe(viewLifecycleOwner, Observer { location ->
                             locationViewDetail.setText(location?.name)
                             locationId = id
