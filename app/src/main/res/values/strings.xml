@@ -8,9 +8,9 @@
     <string name="huntFragment">Hunt</string>
     <string name="trophyFragment">Trophy</string>
     <string name="checkBoxIsContinues">No date</string>
-    <string name="buttonSaveLocation">Save location</string>
+    <string name="buttonSaveLocation">Save hunt</string>
     <string name="check_mark_image_description">Check mark</string>
-    <string name="buttonSaveAnimal">Save animal</string>
+    <string name="buttonSaveAnimal">Save trophy</string>
     <string name="editTextWeight">Set weight</string>
     <string name="editTextMeasurement">Set measurement</string>
     <string name="editTextWeaponName">Weapon name</string>
@@ -43,7 +43,13 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="large_image_description">Zoomed in image</string>
-    <string name="add_hunt">Add hunt +</string>
+    <string name="add_hunt">Add new hunt</string>
     <string name="add_trophy">Add trophy +</string>
     <string name="add_weapon">Add weapon +</string>
+    <string name="addHuntText">Add Hunt</string>
+    <string name="addTrophyText">Add trophy</string>
+    <string name="addWeaponText">Add Weapon</string>
+    <string name="startDate">Select start date</string>
+    <string name="endtDate">Select end date</string>
+    <string name="location">Location</string>
 </resources>

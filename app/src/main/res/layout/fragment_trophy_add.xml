@@ -7,6 +7,16 @@
     android:padding="16dp"
     tools:context=".fragments.trophy.TrophyAddFragment">
 
+    <TextView
+        android:id="@+id/addTrophyText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="@string/addTrophyText"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
