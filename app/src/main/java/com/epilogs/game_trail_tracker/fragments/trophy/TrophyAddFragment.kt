@@ -28,6 +28,8 @@ import com.epilogs.game_trail_tracker.adapters.WeaponAdapter
 import com.epilogs.game_trail_tracker.database.entities.Animal
 import com.epilogs.game_trail_tracker.database.entities.Hunt
 import com.epilogs.game_trail_tracker.database.entities.Weapon
+import com.epilogs.game_trail_tracker.databinding.FragmentHuntViewDetailBinding
+import com.epilogs.game_trail_tracker.databinding.FragmentTrophyAddBinding
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
@@ -41,6 +43,8 @@ class TrophyAddFragment : Fragment() {
     private lateinit var imagePickerLauncher: ActivityResultLauncher<String>
     private var locationId: Int? = null
     private var weaponId: Int? = null
+    private lateinit var binding: FragmentTrophyAddBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
@@ -57,40 +61,34 @@ class TrophyAddFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding = FragmentTrophyAddBinding.bind(view)
+
         setupUI(view)
     }
 
     private fun setupUI(view: View) {
-        val editTextSpecieName: EditText = view.findViewById(R.id.editTextSpecieName)
-        val editTextDate: EditText = view.findViewById(R.id.editTextDate)
-        val editTextWeight: EditText = view.findViewById(R.id.editTextWeight)
-        val editTextMeasurement: EditText = view.findViewById(R.id.editTextMeasurement)
-        val spinnerLocation: Spinner = view.findViewById(R.id.spinnerLocation)
-        val spinnerWeapon: Spinner = view.findViewById(R.id.spinnerWeapon)
-        val buttonSelectAnimalImages: Button = view.findViewById(R.id.buttonSelectAnimalImages)
-        val buttonSaveAnimal: Button = view.findViewById(R.id.buttonSaveAnimal)
-        val imagesRecyclerView: RecyclerView = view.findViewById(R.id.imagesAnimalRecyclerView)
         val dateConverter = DateConverter()
 
-        editTextDate.setOnClickListener {
+        binding.editTextDate.setOnClickListener {
             showDatePickerDialog(requireContext(), { selectedDate ->
-                editTextDate.setText(selectedDate)
+                binding.editTextDate.setText(selectedDate)
             })
         }
 
-        buttonSelectAnimalImages.setOnClickListener {
+        binding.buttonSelectAnimalImages.setOnClickListener {
             imagePickerLauncher.launch("image/*")
         }
 
-        setupSpinnerLocation(spinnerLocation)
-        setupWeaponLocation(spinnerWeapon)
-        setupImageView(imagesRecyclerView)
+        setupSpinnerLocation(binding.spinnerLocation)
+        setupWeaponLocation(binding.spinnerWeapon)
+        setupImageView(binding.imagesAnimalRecyclerView)
 
-        buttonSaveAnimal.setOnClickListener {
-            val name = editTextSpecieName.text.toString()
-            val weightString = editTextWeight.text.toString()
-            val measurementString = editTextMeasurement.text.toString()
-            val dateString = editTextDate.text.toString()
+        binding.buttonSaveAnimal.setOnClickListener {
+            val name = binding.editTextSpecieName.text.toString()
+            val weightString = binding.editTextWeight.text.toString()
+            val measurementString = binding.editTextMeasurement.text.toString()
+            val dateString = binding.editTextDate.text.toString()
 
             val date = dateConverter.parseDate(dateString)
             val notes = "Some notes"
@@ -113,16 +111,15 @@ class TrophyAddFragment : Fragment() {
 
         viewModel.getInsertionSuccess().observe(viewLifecycleOwner, Observer { success ->
             if (success == true) {
-                editTextSpecieName.text.clear()
-                editTextDate.text.clear()
-                editTextWeight.text.clear()
-                editTextMeasurement.text.clear()
+                binding.editTextSpecieName.text.clear()
+                binding.editTextDate.text.clear()
+                binding.editTextWeight.text.clear()
+                binding.editTextMeasurement.text.clear()
                 viewModel.resetInsertionSuccess()
                 imageAdapter.clearImages()
-                val checkMarkImageView: ImageView = view.findViewById(R.id.checkMarkAnimalAdd)
-                checkMarkImageView.visibility = View.VISIBLE
+                binding.checkMarkAnimalAdd.visibility = View.VISIBLE
                 Handler(Looper.getMainLooper()).postDelayed({
-                    checkMarkImageView.visibility = View.GONE
+                    binding.checkMarkAnimalAdd.visibility = View.GONE
                 }, 3000)
             }
         })

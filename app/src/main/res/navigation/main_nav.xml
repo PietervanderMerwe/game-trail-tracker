@@ -72,9 +72,16 @@
         android:name="com.epilogs.game_trail_tracker.fragments.trophy.TrophyAddFragment"
         android:label="fragment_trophy_add"
         tools:layout="@layout/fragment_trophy_add" >
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="0" />
         <action
             android:id="@+id/action_trophyAddFragment_to_trophyFragment"
             app:destination="@id/trophyFragment" />
+        <action
+            android:id="@+id/action_trophyAddFragment_to_huntViewDetailFragment"
+            app:destination="@id/huntViewDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/weaponAddFragment"
@@ -97,6 +104,9 @@
         <action
             android:id="@+id/action_huntViewDetailFragment_to_huntFragment"
             app:destination="@id/huntFragment" />
+        <action
+            android:id="@+id/action_huntViewDetailFragment_to_trophyAddFragment"
+            app:destination="@id/trophyAddFragment" />
     </fragment>
     <fragment
         android:id="@+id/trophyViewDetailFragment"
