@@ -28,11 +28,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginTop="651dp"
-        android:background="@color/primary_color"
+        android:background="?android:attr/windowBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:itemIconTint="@color/bottom_navigation_colors"
-        app:itemTextColor="@color/bottom_navigation_colors"
         app:menu="@menu/main_bottom_menu" />
 
     <androidx.constraintlayout.widget.Barrier

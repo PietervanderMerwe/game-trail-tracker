@@ -56,4 +56,5 @@
     <string name="addWeapon">Add a weapon?</string>
     <string name="selectHunt">Select hunt</string>
     <string name="selectWeapon">Select weapon</string>
+    <string name="hunts">Hunts</string>
 </resources>

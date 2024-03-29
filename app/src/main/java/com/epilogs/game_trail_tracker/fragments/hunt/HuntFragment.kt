@@ -1,7 +1,9 @@
 package com.epilogs.game_trail_tracker.fragments.hunt
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,7 +14,6 @@ import com.epilogs.game_trail_tracker.adapters.HuntViewAdapter
 import com.epilogs.game_trail_tracker.data.HuntFilterCriteria
 import com.epilogs.game_trail_tracker.database.entities.Hunt
 import com.epilogs.game_trail_tracker.databinding.FragmentHuntBinding
-import com.epilogs.game_trail_tracker.fragments.view.filter.AdvancedHuntFilterFragment
 import com.epilogs.game_trail_tracker.interfaces.FilterHuntCriteriaListener
 import com.epilogs.game_trail_tracker.interfaces.OnHuntItemClickListener
 import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
@@ -44,6 +45,21 @@ class HuntFragment : Fragment(R.layout.fragment_hunt), OnHuntItemClickListener,
     }
 
     private fun setupSearchView() {
+        binding.searchIcon.setOnClickListener {
+            binding.searchHunt.visibility = View.VISIBLE
+            binding.searchIcon.visibility = View.GONE
+
+            binding.searchHunt.requestFocus()
+            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(binding.searchHunt, InputMethodManager.SHOW_IMPLICIT)
+        }
+
+        binding.searchHunt.setOnCloseListener {
+            binding.searchHunt.visibility = View.GONE
+            binding.searchIcon.visibility = View.VISIBLE
+            true
+        }
+
         binding.searchHunt.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean = false
 
