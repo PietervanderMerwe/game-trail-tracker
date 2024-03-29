@@ -329,9 +329,9 @@ class TrophyViewDetailFragment : Fragment() {
         cancelButton.visibility = View.VISIBLE
 
         date.setOnClickListener {
-            showDatePickerDialog(requireContext()) { selectedDate ->
+            showDatePickerDialog(requireContext(), { selectedDate ->
                 date.setText(selectedDate)
-            }
+            })
         }
     }
 

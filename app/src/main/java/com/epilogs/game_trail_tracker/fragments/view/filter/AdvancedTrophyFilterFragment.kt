@@ -15,11 +15,14 @@ import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Locale
 
 class AdvancedTrophyFilterFragment : BottomSheetDialogFragment() {
 
     private var listener: FilterTrophyCriteriaListener? = null
+    private var startDate: Calendar? = null
+    private var endDate: Calendar? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -54,8 +57,8 @@ class AdvancedTrophyFilterFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val startDate: EditText = view.findViewById(R.id.editTextStartDateAnimalFilter)
-        val endDate: EditText = view.findViewById(R.id.editTextEndDateAnimalFilter)
+        val startDateEditText: EditText = view.findViewById(R.id.editTextStartDateAnimalFilter)
+        val endDateEditText: EditText = view.findViewById(R.id.editTextEndDateAnimalFilter)
         val applyButton: Button = view.findViewById(R.id.apply_animal_filters_button)
         val clearButton: Button = view.findViewById(R.id.clear_animal_filters_button)
 
@@ -63,31 +66,23 @@ class AdvancedTrophyFilterFragment : BottomSheetDialogFragment() {
             arguments?.getSerializable(AdvancedTrophyFilterFragment.ARG_FILTER_CRITERIA) as? TrophyFilterCriteria
         currentCriteria?.let {
             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            startDate.setText(dateFormat.format(it.startDate!!))
-            endDate.setText(dateFormat.format(it.endDate!!))
+            startDateEditText.setText(dateFormat.format(it.startDate!!))
+            endDateEditText.setText(dateFormat.format(it.endDate!!))
         }
 
-        startDate.setOnClickListener {
-            showDatePickerDialog(requireContext()) { selectedDate ->
-                startDate.setText(selectedDate)
-            }
-        }
+        setupStartDatePicker(startDateEditText)
 
-        endDate.setOnClickListener {
-            showDatePickerDialog(requireContext()) { selectedDate ->
-                endDate.setText(selectedDate)
-            }
-        }
+        setupEndDatePicker(endDateEditText)
 
         applyButton.setOnClickListener {
             val dateConverter = DateConverter()
 
-            if (startDate.text.isNullOrEmpty() && endDate.text.isNullOrEmpty()) {
+            if (startDateEditText.text.isNullOrEmpty() && endDateEditText.text.isNullOrEmpty()) {
                 listener?.onFilterCriteriaSelected(null)
             } else {
                 val criteria = TrophyFilterCriteria(
-                    startDate = dateConverter.parseDate(startDate.text.toString()),
-                    endDate = dateConverter.parseDate(endDate.text.toString())
+                    startDate = dateConverter.parseDate(startDateEditText.text.toString()),
+                    endDate = dateConverter.parseDate(endDateEditText.text.toString())
                 )
                 listener?.onFilterCriteriaSelected(criteria)
             }
@@ -96,10 +91,34 @@ class AdvancedTrophyFilterFragment : BottomSheetDialogFragment() {
         }
 
         clearButton.setOnClickListener {
-            startDate.setText("")
-            endDate.setText("")
+            startDateEditText.setText("")
+            endDateEditText.setText("")
 
             listener?.onFilterCriteriaSelected(null)
+        }
+    }
+
+    private fun setupStartDatePicker(editText: EditText) {
+        editText.setOnClickListener {
+            showDatePickerDialog(requireContext(), { selectedDate ->
+                editText.setText(selectedDate)
+                val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                startDate = Calendar.getInstance().apply {
+                    time = formatter.parse(selectedDate) ?: return@apply
+                }
+            }, maxDate = endDate)
+        }
+    }
+
+    private fun setupEndDatePicker(editText: EditText) {
+        editText.setOnClickListener {
+            showDatePickerDialog(requireContext(), { selectedDate ->
+                editText.setText(selectedDate)
+                val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                endDate = Calendar.getInstance().apply {
+                    time = formatter.parse(selectedDate) ?: return@apply
+                }
+            }, minDate = startDate)
         }
     }
 

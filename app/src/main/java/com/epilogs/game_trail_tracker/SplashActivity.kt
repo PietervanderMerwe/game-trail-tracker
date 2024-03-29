@@ -26,7 +26,8 @@ class SplashActivity : AppCompatActivity() {
         iv_mountain.animate().setDuration(1500).alpha(1f).withEndAction() {
             val i = Intent(this, MainActivity::class.java)
             startActivity(i)
-            overrideActivityTransition(OVERRIDE_TRANSITION_OPEN,android.R.anim.fade_in, android.R.anim.fade_out)
+            // Use overridePendingTransition here to specify custom animations
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
             finish()
         }
     }

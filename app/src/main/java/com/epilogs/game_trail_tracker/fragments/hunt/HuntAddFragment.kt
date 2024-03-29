@@ -27,6 +27,9 @@ import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
 import com.epilogs.game_trail_tracker.viewmodels.SharedViewModel
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class HuntAddFragment : Fragment() {
     private val viewModel: HuntViewModel by viewModels()
@@ -34,6 +37,9 @@ class HuntAddFragment : Fragment() {
     private lateinit var imagePickerLauncher: ActivityResultLauncher<String>
     private lateinit var imageAdapter: ImagesAdapter
     private val selectedImageUris = mutableListOf<String>()
+    private var startDate: Calendar? = null
+    private var endDate: Calendar? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,8 +66,8 @@ class HuntAddFragment : Fragment() {
         val editTextEndDate = view.findViewById<EditText>(R.id.editTextEndDate)
         val dateConverter = DateConverter()
 
-        setupDatePicker(editTextStartDate)
-        setupDatePicker(editTextEndDate)
+        setupStartDatePicker(editTextStartDate)
+        setupEndDatePicker(editTextEndDate)
 
         view.findViewById<Button>(R.id.buttonSelectLocationImages).setOnClickListener {
             imagePickerLauncher.launch("image/*")
@@ -72,11 +78,27 @@ class HuntAddFragment : Fragment() {
         setupObserveInsertion(view, editTextName, editTextStartDate, editTextEndDate)
     }
 
-    private fun setupDatePicker(editText: EditText) {
+    private fun setupStartDatePicker(editText: EditText) {
         editText.setOnClickListener {
-            showDatePickerDialog(requireContext()) { selectedDate ->
+            showDatePickerDialog(requireContext(), { selectedDate ->
                 editText.setText(selectedDate)
-            }
+                val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                startDate = Calendar.getInstance().apply {
+                    time = formatter.parse(selectedDate) ?: return@apply
+                }
+            }, maxDate = endDate)
+        }
+    }
+
+    private fun setupEndDatePicker(editText: EditText) {
+        editText.setOnClickListener {
+            showDatePickerDialog(requireContext(), { selectedDate ->
+                editText.setText(selectedDate)
+                val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                endDate = Calendar.getInstance().apply {
+                    time = formatter.parse(selectedDate) ?: return@apply
+                }
+            }, minDate = startDate)
         }
     }
 

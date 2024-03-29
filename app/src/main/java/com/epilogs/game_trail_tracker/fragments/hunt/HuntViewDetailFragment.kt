@@ -22,11 +22,14 @@ import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.database.entities.Location
+import com.epilogs.game_trail_tracker.databinding.FragmentHuntBinding
+import com.epilogs.game_trail_tracker.databinding.FragmentHuntViewDetailBinding
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
 import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Locale
 
 class HuntViewDetailFragment : Fragment() {
@@ -35,16 +38,19 @@ class HuntViewDetailFragment : Fragment() {
     private val viewModel: HuntViewModel by viewModels()
     private lateinit var imageAdapter: ImagesAdapter
     private var currentLocation: Location? = null
-    private lateinit var nameLayout: TextInputLayout
-    private lateinit var startDateLayout: TextInputLayout
-    private lateinit var endDateLayout: TextInputLayout
-    private lateinit var deleteButton: Button
-    private lateinit var editButton: Button
-    private lateinit var saveButton: Button
-    private lateinit var cancelButton: Button
-    private lateinit var checkBoxIsContinuous: CheckBox
-    private lateinit var startDate: EditText
-    private lateinit var endDate: EditText
+//    private lateinit var nameLayout: TextInputLayout
+//    private lateinit var startDateLayout: TextInputLayout
+//    private lateinit var endDateLayout: TextInputLayout
+//    private lateinit var deleteButton: Button
+//    private lateinit var editButton: Button
+//    private lateinit var saveButton: Button
+//    private lateinit var cancelButton: Button
+//    private lateinit var checkBoxIsContinuous: CheckBox
+//    private lateinit var startDate: EditText
+//    private lateinit var endDate: EditText
+    private lateinit var binding: FragmentHuntViewDetailBinding
+    private var startDate: Calendar? = null
+    private var endDate: Calendar? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -62,21 +68,9 @@ class HuntViewDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-        nameLayout = view.findViewById(R.id.textInputLayoutNameViewDetail)
-        startDateLayout = view.findViewById(R.id.textInputLayoutStartDateViewDetail)
-        endDateLayout = view.findViewById(R.id.textInputLayoutEndDateViewDetail)
-        val name: EditText = view.findViewById(R.id.editTextNameViewDetail)
-        startDate = view.findViewById(R.id.editTextStartDateViewDetail)
-        endDate = view.findViewById(R.id.editTextEndDateViewDetail)
-        checkBoxIsContinuous = view.findViewById(R.id.checkBoxIsContinuesViewDetail)
-        val imagesRecyclerView = view.findViewById<RecyclerView>(R.id.imagesLocationRecyclerViewDetail)
-        deleteButton = view.findViewById(R.id.button_delete_location)
-        editButton = view.findViewById(R.id.button_edit_location)
-        saveButton = view.findViewById(R.id.button_save_location)
-        cancelButton = view.findViewById(R.id.button_cancel_location)
-        val backButton: ImageView = view.findViewById(R.id.backButtonLocationViewDetail)
+        binding = FragmentHuntViewDetailBinding.bind(view)
 
-        backButton.setOnClickListener {
+        binding.backButtonLocationViewDetail.setOnClickListener {
             findNavController().navigateUp()
         }
 
@@ -84,9 +78,9 @@ class HuntViewDetailFragment : Fragment() {
 
         viewModel.getLocationById(locationId!!).observe(viewLifecycleOwner, Observer { location ->
             currentLocation = location
-            name.setText(location?.name)
-            startDate.setText(location?.startDate?.let { dateFormat.format(it) } ?: "N/A")
-            endDate.setText(location?.endDate?.let { dateFormat.format(it) } ?: "N/A")
+            binding.editTextNameViewDetail.setText(location?.name)
+            binding.editTextStartDateViewDetail.setText(location?.startDate?.let { dateFormat.format(it) } ?: "N/A")
+            binding.editTextEndDateViewDetail.setText(location?.endDate?.let { dateFormat.format(it) } ?: "N/A")
 
             imageAdapter = ImagesAdapter(location?.imagePaths?.toMutableList() ?: mutableListOf()) { imageUrl, position ->
                 val intent = Intent(context, FullScreenImageActivity::class.java).apply {
@@ -97,43 +91,43 @@ class HuntViewDetailFragment : Fragment() {
                 context?.startActivity(intent)
             }
 
-            imagesRecyclerView.adapter = imageAdapter
-            imagesRecyclerView.layoutManager =
+            binding.imagesLocationRecyclerViewDetail.adapter = imageAdapter
+            binding.imagesLocationRecyclerViewDetail.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         })
 
-        checkBoxIsContinuous.setOnCheckedChangeListener { _, isChecked ->
-            startDate.isEnabled = !isChecked
-            endDate.isEnabled = !isChecked
+        binding.checkBoxIsContinuesViewDetail.setOnCheckedChangeListener { _, isChecked ->
+            binding.editTextStartDateViewDetail.isEnabled = !isChecked
+            binding.editTextEndDateViewDetail.isEnabled = !isChecked
 
             if (isChecked) {
-                startDate.text.clear()
-                endDate.text.clear()
+                binding.editTextStartDateViewDetail.text.clear()
+                binding.editTextEndDateViewDetail.text.clear()
             }
         }
 
-        editButton.setOnClickListener {
+        binding.buttonEditLocation.setOnClickListener {
             enableAllText()
         }
 
-        saveButton.setOnClickListener {
+        binding.buttonSaveLocation.setOnClickListener {
             val dateConverter = DateConverter()
             currentLocation?.let { location ->
 
-                location.name = name.text.toString()
-                location.startDate = dateConverter.parseDate(startDate.text.toString())
-                location.endDate = dateConverter.parseDate(endDate.text.toString())
+                location.name = binding.editTextNameViewDetail.text.toString()
+                location.startDate = dateConverter.parseDate(binding.editTextStartDateViewDetail.text.toString())
+                location.endDate = dateConverter.parseDate(binding.editTextEndDateViewDetail.text.toString())
 
                 viewModel.updateLocation(location)
             }
             disableAllText()
         }
 
-        cancelButton.setOnClickListener {
+        binding.buttonCancelLocation.setOnClickListener {
             disableAllText()
         }
 
-        deleteButton.setOnClickListener {
+        binding.buttonCancelLocation.setOnClickListener {
             showDeleteConfirmationDialog()
         }
     }
@@ -150,43 +144,58 @@ class HuntViewDetailFragment : Fragment() {
     }
 
     private fun disableAllText() {
-        disableEditText(nameLayout)
-        disableEditText(startDateLayout)
-        disableEditText(endDateLayout)
+        disableEditText(binding.textInputLayoutNameViewDetail)
+        disableEditText(binding.textInputLayoutStartDateViewDetail)
+        disableEditText(binding.textInputLayoutEndDateViewDetail)
 
-        checkBoxIsContinuous.isEnabled = false
+        binding.checkBoxIsContinuesViewDetail.isEnabled = false
 
-        editButton.visibility = View.VISIBLE
-        deleteButton.visibility = View.VISIBLE
-        saveButton.visibility = View.GONE
-        cancelButton.visibility = View.GONE
+        binding.buttonEditLocation.visibility = View.VISIBLE
+        binding.buttonDeleteLocation.visibility = View.VISIBLE
+        binding.buttonSaveLocation.visibility = View.GONE
+        binding.buttonCancelLocation.visibility = View.GONE
 
-        startDate.setOnClickListener(null)
-        endDate.setOnClickListener(null)
+        binding.editTextStartDateViewDetail.setOnClickListener(null)
+        binding.editTextEndDateViewDetail.setOnClickListener(null)
     }
 
     private fun enableAllText() {
-        enableEditText(nameLayout)
-        enableEditText(startDateLayout)
-        enableEditText(endDateLayout)
+        enableEditText(binding.textInputLayoutNameViewDetail)
+        enableEditText(binding.textInputLayoutStartDateViewDetail)
+        enableEditText(binding.textInputLayoutEndDateViewDetail)
 
-        checkBoxIsContinuous.isEnabled = true
+        binding.checkBoxIsContinuesViewDetail.isEnabled = true
 
-        editButton.visibility = View.GONE
-        deleteButton.visibility = View.GONE
-        saveButton.visibility = View.VISIBLE
-        cancelButton.visibility = View.VISIBLE
+        binding.buttonEditLocation.visibility = View.GONE
+        binding.buttonDeleteLocation.visibility = View.GONE
+        binding.buttonSaveLocation.visibility = View.VISIBLE
+        binding.buttonCancelLocation.visibility = View.VISIBLE
 
-        startDate.setOnClickListener {
-            showDatePickerDialog(requireContext()) { selectedDate ->
-                startDate.setText(selectedDate)
-            }
+        setupStartDatePicker(binding.editTextStartDateViewDetail)
+        setupEndDatePicker(binding.editTextEndDateViewDetail)
+    }
+
+    private fun setupStartDatePicker(editText: EditText) {
+        editText.setOnClickListener {
+            showDatePickerDialog(requireContext(), { selectedDate ->
+                editText.setText(selectedDate)
+                val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                startDate = Calendar.getInstance().apply {
+                    time = formatter.parse(selectedDate) ?: return@apply
+                }
+            }, maxDate = endDate)
         }
+    }
 
-        endDate.setOnClickListener {
-            showDatePickerDialog(requireContext()) { selectedDate ->
-                endDate.setText(selectedDate)
-            }
+    private fun setupEndDatePicker(editText: EditText) {
+        editText.setOnClickListener {
+            showDatePickerDialog(requireContext(), { selectedDate ->
+                editText.setText(selectedDate)
+                val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                endDate = Calendar.getInstance().apply {
+                    time = formatter.parse(selectedDate) ?: return@apply
+                }
+            }, minDate = startDate)
         }
     }
 

@@ -73,9 +73,9 @@ class TrophyAddFragment : Fragment() {
         val dateConverter = DateConverter()
 
         editTextDate.setOnClickListener {
-            showDatePickerDialog(requireContext()) { selectedDate ->
+            showDatePickerDialog(requireContext(), { selectedDate ->
                 editTextDate.setText(selectedDate)
-            }
+            })
         }
 
         buttonSelectAnimalImages.setOnClickListener {

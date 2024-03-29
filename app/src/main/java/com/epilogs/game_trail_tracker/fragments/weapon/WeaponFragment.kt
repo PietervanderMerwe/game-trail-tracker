@@ -9,11 +9,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.WeaponViewAdapter
-import com.epilogs.game_trail_tracker.data.HuntFilterCriteria
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 import com.epilogs.game_trail_tracker.databinding.FragmentWeaponBinding
-import com.epilogs.game_trail_tracker.fragments.view.filter.AdvancedHuntFilterFragment
-import com.epilogs.game_trail_tracker.interfaces.FilterHuntCriteriaListener
 import com.epilogs.game_trail_tracker.interfaces.OnWeaponItemClickListener
 import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
 
@@ -83,14 +80,11 @@ class WeaponFragment : Fragment(R.layout.fragment_weapon), OnWeaponItemClickList
                 WeaponFragmentDirections.actionWeaponFragmentToWeaponAddFragment()
             findNavController().navigate(action)
         }
-
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            WeaponFragment().apply {
-                // Implementation details if needed
+        fun newInstance() = WeaponFragment().apply {
             }
     }
 }
