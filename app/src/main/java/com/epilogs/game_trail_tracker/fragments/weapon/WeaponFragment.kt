@@ -76,8 +76,8 @@ class WeaponFragment : Fragment(R.layout.fragment_weapon), OnWeaponItemClickList
     }
 
     override fun onWeaponItemClick(weapon: Weapon) {
-//        val action = ViewFragmentDirections.actionViewFragmentToAnimalViewDetailFragment(animal.id!!)
-//        findNavController().navigate(action)
+        val action = WeaponFragmentDirections.actionWeaponFragmentToWeaponViewDetailFragment(weapon.id!!)
+        findNavController().navigate(action)
     }
 
     private fun checkDataAndUpdateUI() {

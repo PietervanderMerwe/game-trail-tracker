@@ -10,17 +10,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.database.entities.Weapon
+import com.epilogs.game_trail_tracker.databinding.FragmentWeaponViewDetailBinding
 import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
 import com.google.android.material.textfield.TextInputLayout
 
@@ -29,16 +28,11 @@ class WeaponViewDetailFragment : Fragment() {
     private val viewModel: WeaponViewModel by viewModels()
     private lateinit var imageAdapter: ImagesAdapter
     private var currentWeapon: Weapon? = null
-    private lateinit var nameLayout: TextInputLayout
-    private lateinit var noteLayout: TextInputLayout
-    private lateinit var deleteButton: Button
-    private lateinit var editButton: Button
-    private lateinit var saveButton: Button
-    private lateinit var cancelButton: Button
+    private lateinit var binding: FragmentWeaponViewDetailBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            weaponId = it.getInt("weaponId")
+            weaponId = it.getInt("id")
         }
     }
 
@@ -51,32 +45,19 @@ class WeaponViewDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        nameLayout = view.findViewById(R.id.textInputLayoutWeaponNameViewDetail)
-        noteLayout = view.findViewById(R.id.textInputLayoutWeaponNotesViewDetail)
-        val name: EditText = view.findViewById(R.id.editTextWeaponNameViewDetail)
-        val notes: EditText = view.findViewById(R.id.editTextWeaponNotesViewDetail)
-        val imagesRecyclerView =
-            view.findViewById<RecyclerView>(R.id.imagesWeaponRecyclerViewViewDetail)
-        deleteButton = view.findViewById(R.id.button_delete_weapon)
-        editButton = view.findViewById(R.id.button_edit_weapon)
-        saveButton = view.findViewById(R.id.button_save_weapon)
-        cancelButton = view.findViewById(R.id.button_cancel_weapon)
-        val backButton: ImageView = view.findViewById(R.id.backButtonWeaponViewDetail)
-
-        backButton.setOnClickListener {
-            findNavController().navigateUp()
-        }
+        binding = FragmentWeaponViewDetailBinding.bind(view)
 
         disableAllText()
 
-        editButton.setOnClickListener {
+        binding.buttonEditWeapon.setOnClickListener {
             enableAllText()
         }
 
         viewModel.getWeaponById(weaponId!!).observe(viewLifecycleOwner, Observer { weapon ->
             currentWeapon = weapon
-            name.setText(weapon?.name)
-            notes.setText(weapon?.notes)
+            binding.editTextWeaponNameViewDetail.setText(weapon?.name)
+            binding.editTextWeaponNotesViewDetail.setText(weapon?.notes)
+            binding.appNameTextView.setText(weapon?.name)
 
             imageAdapter = ImagesAdapter(weapon?.imagePaths?.toMutableList() ?: mutableListOf()) { imageUrl, position ->
                 val intent = Intent(context, FullScreenImageActivity::class.java).apply {
@@ -87,16 +68,16 @@ class WeaponViewDetailFragment : Fragment() {
                 context?.startActivity(intent)
             }
 
-            imagesRecyclerView.adapter = imageAdapter
-            imagesRecyclerView.layoutManager =
+            binding.imagesWeaponRecyclerViewViewDetail.adapter = imageAdapter
+            binding.imagesWeaponRecyclerViewViewDetail.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         })
 
-        saveButton.setOnClickListener {
+        binding.buttonSaveWeapon.setOnClickListener {
             currentWeapon?.let { weapon ->
 
-                weapon.name = name.text.toString()
-                weapon.notes = notes.text.toString()
+                weapon.name = binding.editTextWeaponNameViewDetail.text.toString()
+                weapon.notes = binding.editTextWeaponNotesViewDetail.text.toString()
 
                 viewModel.updateWeapon(weapon)
             }
@@ -104,33 +85,35 @@ class WeaponViewDetailFragment : Fragment() {
             disableAllText()
         }
 
-        cancelButton.setOnClickListener {
+        binding.buttonCancelWeapon.setOnClickListener {
             disableAllText()
         }
 
-        deleteButton.setOnClickListener {
+        binding.buttonDeleteWeapon.setOnClickListener {
             showDeleteConfirmationDialog()
         }
     }
 
     private fun disableAllText() {
-        disableEditText(nameLayout)
-        disableEditText(noteLayout)
+        disableEditText(binding.textInputLayoutWeaponNameViewDetail)
+        disableEditText(binding.textInputLayoutWeaponNotesViewDetail)
 
-        editButton.visibility = View.VISIBLE
-        deleteButton.visibility = View.VISIBLE
-        saveButton.visibility = View.GONE
-        cancelButton.visibility = View.GONE
+        binding.buttonEditWeapon.visibility = View.VISIBLE
+        binding.buttonDeleteWeapon.visibility = View.VISIBLE
+        binding.buttonSaveWeapon.visibility = View.GONE
+        binding.buttonCancelWeapon.visibility = View.GONE
+        binding.textInputLayoutWeaponNameViewDetail.visibility = View.GONE
     }
 
     private fun enableAllText() {
-        enableEditText(nameLayout)
-        enableEditText(noteLayout)
+        enableEditText(binding.textInputLayoutWeaponNameViewDetail)
+        enableEditText(binding.textInputLayoutWeaponNotesViewDetail)
 
-        editButton.visibility = View.GONE
-        deleteButton.visibility = View.GONE
-        saveButton.visibility = View.VISIBLE
-        cancelButton.visibility = View.VISIBLE
+        binding.buttonEditWeapon.visibility = View.GONE
+        binding.buttonDeleteWeapon.visibility = View.GONE
+        binding.buttonSaveWeapon.visibility = View.VISIBLE
+        binding.buttonCancelWeapon.visibility = View.VISIBLE
+        binding.textInputLayoutWeaponNameViewDetail.visibility = View.VISIBLE
     }
 
     private fun showDeleteConfirmationDialog() {
