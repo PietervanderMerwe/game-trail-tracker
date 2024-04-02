@@ -1,7 +1,9 @@
 package com.epilogs.game_trail_tracker.fragments.weapon
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -40,6 +42,21 @@ class WeaponFragment : Fragment(R.layout.fragment_weapon), OnWeaponItemClickList
     }
 
     private fun setupSearchView() {
+        binding.searchIcon.setOnClickListener {
+            binding.searchWeapon.visibility = View.VISIBLE
+            binding.searchIcon.visibility = View.GONE
+
+            binding.searchWeapon.requestFocus()
+            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(binding.searchWeapon, InputMethodManager.SHOW_IMPLICIT)
+        }
+
+        binding.searchWeapon.setOnCloseListener {
+            binding.searchWeapon.visibility = View.GONE
+            binding.searchIcon.visibility = View.VISIBLE
+            true
+        }
+
         binding.searchWeapon.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean = false
 
