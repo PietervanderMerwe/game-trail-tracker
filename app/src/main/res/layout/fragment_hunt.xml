@@ -48,7 +48,8 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:padding="8dp"
-                    android:src="@drawable/ic_search_icon" />
+                    android:src="@drawable/ic_search_icon"
+                    app:tint="@color/white" />
             </RelativeLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

@@ -1,7 +1,9 @@
 package com.epilogs.game_trail_tracker.fragments.trophy
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -32,7 +34,6 @@ class TrophyFragment : Fragment(R.layout.fragment_trophy), OnTrophyItemClickList
         setupRecyclerView()
         setupSearchView()
         observeViewModel()
-        setupAdvancedFilterButton()
     }
 
     private fun setupRecyclerView() {
@@ -45,6 +46,21 @@ class TrophyFragment : Fragment(R.layout.fragment_trophy), OnTrophyItemClickList
     }
 
     private fun setupSearchView() {
+        binding.searchIcon.setOnClickListener {
+            binding.searchTrophy.visibility = View.VISIBLE
+            binding.searchIcon.visibility = View.GONE
+
+            binding.searchTrophy.requestFocus()
+            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(binding.searchTrophy, InputMethodManager.SHOW_IMPLICIT)
+        }
+
+        binding.searchTrophy.setOnCloseListener {
+            binding.searchTrophy.visibility = View.GONE
+            binding.searchIcon.visibility = View.VISIBLE
+            true
+        }
+
         binding.searchTrophy.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean = false
 
@@ -60,13 +76,6 @@ class TrophyFragment : Fragment(R.layout.fragment_trophy), OnTrophyItemClickList
         viewModel.getAllAnimals().observe(viewLifecycleOwner) { trophies ->
             adapter.updateAnimals(trophies)
             checkDataAndUpdateUI()
-        }
-    }
-
-    private fun setupAdvancedFilterButton() {
-        binding.advancedTrophyFilterButton.setOnClickListener {
-            AdvancedTrophyFilterFragment.newInstance(adapter.currentFilterCriteria)
-                .show(childFragmentManager, null)
         }
     }
 
