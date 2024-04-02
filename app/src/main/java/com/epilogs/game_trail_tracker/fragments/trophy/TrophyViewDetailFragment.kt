@@ -64,7 +64,7 @@ class TrophyViewDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            animalId = it.getInt("animalId")
+            animalId = it.getInt("id")
         }
     }
 

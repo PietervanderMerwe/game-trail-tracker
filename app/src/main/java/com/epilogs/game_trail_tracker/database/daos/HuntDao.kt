@@ -10,7 +10,7 @@ import com.epilogs.game_trail_tracker.database.entities.Hunt
 @Dao
 interface HuntDao {
     @Insert
-    suspend fun insertHunt(hunt: Hunt)
+    suspend fun insertHunt(hunt: Hunt) : Long
     @Update
     suspend fun updateHunt(hunt: Hunt)
     @Delete

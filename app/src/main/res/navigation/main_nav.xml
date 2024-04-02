@@ -66,6 +66,9 @@
         <action
             android:id="@+id/action_huntAddFragment_to_huntFragment"
             app:destination="@id/huntFragment" />
+        <action
+            android:id="@+id/action_huntAddFragment_to_huntViewDetailFragment"
+            app:destination="@id/huntViewDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/trophyAddFragment"

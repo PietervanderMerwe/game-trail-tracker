@@ -15,6 +15,8 @@ import kotlinx.coroutines.launch
 class HuntViewModel(application: Application) : AndroidViewModel(application) {
     private val db: AppDatabase = DatabaseProvider.getDatabase(application)
     private val huntDao: HuntDao = db.huntDao()
+    private val _insertionId = MutableLiveData<Long?>()
+    val insertionId: LiveData<Long?> = _insertionId
 
     private val insertionSuccess = MutableLiveData<Boolean?>()
     private val updateSuccess = MutableLiveData<Boolean?>()
@@ -25,7 +27,8 @@ class HuntViewModel(application: Application) : AndroidViewModel(application) {
     fun getInsertionSuccess(): MutableLiveData<Boolean?> = insertionSuccess
 
     fun insertHunt(hunt: Hunt) = viewModelScope.launch {
-        huntDao.insertHunt(hunt)
+        val insertedId = huntDao.insertHunt(hunt)
+        _insertionId.postValue(insertedId)
         insertionSuccess.postValue(true)
     }
 
@@ -37,6 +40,10 @@ class HuntViewModel(application: Application) : AndroidViewModel(application) {
     fun getAllHunts(): LiveData<List<Hunt>> = liveData {
         val hunts = huntDao.getAllHunts()
         emit(hunts)
+    }
+
+    fun resetInsertionId() {
+        _insertionId.value = null
     }
 
     fun updateHunt(hunt: Hunt) = viewModelScope.launch {

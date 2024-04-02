@@ -16,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.FullScreenImageActivity
@@ -38,7 +39,6 @@ class HuntAddFragment : Fragment() {
     private val selectedImageUris = mutableListOf<String>()
     private var startDate: Calendar? = null
     private var endDate: Calendar? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -142,6 +142,16 @@ class HuntAddFragment : Fragment() {
                     checkMarkImageView.visibility = View.GONE
                 }, 3000)
                 sharedViewModel.notifyLocationsUpdated()
+
+                viewModel.insertionId.observe(viewLifecycleOwner, Observer { id ->
+                    id?.let {
+                        val action = HuntAddFragmentDirections.actionHuntAddFragmentToHuntViewDetailFragment(
+                            id.toInt()
+                        )
+                        findNavController().navigate(action)
+                        viewModel.resetInsertionId()
+                    }
+                })
             }
         })
     }
