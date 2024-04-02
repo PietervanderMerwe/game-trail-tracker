@@ -69,6 +69,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.room.runtime)
+    implementation(libs.androidx.core)
 
     // this should actually be Kapt or ksp so check if database breaks
     ksp(libs.room.compiler)

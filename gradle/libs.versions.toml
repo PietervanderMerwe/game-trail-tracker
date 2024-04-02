@@ -22,6 +22,7 @@ coroutines = "1.4.3"
 livedata = "2.3.1"
 navigation = "2.5.0"
 photoView = "2.3.0"
+core = "1.12.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -54,6 +55,7 @@ gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "livedata" }
 photoView = { group = "com.github.chrisbanes", name = "PhotoView", version.ref = "photoView" }
+androidx-core = { group = "androidx.core", name = "core", version.ref = "core" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

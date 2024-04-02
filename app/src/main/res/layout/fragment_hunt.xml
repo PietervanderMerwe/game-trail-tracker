@@ -1,71 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.hunt.HuntFragment">
 
-    <RelativeLayout
-        android:id="@+id/top_bar_container"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/secondary_color"
-        android:padding="8dp">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <TextView
-            android:id="@+id/appNameTextView"
-            android:layout_width="wrap_content"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/hunts"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textStyle="bold" />
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:title="@string/location">
 
-        <ImageView
-            android:id="@+id/search_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:clickable="true"
-            android:focusable="true"
-            android:padding="8dp"
-            android:src="@drawable/ic_search_icon" />
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin" />
 
-    </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/search_hunt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/top_bar_container"
-        android:visibility="gone" />
+                <TextView
+                    android:id="@+id/appNameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/hunts"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textStyle="bold" />
 
-    <LinearLayout
-        android:id="@+id/hunt_layout_list"
+                <ImageView
+                    android:id="@+id/search_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_search_icon" />
+            </RelativeLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/search_hunt"
-        android:orientation="vertical">
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/hunt_view_list"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/add_hunt_button_float"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="@dimen/fab_margin"
-            android:contentDescription="@string/add_hunt"
-            android:text="@string/add_hunt" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    </LinearLayout>
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/search_hunt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/hunt_layout_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/hunt_view_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_hunt_button_float"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:contentDescription="@string/add_trophy"
+        android:src="@drawable/ic_add" />
 
     <Button
         android:id="@+id/add_hunt_button"
@@ -75,4 +104,4 @@
         android:text="@string/add_hunt"
         android:visibility="gone" />
 
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:scaleType="centerCrop"/>
-
+    
     <View
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -20,25 +20,23 @@
         android:layout_height="200dp"
         android:orientation="vertical"
         android:padding="16dp"
-        android:gravity="top|start">
+        android:gravity="bottom|start">
 
         <TextView
             android:id="@+id/weapon_view_item_name"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
             android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:padding="8dp" />
 
         <TextView
             android:id="@+id/weapon_view_item_notes"
+            style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
             android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:padding="8dp" />
     </LinearLayout>
 
 </FrameLayout>
