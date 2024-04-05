@@ -42,21 +42,21 @@ class TrophyAddFragment : Fragment() {
     private val selectedImageUris = mutableListOf<String>()
     private lateinit var imageAdapter: ImagesAdapter
     private lateinit var imagePickerLauncher: ActivityResultLauncher<String>
-    private var locationId: Int? = null
+    private var trophyId: Int? = null
     private var weaponId: Int? = null
     private lateinit var binding: FragmentTrophyAddBinding
     private var huntId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        arguments?.let {
+            trophyId = it.getInt("id")
+        }
         imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
             val imagesUris = uris.map { it.toString() }
             selectedImageUris.clear()
             selectedImageUris.addAll(imagesUris)
             imageAdapter.updateImages(selectedImageUris)
-        }
-        arguments?.let {
-            huntId = it.getInt("id")
         }
     }
 
@@ -73,8 +73,6 @@ class TrophyAddFragment : Fragment() {
     }
 
     private fun setupAddUI() {
-        val dateConverter = DateConverter()
-
         binding.editTextDate.setOnClickListener {
             showDatePickerDialog(requireContext(), { selectedDate ->
                 binding.editTextDate.setText(selectedDate)
@@ -89,32 +87,80 @@ class TrophyAddFragment : Fragment() {
         setupWeaponSpinner(binding.spinnerWeapon)
         setupImageView(binding.imagesAnimalRecyclerView)
 
-        binding.buttonSaveAnimal.setOnClickListener {
-            val name = binding.editTextSpecieName.text.toString()
-            val weightString = binding.editTextWeight.text.toString()
-            val measurementString = binding.editTextMeasurement.text.toString()
-            val dateString = binding.editTextDate.text.toString()
-
-            val date = dateConverter.parseDate(dateString)
-            val notes = "Some notes"
-            val imagePaths = selectedImageUris
-            val weight = weightString.toDoubleOrNull() ?: 0.0
-            val measurement = measurementString.toDoubleOrNull() ?: 0.0
-            val animal = Animal(
-                name = name,
-                weight = weight,
-                measurement = measurement,
-                harvestDate = date,
-                notes = notes,
-                huntId = locationId,
-                weaponId = weaponId,
-                imagePaths = imagePaths
-            )
-
-            viewModel.insertAnimal(animal)
+        setupSaveListener()
+        setupObserveInsertion()
+        setupObserveUpdate()
+        if(trophyId != 0) {
+            setupEditScren()
         }
 
+    }
+
+    private fun setupEditScren()
+    {
+        binding.addTrophyText.text = "Update trophy"
+        binding.buttonSaveAnimal.text = "Update"
+
+        viewModel.getAnimalById(trophyId!!).observe(viewLifecycleOwner, Observer { trophy ->
+            binding.editTextSpecieName.setText(trophy?.name)
+            binding.editTextWeight.setText(trophy?.weight.toString())
+            binding.editTextMeasurement.setText(trophy?.measurement.toString())
+            binding.editTextDate.setText(trophy?.harvestDate.toString())
+        })
+    }
+
+    private fun setupSaveListener() {
+        val dateConverter = DateConverter()
+        binding.buttonSaveAnimal.setOnClickListener {
+
+            if(trophyId == 0) {
+                val animal = Animal(
+                    name = binding.editTextSpecieName.text.toString(),
+                    weight = binding.editTextWeight.text.toString().toDoubleOrNull() ?: 0.0,
+                    measurement = binding.editTextMeasurement.text.toString().toDoubleOrNull() ?: 0.0,
+                    harvestDate = dateConverter.parseDate(binding.editTextDate.text.toString()),
+                    notes = "Some notes",
+                    huntId = huntId,
+                    weaponId = weaponId,
+                    imagePaths = selectedImageUris
+                )
+
+                viewModel.insertAnimal(animal)
+            } else {
+                val animal = Animal(
+                    id = trophyId,
+                    name = binding.editTextSpecieName.text.toString(),
+                    weight = binding.editTextWeight.text.toString().toDoubleOrNull() ?: 0.0,
+                    measurement = binding.editTextMeasurement.text.toString().toDoubleOrNull() ?: 0.0,
+                    harvestDate = dateConverter.parseDate(binding.editTextDate.text.toString()),
+                    notes = "Some notes",
+                    huntId = huntId,
+                    weaponId = weaponId,
+                    imagePaths = selectedImageUris
+                )
+
+                viewModel.updateAnimal(animal)
+            }
+        }
+    }
+    private fun setupObserveInsertion() {
         viewModel.getInsertionSuccess().observe(viewLifecycleOwner, Observer { success ->
+            if (success == true) {
+                binding.editTextSpecieName.text.clear()
+                binding.editTextDate.text.clear()
+                binding.editTextWeight.text.clear()
+                binding.editTextMeasurement.text.clear()
+                viewModel.resetInsertionSuccess()
+                imageAdapter.clearImages()
+                binding.checkMarkAnimalAdd.visibility = View.VISIBLE
+                Handler(Looper.getMainLooper()).postDelayed({
+                    binding.checkMarkAnimalAdd.visibility = View.GONE
+                }, 3000)
+            }
+        })
+    }
+    private fun setupObserveUpdate() {
+        viewModel.getUpdateSuccess().observe(viewLifecycleOwner, Observer { success ->
             if (success == true) {
                 binding.editTextSpecieName.text.clear()
                 binding.editTextDate.text.clear()
@@ -155,7 +201,7 @@ class TrophyAddFragment : Fragment() {
         spinnerLocation.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val selectedLocation = parent.getItemAtPosition(position) as Hunt
-                locationId = selectedLocation.id
+                huntId = selectedLocation.id
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -178,7 +224,6 @@ class TrophyAddFragment : Fragment() {
             }
         }
 
-        Log.d("huntId",huntId.toString())
         if(huntId != 0 ) {
             showSpinnerHunt()
         }

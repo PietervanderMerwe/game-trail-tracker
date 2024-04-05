@@ -41,7 +41,7 @@ import java.util.Locale
 
 class TrophyViewDetailFragment : Fragment() {
 
-    private var animalId: Int? = null
+    private var trophyId: Int? = null
     private val animalViewModel: AnimalViewModel by viewModels()
     private val weaponViewModel: WeaponViewModel by viewModels()
     private val huntViewModel: HuntViewModel by viewModels()
@@ -54,7 +54,7 @@ class TrophyViewDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            animalId = it.getInt("id")
+            trophyId = it.getInt("id")
         }
     }
 
@@ -91,11 +91,11 @@ class TrophyViewDetailFragment : Fragment() {
         }
 
         binding.buttonEditAnimal.setOnClickListener {
-            val action = TrophyViewDetailFragmentDirections.actionTrophyViewDetailFragmentToTrophyAddFragment(animalId!!)
+            val action = TrophyViewDetailFragmentDirections.actionTrophyViewDetailFragmentToTrophyAddFragment(trophyId!!)
             findNavController().navigate(action)
         }
 
-        animalViewModel.getAnimalById(animalId!!).observe(viewLifecycleOwner, Observer { animal ->
+        animalViewModel.getAnimalById(trophyId!!).observe(viewLifecycleOwner, Observer { animal ->
             currentAnimal = animal
             binding.textViewSpecieNameViewDetail.text = animal?.name
             binding.textViewDateViewDetail.text = animal?.harvestDate?.let { dateFormat.format(it) } ?: "N/A"
