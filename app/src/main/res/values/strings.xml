@@ -59,4 +59,5 @@
     <string name="hunts">Hunts</string>
     <string name="trophies">Trophies</string>
     <string name="weapons">Weapons</string>
+    <string name="weapon_details">Weapon details</string>
 </resources>

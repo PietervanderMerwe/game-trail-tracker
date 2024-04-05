@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:title="@string/location">
+            app:title="@string/weapons">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
@@ -26,27 +26,22 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin" />
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/appNameTextView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="@string/weapon_details"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/appNameTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="16dp"
-                    android:text="@string/weapon_name"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textStyle="bold" />
-            </RelativeLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/buttonLayoutWeapon"
         android:layout_below="@+id/weaponDetailAppBar"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
@@ -54,16 +49,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="16dp">
+            android:padding="16dp">
 
+            <!-- Weapon Name -->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutWeaponNameViewDetail"
+                android:id="@+id/textInputLayoutWeaponName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:visibility="visible">
+                android:paddingBottom="8dp"
+                app:hintEnabled="false">
 
                 <TextView
                     android:id="@+id/textViewWeaponNameViewDetail"
@@ -71,40 +65,35 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/weapon_name"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                    android:padding="16dp"
-                    android:background="?attr/selectableItemBackground"
-                    android:visibility="visible"/>
-
-                <EditText
-                    android:id="@+id/editTextWeaponNameViewDetail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/weapon_name"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
             </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutWeaponNotesViewDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="8dp">
-
-            <EditText
-                android:id="@+id/editTextWeaponNotesViewDetail"
+            <!-- Weapon Notes -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutWeaponNotes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/weapon_notes" />
+                android:paddingBottom="8dp"
+                app:hintEnabled="false">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <TextView
+                    android:id="@+id/textViewWeaponNotesViewDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/weapon_notes"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:visibility="visible" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/imagesWeaponRecyclerViewViewDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
+            <!-- Weapon Images RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/imagesWeaponRecyclerViewViewDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
 
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
         android:id="@+id/buttonLayoutWeapon"

@@ -53,11 +53,30 @@ class WeaponViewDetailFragment : Fragment() {
             enableAllText()
         }
 
+        getWeaponById()
+
+        binding.buttonSaveWeapon.setOnClickListener {
+            currentWeapon?.let { weapon ->
+
+                viewModel.updateWeapon(weapon)
+            }
+            disableAllText()
+        }
+
+        binding.buttonCancelWeapon.setOnClickListener {
+            disableAllText()
+        }
+
+        binding.buttonDeleteWeapon.setOnClickListener {
+            showDeleteConfirmationDialog()
+        }
+    }
+
+    private fun getWeaponById() {
         viewModel.getWeaponById(weaponId!!).observe(viewLifecycleOwner, Observer { weapon ->
             currentWeapon = weapon
-            binding.editTextWeaponNameViewDetail.setText(weapon?.name)
-            binding.editTextWeaponNotesViewDetail.setText(weapon?.notes)
-            binding.appNameTextView.setText(weapon?.name)
+            binding.textViewWeaponNameViewDetail.text = weapon?.name
+            binding.textViewWeaponNotesViewDetail.text = weapon?.notes
 
             imageAdapter = ImagesAdapter(weapon?.imagePaths?.toMutableList() ?: mutableListOf()) { imageUrl, position ->
                 val intent = Intent(context, FullScreenImageActivity::class.java).apply {
@@ -72,48 +91,23 @@ class WeaponViewDetailFragment : Fragment() {
             binding.imagesWeaponRecyclerViewViewDetail.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         })
-
-        binding.buttonSaveWeapon.setOnClickListener {
-            currentWeapon?.let { weapon ->
-
-                weapon.name = binding.editTextWeaponNameViewDetail.text.toString()
-                weapon.notes = binding.editTextWeaponNotesViewDetail.text.toString()
-
-                viewModel.updateWeapon(weapon)
-            }
-
-            disableAllText()
-        }
-
-        binding.buttonCancelWeapon.setOnClickListener {
-            disableAllText()
-        }
-
-        binding.buttonDeleteWeapon.setOnClickListener {
-            showDeleteConfirmationDialog()
-        }
     }
-
     private fun disableAllText() {
-        disableEditText(binding.textInputLayoutWeaponNameViewDetail)
-        disableEditText(binding.textInputLayoutWeaponNotesViewDetail)
-
         binding.buttonEditWeapon.visibility = View.VISIBLE
         binding.buttonDeleteWeapon.visibility = View.VISIBLE
         binding.buttonSaveWeapon.visibility = View.GONE
         binding.buttonCancelWeapon.visibility = View.GONE
-        binding.textInputLayoutWeaponNameViewDetail.visibility = View.GONE
+        binding.textViewWeaponNameViewDetail.visibility = View.VISIBLE
+        binding.textViewWeaponNotesViewDetail.visibility = View.VISIBLE
     }
 
     private fun enableAllText() {
-        enableEditText(binding.textInputLayoutWeaponNameViewDetail)
-        enableEditText(binding.textInputLayoutWeaponNotesViewDetail)
-
         binding.buttonEditWeapon.visibility = View.GONE
         binding.buttonDeleteWeapon.visibility = View.GONE
         binding.buttonSaveWeapon.visibility = View.VISIBLE
         binding.buttonCancelWeapon.visibility = View.VISIBLE
-        binding.textInputLayoutWeaponNameViewDetail.visibility = View.VISIBLE
+        binding.textViewWeaponNameViewDetail.visibility = View.GONE
+        binding.textViewWeaponNotesViewDetail.visibility = View.GONE
     }
 
     private fun showDeleteConfirmationDialog() {

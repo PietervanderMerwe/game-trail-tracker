@@ -63,6 +63,10 @@
         android:name="com.epilogs.game_trail_tracker.fragments.hunt.HuntAddFragment"
         android:label="fragment_hunt_add"
         tools:layout="@layout/fragment_hunt_add" >
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="0" />
         <action
             android:id="@+id/action_huntAddFragment_to_huntFragment"
             app:destination="@id/huntFragment" />
@@ -91,9 +95,16 @@
         android:name="com.epilogs.game_trail_tracker.fragments.weapon.WeaponAddFragment"
         android:label="fragment_weapon_add"
         tools:layout="@layout/fragment_weapon_add" >
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="0" />
         <action
             android:id="@+id/action_weaponAddFragment_to_weaponFragment"
             app:destination="@id/weaponFragment" />
+        <action
+            android:id="@+id/action_weaponAddFragment_to_weaponViewDetailFragment"
+            app:destination="@id/weaponViewDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/huntViewDetailFragment"
@@ -142,5 +153,8 @@
         <action
             android:id="@+id/action_weaponViewDetailFragment_to_weaponFragment"
             app:destination="@id/weaponFragment" />
+        <action
+            android:id="@+id/action_weaponViewDetailFragment_to_weaponAddFragment"
+            app:destination="@id/weaponAddFragment" />
     </fragment>
 </navigation>
