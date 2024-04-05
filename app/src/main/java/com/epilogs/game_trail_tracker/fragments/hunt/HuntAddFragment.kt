@@ -136,12 +136,8 @@ class HuntAddFragment : Fragment() {
                 editTextEndDate.text.clear()
                 viewModel.resetInsertionSuccess()
                 imageAdapter.clearImages()
-                val checkMarkImageView: ImageView = view.findViewById(R.id.checkMarkLocationAdd)
-                checkMarkImageView.visibility = View.VISIBLE
-                Handler(Looper.getMainLooper()).postDelayed({
-                    checkMarkImageView.visibility = View.GONE
-                }, 3000)
-                sharedViewModel.notifyLocationsUpdated()
+
+                showCheckMark()
 
                 viewModel.insertionId.observe(viewLifecycleOwner, Observer { id ->
                     id?.let {
@@ -156,6 +152,15 @@ class HuntAddFragment : Fragment() {
         })
     }
 
+    private fun showCheckMark() {
+        view?.findViewById<ImageView>(R.id.checkMarkLocationAdd)?.let { checkMarkImageView ->
+            checkMarkImageView.visibility = View.VISIBLE
+            Handler(Looper.getMainLooper()).postDelayed({
+                checkMarkImageView.visibility = View.GONE
+            }, 3000)
+        }
+        sharedViewModel.notifyWeaponsUpdated()
+    }
 
     companion object {
         @JvmStatic

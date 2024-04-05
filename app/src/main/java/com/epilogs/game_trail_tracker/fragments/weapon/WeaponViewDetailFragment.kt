@@ -13,6 +13,7 @@ import android.widget.EditText
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.FullScreenImageActivity
@@ -47,25 +48,11 @@ class WeaponViewDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentWeaponViewDetailBinding.bind(view)
 
-        disableAllText()
-
         binding.buttonEditWeapon.setOnClickListener {
-            enableAllText()
+            navigateToEdit()
         }
 
         getWeaponById()
-
-        binding.buttonSaveWeapon.setOnClickListener {
-            currentWeapon?.let { weapon ->
-
-                viewModel.updateWeapon(weapon)
-            }
-            disableAllText()
-        }
-
-        binding.buttonCancelWeapon.setOnClickListener {
-            disableAllText()
-        }
 
         binding.buttonDeleteWeapon.setOnClickListener {
             showDeleteConfirmationDialog()
@@ -92,22 +79,10 @@ class WeaponViewDetailFragment : Fragment() {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         })
     }
-    private fun disableAllText() {
-        binding.buttonEditWeapon.visibility = View.VISIBLE
-        binding.buttonDeleteWeapon.visibility = View.VISIBLE
-        binding.buttonSaveWeapon.visibility = View.GONE
-        binding.buttonCancelWeapon.visibility = View.GONE
-        binding.textViewWeaponNameViewDetail.visibility = View.VISIBLE
-        binding.textViewWeaponNotesViewDetail.visibility = View.VISIBLE
-    }
 
-    private fun enableAllText() {
-        binding.buttonEditWeapon.visibility = View.GONE
-        binding.buttonDeleteWeapon.visibility = View.GONE
-        binding.buttonSaveWeapon.visibility = View.VISIBLE
-        binding.buttonCancelWeapon.visibility = View.VISIBLE
-        binding.textViewWeaponNameViewDetail.visibility = View.GONE
-        binding.textViewWeaponNotesViewDetail.visibility = View.GONE
+    private fun navigateToEdit() {
+        val action = WeaponViewDetailFragmentDirections.actionWeaponViewDetailFragmentToWeaponAddFragment(weaponId!!)
+        findNavController().navigate(action)
     }
 
     private fun showDeleteConfirmationDialog() {
@@ -119,28 +94,6 @@ class WeaponViewDetailFragment : Fragment() {
             }
             .setNegativeButton("Cancel", null)
             .show()
-    }
-
-    private fun disableEditText(textInputLayout: TextInputLayout) {
-        textInputLayout.isEnabled = false
-        textInputLayout.editText?.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_black_disabled))
-        textInputLayout.defaultHintTextColor = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.text_black_disabled))
-        textInputLayout.editText?.apply {
-            isClickable = false
-            isFocusable = false
-            isCursorVisible = false
-        }
-    }
-
-    private fun enableEditText(textInputLayout: TextInputLayout) {
-        textInputLayout.isEnabled = true
-        textInputLayout.editText?.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_black))
-        textInputLayout.defaultHintTextColor = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.text_black))
-        textInputLayout.editText?.apply {
-            isClickable = true
-            isFocusableInTouchMode = true
-            isCursorVisible = true
-        }
     }
 
     companion object {

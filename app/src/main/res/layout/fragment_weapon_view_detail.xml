@@ -51,7 +51,6 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Weapon Name -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayoutWeaponName"
                 android:layout_width="match_parent"
@@ -64,11 +63,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/weapon_name"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
                     android:visibility="visible" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Weapon Notes -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayoutWeaponNotes"
                 android:layout_width="match_parent"
@@ -81,7 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/weapon_notes"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
                     android:visibility="visible" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -119,21 +117,6 @@
             android:layout_height="wrap_content"
             android:text="@string/delete" />
 
-        <Button
-            android:id="@+id/button_save_weapon"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/save"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/button_cancel_weapon"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cancel"
-            android:visibility="gone" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -28,9 +28,11 @@ class WeaponViewAdapter(
             itemView.findViewById<TextView>(R.id.weapon_view_item_name).text = weapon.name
             itemView.findViewById<TextView>(R.id.weapon_view_item_notes).text = weapon.notes
 
-            Glide.with(itemView.context).load(weapon.imagePaths?.get(0))
-                .into(itemView.findViewById<ImageView>(R.id.weapon_view_item_image))
-
+            weapon.imagePaths?.let {
+                if (it.isNotEmpty()) {
+                    Glide.with(itemView.context).load(it[0]).into(itemView.findViewById<ImageView>(R.id.weapon_view_item_image))
+                }
+            }
 
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
