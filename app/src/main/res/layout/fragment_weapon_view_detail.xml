@@ -83,7 +83,6 @@
                     android:visibility="visible" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Weapon Images RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/imagesWeaponRecyclerViewViewDetail"
                 android:layout_width="match_parent"

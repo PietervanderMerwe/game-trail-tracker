@@ -36,11 +36,13 @@
             android:layout_height="wrap_content"
             android:paddingTop="8dp">
 
-            <EditText
-                android:id="@+id/editTextSpecieNameViewDetail"
+            <TextView
+                android:id="@+id/textViewSpecieNameViewDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/specie_name" />
+                android:hint="@string/specie_name"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:visibility="visible" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -50,11 +52,13 @@
             android:layout_height="wrap_content"
             android:paddingTop="8dp">
 
-            <EditText
-                android:id="@+id/editTextWeightViewDetail"
+            <TextView
+                android:id="@+id/textViewWeightViewDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/weight" />
+                android:hint="@string/weight"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:visibility="visible" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -64,11 +68,13 @@
             android:layout_height="wrap_content"
             android:paddingTop="8dp">
 
-            <EditText
-                android:id="@+id/editTextMeasurementViewDetail"
+            <TextView
+                android:id="@+id/textViewMeasurementViewDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/measurement" />
+                android:hint="@string/measurement"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:visibility="visible" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -78,14 +84,13 @@
             android:layout_height="wrap_content"
             android:paddingTop="8dp">
 
-            <EditText
-                android:id="@+id/editTextDateViewDetail"
+            <TextView
+                android:id="@+id/textViewDateViewDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:cursorVisible="false"
-                android:focusable="false"
-                android:hint="@string/date" />
+                android:hint="@string/date"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:visibility="visible" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -103,14 +108,13 @@
                 android:layout_weight="1.5"
                 android:paddingTop="8dp">
 
-                <EditText
-                    android:id="@+id/LocationViewDetail"
+                <TextView
+                    android:id="@+id/textViewLocationViewDetail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:hint="@string/hunting_location" />
+                    android:hint="@string/hunting_location"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                    android:visibility="visible" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
@@ -121,13 +125,6 @@
                 android:layout_weight="0.5"
                 android:text="@string/view" />
         </LinearLayout>
-
-
-        <Spinner
-            android:id="@+id/spinnerLocationViewDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
 
 
         <LinearLayout
@@ -144,15 +141,13 @@
                 android:layout_weight="1.5"
                 android:paddingTop="8dp">
 
-                <EditText
-                    android:id="@+id/WeaponViewDetail"
+                <TextView
+                    android:id="@+id/textViewWeaponViewDetail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:clickable="true"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:hint="@string/hunting_weapon" />
+                    android:hint="@string/hunting_weapon"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                    android:visibility="visible" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -164,12 +159,6 @@
                 android:layout_weight="0.5"
                 android:text="@string/view" />
         </LinearLayout>
-
-        <Spinner
-            android:id="@+id/spinnerWeaponViewDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/imagesAnimalRecyclerViewViewDetail"
@@ -203,21 +192,6 @@
             android:layout_height="wrap_content"
             android:text="@string/delete" />
 
-        <Button
-            android:id="@+id/button_save_animal"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/save"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/button_cancel_animal"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cancel"
-            android:visibility="gone" />
     </LinearLayout>
 
 </RelativeLayout>
