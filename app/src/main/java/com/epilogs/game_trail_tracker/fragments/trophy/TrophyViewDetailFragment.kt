@@ -91,7 +91,7 @@ class TrophyViewDetailFragment : Fragment() {
         }
 
         binding.buttonEditAnimal.setOnClickListener {
-            val action = TrophyViewDetailFragmentDirections.actionTrophyViewDetailFragmentToTrophyAddFragment(trophyId!!)
+            val action = TrophyViewDetailFragmentDirections.actionTrophyViewDetailFragmentToTrophyAddFragment(huntId!!, trophyId!!, weaponId!!)
             findNavController().navigate(action)
         }
 
@@ -116,7 +116,7 @@ class TrophyViewDetailFragment : Fragment() {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
             huntId = animal?.huntId!!
-            weaponId = animal.huntId!!
+            weaponId = animal.weaponId!!
 
             weaponViewModel.getWeaponById(animal.weaponId!!).observe(viewLifecycleOwner, Observer { weapon ->
                 binding.textViewWeaponViewDetail.text = weapon?.name

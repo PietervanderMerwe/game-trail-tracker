@@ -35,6 +35,8 @@ import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 import com.epilogs.game_trail_tracker.viewmodels.SharedViewModel
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class TrophyAddFragment : Fragment() {
     private val viewModel: AnimalViewModel by viewModels()
@@ -50,7 +52,9 @@ class TrophyAddFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            trophyId = it.getInt("id")
+            trophyId = it.getInt("trophyId")
+            huntId = it.getInt("huntId")
+            weaponId = it.getInt("weaponId")
         }
         imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
             val imagesUris = uris.map { it.toString() }
@@ -98,6 +102,7 @@ class TrophyAddFragment : Fragment() {
 
     private fun setupEditScren()
     {
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
         binding.addTrophyText.text = "Update trophy"
         binding.buttonSaveAnimal.text = "Update"
 
@@ -105,7 +110,7 @@ class TrophyAddFragment : Fragment() {
             binding.editTextSpecieName.setText(trophy?.name)
             binding.editTextWeight.setText(trophy?.weight.toString())
             binding.editTextMeasurement.setText(trophy?.measurement.toString())
-            binding.editTextDate.setText(trophy?.harvestDate.toString())
+            binding.editTextDate.setText(trophy?.harvestDate?.let { dateFormat.format(it) } ?: "N/A")
         })
     }
 
@@ -291,11 +296,19 @@ class TrophyAddFragment : Fragment() {
             }
         }
 
-        binding.buttonLinkWeapon.setOnClickListener {
-            binding.spinnerWeapon.visibility = if (binding.spinnerWeapon.visibility == View.GONE) View.VISIBLE else View.GONE
-            binding.selectWeaponTextView.visibility = if (binding.selectWeaponTextView.visibility == View.GONE) View.VISIBLE else View.GONE
-            binding.buttonLinkWeapon.visibility = if (binding.buttonLinkWeapon.visibility == View.GONE) View.VISIBLE else View.GONE
+        if(weaponId != 0 ) {
+            showSpinnerWeapon()
         }
+
+        binding.buttonLinkWeapon.setOnClickListener {
+            showSpinnerWeapon()
+        }
+    }
+
+    private fun showSpinnerWeapon() {
+        binding.spinnerWeapon.visibility = if (binding.spinnerWeapon.visibility == View.GONE) View.VISIBLE else View.GONE
+        binding.selectWeaponTextView.visibility = if (binding.selectWeaponTextView.visibility == View.GONE) View.VISIBLE else View.GONE
+        binding.buttonLinkWeapon.visibility = if (binding.buttonLinkWeapon.visibility == View.GONE) View.VISIBLE else View.GONE
     }
 
     private fun setupImageView(imagesRecyclerView: RecyclerView) {

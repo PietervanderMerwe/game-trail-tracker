@@ -80,7 +80,15 @@
         android:label="fragment_trophy_add"
         tools:layout="@layout/fragment_trophy_add" >
         <argument
-            android:name="id"
+            android:name="huntId"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="trophyId"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="weaponId"
             app:argType="integer"
             android:defaultValue="0" />
         <action
