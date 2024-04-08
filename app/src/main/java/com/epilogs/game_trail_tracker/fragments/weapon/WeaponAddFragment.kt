@@ -157,8 +157,7 @@ class WeaponAddFragment : Fragment() {
 
         viewModel.getUpdateSuccess().observe(viewLifecycleOwner, Observer { success ->
             if (success == true) {
-                val action = WeaponAddFragmentDirections.actionWeaponAddFragmentToWeaponViewDetailFragment(weaponId!!)
-                findNavController().navigate(action)
+                findNavController().navigateUp()
             }
         })
     }

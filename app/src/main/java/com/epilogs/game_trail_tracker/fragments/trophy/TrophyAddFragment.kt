@@ -4,14 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Spinner
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.FullScreenImageActivity
@@ -29,7 +26,6 @@ import com.epilogs.game_trail_tracker.adapters.WeaponAdapter
 import com.epilogs.game_trail_tracker.database.entities.Animal
 import com.epilogs.game_trail_tracker.database.entities.Hunt
 import com.epilogs.game_trail_tracker.database.entities.Weapon
-import com.epilogs.game_trail_tracker.databinding.FragmentHuntViewDetailBinding
 import com.epilogs.game_trail_tracker.databinding.FragmentTrophyAddBinding
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
@@ -173,10 +169,7 @@ class TrophyAddFragment : Fragment() {
                 binding.editTextMeasurement.text.clear()
                 viewModel.resetInsertionSuccess()
                 imageAdapter.clearImages()
-                binding.checkMarkAnimalAdd.visibility = View.VISIBLE
-                Handler(Looper.getMainLooper()).postDelayed({
-                    binding.checkMarkAnimalAdd.visibility = View.GONE
-                }, 3000)
+                findNavController().navigateUp()
             }
         })
     }
