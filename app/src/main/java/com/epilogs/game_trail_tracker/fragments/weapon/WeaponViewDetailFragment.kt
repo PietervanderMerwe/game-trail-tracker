@@ -48,15 +48,11 @@ class WeaponViewDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentWeaponViewDetailBinding.bind(view)
 
-        binding.buttonEditWeapon.setOnClickListener {
+        binding.fabEditWeapon.setOnClickListener {
             navigateToEdit()
         }
 
         getWeaponById()
-
-        binding.buttonDeleteWeapon.setOnClickListener {
-            showDeleteConfirmationDialog()
-        }
     }
 
     private fun getWeaponById() {
