@@ -70,10 +70,6 @@ class TrophyViewDetailFragment : Fragment() {
         binding = FragmentTrophyViewDetailBinding.bind(view)
         val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
 
-        binding.backButtonAnimalViewDetail.setOnClickListener {
-            findNavController().navigateUp()
-        }
-
         binding.buttonViewLocation.setOnClickListener {
 //            val action =
 //                TrophyViewDetailFragmentDirections.actionAnimalViewDetailFragment2ToLocationViewDetailFragment2(
@@ -90,7 +86,7 @@ class TrophyViewDetailFragment : Fragment() {
 //            findNavController().navigate(action)
         }
 
-        binding.buttonEditAnimal.setOnClickListener {
+        binding.fabEditTrophy.setOnClickListener {
             val action = TrophyViewDetailFragmentDirections.actionTrophyViewDetailFragmentToTrophyAddFragment(huntId!!, trophyId!!, weaponId!!)
             findNavController().navigate(action)
         }
@@ -126,11 +122,6 @@ class TrophyViewDetailFragment : Fragment() {
                 binding.textViewLocationViewDetail.text = hunt?.name
             })
         })
-
-
-        binding.buttonDeleteAnimal.setOnClickListener {
-            showDeleteConfirmationDialog()
-        }
     }
 
     private fun showDeleteConfirmationDialog() {

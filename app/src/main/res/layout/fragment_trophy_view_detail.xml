@@ -1,197 +1,252 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     tools:context=".fragments.trophy.TrophyViewDetailFragment">
 
-    <LinearLayout
-        android:id="@+id/contentLayoutAnimal"
-        android:layout_width="352dp"
-        android:layout_height="611dp"
-        android:layout_above="@+id/buttonLayoutAnimal"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="10dp"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/backButtonAnimalViewDetail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:contentDescription="@string/back_button"
-            android:focusable="true"
-            android:padding="8dp"
-            android:src="@drawable/ic_back_navigation" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutSpecieNameViewDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="8dp">
-
-            <TextView
-                android:id="@+id/textViewSpecieNameViewDetail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/specie_name"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                android:visibility="visible" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutWeightViewDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="8dp">
-
-            <TextView
-                android:id="@+id/textViewWeightViewDetail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/weight"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                android:visibility="visible" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutMeasurementViewDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="8dp">
-
-            <TextView
-                android:id="@+id/textViewMeasurementViewDetail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/measurement"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                android:visibility="visible" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutDateViewDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="8dp">
-
-            <TextView
-                android:id="@+id/textViewDateViewDetail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/date"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                android:visibility="visible" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <LinearLayout
-            android:id="@+id/LocationLayoutViewDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutLocationViewDetail"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:paddingTop="8dp">
-
-                <TextView
-                    android:id="@+id/textViewLocationViewDetail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/hunting_location"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                    android:visibility="visible" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <Button
-                android:id="@+id/button_view_location"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="@string/view" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/WeaponLayoutViewDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutWeaponViewDetail"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:paddingTop="8dp">
-
-                <TextView
-                    android:id="@+id/textViewWeaponViewDetail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/hunting_weapon"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                    android:visibility="visible" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <Button
-                android:id="@+id/button_view_weapon"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="@string/view" />
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/imagesAnimalRecyclerViewViewDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/buttonLayoutAnimal"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/trophyDetailAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:title="@string/trophies">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin" />
+
+            <TextView
+                android:id="@+id/appNameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="@string/trophy_details"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/trophyDetailAppBar"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/name"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:paddingBottom="4dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutSpecieNameViewDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp">
+
+                <TextView
+                    android:id="@+id/textViewSpecieNameViewDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/specie_name"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                    android:visibility="visible" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/weight"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:paddingBottom="4dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutWeightViewDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp">
+
+                <TextView
+                    android:id="@+id/textViewWeightViewDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/weight"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                    android:visibility="visible" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/measurement"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:paddingBottom="4dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutMeasurementViewDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp">
+
+                <TextView
+                    android:id="@+id/textViewMeasurementViewDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/measurement"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                    android:visibility="visible" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/date"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:paddingBottom="4dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutDateViewDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp">
+
+                <TextView
+                    android:id="@+id/textViewDateViewDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/date"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                    android:visibility="visible" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/location"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:paddingBottom="4dp"/>
+
+            <LinearLayout
+                android:id="@+id/LocationLayoutViewDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutLocationViewDetail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/textViewLocationViewDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hunting_location"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                        android:visibility="visible" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/button_view_location"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/view" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/weapon"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:paddingBottom="4dp"/>
+
+            <LinearLayout
+                android:id="@+id/WeaponLayoutViewDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutWeaponViewDetail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/textViewWeaponViewDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hunting_weapon"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                        android:visibility="visible" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/button_view_weapon"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/view" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/images"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:paddingBottom="4dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/imagesAnimalRecyclerViewViewDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_edit_trophy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="16dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/button_edit_animal"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="@string/edit" />
-
-        <Button
-            android:id="@+id/button_delete_animal"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/delete" />
-
-    </LinearLayout>
+        android:layout_alignParentEnd="true"
+        app:srcCompat="@android:drawable/ic_menu_edit"
+        android:contentDescription="@string/edit"
+        app:fabCustomSize="56dp" />
 
 </RelativeLayout>
