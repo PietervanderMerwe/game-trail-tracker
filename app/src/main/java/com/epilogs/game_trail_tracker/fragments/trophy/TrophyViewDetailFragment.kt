@@ -87,18 +87,26 @@ class TrophyViewDetailFragment : Fragment() {
         }
 
         binding.fabEditTrophy.setOnClickListener {
-            val action = TrophyViewDetailFragmentDirections.actionTrophyViewDetailFragmentToTrophyAddFragment(huntId!!, trophyId!!, weaponId!!)
+            val action =
+                TrophyViewDetailFragmentDirections.actionTrophyViewDetailFragmentToTrophyAddFragment(
+                    huntId!!,
+                    trophyId!!,
+                    weaponId!!
+                )
             findNavController().navigate(action)
         }
 
         animalViewModel.getAnimalById(trophyId!!).observe(viewLifecycleOwner, Observer { animal ->
             currentAnimal = animal
             binding.textViewSpecieNameViewDetail.text = animal?.name
-            binding.textViewDateViewDetail.text = animal?.harvestDate?.let { dateFormat.format(it) } ?: "N/A"
+            binding.textViewDateViewDetail.text =
+                animal?.harvestDate?.let { dateFormat.format(it) } ?: "N/A"
             binding.textViewWeightViewDetail.text = animal?.weight?.toString()
             binding.textViewMeasurementViewDetail.text = animal?.measurement?.toString()
 
-            imageAdapter = ImagesAdapter(animal?.imagePaths?.toMutableList() ?: mutableListOf()) { imageUrl, position ->
+            imageAdapter = ImagesAdapter(
+                animal?.imagePaths?.toMutableList() ?: mutableListOf()
+            ) { imageUrl, position ->
                 val intent = Intent(context, FullScreenImageActivity::class.java).apply {
                     putStringArrayListExtra("image_urls", ArrayList(animal?.imagePaths))
                     putExtra("image_position", position)
@@ -111,16 +119,23 @@ class TrophyViewDetailFragment : Fragment() {
             binding.imagesAnimalRecyclerViewViewDetail.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-            huntId = animal?.huntId!!
-            weaponId = animal.weaponId!!
 
-            weaponViewModel.getWeaponById(animal.weaponId!!).observe(viewLifecycleOwner, Observer { weapon ->
-                binding.textViewWeaponViewDetail.text = weapon?.name
-            })
 
-            huntViewModel.getHuntById(animal.huntId!!).observe(viewLifecycleOwner, Observer { hunt ->
-                binding.textViewLocationViewDetail.text = hunt?.name
-            })
+            if (animal?.weaponId != null) {
+                weaponViewModel.getWeaponById(animal?.weaponId!!)
+                    .observe(viewLifecycleOwner, Observer { weapon ->
+                        binding.textViewWeaponViewDetail.text = weapon?.name
+                    })
+                weaponId = animal.weaponId
+            }
+
+            if (animal?.huntId != null) {
+                huntViewModel.getHuntById(animal.huntId!!)
+                    .observe(viewLifecycleOwner, Observer { hunt ->
+                        binding.textViewLocationViewDetail.text = hunt?.name
+                    })
+                huntId = animal.huntId
+            }
         })
     }
 

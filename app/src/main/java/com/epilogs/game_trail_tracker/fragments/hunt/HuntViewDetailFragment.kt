@@ -9,17 +9,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epilogs.game_trail_tracker.R
-import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.adapters.TrophyViewAdapter
 import com.epilogs.game_trail_tracker.database.entities.Animal
-import com.epilogs.game_trail_tracker.database.entities.Hunt
 import com.epilogs.game_trail_tracker.databinding.FragmentHuntViewDetailBinding
-import com.epilogs.game_trail_tracker.fragments.trophy.TrophyFragmentDirections
 import com.epilogs.game_trail_tracker.interfaces.OnTrophyItemClickListener
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Locale
 
 class HuntViewDetailFragment : Fragment(), OnTrophyItemClickListener {
@@ -72,10 +68,19 @@ class HuntViewDetailFragment : Fragment(), OnTrophyItemClickListener {
         animalViewModel.getAnimalsByHuntId(huntId!!).observe(viewLifecycleOwner) { animals ->
             adapter.updateAnimals(animals)
         }
+
+        val hasData = adapter.itemCount > 0
+        binding.fbAddTrophyButton.visibility = if (hasData) View.VISIBLE else View.GONE
+        binding.addTrophyButton.visibility = if (hasData) View.GONE else View.VISIBLE
     }
 
     private fun setButton() {
         binding.addTrophyButton.setOnClickListener {
+            val action =
+                HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToTrophyAddFragment(huntId!!, 0, 0)
+            findNavController().navigate(action)
+        }
+        binding.fbAddTrophyButton.setOnClickListener {
             val action =
                 HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToTrophyAddFragment(huntId!!, 0, 0)
             findNavController().navigate(action)

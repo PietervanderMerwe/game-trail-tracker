@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -115,14 +116,16 @@ class TrophyAddFragment : Fragment() {
         binding.buttonSaveAnimal.setOnClickListener {
 
             if(trophyId == 0) {
+                Log.d("HuntId",huntId.toString())
+                Log.d("HuntId",weaponId.toString())
                 val animal = Animal(
                     name = binding.editTextSpecieName.text.toString(),
                     weight = binding.editTextWeight.text.toString().toDoubleOrNull() ?: 0.0,
                     measurement = binding.editTextMeasurement.text.toString().toDoubleOrNull() ?: 0.0,
                     harvestDate = dateConverter.parseDate(binding.editTextDate.text.toString()),
                     notes = "Some notes",
-                    huntId = huntId,
-                    weaponId = weaponId,
+                    huntId = huntId.takeIf { it!! > 0 },
+                    weaponId = weaponId.takeIf { it!! > 0 },
                     imagePaths = selectedImageUris
                 )
 
@@ -135,8 +138,8 @@ class TrophyAddFragment : Fragment() {
                     measurement = binding.editTextMeasurement.text.toString().toDoubleOrNull() ?: 0.0,
                     harvestDate = dateConverter.parseDate(binding.editTextDate.text.toString()),
                     notes = "Some notes",
-                    huntId = huntId,
-                    weaponId = weaponId,
+                    huntId = huntId.takeIf { it!! > 0 },
+                    weaponId = weaponId.takeIf { it!! > 0 },
                     imagePaths = selectedImageUris
                 )
 
@@ -153,10 +156,7 @@ class TrophyAddFragment : Fragment() {
                 binding.editTextMeasurement.text.clear()
                 viewModel.resetInsertionSuccess()
                 imageAdapter.clearImages()
-                binding.checkMarkAnimalAdd.visibility = View.VISIBLE
-                Handler(Looper.getMainLooper()).postDelayed({
-                    binding.checkMarkAnimalAdd.visibility = View.GONE
-                }, 3000)
+                findNavController().navigateUp()
             }
         })
     }
