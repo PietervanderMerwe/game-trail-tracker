@@ -40,7 +40,7 @@ class TrophyAddFragment : Fragment() {
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val selectedImageUris = mutableListOf<String>()
     private lateinit var imageAdapter: ImagesAdapter
-    private lateinit var imagePickerLauncher: ActivityResultLauncher<String>
+    private lateinit var documentPickerLauncher: ActivityResultLauncher<Array<String>>
     private var trophyId: Int? = null
     private var weaponId: Int? = null
     private lateinit var binding: FragmentTrophyAddBinding
@@ -53,15 +53,22 @@ class TrophyAddFragment : Fragment() {
             huntId = it.getInt("huntId")
             weaponId = it.getInt("weaponId")
         }
-        imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
-            val imagesUris = uris.map { it.toString() }
-            selectedImageUris.clear()
-            selectedImageUris.addAll(imagesUris)
+        documentPickerLauncher = registerForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { uris ->
+            uris.forEach { uri ->
+                val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                requireActivity().contentResolver.takePersistableUriPermission(uri, takeFlags)
+                selectedImageUris.add(uri.toString())
+            }
             imageAdapter.updateImages(selectedImageUris)
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_trophy_add, container, false)
     }
 
@@ -81,7 +88,7 @@ class TrophyAddFragment : Fragment() {
         }
 
         binding.buttonSelectAnimalImages.setOnClickListener {
-            imagePickerLauncher.launch("image/*")
+            documentPickerLauncher.launch(arrayOf("image/*"))
         }
 
         setupHuntSpinner(binding.spinnerHunt)
@@ -91,14 +98,13 @@ class TrophyAddFragment : Fragment() {
         setupSaveListener()
         setupObserveInsertion()
         setupObserveUpdate()
-        if(trophyId != 0) {
+        if (trophyId != 0) {
             setupEditScren()
         }
 
     }
 
-    private fun setupEditScren()
-    {
+    private fun setupEditScren() {
         val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
         binding.addTrophyText.text = "Update trophy"
         binding.buttonSaveAnimal.text = "Update"
@@ -107,7 +113,8 @@ class TrophyAddFragment : Fragment() {
             binding.editTextSpecieName.setText(trophy?.name)
             binding.editTextWeight.setText(trophy?.weight.toString())
             binding.editTextMeasurement.setText(trophy?.measurement.toString())
-            binding.editTextDate.setText(trophy?.harvestDate?.let { dateFormat.format(it) } ?: "N/A")
+            binding.editTextDate.setText(trophy?.harvestDate?.let { dateFormat.format(it) }
+                ?: "N/A")
         })
     }
 
@@ -115,13 +122,14 @@ class TrophyAddFragment : Fragment() {
         val dateConverter = DateConverter()
         binding.buttonSaveAnimal.setOnClickListener {
 
-            if(trophyId == 0) {
-                Log.d("HuntId",huntId.toString())
-                Log.d("HuntId",weaponId.toString())
+            if (trophyId == 0) {
+                Log.d("HuntId", huntId.toString())
+                Log.d("HuntId", weaponId.toString())
                 val animal = Animal(
                     name = binding.editTextSpecieName.text.toString(),
                     weight = binding.editTextWeight.text.toString().toDoubleOrNull() ?: 0.0,
-                    measurement = binding.editTextMeasurement.text.toString().toDoubleOrNull() ?: 0.0,
+                    measurement = binding.editTextMeasurement.text.toString().toDoubleOrNull()
+                        ?: 0.0,
                     harvestDate = dateConverter.parseDate(binding.editTextDate.text.toString()),
                     notes = "Some notes",
                     huntId = huntId.takeIf { it!! > 0 },
@@ -135,7 +143,8 @@ class TrophyAddFragment : Fragment() {
                     id = trophyId,
                     name = binding.editTextSpecieName.text.toString(),
                     weight = binding.editTextWeight.text.toString().toDoubleOrNull() ?: 0.0,
-                    measurement = binding.editTextMeasurement.text.toString().toDoubleOrNull() ?: 0.0,
+                    measurement = binding.editTextMeasurement.text.toString().toDoubleOrNull()
+                        ?: 0.0,
                     harvestDate = dateConverter.parseDate(binding.editTextDate.text.toString()),
                     notes = "Some notes",
                     huntId = huntId.takeIf { it!! > 0 },
@@ -147,6 +156,7 @@ class TrophyAddFragment : Fragment() {
             }
         }
     }
+
     private fun setupObserveInsertion() {
         viewModel.getInsertionSuccess().observe(viewLifecycleOwner, Observer { success ->
             if (success == true) {
@@ -160,6 +170,7 @@ class TrophyAddFragment : Fragment() {
             }
         })
     }
+
     private fun setupObserveUpdate() {
         viewModel.getUpdateSuccess().observe(viewLifecycleOwner, Observer { success ->
             if (success == true) {
@@ -181,7 +192,8 @@ class TrophyAddFragment : Fragment() {
 
         viewModel.getAllLocations().observe(viewLifecycleOwner) { newLocations ->
             val modifiedLocations = mutableListOf<Hunt>().apply {
-                add(Hunt(null, "None", null, null, mutableListOf<String>())
+                add(
+                    Hunt(null, "None", null, null, mutableListOf<String>())
                 )
                 addAll(newLocations)
             }
@@ -197,7 +209,12 @@ class TrophyAddFragment : Fragment() {
         }
 
         spinnerLocation.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
                 val selectedLocation = parent.getItemAtPosition(position) as Hunt
                 huntId = selectedLocation.id
             }
@@ -222,7 +239,7 @@ class TrophyAddFragment : Fragment() {
             }
         }
 
-        if(huntId != 0 ) {
+        if (huntId != 0) {
             showSpinnerHunt()
         }
 
@@ -232,10 +249,14 @@ class TrophyAddFragment : Fragment() {
     }
 
     private fun showSpinnerHunt() {
-        binding.spinnerHunt.visibility = if (binding.spinnerHunt.visibility == View.GONE) View.VISIBLE else View.GONE
-        binding.selectHuntTextView.visibility = if (binding.selectHuntTextView.visibility == View.GONE) View.VISIBLE else View.GONE
-        binding.buttonLinkToHunt.visibility = if (binding.buttonLinkToHunt.visibility == View.GONE) View.VISIBLE else View.GONE
+        binding.spinnerHunt.visibility =
+            if (binding.spinnerHunt.visibility == View.GONE) View.VISIBLE else View.GONE
+        binding.selectHuntTextView.visibility =
+            if (binding.selectHuntTextView.visibility == View.GONE) View.VISIBLE else View.GONE
+        binding.buttonLinkToHunt.visibility =
+            if (binding.buttonLinkToHunt.visibility == View.GONE) View.VISIBLE else View.GONE
     }
+
     private fun setupWeaponSpinner(spinnerWeapon: Spinner) {
 
         val weapons = mutableListOf<Weapon>()
@@ -289,7 +310,7 @@ class TrophyAddFragment : Fragment() {
             }
         }
 
-        if(weaponId != 0 ) {
+        if (weaponId != 0) {
             showSpinnerWeapon()
         }
 
@@ -299,9 +320,12 @@ class TrophyAddFragment : Fragment() {
     }
 
     private fun showSpinnerWeapon() {
-        binding.spinnerWeapon.visibility = if (binding.spinnerWeapon.visibility == View.GONE) View.VISIBLE else View.GONE
-        binding.selectWeaponTextView.visibility = if (binding.selectWeaponTextView.visibility == View.GONE) View.VISIBLE else View.GONE
-        binding.buttonLinkWeapon.visibility = if (binding.buttonLinkWeapon.visibility == View.GONE) View.VISIBLE else View.GONE
+        binding.spinnerWeapon.visibility =
+            if (binding.spinnerWeapon.visibility == View.GONE) View.VISIBLE else View.GONE
+        binding.selectWeaponTextView.visibility =
+            if (binding.selectWeaponTextView.visibility == View.GONE) View.VISIBLE else View.GONE
+        binding.buttonLinkWeapon.visibility =
+            if (binding.buttonLinkWeapon.visibility == View.GONE) View.VISIBLE else View.GONE
     }
 
     private fun setupImageView(imagesRecyclerView: RecyclerView) {
