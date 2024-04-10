@@ -70,8 +70,8 @@ class HuntViewDetailFragment : Fragment(), OnTrophyItemClickListener {
         }
 
         val hasData = adapter.itemCount > 0
-        binding.fbAddTrophyButton.visibility = if (hasData) View.VISIBLE else View.GONE
-        binding.addTrophyButton.visibility = if (hasData) View.GONE else View.VISIBLE
+        binding.fbAddTrophyButton.visibility = if (hasData) View.GONE else View.VISIBLE
+        binding.addTrophyButton.visibility = if (hasData) View.VISIBLE else View.GONE
     }
 
     private fun setButton() {
