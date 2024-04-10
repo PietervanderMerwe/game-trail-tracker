@@ -105,7 +105,9 @@ class WeaponAddFragment : Fragment() {
             binding.editTextWeaponName.setText(weapon?.name)
             binding.editTextWeaponNotes.setText(weapon?.notes)
 
-            imageAdapter = ImagesAdapter(weapon?.imagePaths?.toMutableList() ?: mutableListOf()) { imageUrl, position ->
+            imageAdapter = ImagesAdapter(
+                weapon?.imagePaths?.toMutableList() ?: mutableListOf()
+            ) { imageUrl, position ->
                 val intent = Intent(context, FullScreenImageActivity::class.java).apply {
                     putStringArrayListExtra("image_urls", ArrayList(weapon?.imagePaths))
                     putExtra("image_position", position)
@@ -126,7 +128,8 @@ class WeaponAddFragment : Fragment() {
     }
 
     private fun updateWeapon(name: String, notes: String) {
-        val weapon = Weapon(id = weaponId, name = name, notes = notes, imagePaths = selectedImageUris)
+        val weapon =
+            Weapon(id = weaponId, name = name, notes = notes, imagePaths = selectedImageUris)
         viewModel.updateWeapon(weapon)
     }
 

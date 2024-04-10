@@ -70,10 +70,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.room.runtime)
     implementation(libs.androidx.core)
-
-    // this should actually be Kapt or ksp so check if database breaks
     ksp(libs.room.compiler)
-
     implementation(libs.room.ktx)
     implementation(libs.gson)
     implementation(libs.coroutines)
@@ -86,7 +83,7 @@ dependencies {
     implementation(libs.photoView)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
-    annotationProcessor(libs.glideCompiler)
+    ksp(libs.glideCompiler)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
