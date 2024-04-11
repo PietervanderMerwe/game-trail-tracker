@@ -13,7 +13,7 @@ object DatabaseProvider {
                 context.applicationContext,
                 AppDatabase::class.java,
                 "game_trail_tracker_db"
-            ).build()
+            ).fallbackToDestructiveMigration().build()
             INSTANCE = instance
             instance
         }

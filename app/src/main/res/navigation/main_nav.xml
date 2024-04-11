@@ -116,6 +116,9 @@
         <action
             android:id="@+id/action_weaponAddFragment_to_weaponViewDetailFragment"
             app:destination="@id/weaponViewDetailFragment" />
+        <action
+            android:id="@+id/action_weaponAddFragment_to_customImagePickerFragment"
+            app:destination="@id/customImagePickerFragment" />
     </fragment>
     <fragment
         android:id="@+id/huntViewDetailFragment"
@@ -172,6 +175,15 @@
             app:destination="@id/weaponFragment" />
         <action
             android:id="@+id/action_weaponViewDetailFragment_to_weaponAddFragment"
+            app:destination="@id/weaponAddFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/customImagePickerFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.extension.CustomImagePickerFragment"
+        android:label="fragment_custom_image_picker"
+        tools:layout="@layout/fragment_custom_image_picker" >
+        <action
+            android:id="@+id/action_customImagePickerFragment_to_weaponAddFragment"
             app:destination="@id/weaponAddFragment" />
     </fragment>
 </navigation>

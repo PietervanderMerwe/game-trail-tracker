@@ -8,6 +8,8 @@ import androidx.lifecycle.MutableLiveData
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
     private val weaponsUpdateSignal = MutableLiveData<Boolean>()
     private val locationsUpdateSignal = MutableLiveData<Boolean>()
+    val selectedImages = MutableLiveData<List<String>>()
+
     fun notifyWeaponsUpdated() {
         weaponsUpdateSignal.value = true
     }

@@ -1,7 +1,6 @@
 package com.epilogs.game_trail_tracker.fragments.weapon
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,7 +13,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 import com.epilogs.game_trail_tracker.viewmodels.SharedViewModel
@@ -72,7 +70,14 @@ class WeaponAddFragment : Fragment() {
         if (weaponId != 0) setupEdit()
 
         binding.buttonSelectWeaponImages.setOnClickListener {
-            documentPickerLauncher.launch(arrayOf("image/*"))
+            val action = WeaponAddFragmentDirections.actionWeaponAddFragmentToCustomImagePickerFragment()
+            findNavController().navigate(action)
+        }
+
+        sharedViewModel.selectedImages.observe(viewLifecycleOwner) { images ->
+            selectedImageUris.clear()
+            selectedImageUris.addAll(images)
+            imageAdapter.updateImages(selectedImageUris)
         }
 
         setupRecyclerView(binding.imagesWeaponRecyclerView)
