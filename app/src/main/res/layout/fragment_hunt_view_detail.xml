@@ -23,7 +23,8 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
+                app:layout_collapseMode="pin"
+                android:background="@color/primary_color"/>
 
             <TextView
                 android:id="@+id/locationName"
@@ -83,7 +84,9 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_add"
         android:contentDescription="@string/add_trophy"
-        android:layout_gravity="bottom|end"/>
+        android:layout_gravity="bottom|end"
+        android:backgroundTint="@color/primary_color"
+        android:tintMode="@color/white"/>
 
     <Button
         android:id="@+id/addTrophyButton"

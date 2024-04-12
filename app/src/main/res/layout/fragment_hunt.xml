@@ -24,7 +24,8 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
+                app:layout_collapseMode="pin"
+                android:background="@color/primary_color"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -95,7 +96,9 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:contentDescription="@string/add_trophy"
-        android:src="@drawable/ic_add" />
+        android:backgroundTint="@color/primary_color"
+        android:src="@drawable/ic_add"
+        android:tintMode="@color/white"/>
 
     <Button
         android:id="@+id/add_hunt_button"

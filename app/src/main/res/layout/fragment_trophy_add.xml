@@ -81,7 +81,8 @@
                 android:id="@+id/buttonLinkToHunt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/addToHunt" />
+                android:text="@string/addToHunt"
+                android:backgroundTint="@color/primary_color"/>
 
             <TextView
                 android:id="@+id/selectHuntTextView"
@@ -101,7 +102,8 @@
                 android:id="@+id/buttonLinkWeapon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/addWeapon" />
+                android:text="@string/addWeapon"
+                android:backgroundTint="@color/primary_color"/>
 
             <TextView
                 android:id="@+id/selectWeaponTextView"
@@ -123,7 +125,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/buttonSelectImages" />
+                android:text="@string/buttonSelectImages"
+                android:textColor="@color/secondary_color"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/imagesAnimalRecyclerView"
@@ -147,7 +150,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.9"
-            android:background="@drawable/button_rounded_less"
+            android:backgroundTint="@color/primary_color"
             android:text="@string/buttonSaveAnimal" />
     </LinearLayout>
 

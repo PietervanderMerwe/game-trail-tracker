@@ -24,7 +24,8 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
+                app:layout_collapseMode="pin"
+                android:background="@color/primary_color"/>
 
             <TextView
                 android:id="@+id/appNameTextView"
@@ -123,6 +124,8 @@
         android:layout_alignParentEnd="true"
         app:srcCompat="@android:drawable/ic_menu_edit"
         android:contentDescription="@string/edit"
-        app:fabCustomSize="56dp" />
+        app:fabCustomSize="56dp"
+        android:backgroundTint="@color/primary_color"
+        android:tintMode="@color/white"/>
 
 </RelativeLayout>
