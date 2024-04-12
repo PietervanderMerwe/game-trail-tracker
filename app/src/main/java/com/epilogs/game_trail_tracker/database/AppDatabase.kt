@@ -14,4 +14,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun huntDao(): HuntDao
     abstract fun animalDao(): AnimalDao
     abstract fun weaponDao(): WeaponDao
+    abstract fun userSettingsDao(): UserSettingsDao
 }
