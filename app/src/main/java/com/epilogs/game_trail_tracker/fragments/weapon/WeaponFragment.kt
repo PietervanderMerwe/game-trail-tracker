@@ -84,6 +84,7 @@ class WeaponFragment : Fragment(R.layout.fragment_weapon), OnWeaponItemClickList
         val hasData = adapter.itemCount > 0
         binding.weaponLayoutList.visibility = if (hasData) View.VISIBLE else View.GONE
         binding.addWeaponButtonFloat.visibility = if (hasData) View.VISIBLE else View.GONE
+        binding.searchIcon.visibility = if (hasData) View.VISIBLE else View.GONE
         binding.addWeaponButton.visibility = if (hasData) View.GONE else View.VISIBLE
 
         binding.addWeaponButton.setOnClickListener {

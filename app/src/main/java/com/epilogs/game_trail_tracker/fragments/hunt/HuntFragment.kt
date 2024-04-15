@@ -91,6 +91,7 @@ class HuntFragment : Fragment(R.layout.fragment_hunt), OnHuntItemClickListener,
         val hasData = adapter.itemCount > 0
         binding.huntLayoutList.visibility = if (hasData) View.VISIBLE else View.GONE
         binding.addHuntButtonFloat.visibility = if (hasData) View.VISIBLE else View.GONE
+        binding.searchIcon.visibility = if (hasData) View.VISIBLE else View.GONE
         binding.addHuntButton.visibility = if (hasData) View.GONE else View.VISIBLE
 
         binding.addHuntButton.setOnClickListener {

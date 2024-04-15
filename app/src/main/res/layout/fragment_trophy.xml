@@ -104,6 +104,7 @@
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:text="@string/add_trophy"
+        android:backgroundTint="@color/primary_color"
         android:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

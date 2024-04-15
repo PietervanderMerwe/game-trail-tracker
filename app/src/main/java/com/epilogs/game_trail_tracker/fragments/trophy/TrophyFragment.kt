@@ -92,6 +92,7 @@ class TrophyFragment : Fragment(R.layout.fragment_trophy), OnTrophyItemClickList
         val hasData = adapter.itemCount > 0
         binding.trophyLayoutList.visibility = if (hasData) View.VISIBLE else View.GONE
         binding.addTrophyButtonFloat.visibility = if (hasData) View.VISIBLE else View.GONE
+        binding.searchIcon.visibility = if (hasData) View.VISIBLE else View.GONE
         binding.addTrophyButton.visibility = if (hasData) View.GONE else View.VISIBLE
 
         binding.addTrophyButton.setOnClickListener {
