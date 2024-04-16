@@ -106,7 +106,7 @@ class WeaponFragment : Fragment(R.layout.fragment_weapon), OnWeaponItemClickList
     }
 
     private fun setupActionBarDrawerToggle() {
-        val drawerLayout: DrawerLayout = binding.drawerLayout
+        val drawerLayout: DrawerLayout = binding.drawerLayoutWeapon
         val toggle = ActionBarDrawerToggle(
             requireActivity(), drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
