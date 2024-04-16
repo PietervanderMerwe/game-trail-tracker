@@ -15,6 +15,10 @@ import com.epilogs.game_trail_tracker.database.entities.Weapon
 import com.epilogs.game_trail_tracker.databinding.FragmentWeaponBinding
 import com.epilogs.game_trail_tracker.interfaces.OnWeaponItemClickListener
 import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
+import androidx.core.view.GravityCompat
 
 class WeaponFragment : Fragment(R.layout.fragment_weapon), OnWeaponItemClickListener {
 
@@ -30,6 +34,7 @@ class WeaponFragment : Fragment(R.layout.fragment_weapon), OnWeaponItemClickList
         setupRecyclerView()
         setupSearchView()
         observeViewModel()
+        setupActionBarDrawerToggle()
     }
 
     private fun setupRecyclerView() {
@@ -98,6 +103,15 @@ class WeaponFragment : Fragment(R.layout.fragment_weapon), OnWeaponItemClickList
                 WeaponFragmentDirections.actionWeaponFragmentToWeaponAddFragment()
             findNavController().navigate(action)
         }
+    }
+
+    private fun setupActionBarDrawerToggle() {
+        val drawerLayout: DrawerLayout = binding.drawerLayout
+        val toggle = ActionBarDrawerToggle(
+            requireActivity(), drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
     }
 
     companion object {

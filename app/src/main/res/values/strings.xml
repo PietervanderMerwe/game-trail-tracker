@@ -65,4 +65,8 @@
     <string name="notes">Notes:</string>
     <string name="trophy_details">Trophy details</string>
     <string name="weapon">Weapon</string>
+    <string name="search_hint">Search…</string>
+    <string name="user_settings">User settings</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
