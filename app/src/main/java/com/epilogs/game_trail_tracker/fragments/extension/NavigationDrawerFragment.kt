@@ -25,7 +25,7 @@ class NavigationDrawerFragment : Fragment() {
     private fun setupNavigationDrawer() {
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.nav_user_settings -> {
+                R.id.nav_settings -> {
                     // Navigate to user settings
                 }
                 // Handle other navigation items
