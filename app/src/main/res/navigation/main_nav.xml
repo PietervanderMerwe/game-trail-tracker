@@ -186,4 +186,21 @@
             android:id="@+id/action_customImagePickerFragment_to_weaponAddFragment"
             app:destination="@id/weaponAddFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/userSettingsFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.settings.UserSettingsFragment"
+        android:label="fragment_user_settings"
+        tools:layout="@layout/fragment_user_settings" >
+        <action
+            android:id="@+id/action_userSettingsFragment_to_navigationDrawerFragment"
+            app:destination="@id/navigationDrawerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigationDrawerFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.extension.NavigationDrawerFragment"
+        android:label="NavigationDrawerFragment" >
+        <action
+            android:id="@+id/action_navigationDrawerFragment_to_userSettingsFragment"
+            app:destination="@id/userSettingsFragment" />
+    </fragment>
 </navigation>

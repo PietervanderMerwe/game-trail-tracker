@@ -4,7 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -33,6 +35,7 @@ class HuntFragment : Fragment(R.layout.fragment_hunt), OnHuntItemClickListener,
         setupRecyclerView()
         setupSearchView()
         observeViewModel()
+        setupActionBarDrawerToggle()
     }
 
     private fun setupRecyclerView() {
@@ -106,6 +109,15 @@ class HuntFragment : Fragment(R.layout.fragment_hunt), OnHuntItemClickListener,
             findNavController().navigate(action)
         }
 
+    }
+
+    private fun setupActionBarDrawerToggle() {
+        val drawerLayout: DrawerLayout = binding.drawerLayoutWeapon
+        val toggle = ActionBarDrawerToggle(
+            requireActivity(), drawerLayout, binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
     }
 
     companion object {

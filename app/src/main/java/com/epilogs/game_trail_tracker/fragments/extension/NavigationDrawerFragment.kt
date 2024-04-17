@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.navigation.NavigationView
 import com.epilogs.game_trail_tracker.R
+import com.epilogs.game_trail_tracker.fragments.weapon.WeaponFragmentDirections
 
 class NavigationDrawerFragment : Fragment() {
 
@@ -25,10 +27,17 @@ class NavigationDrawerFragment : Fragment() {
     private fun setupNavigationDrawer() {
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.nav_settings -> {
-                    // Navigate to user settings
+                R.id.nav_home -> {
+
                 }
-                // Handle other navigation items
+
+                R.id.nav_profile -> {
+
+                }
+
+                R.id.nav_settings -> {
+                    findNavController().navigate(R.id.userSettingsFragment)
+                }
             }
             true
         }
