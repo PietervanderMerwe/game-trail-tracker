@@ -7,5 +7,6 @@ import androidx.room.PrimaryKey
 data class UserSettings (
     @PrimaryKey(autoGenerate = true) var id: Int? = null,
     var theme: String,
-    var measurementType: String,
+    var measurement: String,
+    var weight: String,
 )

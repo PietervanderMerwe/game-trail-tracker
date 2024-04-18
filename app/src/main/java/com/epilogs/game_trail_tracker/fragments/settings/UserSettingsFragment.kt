@@ -6,15 +6,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.ui.graphics.Color
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import com.epilogs.game_trail_tracker.R
+import com.epilogs.game_trail_tracker.database.entities.UserSettings
 import com.epilogs.game_trail_tracker.databinding.FragmentUserSettingsBinding
+import com.epilogs.game_trail_tracker.viewmodels.UserSettingsViewModel
 
 class UserSettingsFragment : Fragment() {
 
     private var _binding: FragmentUserSettingsBinding? = null
     private val binding get() = _binding!!
+    private lateinit var userSettings: UserSettings
+    private val userSettingsViewModel: UserSettingsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,6 +32,10 @@ class UserSettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        userSettingsViewModel.getUserSettingsById(1).observe(viewLifecycleOwner) { userSetting ->
+            userSettings = userSetting!!
+        }
 
         val colorStateList = ColorStateList(
             arrayOf(
@@ -40,6 +50,59 @@ class UserSettingsFragment : Fragment() {
 
         binding.switchTheme.thumbTintList = colorStateList
         binding.switchTheme.trackTintList = colorStateList
+
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.measurements_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinnerMeasurementUnits.adapter = adapter
+        }
+
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.weights_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinnerWeightUnits.adapter = adapter
+        }
+
+
+        binding.switchTheme.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked) {
+                userSettings.theme = "dark_mode";
+            } else {
+                userSettings.theme = "light_mode";
+            }
+
+            userSettingsViewModel.updateUserSettings(userSettings)
+        }
+
+        binding.spinnerMeasurementUnits.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                val selectedMeasurement = parent.getItemAtPosition(position).toString()
+                userSettings.measurement = selectedMeasurement
+                userSettingsViewModel.updateUserSettings(userSettings)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Do nothing
+            }
+        }
+
+        binding.spinnerWeightUnits.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                val selectedWeight = parent.getItemAtPosition(position).toString()
+                userSettings.weight = selectedWeight
+                userSettingsViewModel.updateUserSettings(userSettings)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Do nothing
+            }
+        }
     }
 
     override fun onDestroyView() {

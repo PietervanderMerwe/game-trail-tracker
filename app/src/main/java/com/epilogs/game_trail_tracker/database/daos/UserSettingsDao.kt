@@ -10,7 +10,7 @@ import com.epilogs.game_trail_tracker.database.entities.UserSettings
 @Dao
 interface UserSettingsDao {
     @Insert
-    suspend fun insertUserSettings(userSettings: UserSettings)
+    suspend fun insertUserSettings(userSettings: UserSettings) : Long
     @Update
     suspend fun updateUserSettings(userSettings: UserSettings)
     @Delete

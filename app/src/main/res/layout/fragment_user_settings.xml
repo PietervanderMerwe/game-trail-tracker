@@ -29,11 +29,31 @@
             android:gravity="center"
             android:padding="16dp" />
 
+        <TextView
+            android:id="@+id/textViewMeasurementLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/measurement"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:gravity="start"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"/>
+
         <Spinner
             android:id="@+id/spinnerMeasurementUnits"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="20dp"/>
+
+        <TextView
+            android:id="@+id/textViewWeightLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/weight"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:gravity="start"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp" />
 
         <Spinner
             android:id="@+id/spinnerWeightUnits"
