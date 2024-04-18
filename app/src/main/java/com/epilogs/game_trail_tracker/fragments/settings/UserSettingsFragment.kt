@@ -33,10 +33,6 @@ class UserSettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userSettingsViewModel.getUserSettingsById(1).observe(viewLifecycleOwner) { userSetting ->
-            userSettings = userSetting!!
-        }
-
         val colorStateList = ColorStateList(
             arrayOf(
                 intArrayOf(-android.R.attr.state_checked),
@@ -49,7 +45,6 @@ class UserSettingsFragment : Fragment() {
         )
 
         binding.switchTheme.thumbTintList = colorStateList
-        binding.switchTheme.trackTintList = colorStateList
 
         ArrayAdapter.createFromResource(
             requireContext(),
@@ -69,6 +64,19 @@ class UserSettingsFragment : Fragment() {
             binding.spinnerWeightUnits.adapter = adapter
         }
 
+        userSettingsViewModel.getUserSettingsById(1).observe(viewLifecycleOwner) { userSetting ->
+            userSettings = userSetting!!
+
+            val measurementUnitsAdapter = binding.spinnerMeasurementUnits.adapter as ArrayAdapter<String>
+            val measurementUnitsPosition = measurementUnitsAdapter.getPosition(userSettings.measurement)
+            binding.spinnerMeasurementUnits.setSelection(measurementUnitsPosition)
+
+            val weightUnitsAdapter = binding.spinnerWeightUnits.adapter as ArrayAdapter<String>
+            val weightUnitsPosition = weightUnitsAdapter.getPosition(userSettings.weight)
+            binding.spinnerWeightUnits.setSelection(weightUnitsPosition)
+
+            binding.switchTheme.isChecked = userSettings.theme == "dark_mode"
+        }
 
         binding.switchTheme.setOnCheckedChangeListener { _, isChecked ->
             if(isChecked) {
