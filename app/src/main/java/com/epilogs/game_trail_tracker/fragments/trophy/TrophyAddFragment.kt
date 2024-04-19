@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -32,6 +33,7 @@ import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 import com.epilogs.game_trail_tracker.viewmodels.SharedViewModel
+import com.epilogs.game_trail_tracker.viewmodels.UserSettingsViewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -45,6 +47,7 @@ class TrophyAddFragment : Fragment() {
     private var weaponId: Int? = null
     private lateinit var binding: FragmentTrophyAddBinding
     private var huntId: Int? = null
+    private val userSettingsViewModel: UserSettingsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,6 +96,7 @@ class TrophyAddFragment : Fragment() {
 
         setupHuntSpinner(binding.spinnerHunt)
         setupWeaponSpinner(binding.spinnerWeapon)
+        setupWeightAndMeasurementSpinner()
         setupImageView(binding.imagesAnimalRecyclerView)
 
         setupSaveListener()
@@ -122,36 +126,24 @@ class TrophyAddFragment : Fragment() {
         val dateConverter = DateConverter()
         binding.buttonSaveAnimal.setOnClickListener {
 
-            if (trophyId == 0) {
-                Log.d("HuntId", huntId.toString())
-                Log.d("HuntId", weaponId.toString())
-                val animal = Animal(
-                    name = binding.editTextSpecieName.text.toString(),
-                    weight = binding.editTextWeight.text.toString().toDoubleOrNull() ?: 0.0,
-                    measurement = binding.editTextMeasurement.text.toString().toDoubleOrNull()
-                        ?: 0.0,
-                    harvestDate = dateConverter.parseDate(binding.editTextDate.text.toString()),
-                    notes = "Some notes",
-                    huntId = huntId.takeIf { it!! > 0 },
-                    weaponId = weaponId.takeIf { it!! > 0 },
-                    imagePaths = selectedImageUris
-                )
+            val animal = Animal(
+                name = binding.editTextSpecieName.text.toString(),
+                weight = binding.editTextWeight.text.toString().toDoubleOrNull() ?: 0.0,
+                weightType = binding.spinnerWeightUnits.selectedItem.toString(),
+                measurement = binding.editTextMeasurement.text.toString().toDoubleOrNull()
+                    ?: 0.0,
+                measurementType = binding.spinnerMeasurementUnits.selectedItem.toString(),
+                harvestDate = dateConverter.parseDate(binding.editTextDate.text.toString()),
+                notes = "Some notes",
+                huntId = huntId.takeIf { it!! > 0 },
+                weaponId = weaponId.takeIf { it!! > 0 },
+                imagePaths = selectedImageUris
+            )
 
+            if (trophyId == 0) {
                 viewModel.insertAnimal(animal)
             } else {
-                val animal = Animal(
-                    id = trophyId,
-                    name = binding.editTextSpecieName.text.toString(),
-                    weight = binding.editTextWeight.text.toString().toDoubleOrNull() ?: 0.0,
-                    measurement = binding.editTextMeasurement.text.toString().toDoubleOrNull()
-                        ?: 0.0,
-                    harvestDate = dateConverter.parseDate(binding.editTextDate.text.toString()),
-                    notes = "Some notes",
-                    huntId = huntId.takeIf { it!! > 0 },
-                    weaponId = weaponId.takeIf { it!! > 0 },
-                    imagePaths = selectedImageUris
-                )
-
+                animal.id = trophyId
                 viewModel.updateAnimal(animal)
             }
         }
@@ -342,6 +334,35 @@ class TrophyAddFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
     }
 
+    private fun setupWeightAndMeasurementSpinner() {
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.measurements_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinnerMeasurementUnits.adapter = adapter
+        }
+
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.weights_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinnerWeightUnits.adapter = adapter
+        }
+
+        userSettingsViewModel.getUserSettingsById(1).observe(viewLifecycleOwner) { userSetting ->
+            val measurementUnitsAdapter = binding.spinnerMeasurementUnits.adapter as ArrayAdapter<String>
+            val measurementUnitsPosition = measurementUnitsAdapter.getPosition(userSetting?.measurement)
+            binding.spinnerMeasurementUnits.setSelection(measurementUnitsPosition)
+
+            val weightUnitsAdapter = binding.spinnerWeightUnits.adapter as ArrayAdapter<String>
+            val weightUnitsPosition = weightUnitsAdapter.getPosition(userSetting?.weight)
+            binding.spinnerWeightUnits.setSelection(weightUnitsPosition)
+        }
+    }
     companion object {
         @JvmStatic
         fun newInstance() =
