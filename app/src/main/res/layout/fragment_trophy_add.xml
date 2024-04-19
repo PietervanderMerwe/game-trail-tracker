@@ -54,7 +54,8 @@
                         android:id="@+id/editTextWeight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/editTextWeight" />
+                        android:hint="@string/editTextWeight"
+                        android:inputType="numberDecimal"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Spinner
@@ -80,7 +81,8 @@
                         android:id="@+id/editTextMeasurement"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/editTextMeasurement" />
+                        android:hint="@string/editTextMeasurement"
+                        android:inputType="numberDecimal" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Spinner
