@@ -91,6 +91,21 @@ class WeaponAddFragment : Fragment() {
             binding.editTextWeaponName.setText(weapon?.name)
             binding.editTextWeaponNotes.setText(weapon?.notes)
             setupImageAdapter(weapon?.imagePaths?.toMutableList() ?: mutableListOf())
+
+            imageAdapter = ImagesAdapter(
+                weapon?.imagePaths?.toMutableList() ?: mutableListOf()
+            ) { imageUrl, position ->
+                val intent = Intent(context, FullScreenImageActivity::class.java).apply {
+                    putStringArrayListExtra("image_urls", ArrayList(weapon?.imagePaths))
+                    putExtra("image_position", position)
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION and Intent.FLAG_GRANT_WRITE_URI_PERMISSION and Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+                }
+                context?.startActivity(intent)
+            }
+
+            binding.imagesWeaponRecyclerView.adapter = imageAdapter
+            binding.imagesWeaponRecyclerView.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         })
     }
 

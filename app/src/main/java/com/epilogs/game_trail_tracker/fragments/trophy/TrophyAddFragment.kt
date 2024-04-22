@@ -119,6 +119,22 @@ class TrophyAddFragment : Fragment() {
             binding.editTextMeasurement.setText(trophy?.measurement.toString())
             binding.editTextDate.setText(trophy?.harvestDate?.let { dateFormat.format(it) }
                 ?: "N/A")
+
+            imageAdapter = ImagesAdapter(
+                trophy?.imagePaths?.toMutableList() ?: mutableListOf()
+            ) { imageUrl, position ->
+                val intent = Intent(context, FullScreenImageActivity::class.java).apply {
+                    putStringArrayListExtra("image_urls", ArrayList(trophy?.imagePaths))
+                    putExtra("image_position", position)
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION and Intent.FLAG_GRANT_WRITE_URI_PERMISSION and Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+                }
+                context?.startActivity(intent)
+            }
+
+            binding.imagesAnimalRecyclerView.adapter = imageAdapter
+            binding.imagesAnimalRecyclerView.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
         })
     }
 
