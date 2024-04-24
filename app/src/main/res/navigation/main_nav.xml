@@ -141,6 +141,9 @@
         <action
             android:id="@+id/action_huntViewDetailFragment_to_huntAddFragment"
             app:destination="@id/huntAddFragment" />
+        <action
+            android:id="@+id/action_huntViewDetailFragment_to_trophyViewDetailFragment2"
+            app:destination="@id/trophyViewDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/trophyViewDetailFragment"
@@ -160,6 +163,12 @@
         <action
             android:id="@+id/action_trophyViewDetailFragment_to_trophyAddFragment"
             app:destination="@id/trophyAddFragment" />
+        <action
+            android:id="@+id/action_trophyViewDetailFragment_to_weaponViewDetailFragment"
+            app:destination="@id/weaponViewDetailFragment" />
+        <action
+            android:id="@+id/action_trophyViewDetailFragment_to_huntViewDetailFragment2"
+            app:destination="@id/huntViewDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/weaponViewDetailFragment"
@@ -176,6 +185,9 @@
         <action
             android:id="@+id/action_weaponViewDetailFragment_to_weaponAddFragment"
             app:destination="@id/weaponAddFragment" />
+        <action
+            android:id="@+id/action_weaponViewDetailFragment_to_trophyViewDetailFragment"
+            app:destination="@id/trophyViewDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/customImagePickerFragment"
