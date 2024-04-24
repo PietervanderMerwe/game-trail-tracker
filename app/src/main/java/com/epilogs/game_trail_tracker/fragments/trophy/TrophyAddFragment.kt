@@ -84,8 +84,7 @@ class TrophyAddFragment : Fragment() {
         val pickMultipleMedia =
             registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(5)) { uris ->
                 uris.forEach { uri ->
-                    val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                    val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
                     requireActivity().contentResolver.takePersistableUriPermission(uri, takeFlags)
                     selectedImageUris.add(uri.toString())
                 }

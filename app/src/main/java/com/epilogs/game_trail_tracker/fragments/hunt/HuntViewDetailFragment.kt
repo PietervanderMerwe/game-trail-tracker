@@ -1,6 +1,7 @@
 package com.epilogs.game_trail_tracker.fragments.hunt
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -67,13 +68,17 @@ class HuntViewDetailFragment : Fragment(), OnTrophyItemClickListener {
         }
         animalViewModel.getAnimalsByHuntId(huntId!!).observe(viewLifecycleOwner) { animals ->
             adapter.updateAnimals(animals)
+            checkDataAndUpdateUI()
         }
-
-        val hasData = adapter.itemCount > 0
-        binding.fbAddTrophyButton.visibility = if (hasData) View.GONE else View.VISIBLE
-        binding.addTrophyButton.visibility = if (hasData) View.VISIBLE else View.GONE
     }
 
+    private fun checkDataAndUpdateUI() {
+        val hasData = adapter.itemCount > 0
+
+            binding.fbAddTrophyButton.visibility = if (hasData) View.VISIBLE else View.GONE
+            binding.addTrophyButton.visibility = if (hasData) View.GONE else View.VISIBLE
+
+    }
     private fun setButton() {
         binding.addTrophyButton.setOnClickListener {
             val action =
