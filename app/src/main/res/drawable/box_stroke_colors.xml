@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/border_color_focused" android:state_focused="true" />  <!-- Applied when focused -->
+    <item android:color="@color/border_color_unfocused" />  <!-- Applied when not focused -->
+</selector>

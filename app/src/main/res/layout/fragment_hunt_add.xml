@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp"
     tools:context=".fragments.hunt.HuntAddFragment">
@@ -20,7 +21,10 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp">
+        android:paddingTop="8dp"
+        style="@style/CustomTextInputLayout"
+        app:cursorColor="@color/secondary_color"
+        android:theme="@style/TextInputLayoutStyle">
 
         <EditText
             android:id="@+id/editTextName"
@@ -32,7 +36,10 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp">
+        android:paddingTop="8dp"
+        style="@style/CustomTextInputLayout"
+        app:cursorColor="@color/secondary_color"
+        android:theme="@style/TextInputLayoutStyle">
 
         <EditText
             android:id="@+id/editTextStartDate"
@@ -41,13 +48,17 @@
             android:clickable="true"
             android:cursorVisible="false"
             android:focusable="false"
-            android:hint="@string/startDate" />
+            android:hint="@string/startDate"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp">
+        android:paddingTop="8dp"
+        style="@style/CustomTextInputLayout"
+        app:cursorColor="@color/secondary_color"
+        android:theme="@style/TextInputLayoutStyle">
 
         <EditText
             android:id="@+id/editTextEndDate"
