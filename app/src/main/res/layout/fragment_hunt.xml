@@ -109,8 +109,9 @@
             android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:backgroundTint="@color/primary_color"
+            android:textColor="@color/white"
             android:text="@string/add_hunt"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

@@ -55,7 +55,8 @@ class HuntViewDetailFragment : Fragment(), OnTrophyItemClickListener {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         huntViewModel.getHuntById(huntId!!).observe(viewLifecycleOwner) { hunt ->
             binding.locationName.text = hunt?.name
-            binding.dateRange.text = (hunt?.startDate?.let { dateFormat.format(it) } ?: "N/A") + " - " + (hunt?.endDate?.let { dateFormat.format(it) } ?: "N/A")
+            binding.dateRange.text = (hunt?.startDate?.let { dateFormat.format(it) }
+                ?: "N/A") + " - " + (hunt?.endDate?.let { dateFormat.format(it) } ?: "N/A")
         }
     }
 
@@ -75,24 +76,36 @@ class HuntViewDetailFragment : Fragment(), OnTrophyItemClickListener {
     private fun checkDataAndUpdateUI() {
         val hasData = adapter.itemCount > 0
 
-            binding.fbAddTrophyButton.visibility = if (hasData) View.VISIBLE else View.GONE
-            binding.addTrophyButton.visibility = if (hasData) View.GONE else View.VISIBLE
-
+        binding.fbAddTrophyButton.visibility = if (hasData) View.VISIBLE else View.GONE
+        binding.addTrophyButton.visibility = if (hasData) View.GONE else View.VISIBLE
     }
+
     private fun setButton() {
         binding.addTrophyButton.setOnClickListener {
             val action =
-                HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToTrophyAddFragment(huntId!!, 0, 0)
+                HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToTrophyAddFragment(
+                    huntId!!,
+                    0,
+                    0
+                )
             findNavController().navigate(action)
         }
         binding.fbAddTrophyButton.setOnClickListener {
             val action =
-                HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToTrophyAddFragment(huntId!!, 0, 0)
+                HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToTrophyAddFragment(
+                    huntId!!,
+                    0,
+                    0
+                )
             findNavController().navigate(action)
         }
     }
+
     override fun onTrophyItemClick(animal: Animal) {
-        val action = HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToTrophyViewDetailFragment(animal.id!!)
+        val action =
+            HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToTrophyViewDetailFragment(
+                animal.id!!
+            )
         findNavController().navigate(action)
     }
 

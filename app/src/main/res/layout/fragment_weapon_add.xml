@@ -74,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.9"
                 android:backgroundTint="@color/primary_color"
+                android:textColor="@color/white"
                 android:text="@string/buttonSaveWeapon" />
         </LinearLayout>
     </LinearLayout>

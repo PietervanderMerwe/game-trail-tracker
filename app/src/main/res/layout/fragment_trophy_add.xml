@@ -113,7 +113,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/addToHunt"
-                android:backgroundTint="@color/primary_color"/>
+                android:backgroundTint="@color/primary_color"
+                android:textColor="@color/white"/>
 
             <TextView
                 android:id="@+id/selectHuntTextView"
@@ -134,7 +135,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/addWeapon"
-                android:backgroundTint="@color/primary_color"/>
+                android:backgroundTint="@color/primary_color"
+                android:textColor="@color/white"/>
 
             <TextView
                 android:id="@+id/selectWeaponTextView"
@@ -182,6 +184,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.9"
             android:backgroundTint="@color/primary_color"
+            android:textColor="@color/white"
             android:text="@string/buttonSaveAnimal" />
     </LinearLayout>
 
