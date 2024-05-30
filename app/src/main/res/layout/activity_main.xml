@@ -27,10 +27,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginTop="651dp"
         android:background="@color/primary_color"
+        android:elevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/main_bottom_menu" />
 
     <androidx.constraintlayout.widget.Barrier
