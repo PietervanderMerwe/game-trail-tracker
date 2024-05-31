@@ -31,10 +31,6 @@ class NavigationDrawerFragment : Fragment() {
 
                 }
 
-                R.id.nav_profile -> {
-
-                }
-
                 R.id.nav_settings -> {
                     findNavController().navigate(R.id.userSettingsFragment)
                 }

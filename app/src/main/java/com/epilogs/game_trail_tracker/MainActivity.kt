@@ -26,20 +26,27 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+
+        // Apply window insets to the main view
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
+        // Find the BottomNavigationView and remove insets listener and padding
         val navView: BottomNavigationView = findViewById(R.id.bottom_navigation)
         navView.setOnApplyWindowInsetsListener(null)
-        navView.setPadding(0,0,0,0)
+        navView.setPadding(0, 0, 0, 0)
+
+        // Setup BottomNavigationView with NavController
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         navView.setupWithNavController(navController)
+
+        // Observe user settings and insert default settings if none exist
         userSettingsViewModel.getUserSettingsById(1).observe(this) { userSetting ->
-            if(userSetting == null) {
+            if (userSetting == null) {
                 userSettingsViewModel.insertUserSettings(userSettings)
             }
         }
