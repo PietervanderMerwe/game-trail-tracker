@@ -7,5 +7,9 @@
     <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">@color/primary_color</item>
     </style>
+    <style name="CustomDatePickerDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="colorAccent">@color/primary_color</item>
+        <item name="colorControlActivated">@color/secondary_color</item>
+    </style>
     <style name="Theme.Gametrailtracker" parent="Base.Theme.Gametrailtracker" />
 </resources>
