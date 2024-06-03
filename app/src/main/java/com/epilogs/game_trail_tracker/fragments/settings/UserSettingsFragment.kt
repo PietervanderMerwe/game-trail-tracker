@@ -40,7 +40,7 @@ class UserSettingsFragment : Fragment() {
             ),
             intArrayOf(
                 ContextCompat.getColor(requireContext(), R.color.primary_color),
-                ContextCompat.getColor(requireContext(), R.color.text_black)
+                ContextCompat.getColor(requireContext(), R.color.text_primary)
             )
         )
 

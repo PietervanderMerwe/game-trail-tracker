@@ -29,8 +29,8 @@
         android:layout_gravity="bottom"
         android:background="@color/primary_color"
         android:elevation="8dp"
-        app:itemIconTint="@color/text_black"
-        app:itemTextColor="@color/text_black"
+        app:itemIconTint="@color/text_primary"
+        app:itemTextColor="@color/text_primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/main_bottom_menu"
         app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"/>
