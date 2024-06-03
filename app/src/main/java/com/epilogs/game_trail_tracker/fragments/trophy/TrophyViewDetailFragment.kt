@@ -87,22 +87,29 @@ class TrophyViewDetailFragment : Fragment() {
             binding.textViewWeightViewDetail.text = animal?.weight?.toString()
             binding.textViewMeasurementViewDetail.text = animal?.measurement?.toString()
 
-            imageAdapter = ImagesAdapter(
-                animal?.imagePaths?.toMutableList() ?: mutableListOf()
-            ) { imageUrl, position ->
-                val intent = Intent(context, FullScreenImageActivity::class.java).apply {
-                    putStringArrayListExtra("image_urls", ArrayList(animal?.imagePaths))
-                    putExtra("image_position", position)
-                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION and Intent.FLAG_GRANT_WRITE_URI_PERMISSION and Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-                }
-                context?.startActivity(intent)
+            if(animal?.imagePaths?.isEmpty() == true)
+            {
+                binding.imagesAnimalRecyclerViewViewDetail.visibility = View.GONE
+                binding.textViewImagesViewDetail.visibility = View.GONE
             }
-
-            binding.imagesAnimalRecyclerViewViewDetail.adapter = imageAdapter
-            binding.imagesAnimalRecyclerViewViewDetail.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
-
+            else
+            {
+                binding.imagesAnimalRecyclerViewViewDetail.visibility = View.VISIBLE
+                binding.textViewImagesViewDetail.visibility = View.VISIBLE
+                imageAdapter = ImagesAdapter(
+                    animal?.imagePaths?.toMutableList() ?: mutableListOf()
+                ) { imageUrl, position ->
+                    val intent = Intent(context, FullScreenImageActivity::class.java).apply {
+                        putStringArrayListExtra("image_urls", ArrayList(animal?.imagePaths))
+                        putExtra("image_position", position)
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION and Intent.FLAG_GRANT_WRITE_URI_PERMISSION and Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+                    }
+                    context?.startActivity(intent)
+                }
+                binding.imagesAnimalRecyclerViewViewDetail.adapter = imageAdapter
+                binding.imagesAnimalRecyclerViewViewDetail.layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            }
 
             if (animal?.weaponId != null) {
                 binding.WeaponLayoutViewDetail.visibility = View.VISIBLE
