@@ -86,14 +86,16 @@
             android:text="@string/theme"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:gravity="center"
-            android:padding="16dp" />
+            android:padding="16dp"
+            android:visibility="gone"/>
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/switchTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/dark_mode"
-            android:padding="20dp"/>
+            android:padding="20dp"
+            android:visibility="gone"/>
     </LinearLayout>
 
 </FrameLayout>

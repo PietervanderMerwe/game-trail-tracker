@@ -23,6 +23,14 @@ class MainActivity : AppCompatActivity() {
 
     private val userSettingsViewModel: UserSettingsViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        userSettingsViewModel.getUserSettingsById(1).observe(this) { userSetting ->
+            when (userSetting?.theme) {
+                "dark_mode" -> setTheme(R.style.Base_Theme_Gametrailtracker) // Dark theme
+                "light_mode" -> setTheme(R.style.Base_Theme_Gametrailtracker) // Light theme
+            }
+        }
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
