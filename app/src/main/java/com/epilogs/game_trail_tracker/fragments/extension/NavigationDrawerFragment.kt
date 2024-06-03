@@ -28,7 +28,7 @@ class NavigationDrawerFragment : Fragment() {
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_home -> {
-
+                    findNavController().navigate(R.id.huntFragment)
                 }
 
                 R.id.nav_settings -> {
