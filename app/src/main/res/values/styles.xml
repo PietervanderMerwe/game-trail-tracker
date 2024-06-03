@@ -7,8 +7,7 @@
     </style>
 
     <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="colorPrimary">@drawable/box_stroke_colors</item>
-        <item name="boxStrokeColor">@color/secondary_color</item>
+        <item name="boxStrokeColor">@drawable/box_stroke_colors</item>
         <item name="hintTextColor">@color/secondary_color</item>
     </style>
 
