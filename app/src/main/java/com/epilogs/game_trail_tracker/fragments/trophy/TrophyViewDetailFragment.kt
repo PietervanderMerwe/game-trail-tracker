@@ -53,7 +53,7 @@ class TrophyViewDetailFragment : Fragment() {
         binding = FragmentTrophyViewDetailBinding.bind(view)
         val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
 
-        binding.buttonViewLocation.setOnClickListener {
+        binding.textInputLayoutLocationViewDetail.setOnClickListener {
             val action =
                 TrophyViewDetailFragmentDirections.actionTrophyViewDetailFragmentToHuntViewDetailFragment(
                     huntId!!
@@ -61,7 +61,7 @@ class TrophyViewDetailFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        binding.buttonViewWeapon.setOnClickListener {
+        binding.textInputLayoutWeaponViewDetail.setOnClickListener {
             val action =
                 TrophyViewDetailFragmentDirections.actionTrophyViewDetailFragmentToWeaponViewDetailFragment(
                     weaponId!!
@@ -90,12 +90,10 @@ class TrophyViewDetailFragment : Fragment() {
             if(animal?.imagePaths?.isEmpty() == true)
             {
                 binding.imagesAnimalRecyclerViewViewDetail.visibility = View.GONE
-                binding.textViewImagesViewDetail.visibility = View.GONE
             }
             else
             {
                 binding.imagesAnimalRecyclerViewViewDetail.visibility = View.VISIBLE
-                binding.textViewImagesViewDetail.visibility = View.VISIBLE
                 imageAdapter = ImagesAdapter(
                     animal?.imagePaths?.toMutableList() ?: mutableListOf()
                 ) { imageUrl, position ->
@@ -126,7 +124,6 @@ class TrophyViewDetailFragment : Fragment() {
 
             if (animal?.huntId != null) {
                 binding.textViewLocationTitleViewDetail.visibility = View.VISIBLE
-                binding.LocationLayoutViewDetail.visibility = View.VISIBLE
                 huntViewModel.getHuntById(animal.huntId!!)
                     .observe(viewLifecycleOwner, Observer { hunt ->
                         binding.textViewLocationViewDetail.text = hunt?.name
@@ -134,7 +131,6 @@ class TrophyViewDetailFragment : Fragment() {
                 huntId = animal.huntId
             } else {
                 binding.textViewLocationTitleViewDetail.visibility = View.GONE
-                binding.LocationLayoutViewDetail.visibility = View.GONE
             }
         })
     }
