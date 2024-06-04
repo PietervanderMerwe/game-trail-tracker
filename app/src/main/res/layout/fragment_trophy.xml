@@ -55,6 +55,10 @@
                         app:tint="@color/white" />
                 </RelativeLayout>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/text_primary" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -107,8 +111,8 @@
             android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:backgroundTint="@color/primary_color"
-            android:textColor="@color/white"
             android:text="@string/add_trophy"
+            android:textColor="@color/white"
             android:visibility="gone" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

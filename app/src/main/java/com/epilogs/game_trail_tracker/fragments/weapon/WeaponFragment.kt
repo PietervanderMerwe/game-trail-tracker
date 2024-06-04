@@ -51,9 +51,15 @@ class WeaponFragment : Fragment(R.layout.fragment_weapon), OnWeaponItemClickList
             binding.searchWeapon.visibility = View.VISIBLE
             binding.searchIcon.visibility = View.GONE
 
-            binding.searchWeapon.requestFocus()
-            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(binding.searchWeapon, InputMethodManager.SHOW_IMPLICIT)
+            binding.searchWeapon.setIconified(false);
+            // Ensure the view is visible before requesting focus
+            binding.searchWeapon.post {
+                binding.searchWeapon.requestFocus()
+                binding.searchWeapon.requestFocusFromTouch()
+
+                val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.showSoftInput(binding.searchWeapon, InputMethodManager.SHOW_IMPLICIT)
+            }
         }
 
         binding.searchWeapon.setOnCloseListener {

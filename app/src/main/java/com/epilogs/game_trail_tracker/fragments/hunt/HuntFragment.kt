@@ -52,9 +52,15 @@ class HuntFragment : Fragment(R.layout.fragment_hunt), OnHuntItemClickListener,
             binding.searchHunt.visibility = View.VISIBLE
             binding.searchIcon.visibility = View.GONE
 
-            binding.searchHunt.requestFocus()
-            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(binding.searchHunt, InputMethodManager.SHOW_IMPLICIT)
+            binding.searchHunt.setIconified(false);
+            // Ensure the view is visible before requesting focus
+            binding.searchHunt.post {
+                binding.searchHunt.requestFocus()
+                binding.searchHunt.requestFocusFromTouch()
+
+                val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.showSoftInput(binding.searchHunt, InputMethodManager.SHOW_IMPLICIT)
+            }
         }
 
         binding.searchHunt.setOnCloseListener {
@@ -73,6 +79,7 @@ class HuntFragment : Fragment(R.layout.fragment_hunt), OnHuntItemClickListener,
             }
         })
     }
+
 
     private fun observeViewModel() {
         viewModel.getAllHunts().observe(viewLifecycleOwner) { hunts ->

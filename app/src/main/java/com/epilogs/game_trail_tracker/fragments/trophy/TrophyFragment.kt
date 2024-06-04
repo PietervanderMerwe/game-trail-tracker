@@ -53,9 +53,15 @@ class TrophyFragment : Fragment(R.layout.fragment_trophy), OnTrophyItemClickList
             binding.searchTrophy.visibility = View.VISIBLE
             binding.searchIcon.visibility = View.GONE
 
-            binding.searchTrophy.requestFocus()
-            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(binding.searchTrophy, InputMethodManager.SHOW_IMPLICIT)
+            binding.searchTrophy.setIconified(false);
+            // Ensure the view is visible before requesting focus
+            binding.searchTrophy.post {
+                binding.searchTrophy.requestFocus()
+                binding.searchTrophy.requestFocusFromTouch()
+
+                val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.showSoftInput(binding.searchTrophy, InputMethodManager.SHOW_IMPLICIT)
+            }
         }
 
         binding.searchTrophy.setOnCloseListener {
