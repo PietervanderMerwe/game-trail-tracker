@@ -106,6 +106,8 @@ class WeaponAddFragment : Fragment() {
             binding.imagesWeaponRecyclerView.adapter = imageAdapter
             binding.imagesWeaponRecyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+            selectedImageUris.addAll(weapon?.imagePaths ?: mutableListOf())
         })
     }
 

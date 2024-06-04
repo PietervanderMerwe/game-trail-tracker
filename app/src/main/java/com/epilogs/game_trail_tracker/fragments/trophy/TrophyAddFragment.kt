@@ -128,6 +128,8 @@ class TrophyAddFragment : Fragment() {
             binding.imagesAnimalRecyclerView.adapter = imageAdapter
             binding.imagesAnimalRecyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+            selectedImageUris.addAll(trophy?.imagePaths ?: mutableListOf())
         })
     }
 

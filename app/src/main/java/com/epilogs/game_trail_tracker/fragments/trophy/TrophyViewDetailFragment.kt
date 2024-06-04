@@ -94,16 +94,17 @@ class TrophyViewDetailFragment : Fragment() {
             else
             {
                 binding.imagesAnimalRecyclerViewViewDetail.visibility = View.VISIBLE
-                imageAdapter = ImagesAdapter(
-                    animal?.imagePaths?.toMutableList() ?: mutableListOf()
-                ) { imageUrl, position ->
+
+                val imagePaths = animal?.imagePaths?.toMutableList() ?: mutableListOf()
+                imageAdapter = ImagesAdapter(imagePaths) { imageUrl, position ->
                     val intent = Intent(context, FullScreenImageActivity::class.java).apply {
                         putStringArrayListExtra("image_urls", ArrayList(animal?.imagePaths))
                         putExtra("image_position", position)
-                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION and Intent.FLAG_GRANT_WRITE_URI_PERMISSION and Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
                     }
                     context?.startActivity(intent)
                 }
+
                 binding.imagesAnimalRecyclerViewViewDetail.adapter = imageAdapter
                 binding.imagesAnimalRecyclerViewViewDetail.layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
