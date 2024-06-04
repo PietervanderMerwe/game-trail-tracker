@@ -2,16 +2,12 @@ package com.epilogs.game_trail_tracker.fragments.trophy
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -33,9 +29,11 @@ import com.epilogs.game_trail_tracker.databinding.FragmentTrophyAddBinding
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
+import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
 import com.epilogs.game_trail_tracker.viewmodels.SharedViewModel
 import com.epilogs.game_trail_tracker.viewmodels.UserSettingsViewModel
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Locale
 
 class TrophyAddFragment : Fragment() {
@@ -48,6 +46,7 @@ class TrophyAddFragment : Fragment() {
     private lateinit var binding: FragmentTrophyAddBinding
     private var huntId: Int? = null
     private val userSettingsViewModel: UserSettingsViewModel by viewModels()
+    private val huntViewModel : HuntViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,12 +74,6 @@ class TrophyAddFragment : Fragment() {
     }
 
     private fun setupAddUI() {
-        binding.editTextDate.setOnClickListener {
-            showDatePickerDialog(requireContext(), { selectedDate ->
-                binding.editTextDate.setText(selectedDate)
-            })
-        }
-
         val pickMultipleMedia =
             registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(5)) { uris ->
                 uris.forEach { uri ->
@@ -103,10 +96,10 @@ class TrophyAddFragment : Fragment() {
         setupSaveListener()
         setupObserveInsertion()
         setupObserveUpdate()
+        setupDatePicker()
         if (trophyId != 0) {
             setupEditScren()
         }
-
     }
 
     private fun setupEditScren() {
@@ -135,7 +128,6 @@ class TrophyAddFragment : Fragment() {
             binding.imagesAnimalRecyclerView.adapter = imageAdapter
             binding.imagesAnimalRecyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
         })
     }
 
@@ -226,6 +218,7 @@ class TrophyAddFragment : Fragment() {
             ) {
                 val selectedLocation = parent.getItemAtPosition(position) as Hunt
                 huntId = selectedLocation.id
+                setupDatePicker()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -379,6 +372,29 @@ class TrophyAddFragment : Fragment() {
             val weightUnitsPosition = weightUnitsAdapter.getPosition(userSetting?.weight)
             binding.spinnerWeightUnits.setSelection(weightUnitsPosition)
         }
+    }
+
+    private fun setupDatePicker() {
+        if(huntId != 0 && huntId != null) {
+            this.huntViewModel.getHuntById(this.huntId!!).observe(viewLifecycleOwner) { hunt ->
+                val startCalendar = Calendar.getInstance()
+                startCalendar.time = hunt?.startDate!!
+                val endCalendar = Calendar.getInstance()
+                endCalendar.time = hunt?.endDate!!
+                binding.editTextDate.setOnClickListener {
+                    showDatePickerDialog(requireContext(), { selectedDate ->
+                        binding.editTextDate.setText(selectedDate)
+                    }, minDate = startCalendar, maxDate = endCalendar)
+                }
+            }
+        } else {
+            binding.editTextDate.setOnClickListener {
+                showDatePickerDialog(requireContext(), { selectedDate ->
+                    binding.editTextDate.setText(selectedDate)
+                })
+            }
+        }
+
     }
     companion object {
         @JvmStatic
