@@ -50,7 +50,8 @@
                     android:focusable="true"
                     android:padding="8dp"
                     android:src="@android:drawable/ic_menu_edit"
-                    app:tint="@color/white"/>
+                    app:tint="@color/white"
+                    android:tintMode="@color/white"/>
             </RelativeLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
