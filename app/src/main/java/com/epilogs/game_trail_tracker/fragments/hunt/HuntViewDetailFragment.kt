@@ -13,6 +13,7 @@ import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.TrophyViewAdapter
 import com.epilogs.game_trail_tracker.database.entities.Animal
 import com.epilogs.game_trail_tracker.databinding.FragmentHuntViewDetailBinding
+import com.epilogs.game_trail_tracker.fragments.trophy.TrophyViewDetailFragmentDirections
 import com.epilogs.game_trail_tracker.interfaces.OnTrophyItemClickListener
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
@@ -96,6 +97,13 @@ class HuntViewDetailFragment : Fragment(), OnTrophyItemClickListener {
                     huntId!!,
                     0,
                     0
+                )
+            findNavController().navigate(action)
+        }
+        binding.editIcon.setOnClickListener {
+            val action =
+                HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToHuntAddFragment(
+                    huntId!!
                 )
             findNavController().navigate(action)
         }

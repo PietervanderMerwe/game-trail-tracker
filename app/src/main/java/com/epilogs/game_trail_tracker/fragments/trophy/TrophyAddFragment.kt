@@ -99,11 +99,11 @@ class TrophyAddFragment : Fragment() {
         setupObserveUpdate()
         setupDatePicker()
         if (trophyId != 0) {
-            setupEditScren()
+            setupEditScreen()
         }
     }
 
-    private fun setupEditScren() {
+    private fun setupEditScreen() {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         binding.addTrophyText.text = getString(R.string.update_trophy)
         binding.buttonSaveAnimal.text = getString(R.string.button_update)

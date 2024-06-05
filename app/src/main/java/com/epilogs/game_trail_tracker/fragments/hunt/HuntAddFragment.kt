@@ -2,12 +2,9 @@ package com.epilogs.game_trail_tracker.fragments.hunt
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.net.Uri
-import android.os.Binder
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +23,7 @@ import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.database.entities.Hunt
+import com.epilogs.game_trail_tracker.databinding.FragmentHuntAddBinding
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
@@ -42,10 +40,15 @@ class HuntAddFragment : Fragment() {
     private val selectedImageUris = mutableListOf<String>()
     private var startDate: Calendar? = null
     private var endDate: Calendar? = null
+    private var huntId: Int? = null
+    private lateinit var binding: FragmentHuntAddBinding
 
     @SuppressLint("BinderGetCallingInMainThread")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        arguments?.let {
+            huntId = it.getInt("huntId")
+        }
         documentPickerLauncher = registerForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { uris ->
             uris.forEach { uri ->
                 val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION or
@@ -59,6 +62,7 @@ class HuntAddFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding = FragmentHuntAddBinding.bind(view)
         setupUI(view)
         imageAdapter.updateImages(selectedImageUris)
     }
@@ -72,21 +76,36 @@ class HuntAddFragment : Fragment() {
     }
 
     private fun setupUI(view: View) {
-        val editTextName = view.findViewById<EditText>(R.id.editTextName)
-        val editTextStartDate = view.findViewById<EditText>(R.id.editTextStartDate)
-        val editTextEndDate = view.findViewById<EditText>(R.id.editTextEndDate)
         val dateConverter = DateConverter()
 
-        setupStartDatePicker(editTextStartDate)
-        setupEndDatePicker(editTextEndDate)
+        setupStartDatePicker(binding.editTextStartDate)
+        setupEndDatePicker(binding.editTextEndDate)
 
         view.findViewById<Button>(R.id.buttonSelectLocationImages).setOnClickListener {
             documentPickerLauncher.launch(arrayOf("image/*"))
         }
 
         setupImagesRecyclerView(view)
-        setupSaveButton(view, editTextName, editTextStartDate, editTextEndDate, dateConverter)
-        setupObserveInsertion(view, editTextName, editTextStartDate, editTextEndDate)
+        setupSaveButton(dateConverter)
+        setupObserveInsertion()
+        if (huntId != 0) {
+            setupEditScreen()
+            setupObserveUpdate()
+        }
+    }
+
+    private fun setupEditScreen() {
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        binding.addHuntText.text = getString(R.string.update_hunt)
+        binding.buttonSaveLocation.text = getString(R.string.button_update)
+
+        viewModel.getHuntById(huntId!!).observe(viewLifecycleOwner) { hunt ->
+            binding.editTextName.setText(hunt?.name)
+            binding.editTextStartDate.setText(hunt?.startDate?.let { dateFormat.format(it) })
+            binding.editTextEndDate.setText(hunt?.endDate?.let { dateFormat.format(it) })
+            selectedImageUris.addAll(hunt?.imagePaths ?: emptyList())
+            imageAdapter.updateImages(selectedImageUris)
+        }
     }
 
     private fun setupStartDatePicker(editText: EditText) {
@@ -114,7 +133,6 @@ class HuntAddFragment : Fragment() {
     }
 
     private fun setupImagesRecyclerView(view: View) {
-        val imagesRecyclerView = view.findViewById<RecyclerView>(R.id.imagesLocationRecyclerView)
         imageAdapter = ImagesAdapter(selectedImageUris) { imageUri, position ->
             val intent = Intent(context, FullScreenImageActivity::class.java).apply {
                 putStringArrayListExtra("image_urls", ArrayList(selectedImageUris))
@@ -123,42 +141,41 @@ class HuntAddFragment : Fragment() {
             }
             context?.startActivity(intent)
         }
-        imagesRecyclerView.adapter = imageAdapter
-        imagesRecyclerView.layoutManager =
+        binding.imagesLocationRecyclerView.adapter = imageAdapter
+        binding.imagesLocationRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
     }
 
-    private fun setupSaveButton(
-        view: View, editTextName: EditText,
-        editTextStartDate: EditText, editTextEndDate: EditText, dateConverter: DateConverter
-    ) {
-        view.findViewById<Button>(R.id.buttonSaveLocation).setOnClickListener {
-            val name = editTextName.text.toString()
-            val startDate = dateConverter.parseDate(editTextStartDate.text.toString())
-            val endDate = dateConverter.parseDate(editTextEndDate.text.toString())
+    private fun setupSaveButton(dateConverter: DateConverter) {
+        binding.buttonSaveLocation.setOnClickListener {
+            val name = binding.editTextName.text.toString()
+            val startDate = dateConverter.parseDate(binding.editTextStartDate.text.toString())
+            val endDate = dateConverter.parseDate(binding.editTextEndDate.text.toString())
             val location = Hunt(
                 name = name, startDate = startDate,
                 endDate = endDate, imagePaths = selectedImageUris
             )
-            viewModel.insertHunt(location)
+            if (huntId == 0) {
+                viewModel.insertHunt(location)
+            } else {
+                location.id = huntId
+                viewModel.updateHunt(location)
+            }
         }
     }
 
-    private fun setupObserveInsertion(
-        view: View, editTextName: EditText,
-        editTextStartDate: EditText, editTextEndDate: EditText
-    ) {
+    private fun setupObserveInsertion() {
         viewModel.getInsertionSuccess().observe(viewLifecycleOwner, Observer { success ->
             if (success == true) {
-                editTextName.text.clear()
-                editTextStartDate.text.clear()
-                editTextEndDate.text.clear()
+                binding.editTextName.text.clear()
+                binding.editTextStartDate.text.clear()
+                binding.editTextEndDate.text.clear()
                 viewModel.resetInsertionSuccess()
                 imageAdapter.clearImages()
 
                 showCheckMark()
 
-                viewModel.insertionId.observe(viewLifecycleOwner, Observer { id ->
+                viewModel.insertionId.observe(viewLifecycleOwner) { id ->
                     id?.let {
                         val action =
                             HuntAddFragmentDirections.actionHuntAddFragmentToHuntViewDetailFragment(
@@ -167,9 +184,23 @@ class HuntAddFragment : Fragment() {
                         findNavController().navigate(action)
                         viewModel.resetInsertionId()
                     }
-                })
+                }
             }
         })
+    }
+
+    private fun setupObserveUpdate() {
+        viewModel.getUpdateSuccess().observe(viewLifecycleOwner) { success ->
+            if (success == true) {
+                binding.editTextName.text.clear()
+                binding.editTextStartDate.text.clear()
+                binding.editTextEndDate.text.clear()
+                viewModel.resetInsertionSuccess()
+                imageAdapter.clearImages()
+
+                findNavController().navigateUp()
+            }
+        }
     }
 
     private fun showCheckMark() {

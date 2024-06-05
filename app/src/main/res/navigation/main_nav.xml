@@ -64,7 +64,7 @@
         android:label="fragment_hunt_add"
         tools:layout="@layout/fragment_hunt_add" >
         <argument
-            android:name="id"
+            android:name="huntId"
             app:argType="integer"
             android:defaultValue="0" />
         <action
