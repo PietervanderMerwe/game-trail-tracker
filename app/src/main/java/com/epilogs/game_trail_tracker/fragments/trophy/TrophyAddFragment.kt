@@ -2,6 +2,7 @@ package com.epilogs.game_trail_tracker.fragments.trophy
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -103,7 +104,7 @@ class TrophyAddFragment : Fragment() {
     }
 
     private fun setupEditScren() {
-        val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         binding.addTrophyText.text = getString(R.string.update_trophy)
         binding.buttonSaveAnimal.text = getString(R.string.button_update)
 
