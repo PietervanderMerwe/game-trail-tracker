@@ -84,8 +84,13 @@ class TrophyViewDetailFragment : Fragment() {
             binding.textViewSpecieNameViewDetail.text = animal?.name
             binding.textViewDateViewDetail.text =
                 animal?.harvestDate?.let { dateFormat.format(it) } ?: "N/A"
-            binding.textViewWeightViewDetail.text = animal?.weight?.toString()
-            binding.textViewMeasurementViewDetail.text = animal?.measurement?.toString()
+            val weight = animal?.weight?.toString() ?: ""
+            val weightType = animal?.weightType ?: ""
+            binding.textViewWeightViewDetail.text = getString(R.string.weight_detail, weight, weightType)
+
+            val measurement = animal?.measurement?.toString() ?: ""
+            val measurementType = animal?.measurementType ?: ""
+            binding.textViewMeasurementViewDetail.text = getString(R.string.measurement_detail, measurement, measurementType)
 
             if(animal?.imagePaths?.isEmpty() == true)
             {

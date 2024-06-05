@@ -76,7 +76,8 @@
     <string name="default_measurements">Default</string>
     <string name="theme">Theme</string>
     <string name="update">Update</string>
-
+    <string name="weight_detail">%1$s %2$s</string>
+    <string name="measurement_detail">%1$s %2$s</string>
     <string-array name="measurements_array">
         <item>cm</item>
         <item>inch</item>
