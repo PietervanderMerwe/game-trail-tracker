@@ -61,10 +61,6 @@ class WeaponViewDetailFragment : Fragment() {
             binding.textViewWeaponNameViewDetail.text = weapon?.name
             binding.textViewWeaponNotesViewDetail.text = weapon?.notes
 
-            if(weapon?.imagePaths?.isEmpty() == true) {
-                binding.imageLabel.visibility = View.GONE
-            }
-
             imageAdapter = ImagesAdapter(weapon?.imagePaths?.toMutableList() ?: mutableListOf()) { imageUrl, position ->
                 val intent = Intent(context, FullScreenImageActivity::class.java).apply {
                     putStringArrayListExtra("image_urls", ArrayList(weapon?.imagePaths))
