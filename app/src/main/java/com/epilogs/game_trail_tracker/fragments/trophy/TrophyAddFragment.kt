@@ -104,10 +104,10 @@ class TrophyAddFragment : Fragment() {
 
     private fun setupEditScren() {
         val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-        binding.addTrophyText.text = "Update trophy"
-        binding.buttonSaveAnimal.text = "Update"
+        binding.addTrophyText.text = getString(R.string.update_trophy)
+        binding.buttonSaveAnimal.text = getString(R.string.button_update)
 
-        viewModel.getAnimalById(trophyId!!).observe(viewLifecycleOwner, Observer { trophy ->
+        viewModel.getAnimalById(trophyId!!).observe(viewLifecycleOwner) { trophy ->
             binding.editTextSpecieName.setText(trophy?.name)
             binding.editTextWeight.setText(trophy?.weight.toString())
             binding.editTextMeasurement.setText(trophy?.measurement.toString())
@@ -130,7 +130,7 @@ class TrophyAddFragment : Fragment() {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
             selectedImageUris.addAll(trophy?.imagePaths ?: mutableListOf())
-        })
+        }
     }
 
     private fun setupSaveListener() {
