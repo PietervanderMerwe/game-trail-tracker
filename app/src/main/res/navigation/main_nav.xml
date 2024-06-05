@@ -11,16 +11,24 @@
         tools:layout="@layout/fragment_hunt" >
         <action
             android:id="@+id/action_huntFragment_to_trophyFragment"
-            app:destination="@id/trophyFragment" />
+            app:destination="@id/trophyFragment"
+            app:popUpTo="@id/huntFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_huntFragment_to_weaponFragment"
-            app:destination="@id/weaponFragment" />
+            app:destination="@id/weaponFragment"
+            app:popUpTo="@id/huntFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_huntFragment_to_huntAddFragment"
-            app:destination="@id/huntAddFragment" />
+            app:destination="@id/huntAddFragment"
+            app:popUpTo="@id/huntFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_huntFragment_to_huntViewDetailFragment"
-            app:destination="@id/huntViewDetailFragment" />
+            app:destination="@id/huntViewDetailFragment"
+            app:popUpTo="@id/huntFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/trophyFragment"
@@ -32,13 +40,19 @@
             app:destination="@id/weaponFragment" />
         <action
             android:id="@+id/action_trophyFragment_to_huntFragment"
-            app:destination="@id/huntFragment" />
+            app:destination="@id/huntFragment"
+            app:popUpTo="@id/trophyFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_trophyFragment_to_trophyAddFragment"
-            app:destination="@id/trophyAddFragment" />
+            app:destination="@id/trophyAddFragment"
+            app:popUpTo="@id/trophyFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_trophyFragment_to_trophyViewDetailFragment"
-            app:destination="@id/trophyViewDetailFragment" />
+            app:destination="@id/trophyViewDetailFragment"
+            app:popUpTo="@id/trophyFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/weaponFragment"
@@ -47,16 +61,24 @@
         tools:layout="@layout/fragment_weapon" >
         <action
             android:id="@+id/action_weaponFragment_to_huntFragment"
-            app:destination="@id/huntFragment" />
+            app:destination="@id/huntFragment"
+            app:popUpTo="@id/weaponFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_weaponFragment_to_weaponAddFragment"
-            app:destination="@id/weaponAddFragment" />
+            app:destination="@id/weaponAddFragment"
+            app:popUpTo="@id/weaponFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_weaponFragment_to_trophyFragment"
-            app:destination="@id/trophyFragment" />
+            app:destination="@id/trophyFragment"
+            app:popUpTo="@id/weaponFragment"
+            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_weaponFragment_to_weaponViewDetailFragment"
-            app:destination="@id/weaponViewDetailFragment" />
+            app:destination="@id/weaponViewDetailFragment"
+            app:popUpTo="@id/weaponFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/huntAddFragment"
