@@ -1,7 +1,7 @@
 package com.epilogs.game_trail_tracker.fragments.hunt
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +9,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
+import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.adapters.TrophyViewAdapter
 import com.epilogs.game_trail_tracker.database.entities.Animal
 import com.epilogs.game_trail_tracker.databinding.FragmentHuntViewDetailBinding
-import com.epilogs.game_trail_tracker.fragments.trophy.TrophyViewDetailFragmentDirections
 import com.epilogs.game_trail_tracker.interfaces.OnTrophyItemClickListener
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
@@ -27,6 +28,7 @@ class HuntViewDetailFragment : Fragment(), OnTrophyItemClickListener {
     private val animalViewModel: AnimalViewModel by viewModels()
     private lateinit var binding: FragmentHuntViewDetailBinding
     private lateinit var adapter: TrophyViewAdapter
+    private lateinit var imageAdapter: ImagesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +60,30 @@ class HuntViewDetailFragment : Fragment(), OnTrophyItemClickListener {
             binding.locationName.text = hunt?.name
             binding.dateRange.text = (hunt?.startDate?.let { dateFormat.format(it) }
                 ?: "N/A") + " - " + (hunt?.endDate?.let { dateFormat.format(it) } ?: "N/A")
+
+            if(hunt?.imagePaths?.isEmpty() == true)
+            {
+                binding.imagesHuntRecyclerViewViewDetail.visibility = View.GONE
+            }
+            else
+            {
+                binding.imagesHuntRecyclerViewViewDetail.visibility = View.VISIBLE
+
+                val imagePaths = hunt?.imagePaths?.toMutableList() ?: mutableListOf()
+                imageAdapter = ImagesAdapter(imagePaths) { imageUrl, position ->
+                    val intent = Intent(context, FullScreenImageActivity::class.java).apply {
+                        putStringArrayListExtra("image_urls", ArrayList(hunt?.imagePaths))
+                        putExtra("image_position", position)
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+                    }
+                    context?.startActivity(intent)
+                }
+
+                binding.imagesHuntRecyclerViewViewDetail.adapter = imageAdapter
+                binding.imagesHuntRecyclerViewViewDetail.layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            }
+
         }
     }
 
