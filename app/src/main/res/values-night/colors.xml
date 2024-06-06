@@ -4,4 +4,5 @@
     <color name="secondary_color">#407c31</color>
     <color name="primary_color_dark">#000000</color>
     <color name="text_primary">#ffffff</color>
+    <color name="background_color">#000000</color>
 </resources>
