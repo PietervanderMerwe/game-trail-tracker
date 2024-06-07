@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
+import com.epilogs.game_trail_tracker.adapters.HuntViewPagerAdapter
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.adapters.TrophyViewAdapter
 import com.epilogs.game_trail_tracker.database.entities.Animal
@@ -18,17 +19,15 @@ import com.epilogs.game_trail_tracker.databinding.FragmentHuntViewDetailBinding
 import com.epilogs.game_trail_tracker.interfaces.OnTrophyItemClickListener
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
+import com.google.android.material.tabs.TabLayoutMediator
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class HuntViewDetailFragment : Fragment(), OnTrophyItemClickListener {
+class HuntViewDetailFragment : Fragment() {
 
     private var huntId: Int? = null
     private val huntViewModel: HuntViewModel by viewModels()
-    private val animalViewModel: AnimalViewModel by viewModels()
     private lateinit var binding: FragmentHuntViewDetailBinding
-    private lateinit var adapter: TrophyViewAdapter
-    private lateinit var imageAdapter: ImagesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,8 +49,8 @@ class HuntViewDetailFragment : Fragment(), OnTrophyItemClickListener {
         binding = FragmentHuntViewDetailBinding.bind(view)
 
         getHunt()
-        getTrophies()
         setButton()
+        setAdapter()
     }
 
     private fun getHunt() {
@@ -60,72 +59,10 @@ class HuntViewDetailFragment : Fragment(), OnTrophyItemClickListener {
             binding.locationName.text = hunt?.name
             binding.dateRange.text = (hunt?.startDate?.let { dateFormat.format(it) }
                 ?: "N/A") + " - " + (hunt?.endDate?.let { dateFormat.format(it) } ?: "N/A")
-
-            if(hunt?.imagePaths?.isEmpty() == true)
-            {
-                binding.imagesHuntRecyclerViewViewDetail.visibility = View.GONE
-            }
-            else
-            {
-                binding.imagesHuntRecyclerViewViewDetail.visibility = View.VISIBLE
-
-                val imagePaths = hunt?.imagePaths?.toMutableList() ?: mutableListOf()
-                imageAdapter = ImagesAdapter(imagePaths) { imageUrl, position ->
-                    val intent = Intent(context, FullScreenImageActivity::class.java).apply {
-                        putStringArrayListExtra("image_urls", ArrayList(hunt?.imagePaths))
-                        putExtra("image_position", position)
-                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-                    }
-                    context?.startActivity(intent)
-                }
-
-                binding.imagesHuntRecyclerViewViewDetail.adapter = imageAdapter
-                binding.imagesHuntRecyclerViewViewDetail.layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            }
-
         }
-    }
-
-    private fun getTrophies() {
-        with(binding.huntTrophyViewList) {
-            layoutManager = LinearLayoutManager(context)
-            adapter = TrophyViewAdapter(emptyList(), this@HuntViewDetailFragment).also {
-                this@HuntViewDetailFragment.adapter = it
-            }
-        }
-        animalViewModel.getAnimalsByHuntId(huntId!!).observe(viewLifecycleOwner) { animals ->
-            adapter.updateAnimals(animals)
-            checkDataAndUpdateUI()
-        }
-    }
-
-    private fun checkDataAndUpdateUI() {
-        val hasData = adapter.itemCount > 0
-
-        binding.fbAddTrophyButton.visibility = if (hasData) View.VISIBLE else View.GONE
-        binding.addTrophyButton.visibility = if (hasData) View.GONE else View.VISIBLE
     }
 
     private fun setButton() {
-        binding.addTrophyButton.setOnClickListener {
-            val action =
-                HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToTrophyAddFragment(
-                    huntId!!,
-                    0,
-                    0
-                )
-            findNavController().navigate(action)
-        }
-        binding.fbAddTrophyButton.setOnClickListener {
-            val action =
-                HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToTrophyAddFragment(
-                    huntId!!,
-                    0,
-                    0
-                )
-            findNavController().navigate(action)
-        }
         binding.editIcon.setOnClickListener {
             val action =
                 HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToHuntAddFragment(
@@ -135,21 +72,28 @@ class HuntViewDetailFragment : Fragment(), OnTrophyItemClickListener {
         }
     }
 
-    override fun onTrophyItemClick(animal: Animal) {
-        val action =
-            HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToTrophyViewDetailFragment(
-                animal.id!!
-            )
-        findNavController().navigate(action)
+    private fun setAdapter() {
+        huntId?.let {
+            val adapter = HuntViewPagerAdapter(requireActivity(), huntId)
+            binding.viewPager.adapter = adapter
+
+            TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+                tab.text = when (position) {
+                    0 -> "Trophies"
+                    1 -> "Images"
+                    else -> null
+                }
+            }.attach()
+        }
     }
 
     companion object {
-        @JvmStatic
-        fun newInstance(locationId: Int) =
-            HuntViewDetailFragment().apply {
-                arguments = Bundle().apply {
-                    putInt("locationId", locationId)
-                }
-            }
+        fun newInstance(huntId: Int): HuntViewDetailFragment {
+            val fragment = HuntViewDetailFragment()
+            val args = Bundle()
+            args.putInt("huntId", huntId)
+            fragment.arguments = args
+            return fragment
+        }
     }
 }
