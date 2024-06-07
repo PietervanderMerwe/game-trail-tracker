@@ -15,11 +15,15 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.epilogs.game_trail_tracker.database.entities.UserSettings
 import com.epilogs.game_trail_tracker.viewmodels.UserSettingsViewModel
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainActivity : AppCompatActivity() {
     private var userSettings = UserSettings(id = 1, theme = "light_mode", measurement = "cm", weight = "kg")
+    private lateinit var adView: AdView
 
     private val userSettingsViewModel: UserSettingsViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +33,14 @@ class MainActivity : AppCompatActivity() {
                 "dark_mode" -> setTheme(R.style.Base_Theme_Gametrailtracker) // Dark theme
                 "light_mode" -> setTheme(R.style.Base_Theme_Gametrailtracker) // Light theme
             }
+            MobileAds.initialize(this) {}
+
+            adView = findViewById(R.id.adView)
+
+            // Load an ad
+            val adRequest = AdRequest.Builder().build()
+            adView.loadAd(adRequest)
+
         }
 
         super.onCreate(savedInstanceState)

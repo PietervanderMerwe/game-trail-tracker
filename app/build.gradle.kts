@@ -90,4 +90,5 @@ dependencies {
     ksp(libs.glideCompiler)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.play.services.ads)
 }
