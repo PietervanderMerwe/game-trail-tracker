@@ -1,7 +1,6 @@
 package com.epilogs.game_trail_tracker.fragments.hunt
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -40,6 +39,7 @@ class HuntTrophyListFragment : Fragment(), OnTrophyItemClickListener {
 
         getTrophies()
         setButton()
+        setupInsertAndUpdateCheck()
     }
 
     private fun getTrophies() {
@@ -64,23 +64,21 @@ class HuntTrophyListFragment : Fragment(), OnTrophyItemClickListener {
 
     private fun setButton() {
         binding.addTrophyButton.setOnClickListener {
-            val action =
-                HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToTrophyAddFragment(
-                    huntId!!,
-                    0,
-                    0
-                )
-            findNavController().navigate(action)
+            navigateToAdd()
         }
         binding.fbAddTrophyButton.setOnClickListener {
-            val action =
-                HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToTrophyAddFragment(
-                    huntId!!,
-                    0,
-                    0
-                )
-            findNavController().navigate(action)
+            navigateToAdd()
         }
+    }
+
+    private fun navigateToAdd()  {
+        val action =
+            HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToTrophyAddFragment(
+                huntId!!,
+                0,
+                0
+            )
+        findNavController().navigate(action)
     }
 
     override fun onTrophyItemClick(animal: Animal) {
@@ -89,6 +87,15 @@ class HuntTrophyListFragment : Fragment(), OnTrophyItemClickListener {
                 animal.id!!
             )
         findNavController().navigate(action)
+    }
+
+    private fun setupInsertAndUpdateCheck() {
+        animalViewModel.getInsertionSuccess().observe(viewLifecycleOwner) {
+            getTrophies()
+        }
+        animalViewModel.getUpdateSuccess().observe(viewLifecycleOwner) {
+            getTrophies()
+        }
     }
     companion object {
         fun newInstance(huntId: Int?): HuntTrophyListFragment {
