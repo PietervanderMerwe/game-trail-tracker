@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
@@ -44,13 +45,9 @@ class HuntImageListFragment : Fragment() {
 
     private fun getHuntImages() {
         huntViewModel.getHuntById(huntId!!).observe(viewLifecycleOwner) { hunt ->
-
-            if(hunt?.imagePaths?.isEmpty() == true)
-            {
+            if (hunt?.imagePaths?.isEmpty() == true) {
                 binding.imagesHuntRecyclerViewViewDetail.visibility = View.GONE
-            }
-            else
-            {
+            } else {
                 binding.imagesHuntRecyclerViewViewDetail.visibility = View.VISIBLE
 
                 val imagePaths = hunt?.imagePaths?.toMutableList() ?: mutableListOf()
@@ -65,7 +62,7 @@ class HuntImageListFragment : Fragment() {
 
                 binding.imagesHuntRecyclerViewViewDetail.adapter = imageAdapter
                 binding.imagesHuntRecyclerViewViewDetail.layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                    GridLayoutManager(requireContext(), 3)
             }
         }
     }
