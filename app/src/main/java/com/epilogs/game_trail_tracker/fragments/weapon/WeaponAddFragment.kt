@@ -25,6 +25,7 @@ import androidx.navigation.fragment.findNavController
 import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.databinding.FragmentWeaponAddBinding
+import com.epilogs.game_trail_tracker.fragments.hunt.HuntAddFragmentDirections
 
 class WeaponAddFragment : Fragment() {
     private val viewModel: WeaponViewModel by viewModels()
@@ -168,8 +169,17 @@ class WeaponAddFragment : Fragment() {
                 viewModel.resetInsertionSuccess()
                 imageAdapter.clearImages()
                 showCheckMark()
-                val action = WeaponAddFragmentDirections.actionWeaponAddFragmentToWeaponViewDetailFragment(this.weaponId!!)
-                findNavController().navigate(action)
+
+                viewModel.insertionId.observe(viewLifecycleOwner) { id ->
+                    id?.let {
+                        val action =
+                            WeaponAddFragmentDirections.actionWeaponAddFragmentToWeaponViewDetailFragment(
+                                id.toInt()
+                            )
+                        findNavController().navigate(action)
+                        viewModel.resetInsertionId()
+                    }
+                }
             }
         }
 

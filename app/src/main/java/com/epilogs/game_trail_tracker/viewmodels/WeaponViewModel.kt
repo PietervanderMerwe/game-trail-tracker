@@ -16,7 +16,8 @@ import kotlinx.coroutines.launch
 class WeaponViewModel (application: Application) : AndroidViewModel(application) {
     private val db: AppDatabase = DatabaseProvider.getDatabase(application)
     private val weaponDao: WeaponDao = db.weaponDao()
-
+    private val _insertionId = MutableLiveData<Long?>()
+    val insertionId: LiveData<Long?> = _insertionId
     private val insertionSuccess = MutableLiveData<Boolean?>()
     private val updateSuccess = MutableLiveData<Boolean?>()
     private val deleteSuccess = MutableLiveData<Boolean?>()
@@ -26,13 +27,18 @@ class WeaponViewModel (application: Application) : AndroidViewModel(application)
     fun getInsertionSuccess(): MutableLiveData<Boolean?> = insertionSuccess
 
     fun insertWeapon(weapon: Weapon) = viewModelScope.launch {
-        weaponDao.insertWeapon(weapon)
+        val weaponId = weaponDao.insertWeapon(weapon)
+        _insertionId.postValue(weaponId)
         insertionSuccess.postValue(true)
     }
 
     fun getAllWeapons(): LiveData<List<Weapon>> = liveData {
         val weapons = weaponDao.getAllWeapons()
         emit(weapons)
+    }
+
+    fun resetInsertionId() {
+        _insertionId.value = null
     }
 
     fun getWeaponById(id: Int): LiveData<Weapon?> = liveData {

@@ -10,7 +10,7 @@ import com.epilogs.game_trail_tracker.database.entities.Weapon
 @Dao
 interface WeaponDao {
     @Insert
-    suspend fun insertWeapon(weapon: Weapon)
+    suspend fun insertWeapon(weapon: Weapon) : Long
     @Update
     suspend fun updateWeapon(weapon: Weapon)
     @Delete

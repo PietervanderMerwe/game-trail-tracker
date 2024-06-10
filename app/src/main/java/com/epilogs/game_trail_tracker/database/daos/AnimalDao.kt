@@ -10,7 +10,7 @@ import com.epilogs.game_trail_tracker.database.entities.Animal
 @Dao
 interface AnimalDao {
     @Insert
-    suspend fun insertAnimal(animal: Animal)
+    suspend fun insertAnimal(animal: Animal) : Long
     @Update
     suspend fun updateAnimal(animal: Animal)
     @Delete
