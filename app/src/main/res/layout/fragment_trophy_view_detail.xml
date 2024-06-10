@@ -52,14 +52,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/imagesAnimalRecyclerViewViewDetail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal"
-                tools:listitem="@layout/item_image" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -260,6 +252,14 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/imagesAnimalRecyclerViewViewDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                tools:listitem="@layout/item_image" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

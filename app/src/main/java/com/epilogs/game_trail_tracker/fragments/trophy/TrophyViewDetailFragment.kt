@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
@@ -112,7 +113,7 @@ class TrophyViewDetailFragment : Fragment() {
 
                 binding.imagesAnimalRecyclerViewViewDetail.adapter = imageAdapter
                 binding.imagesAnimalRecyclerViewViewDetail.layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                    GridLayoutManager(requireContext(), 3)
             }
 
             if (animal?.weaponId != null) {

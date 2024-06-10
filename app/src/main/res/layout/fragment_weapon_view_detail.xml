@@ -38,11 +38,6 @@
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/imagesWeaponRecyclerViewViewDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -106,6 +101,12 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/imagesWeaponRecyclerViewViewDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
