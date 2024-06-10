@@ -5,4 +5,5 @@
     <color name="primary_color_dark">#000000</color>
     <color name="text_primary">#ffffff</color>
     <color name="background_color">#000000</color>
+    <color name="red">#FF0000</color>
 </resources>

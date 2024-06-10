@@ -46,7 +46,7 @@ class WeaponViewModel (application: Application) : AndroidViewModel(application)
     }
 
     fun deleteWeapon(weapon: Weapon) = viewModelScope.launch {
-        weaponDao.updateWeapon(weapon)
+        weaponDao.deleteWeapon(weapon)
         deleteSuccess.postValue(true)
     }
 

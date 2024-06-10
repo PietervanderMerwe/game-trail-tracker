@@ -83,6 +83,16 @@
                 android:backgroundTint="@color/primary_color"
                 android:textColor="@color/white"
                 android:text="@string/buttonSaveWeapon" />
+
+            <Button
+                android:id="@+id/buttonDeleteWeapon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.9"
+                android:backgroundTint="@color/red"
+                android:textColor="@color/white"
+                android:text="@string/delete"
+                android:visibility="gone"/>
         </LinearLayout>
     </LinearLayout>
 

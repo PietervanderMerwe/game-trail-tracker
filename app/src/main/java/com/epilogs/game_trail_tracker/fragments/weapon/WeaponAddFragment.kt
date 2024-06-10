@@ -1,5 +1,6 @@
 package com.epilogs.game_trail_tracker.fragments.weapon
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -33,6 +34,7 @@ class WeaponAddFragment : Fragment() {
     private lateinit var documentPickerLauncher: ActivityResultLauncher<Array<String>>
     private var weaponId: Int? = null
     private lateinit var binding: FragmentWeaponAddBinding
+    private var currentWeapon: Weapon? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,9 +66,7 @@ class WeaponAddFragment : Fragment() {
 
     private fun setupUI() {
         binding.buttonSaveWeapon.setOnClickListener {
-            val name = binding.editTextWeaponName.text.toString()
-            val notes = binding.editTextWeaponNotes.text.toString()
-            if (weaponId == 0) saveWeapon(name, notes) else updateWeapon(name, notes)
+            setupSaveListener()
         }
 
         if (weaponId != 0) setupEdit()
@@ -98,7 +98,14 @@ class WeaponAddFragment : Fragment() {
     private fun setupEdit() {
         binding.buttonSaveWeapon.text = getString(R.string.button_update)
         binding.addWeaponText.text = getString(R.string.update_weapon)
+        binding.buttonDeleteWeapon.visibility = View.VISIBLE
+
+        binding.buttonDeleteWeapon.setOnClickListener {
+            showDeleteConfirmationDialog()
+        }
+
         viewModel.getWeaponById(weaponId!!).observe(viewLifecycleOwner) { weapon ->
+            currentWeapon = weapon
             binding.editTextWeaponName.setText(weapon?.name)
             binding.editTextWeaponNotes.setText(weapon?.notes)
             setupImageAdapter(weapon?.imagePaths?.toMutableList() ?: mutableListOf())
@@ -122,14 +129,18 @@ class WeaponAddFragment : Fragment() {
         }
     }
 
-    private fun saveWeapon(name: String, notes: String) {
-        val weapon = Weapon(name = name, notes = notes, imagePaths = selectedImageUris)
-        viewModel.insertWeapon(weapon)
-    }
+    private fun setupSaveListener() {
+        val weapon = Weapon(name = binding.editTextWeaponName.text.toString(), notes = binding.editTextWeaponNotes.text.toString(), imagePaths = selectedImageUris)
 
-    private fun updateWeapon(name: String, notes: String) {
-        val weapon = Weapon(id = weaponId, name = name, notes = notes, imagePaths = selectedImageUris)
-        viewModel.updateWeapon(weapon)
+        if(this.weaponId != 0) {
+            weapon.id = this.weaponId!!
+            viewModel.updateWeapon(weapon)
+            binding.buttonDeleteWeapon.visibility = View.GONE
+        }
+        else {
+            viewModel.insertWeapon(weapon)
+        }
+
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
@@ -157,12 +168,27 @@ class WeaponAddFragment : Fragment() {
                 viewModel.resetInsertionSuccess()
                 imageAdapter.clearImages()
                 showCheckMark()
+                val action = WeaponAddFragmentDirections.actionWeaponAddFragmentToWeaponViewDetailFragment(this.weaponId!!)
+                findNavController().navigate(action)
             }
         }
 
         viewModel.getUpdateSuccess().observe(viewLifecycleOwner) { success ->
             if (success == true) findNavController().navigateUp()
         }
+    }
+
+    private fun showDeleteConfirmationDialog() {
+        AlertDialog.Builder(context)
+            .setTitle("Confirm Delete")
+            .setMessage("Are you sure you want to delete this weapon?")
+            .setPositiveButton("Delete") { dialog, which ->
+                viewModel.deleteWeapon(currentWeapon!!)
+                val action = WeaponAddFragmentDirections.actionWeaponAddFragmentToWeaponFragment()
+                findNavController().navigate(action)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     private fun showCheckMark() {

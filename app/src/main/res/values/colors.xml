@@ -12,7 +12,7 @@
     <color name="highlightedColor">#000000</color>
     <color name="defaultColor">#4F6F52</color>
     <color name="white">#FFFFFF</color>
-
+    <color name="red">#FF0000</color>
     <color name="border_color_unfocused">#808080</color>
     <color name="border_color_focused">#407c31</color>
     <color name="mtrl_textinput_default_box_stroke_color">#FFFFFF</color>

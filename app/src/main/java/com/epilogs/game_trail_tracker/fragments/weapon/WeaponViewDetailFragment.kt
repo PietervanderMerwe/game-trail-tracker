@@ -82,17 +82,6 @@ class WeaponViewDetailFragment : Fragment() {
         findNavController().navigate(action)
     }
 
-    private fun showDeleteConfirmationDialog() {
-        AlertDialog.Builder(context)
-            .setTitle("Confirm Delete")
-            .setMessage("Are you sure you want to delete this weapon?")
-            .setPositiveButton("Delete") { dialog, which ->
-                viewModel.deleteWeapon(currentWeapon!!)
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
-    }
-
     companion object {
         @JvmStatic
         fun newInstance(weaponId: Int) =
