@@ -175,14 +175,8 @@ class HuntAddFragment : Fragment() {
     private fun setupObserveInsertion() {
         viewModel.getInsertionSuccess().observe(viewLifecycleOwner, Observer { success ->
             if (success == true) {
-                binding.editTextName.text.clear()
-                binding.editTextStartDate.text.clear()
-                binding.editTextEndDate.text.clear()
-                viewModel.resetInsertionSuccess()
-                imageAdapter.clearImages()
-
+                clearScreen()
                 showCheckMark()
-
                 viewModel.insertionId.observe(viewLifecycleOwner) { id ->
                     id?.let {
                         val action =
@@ -200,18 +194,21 @@ class HuntAddFragment : Fragment() {
     private fun setupObserveUpdate() {
         viewModel.getUpdateSuccess().observe(viewLifecycleOwner) { success ->
             if (success == true) {
-                binding.editTextName.text.clear()
-                binding.editTextStartDate.text.clear()
-                binding.editTextEndDate.text.clear()
-                viewModel.resetInsertionSuccess()
-                imageAdapter.clearImages()
-                binding.buttonDeleteWeapon.visibility = View.GONE
-
+                clearScreen()
                 findNavController().navigateUp()
             }
         }
     }
 
+    private fun clearScreen() {
+        binding.editTextName.text.clear()
+        binding.editTextStartDate.text.clear()
+        binding.editTextEndDate.text.clear()
+        viewModel.resetInsertionSuccess()
+        viewModel.resetUpdateSuccess()
+        imageAdapter.clearImages()
+        binding.buttonDeleteWeapon.visibility = View.GONE
+    }
     private fun showCheckMark() {
         view?.findViewById<ImageView>(R.id.checkMarkLocationAdd)?.let { checkMarkImageView ->
             checkMarkImageView.visibility = View.VISIBLE

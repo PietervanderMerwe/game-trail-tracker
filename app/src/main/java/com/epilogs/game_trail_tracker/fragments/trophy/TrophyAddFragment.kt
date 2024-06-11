@@ -172,12 +172,7 @@ class TrophyAddFragment : Fragment() {
     private fun setupObserveInsertion() {
         viewModel.getInsertionSuccess().observe(viewLifecycleOwner, Observer { success ->
             if (success == true) {
-                binding.editTextSpecieName.text.clear()
-                binding.editTextDate.text.clear()
-                binding.editTextWeight.text.clear()
-                binding.editTextMeasurement.text.clear()
-                viewModel.resetInsertionSuccess()
-                imageAdapter.clearImages()
+                clearScreen()
                 findNavController().navigateUp()
             }
         })
@@ -186,16 +181,21 @@ class TrophyAddFragment : Fragment() {
     private fun setupObserveUpdate() {
         viewModel.getUpdateSuccess().observe(viewLifecycleOwner, Observer { success ->
             if (success == true) {
-                binding.editTextSpecieName.text.clear()
-                binding.editTextDate.text.clear()
-                binding.editTextWeight.text.clear()
-                binding.editTextMeasurement.text.clear()
-                viewModel.resetInsertionSuccess()
-                imageAdapter.clearImages()
-                binding.buttonDeleteWeapon.visibility = View.GONE
+                clearScreen()
                 findNavController().navigateUp()
             }
         })
+    }
+
+    private fun clearScreen() {
+        binding.editTextSpecieName.text.clear()
+        binding.editTextDate.text.clear()
+        binding.editTextWeight.text.clear()
+        binding.editTextMeasurement.text.clear()
+        viewModel.resetInsertionSuccess()
+        viewModel.resetUpdateSuccess()
+        imageAdapter.clearImages()
+        binding.buttonDeleteWeapon.visibility = View.GONE
     }
 
     private fun setupHuntSpinner(spinnerLocation: Spinner) {
