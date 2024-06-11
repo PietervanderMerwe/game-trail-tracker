@@ -19,6 +19,7 @@ import com.epilogs.game_trail_tracker.database.entities.Weapon
 import com.epilogs.game_trail_tracker.viewmodels.SharedViewModel
 import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.epilogs.game_trail_tracker.FullScreenImageActivity
@@ -187,7 +188,7 @@ class WeaponAddFragment : Fragment() {
     }
 
     private fun showDeleteConfirmationDialog() {
-        AlertDialog.Builder(context)
+        val dialog = AlertDialog.Builder(context)
             .setTitle("Confirm Delete")
             .setMessage("Are you sure you want to delete this weapon?")
             .setPositiveButton("Delete") { dialog, which ->
@@ -196,7 +197,17 @@ class WeaponAddFragment : Fragment() {
                 findNavController().navigate(action)
             }
             .setNegativeButton("Cancel", null)
-            .show()
+            .create()
+
+        dialog.setOnShowListener {
+            val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            val negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+
+            positiveButton.setTextColor(getColor(context!!, R.color.red))
+            negativeButton.setTextColor(getColor(context!!, R.color.secondary_color))
+        }
+
+        dialog.show()
     }
 
     private fun showCheckMark() {

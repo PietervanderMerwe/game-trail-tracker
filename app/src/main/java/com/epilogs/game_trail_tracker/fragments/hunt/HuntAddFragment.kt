@@ -1,6 +1,7 @@
 package com.epilogs.game_trail_tracker.fragments.hunt
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -13,12 +14,12 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
@@ -42,6 +43,7 @@ class HuntAddFragment : Fragment() {
     private var endDate: Calendar? = null
     private var huntId: Int? = null
     private lateinit var binding: FragmentHuntAddBinding
+    private var currentHunt: Hunt? = null
 
     @SuppressLint("BinderGetCallingInMainThread")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -98,8 +100,14 @@ class HuntAddFragment : Fragment() {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         binding.addHuntText.text = getString(R.string.update_hunt)
         binding.buttonSaveLocation.text = getString(R.string.button_update)
+        binding.buttonDeleteWeapon.visibility = View.VISIBLE
+
+        binding.buttonDeleteWeapon.setOnClickListener {
+            showDeleteConfirmationDialog()
+        }
 
         viewModel.getHuntById(huntId!!).observe(viewLifecycleOwner) { hunt ->
+            currentHunt = hunt
             binding.editTextName.setText(hunt?.name)
             binding.editTextStartDate.setText(hunt?.startDate?.let { dateFormat.format(it) })
             binding.editTextEndDate.setText(hunt?.endDate?.let { dateFormat.format(it) })
@@ -197,6 +205,7 @@ class HuntAddFragment : Fragment() {
                 binding.editTextEndDate.text.clear()
                 viewModel.resetInsertionSuccess()
                 imageAdapter.clearImages()
+                binding.buttonDeleteWeapon.visibility = View.GONE
 
                 findNavController().navigateUp()
             }
@@ -211,6 +220,28 @@ class HuntAddFragment : Fragment() {
             }, 3000)
         }
         sharedViewModel.notifyWeaponsUpdated()
+    }
+
+    private fun showDeleteConfirmationDialog() {
+        val dialog = AlertDialog.Builder(context)
+            .setTitle("Confirm Delete")
+            .setMessage("Are you sure you want to delete this hunt?")
+            .setPositiveButton("Delete") { dialog, which ->
+                viewModel.deleteHunt(currentHunt!!)
+                val action = HuntAddFragmentDirections.actionHuntAddFragmentToHuntFragment()
+                findNavController().navigate(action)
+            }
+            .setNegativeButton("Cancel", null)
+            .create()
+
+        dialog.setOnShowListener {
+            val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            val negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+
+            positiveButton.setTextColor(ContextCompat.getColor(context!!, R.color.red))
+            negativeButton.setTextColor(ContextCompat.getColor(context!!, R.color.secondary_color))
+        }
+        dialog.show()
     }
 
     companion object {
