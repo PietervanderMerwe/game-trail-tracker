@@ -78,10 +78,12 @@
     <string name="update">Update</string>
     <string name="weight_detail">%1$s %2$s</string>
     <string name="measurement_detail">%1$s %2$s</string>
+    <string name="date_range">%1$s - %2$s</string>
     <string name="update_trophy">Update Trophy</string>
     <string name="update_weapon">Update Weapon</string>
     <string name="button_update">Update</string>
     <string name="update_hunt">Update Hunt</string>
+    <string name="home">Home</string>
     <string-array name="measurements_array">
         <item>cm</item>
         <item>inch</item>

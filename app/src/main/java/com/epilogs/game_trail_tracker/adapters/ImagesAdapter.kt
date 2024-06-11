@@ -31,16 +31,21 @@ class ImagesAdapter(private val images: MutableList<String>, private val itemCli
     override fun getItemCount() = images.size
 
     fun updateImages(newImages: List<String>) {
+        val startSize = images.size
         newImages.forEach { newImage ->
             if (!images.contains(newImage)) {
                 images.add(newImage)
+                notifyItemInserted(images.size - 1)
             }
         }
-        notifyDataSetChanged()
+        if (startSize != images.size) {
+            notifyItemRangeChanged(startSize, images.size - startSize)
+        }
     }
     fun clearImages() {
+        val itemCount = images.size
         images.clear()
-        notifyDataSetChanged()
+        notifyItemRangeRemoved(0, itemCount)
     }
 
 }

@@ -7,6 +7,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.res.TypedArrayUtils.getString
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.epilogs.game_trail_tracker.R
@@ -33,7 +34,7 @@ class HuntViewAdapter(private var locations: List<Hunt>,
             val startDateStr = location.startDate?.let { dateFormat.format(it) } ?: "N/A"
             val endDateStr = location.endDate?.let { dateFormat.format(it) } ?: "N/A"
 
-            itemView.findViewById<TextView>(R.id.location_view_item_dates).text = "$startDateStr - $endDateStr"
+            itemView.findViewById<TextView>(R.id.location_view_item_dates).text = view.context.getString(R.string.date_range, startDateStr, endDateStr)
             location.imagePaths?.let {
                 if (it.isNotEmpty()) {
                     Glide.with(view.context).load(it[0]).into(itemView.findViewById<ImageView>(R.id.location_view_item_image))

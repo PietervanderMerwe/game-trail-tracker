@@ -57,8 +57,10 @@ class HuntViewDetailFragment : Fragment() {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         huntViewModel.getHuntById(huntId!!).observe(viewLifecycleOwner) { hunt ->
             binding.locationName.text = hunt?.name
-            binding.dateRange.text = (hunt?.startDate?.let { dateFormat.format(it) }
-                ?: "N/A") + " - " + (hunt?.endDate?.let { dateFormat.format(it) } ?: "N/A")
+            val startDateStr = hunt?.startDate?.let { dateFormat.format(it) } ?: "N/A"
+            val endDateStr = hunt?.endDate?.let { dateFormat.format(it) } ?: "N/A"
+            val dateRange = getString(R.string.date_range, startDateStr, endDateStr)
+            binding.dateRange.text = dateRange
         }
     }
 
