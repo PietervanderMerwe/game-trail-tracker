@@ -7,19 +7,21 @@
     <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">@color/secondary_color</item>
     </style>
-    <style name="CustomDatePickerDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog">
+    <style name="CustomDatePickerDialogTheme" parent="Theme.MaterialComponents.Dialog.Alert">
         <item name="colorAccent">@color/primary_color</item>
         <item name="colorControlActivated">@color/secondary_color</item>
-        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
-        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
     </style>
 
+    <!-- Custom Positive Button Style -->
     <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/secondary_color</item>
     </style>
 
+    <!-- Custom Negative Button Style -->
     <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/secondary_color</item>
+        <item name="android:textColor">@color/red</item>
     </style>
 
 </resources>
