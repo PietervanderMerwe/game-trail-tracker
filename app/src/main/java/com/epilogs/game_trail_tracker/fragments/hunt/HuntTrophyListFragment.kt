@@ -83,7 +83,7 @@ class HuntTrophyListFragment : Fragment(), OnTrophyItemClickListener {
 
     override fun onTrophyItemClick(animal: Animal) {
         val action =
-            HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToTrophyViewDetailFragment(
+            HuntTrophyListFragmentDirections.actionHuntTrophyListFragmentToHuntAddFragment(
                 animal.id!!
             )
         findNavController().navigate(action)
@@ -91,9 +91,11 @@ class HuntTrophyListFragment : Fragment(), OnTrophyItemClickListener {
 
     private fun setupInsertAndUpdateCheck() {
         animalViewModel.getInsertionSuccess().observe(viewLifecycleOwner) {
+            animalViewModel.resetInsertionSuccess()
             getTrophies()
         }
         animalViewModel.getUpdateSuccess().observe(viewLifecycleOwner) {
+            animalViewModel.resetUpdateSuccess()
             getTrophies()
         }
     }

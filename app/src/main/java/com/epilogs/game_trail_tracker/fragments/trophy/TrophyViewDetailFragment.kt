@@ -137,6 +137,7 @@ class TrophyViewDetailFragment : Fragment() {
                 huntId = animal.huntId
             } else {
                 binding.textViewLocationTitleViewDetail.visibility = View.GONE
+                binding.textViewLocationViewDetail.visibility = View.GONE
             }
         })
     }

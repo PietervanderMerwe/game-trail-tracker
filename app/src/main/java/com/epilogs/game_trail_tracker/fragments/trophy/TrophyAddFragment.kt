@@ -170,21 +170,21 @@ class TrophyAddFragment : Fragment() {
     }
 
     private fun setupObserveInsertion() {
-        viewModel.getInsertionSuccess().observe(viewLifecycleOwner, Observer { success ->
+        viewModel.getInsertionSuccess().observe(viewLifecycleOwner) { success ->
             if (success == true) {
                 clearScreen()
                 findNavController().navigateUp()
             }
-        })
+        }
     }
 
     private fun setupObserveUpdate() {
-        viewModel.getUpdateSuccess().observe(viewLifecycleOwner, Observer { success ->
+        viewModel.getUpdateSuccess().observe(viewLifecycleOwner) { success ->
             if (success == true) {
                 clearScreen()
                 findNavController().navigateUp()
             }
-        })
+        }
     }
 
     private fun clearScreen() {
@@ -192,8 +192,6 @@ class TrophyAddFragment : Fragment() {
         binding.editTextDate.text.clear()
         binding.editTextWeight.text.clear()
         binding.editTextMeasurement.text.clear()
-        viewModel.resetInsertionSuccess()
-        viewModel.resetUpdateSuccess()
         imageAdapter.clearImages()
         binding.buttonDeleteWeapon.visibility = View.GONE
     }

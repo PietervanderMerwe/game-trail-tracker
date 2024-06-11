@@ -95,6 +95,9 @@
         <action
             android:id="@+id/action_huntAddFragment_to_huntViewDetailFragment"
             app:destination="@id/huntViewDetailFragment" />
+        <action
+            android:id="@+id/action_huntAddFragment_to_huntTrophyListFragment"
+            app:destination="@id/huntTrophyListFragment" />
     </fragment>
     <fragment
         android:id="@+id/trophyAddFragment"
@@ -166,6 +169,9 @@
         <action
             android:id="@+id/action_huntViewDetailFragment_to_trophyViewDetailFragment2"
             app:destination="@id/trophyViewDetailFragment" />
+        <action
+            android:id="@+id/action_huntViewDetailFragment_to_huntTrophyListFragment"
+            app:destination="@id/huntTrophyListFragment" />
     </fragment>
     <fragment
         android:id="@+id/trophyViewDetailFragment"
@@ -236,5 +242,17 @@
         <action
             android:id="@+id/action_navigationDrawerFragment_to_userSettingsFragment"
             app:destination="@id/userSettingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/huntTrophyListFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.hunt.HuntTrophyListFragment"
+        android:label="fragment_hunt_trophy_list"
+        tools:layout="@layout/fragment_hunt_trophy_list" >
+        <action
+            android:id="@+id/action_huntTrophyListFragment_to_huntViewDetailFragment"
+            app:destination="@id/huntViewDetailFragment" />
+        <action
+            android:id="@+id/action_huntTrophyListFragment_to_huntAddFragment"
+            app:destination="@id/huntAddFragment" />
     </fragment>
 </navigation>
