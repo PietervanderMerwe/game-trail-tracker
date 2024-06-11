@@ -12,7 +12,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
@@ -25,7 +24,6 @@ import androidx.navigation.fragment.findNavController
 import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.databinding.FragmentWeaponAddBinding
-import com.epilogs.game_trail_tracker.fragments.hunt.HuntAddFragmentDirections
 
 class WeaponAddFragment : Fragment() {
     private val viewModel: WeaponViewModel by viewModels()

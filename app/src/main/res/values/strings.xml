@@ -91,4 +91,13 @@
         <item>kg</item>
         <item>pounds</item>
     </string-array>
+
+    <!--Image content descriptions-->
+    <string name="mountain_range">Mountain Range</string>
+    <string name="trophy_image_description">Trophy image</string>
+    <string name="search_icon">Search Icon</string>
+    <string name="edit_icon">Edit Icon</string>
+    <string name="image">Image</string>
+    <string name="hunt_image_description">Hunt image</string>
+    <string name="weapon_image_description">Weapon image</string>
 </resources>

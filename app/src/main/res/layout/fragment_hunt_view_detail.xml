@@ -52,7 +52,8 @@
                     android:padding="8dp"
                     android:src="@android:drawable/ic_menu_edit"
                     app:tint="@color/white"
-                    android:tintMode="@color/white"/>
+                    android:tintMode="@color/white"
+                    android:contentDescription="@string/edit_icon"/>
             </RelativeLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
