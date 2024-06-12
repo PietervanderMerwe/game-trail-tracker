@@ -105,6 +105,10 @@
         android:label="fragment_trophy_add"
         tools:layout="@layout/fragment_trophy_add" >
         <argument
+            android:name="originFragment"
+            app:argType="string"
+            android:defaultValue="" />
+        <argument
             android:name="huntId"
             app:argType="integer"
             android:defaultValue="0" />

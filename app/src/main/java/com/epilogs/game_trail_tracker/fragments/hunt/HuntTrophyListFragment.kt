@@ -1,10 +1,12 @@
 package com.epilogs.game_trail_tracker.fragments.hunt
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +19,7 @@ import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 
 class HuntTrophyListFragment : Fragment(), OnTrophyItemClickListener {
     private var huntId: Int? = null
-    private val animalViewModel: AnimalViewModel by viewModels()
+    private val animalViewModel: AnimalViewModel by activityViewModels()
     private lateinit var binding: FragmentHuntTrophyListBinding
     private lateinit var adapter: TrophyViewAdapter
 
@@ -74,6 +76,7 @@ class HuntTrophyListFragment : Fragment(), OnTrophyItemClickListener {
     private fun navigateToAdd()  {
         val action =
             HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToTrophyAddFragment(
+                "huntFragment",
                 huntId!!,
                 0,
                 0
@@ -91,11 +94,9 @@ class HuntTrophyListFragment : Fragment(), OnTrophyItemClickListener {
 
     private fun setupInsertAndUpdateCheck() {
         animalViewModel.getInsertionSuccess().observe(viewLifecycleOwner) {
-            animalViewModel.resetInsertionSuccess()
             getTrophies()
         }
         animalViewModel.getUpdateSuccess().observe(viewLifecycleOwner) {
-            animalViewModel.resetUpdateSuccess()
             getTrophies()
         }
     }

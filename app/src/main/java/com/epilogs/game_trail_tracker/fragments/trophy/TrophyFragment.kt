@@ -6,8 +6,10 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +26,7 @@ import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 class TrophyFragment : Fragment(R.layout.fragment_trophy), OnTrophyItemClickListener,
     FilterTrophyCriteriaListener {
 
-    private val viewModel: AnimalViewModel by viewModels()
+    private val viewModel: AnimalViewModel by activityViewModels()
     private lateinit var binding: FragmentTrophyBinding
     private lateinit var adapter: TrophyViewAdapter
     private var currentSearchText: String? = null
@@ -105,17 +107,17 @@ class TrophyFragment : Fragment(R.layout.fragment_trophy), OnTrophyItemClickList
         binding.addTrophyButton.visibility = if (hasData) View.GONE else View.VISIBLE
 
         binding.addTrophyButton.setOnClickListener {
-            val action =
-                TrophyFragmentDirections.actionTrophyFragmentToTrophyAddFragment()
-            findNavController().navigate(action)
+            navigateToAddTrophy()
         }
 
         binding.addTrophyButtonFloat.setOnClickListener {
-            val action =
-                TrophyFragmentDirections.actionTrophyFragmentToTrophyAddFragment()
-            findNavController().navigate(action)
+            navigateToAddTrophy()
         }
+    }
 
+    private fun navigateToAddTrophy() {
+        val action = TrophyFragmentDirections.actionTrophyFragmentToTrophyAddFragment("trophyFragment")
+        findNavController().navigate(action)
     }
 
     private fun setupActionBarDrawerToggle() {

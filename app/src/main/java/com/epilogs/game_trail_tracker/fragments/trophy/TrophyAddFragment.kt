@@ -3,6 +3,7 @@ package com.epilogs.game_trail_tracker.fragments.trophy
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,9 +39,10 @@ import com.epilogs.game_trail_tracker.viewmodels.UserSettingsViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import kotlin.math.log
 
 class TrophyAddFragment : Fragment() {
-    private val viewModel: AnimalViewModel by viewModels()
+    private val viewModel: AnimalViewModel by activityViewModels()
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val selectedImageUris = mutableSetOf<String>()
     private val temporaryImageUris = mutableListOf<String>()
@@ -183,8 +185,24 @@ class TrophyAddFragment : Fragment() {
     private fun setupObserveInsertion() {
         viewModel.getInsertionSuccess().observe(viewLifecycleOwner) { success ->
             if (success == true) {
+                viewModel.resetInsertionSuccess()
                 clearScreen()
-                findNavController().navigateUp()
+                val originFragment = arguments?.getString("originFragment")
+                when (originFragment) {
+                    "huntFragment" -> {
+                        val action = TrophyAddFragmentDirections.actionTrophyAddFragmentToHuntViewDetailFragment(huntId!!)
+                        findNavController().navigate(action)
+                    }
+                    "trophyFragment" -> {
+                        val action = TrophyAddFragmentDirections.actionTrophyAddFragmentToTrophyFragment()
+                        findNavController().navigate(action)
+                    }
+                    "TrophyDetailFragment" -> {
+                        val action = TrophyAddFragmentDirections.actionTrophyAddFragmentToTrophyViewDetailFragment(trophyId!!)
+                        findNavController().navigate(action)
+                    }
+                    else -> findNavController().navigateUp()
+                }
             }
         }
     }
@@ -192,6 +210,7 @@ class TrophyAddFragment : Fragment() {
     private fun setupObserveUpdate() {
         viewModel.getUpdateSuccess().observe(viewLifecycleOwner) { success ->
             if (success == true) {
+                viewModel.resetUpdateSuccess()
                 clearScreen()
                 findNavController().navigateUp()
             }

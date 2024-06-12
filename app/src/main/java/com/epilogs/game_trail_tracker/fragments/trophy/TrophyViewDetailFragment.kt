@@ -72,6 +72,7 @@ class TrophyViewDetailFragment : Fragment() {
         binding.fabEditTrophy.setOnClickListener {
             val action =
                 TrophyViewDetailFragmentDirections.actionTrophyViewDetailFragmentToTrophyAddFragment(
+                    "TrophyDetailFragment",
                     huntId!!,
                     trophyId!!,
                     weaponId!!
