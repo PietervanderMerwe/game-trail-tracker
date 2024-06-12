@@ -162,13 +162,12 @@ class TrophyAddFragment : Fragment() {
                 name = binding.editTextSpecieName.text.toString(),
                 weight = binding.editTextWeight.text.toString().toDoubleOrNull() ?: 0.0,
                 weightType = binding.spinnerWeightUnits.selectedItem.toString(),
-                measurement = binding.editTextMeasurement.text.toString().toDoubleOrNull()
-                    ?: 0.0,
+                measurement = binding.editTextMeasurement.text.toString().toDoubleOrNull() ?: 0.0,
                 measurementType = binding.spinnerMeasurementUnits.selectedItem.toString(),
                 harvestDate = dateConverter.parseDate(binding.editTextDate.text.toString()),
                 notes = "Some notes",
-                huntId = huntId.takeIf { it!! > 0 },
-                weaponId = weaponId.takeIf { it!! > 0 },
+                huntId = huntId?.takeIf { it > 0 },
+                weaponId = weaponId?.takeIf { it > 0 },
                 imagePaths = selectedImageUris.toMutableList()
             )
 

@@ -51,7 +51,7 @@ class TrophyViewDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentTrophyViewDetailBinding.bind(view)
-        val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
         binding.textInputLayoutLocationViewDetail.setOnClickListener {
             val action =
