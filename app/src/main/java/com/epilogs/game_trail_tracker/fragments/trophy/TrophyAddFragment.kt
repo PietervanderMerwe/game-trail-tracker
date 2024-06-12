@@ -397,16 +397,23 @@ class TrophyAddFragment : Fragment() {
     }
 
     private fun setupDatePicker() {
-        if(huntId != 0 && huntId != null) {
+        if (huntId != 0 && huntId != null) {
             this.huntViewModel.getHuntById(this.huntId!!).observe(viewLifecycleOwner) { hunt ->
                 val startCalendar = Calendar.getInstance()
-                startCalendar.time = hunt?.startDate!!
                 val endCalendar = Calendar.getInstance()
-                endCalendar.time = hunt?.endDate!!
+
+                hunt?.startDate?.let {
+                    startCalendar.time = it
+                }
+                hunt?.endDate?.let {
+                    endCalendar.time = it
+                }
+
                 binding.editTextDate.setOnClickListener {
                     showDatePickerDialog(requireContext(), { selectedDate ->
                         binding.editTextDate.setText(selectedDate)
-                    }, minDate = startCalendar, maxDate = endCalendar)
+                    }, minDate = if (hunt?.startDate != null) startCalendar else null,
+                        maxDate = if (hunt?.endDate != null) endCalendar else null)
                 }
             }
         } else {
@@ -416,7 +423,6 @@ class TrophyAddFragment : Fragment() {
                 })
             }
         }
-
     }
 
     private fun showDeleteConfirmationDialog() {
