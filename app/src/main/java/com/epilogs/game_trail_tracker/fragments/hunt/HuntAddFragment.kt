@@ -38,7 +38,8 @@ class HuntAddFragment : Fragment() {
     private val sharedViewModel: SharedViewModel by viewModels()
     private lateinit var documentPickerLauncher: ActivityResultLauncher<Array<String>>
     private lateinit var imageAdapter: ImagesAdapter
-    private val selectedImageUris = mutableListOf<String>()
+    private val selectedImageUris = mutableSetOf<String>()
+    private val temporaryImageUris = mutableListOf<String>()
     private var startDate: Calendar? = null
     private var endDate: Calendar? = null
     private var huntId: Int? = null
@@ -52,13 +53,16 @@ class HuntAddFragment : Fragment() {
             huntId = it.getInt("huntId")
         }
         documentPickerLauncher = registerForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { uris ->
-            uris.forEach { uri ->
-                val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                requireActivity().contentResolver.takePersistableUriPermission(uri, takeFlags)
-                selectedImageUris.add(uri.toString())
+            if (uris != null && uris.isNotEmpty()) {
+                temporaryImageUris.clear()
+                uris.forEach { uri ->
+                    val takeFlags: Int =
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                    requireActivity().contentResolver.takePersistableUriPermission(uri, takeFlags)
+                    temporaryImageUris.add(uri.toString())
+                }
+                updateSelectedImages()
             }
-            imageAdapter.updateImages(selectedImageUris)
         }
     }
 
@@ -75,6 +79,12 @@ class HuntAddFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_hunt_add, container, false)
+    }
+
+    private fun updateSelectedImages() {
+        selectedImageUris.clear()
+        selectedImageUris.addAll(temporaryImageUris)
+        imageAdapter.updateImages(selectedImageUris)
     }
 
     private fun setupUI(view: View) {
@@ -141,7 +151,7 @@ class HuntAddFragment : Fragment() {
     }
 
     private fun setupImagesRecyclerView(view: View) {
-        imageAdapter = ImagesAdapter(selectedImageUris) { imageUri, position ->
+        imageAdapter = ImagesAdapter(selectedImageUris.toMutableList()) { imageUri, position ->
             val intent = Intent(context, FullScreenImageActivity::class.java).apply {
                 putStringArrayListExtra("image_urls", ArrayList(selectedImageUris))
                 putExtra("image_position", position)
@@ -161,7 +171,7 @@ class HuntAddFragment : Fragment() {
             val endDate = dateConverter.parseDate(binding.editTextEndDate.text.toString())
             val location = Hunt(
                 name = name, startDate = startDate,
-                endDate = endDate, imagePaths = selectedImageUris
+                endDate = endDate, imagePaths = selectedImageUris.toMutableList()
             )
             if (huntId == 0) {
                 viewModel.insertHunt(location)
@@ -235,8 +245,8 @@ class HuntAddFragment : Fragment() {
             val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
             val negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
 
-            positiveButton.setTextColor(ContextCompat.getColor(context!!, R.color.red))
-            negativeButton.setTextColor(ContextCompat.getColor(context!!, R.color.secondary_color))
+            positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+            negativeButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondary_color))
         }
         dialog.show()
     }

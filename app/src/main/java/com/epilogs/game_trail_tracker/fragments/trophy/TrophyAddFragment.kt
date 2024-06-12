@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -41,7 +42,8 @@ import java.util.Locale
 class TrophyAddFragment : Fragment() {
     private val viewModel: AnimalViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by activityViewModels()
-    private val selectedImageUris = mutableListOf<String>()
+    private val selectedImageUris = mutableSetOf<String>()
+    private val temporaryImageUris = mutableListOf<String>()
     private lateinit var imageAdapter: ImagesAdapter
     private var trophyId: Int? = null
     private var weaponId: Int? = null
@@ -50,6 +52,7 @@ class TrophyAddFragment : Fragment() {
     private val userSettingsViewModel: UserSettingsViewModel by viewModels()
     private val huntViewModel : HuntViewModel by viewModels()
     private var currentTrophy: Animal? = null
+    private lateinit var documentPickerLauncher: ActivityResultLauncher<Array<String>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +60,18 @@ class TrophyAddFragment : Fragment() {
             trophyId = it.getInt("trophyId")
             huntId = it.getInt("huntId")
             weaponId = it.getInt("weaponId")
+        }
+        documentPickerLauncher = registerForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { uris ->
+            if (uris != null && uris.isNotEmpty()) {
+                temporaryImageUris.clear()
+                uris.forEach { uri ->
+                    val takeFlags: Int =
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                    requireActivity().contentResolver.takePersistableUriPermission(uri, takeFlags)
+                    temporaryImageUris.add(uri.toString())
+                }
+                updateSelectedImages()
+            }
         }
     }
 
@@ -77,18 +92,9 @@ class TrophyAddFragment : Fragment() {
     }
 
     private fun setupAddUI() {
-        val pickMultipleMedia =
-            registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(5)) { uris ->
-                uris.forEach { uri ->
-                    val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    requireActivity().contentResolver.takePersistableUriPermission(uri, takeFlags)
-                    selectedImageUris.add(uri.toString())
-                }
-                imageAdapter.updateImages(selectedImageUris)
-            }
 
         binding.buttonSelectAnimalImages.setOnClickListener {
-            pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+            documentPickerLauncher.launch(arrayOf("image/*"))
         }
 
         setupHuntSpinner(binding.spinnerHunt)
@@ -103,6 +109,12 @@ class TrophyAddFragment : Fragment() {
         if (trophyId != 0) {
             setupEditScreen()
         }
+    }
+
+    private fun updateSelectedImages() {
+        selectedImageUris.clear()
+        selectedImageUris.addAll(temporaryImageUris)
+        imageAdapter.updateImages(selectedImageUris)
     }
 
     private fun setupEditScreen() {
@@ -157,7 +169,7 @@ class TrophyAddFragment : Fragment() {
                 notes = "Some notes",
                 huntId = huntId.takeIf { it!! > 0 },
                 weaponId = weaponId.takeIf { it!! > 0 },
-                imagePaths = selectedImageUris
+                imagePaths = selectedImageUris.toMutableList()
             )
 
             if (trophyId == 0) {
@@ -341,7 +353,7 @@ class TrophyAddFragment : Fragment() {
     }
 
     private fun setupImageView(imagesRecyclerView: RecyclerView) {
-        imageAdapter = ImagesAdapter(selectedImageUris) { imageUri, position ->
+        imageAdapter = ImagesAdapter(selectedImageUris.toMutableList()) { imageUri, position ->
             val intent = Intent(context, FullScreenImageActivity::class.java).apply {
                 putStringArrayListExtra("image_urls", ArrayList(selectedImageUris))
                 putExtra("image_position", position)
@@ -423,8 +435,8 @@ class TrophyAddFragment : Fragment() {
             val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
             val negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
 
-            positiveButton.setTextColor(ContextCompat.getColor(context!!, R.color.red))
-            negativeButton.setTextColor(ContextCompat.getColor(context!!, R.color.secondary_color))
+            positiveButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+            negativeButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondary_color))
         }
         dialog.show()
     }

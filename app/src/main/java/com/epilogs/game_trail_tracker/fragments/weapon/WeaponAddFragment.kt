@@ -30,7 +30,8 @@ class WeaponAddFragment : Fragment() {
     private val viewModel: WeaponViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private lateinit var imageAdapter: ImagesAdapter
-    private val selectedImageUris = mutableListOf<String>()
+    private val selectedImageUris = mutableSetOf<String>()
+    private val temporaryImageUris = mutableListOf<String>()
     private lateinit var documentPickerLauncher: ActivityResultLauncher<Array<String>>
     private var weaponId: Int? = null
     private lateinit var binding: FragmentWeaponAddBinding
@@ -39,13 +40,16 @@ class WeaponAddFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         documentPickerLauncher = registerForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { uris ->
-            uris.forEach { uri ->
-                val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                requireActivity().contentResolver.takePersistableUriPermission(uri, takeFlags)
-                selectedImageUris.add(uri.toString())
+            if (uris != null && uris.isNotEmpty()) {
+                temporaryImageUris.clear()
+                uris.forEach { uri ->
+                    val takeFlags: Int =
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                    requireActivity().contentResolver.takePersistableUriPermission(uri, takeFlags)
+                    temporaryImageUris.add(uri.toString())
+                }
+                updateSelectedImages()
             }
-            imageAdapter.updateImages(selectedImageUris)
         }
 
         weaponId = arguments?.getInt("id")
@@ -62,6 +66,12 @@ class WeaponAddFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
+    }
+
+    private fun updateSelectedImages() {
+        selectedImageUris.clear()
+        selectedImageUris.addAll(temporaryImageUris)
+        imageAdapter.updateImages(selectedImageUris)
     }
 
     private fun setupUI() {
@@ -130,7 +140,10 @@ class WeaponAddFragment : Fragment() {
     }
 
     private fun setupSaveListener() {
-        val weapon = Weapon(name = binding.editTextWeaponName.text.toString(), notes = binding.editTextWeaponNotes.text.toString(), imagePaths = selectedImageUris)
+        val weapon = Weapon(
+            name = binding.editTextWeaponName.text.toString(),
+            notes = binding.editTextWeaponNotes.text.toString(),
+            imagePaths = selectedImageUris.toMutableList())
 
         if(this.weaponId != 0) {
             weapon.id = this.weaponId!!
@@ -144,7 +157,7 @@ class WeaponAddFragment : Fragment() {
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        setupImageAdapter(selectedImageUris)
+        setupImageAdapter(selectedImageUris.toMutableList())
         recyclerView.adapter = imageAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
     }
@@ -203,8 +216,8 @@ class WeaponAddFragment : Fragment() {
             val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
             val negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
 
-            positiveButton.setTextColor(getColor(context!!, R.color.red))
-            negativeButton.setTextColor(getColor(context!!, R.color.secondary_color))
+            positiveButton.setTextColor(getColor(requireContext(), R.color.red))
+            negativeButton.setTextColor(getColor(requireContext(), R.color.secondary_color))
         }
 
         dialog.show()
