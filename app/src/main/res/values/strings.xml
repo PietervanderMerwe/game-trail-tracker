@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">game-trail-tracker</string>
+    <string name="app_name">Game Trail Tracker</string>
     <string name="editTextDate">Select Date</string>
     <string name="editTextName">Name</string>
     <string name="buttonSelectImages">Select Images</string>
