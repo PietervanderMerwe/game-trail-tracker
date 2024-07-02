@@ -224,5 +224,8 @@
         <action
             android:id="@+id/action_huntTrophyListFragment_to_huntAddFragment"
             app:destination="@id/huntAddFragment" />
+        <action
+            android:id="@+id/action_huntTrophyListFragment_to_trophyViewDetailFragment"
+            app:destination="@id/trophyViewDetailFragment" />
     </fragment>
 </navigation>

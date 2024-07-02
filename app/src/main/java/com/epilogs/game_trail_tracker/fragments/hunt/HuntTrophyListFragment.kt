@@ -86,7 +86,7 @@ class HuntTrophyListFragment : Fragment(), OnTrophyItemClickListener {
 
     override fun onTrophyItemClick(animal: Animal) {
         val action =
-            HuntTrophyListFragmentDirections.actionHuntTrophyListFragmentToHuntAddFragment(
+            HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToTrophyViewDetailFragment(
                 animal.id!!
             )
         findNavController().navigate(action)
