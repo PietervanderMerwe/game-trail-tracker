@@ -33,19 +33,6 @@ class UserSettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val colorStateList = ColorStateList(
-            arrayOf(
-                intArrayOf(-android.R.attr.state_checked),
-                intArrayOf(android.R.attr.state_checked)
-            ),
-            intArrayOf(
-                ContextCompat.getColor(requireContext(), R.color.primary_color),
-                ContextCompat.getColor(requireContext(), R.color.text_primary)
-            )
-        )
-
-        binding.switchTheme.thumbTintList = colorStateList
-
         ArrayAdapter.createFromResource(
             requireContext(),
             R.array.measurements_array,

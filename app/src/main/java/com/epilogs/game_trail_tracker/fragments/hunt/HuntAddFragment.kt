@@ -46,7 +46,6 @@ class HuntAddFragment : Fragment() {
     private lateinit var binding: FragmentHuntAddBinding
     private var currentHunt: Hunt? = null
 
-    @SuppressLint("BinderGetCallingInMainThread")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -249,12 +248,5 @@ class HuntAddFragment : Fragment() {
             negativeButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondary_color))
         }
         dialog.show()
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HuntAddFragment().apply {
-            }
     }
 }

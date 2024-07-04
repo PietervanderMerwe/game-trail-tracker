@@ -128,10 +128,4 @@ class TrophyFragment : Fragment(R.layout.fragment_trophy), OnTrophyItemClickList
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
     }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = TrophyFragment().apply {
-            }
-    }
 }

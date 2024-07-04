@@ -126,10 +126,4 @@ class HuntFragment : Fragment(R.layout.fragment_hunt), OnHuntItemClickListener,
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
     }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = HuntFragment().apply {
-        }
-    }
 }

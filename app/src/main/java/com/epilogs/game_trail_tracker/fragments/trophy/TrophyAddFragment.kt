@@ -3,7 +3,6 @@ package com.epilogs.game_trail_tracker.fragments.trophy
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +10,11 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -39,7 +36,6 @@ import com.epilogs.game_trail_tracker.viewmodels.UserSettingsViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import kotlin.math.log
 
 class TrophyAddFragment : Fragment() {
     private val viewModel: AnimalViewModel by activityViewModels()
@@ -463,12 +459,5 @@ class TrophyAddFragment : Fragment() {
             negativeButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.secondary_color))
         }
         dialog.show()
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            TrophyAddFragment().apply {
-            }
     }
 }

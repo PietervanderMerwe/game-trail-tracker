@@ -119,10 +119,4 @@ class WeaponFragment : Fragment(R.layout.fragment_weapon), OnWeaponItemClickList
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
     }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = WeaponFragment().apply {
-            }
-    }
 }
