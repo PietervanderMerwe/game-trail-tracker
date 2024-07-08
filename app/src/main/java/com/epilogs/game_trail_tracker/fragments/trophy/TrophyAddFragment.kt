@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -50,7 +51,6 @@ class TrophyAddFragment : Fragment() {
     private val userSettingsViewModel: UserSettingsViewModel by viewModels()
     private val huntViewModel : HuntViewModel by viewModels()
     private var currentTrophy: Animal? = null
-    private lateinit var documentPickerLauncher: ActivityResultLauncher<Array<String>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,18 +58,6 @@ class TrophyAddFragment : Fragment() {
             trophyId = it.getInt("trophyId")
             huntId = it.getInt("huntId")
             weaponId = it.getInt("weaponId")
-        }
-        documentPickerLauncher = registerForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { uris ->
-            if (uris != null && uris.isNotEmpty()) {
-                temporaryImageUris.clear()
-                uris.forEach { uri ->
-                    val takeFlags: Int =
-                        Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                    requireActivity().contentResolver.takePersistableUriPermission(uri, takeFlags)
-                    temporaryImageUris.add(uri.toString())
-                }
-                updateSelectedImages()
-            }
         }
     }
 
@@ -91,8 +79,18 @@ class TrophyAddFragment : Fragment() {
 
     private fun setupAddUI() {
 
+        val pickMultipleMedia =
+            registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(5)) { uris ->
+                uris.forEach { uri ->
+                    val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    requireActivity().contentResolver.takePersistableUriPermission(uri, takeFlags)
+                    selectedImageUris.add(uri.toString())
+                }
+                updateSelectedImages()
+            }
+
         binding.buttonSelectAnimalImages.setOnClickListener {
-            documentPickerLauncher.launch(arrayOf("image/*"))
+            pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
         }
 
         setupHuntSpinner(binding.spinnerHunt)

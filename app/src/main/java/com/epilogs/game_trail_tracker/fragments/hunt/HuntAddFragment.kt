@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -36,7 +37,6 @@ import java.util.Locale
 class HuntAddFragment : Fragment() {
     private val viewModel: HuntViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
-    private lateinit var documentPickerLauncher: ActivityResultLauncher<Array<String>>
     private lateinit var imageAdapter: ImagesAdapter
     private val selectedImageUris = mutableSetOf<String>()
     private val temporaryImageUris = mutableListOf<String>()
@@ -50,18 +50,6 @@ class HuntAddFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             huntId = it.getInt("huntId")
-        }
-        documentPickerLauncher = registerForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { uris ->
-            if (uris != null && uris.isNotEmpty()) {
-                temporaryImageUris.clear()
-                uris.forEach { uri ->
-                    val takeFlags: Int =
-                        Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                    requireActivity().contentResolver.takePersistableUriPermission(uri, takeFlags)
-                    temporaryImageUris.add(uri.toString())
-                }
-                updateSelectedImages()
-            }
         }
     }
 
@@ -92,8 +80,18 @@ class HuntAddFragment : Fragment() {
         setupStartDatePicker(binding.editTextStartDate)
         setupEndDatePicker(binding.editTextEndDate)
 
-        view.findViewById<Button>(R.id.buttonSelectLocationImages).setOnClickListener {
-            documentPickerLauncher.launch(arrayOf("image/*"))
+        val pickMultipleMedia =
+            registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(5)) { uris ->
+                uris.forEach { uri ->
+                    val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    requireActivity().contentResolver.takePersistableUriPermission(uri, takeFlags)
+                    selectedImageUris.add(uri.toString())
+                }
+                updateSelectedImages()
+            }
+
+        binding.buttonSelectLocationImages.setOnClickListener {
+            pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
         }
 
         setupImagesRecyclerView(view)

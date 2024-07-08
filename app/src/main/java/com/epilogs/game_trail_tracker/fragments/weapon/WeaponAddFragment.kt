@@ -32,25 +32,12 @@ class WeaponAddFragment : Fragment() {
     private lateinit var imageAdapter: ImagesAdapter
     private val selectedImageUris = mutableSetOf<String>()
     private val temporaryImageUris = mutableListOf<String>()
-    private lateinit var documentPickerLauncher: ActivityResultLauncher<Array<String>>
     private var weaponId: Int? = null
     private lateinit var binding: FragmentWeaponAddBinding
     private var currentWeapon: Weapon? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        documentPickerLauncher = registerForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { uris ->
-            if (uris != null && uris.isNotEmpty()) {
-                temporaryImageUris.clear()
-                uris.forEach { uri ->
-                    val takeFlags: Int =
-                        Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                    requireActivity().contentResolver.takePersistableUriPermission(uri, takeFlags)
-                    temporaryImageUris.add(uri.toString())
-                }
-                updateSelectedImages()
-            }
-        }
 
         weaponId = arguments?.getInt("id")
     }
@@ -88,7 +75,7 @@ class WeaponAddFragment : Fragment() {
                     requireActivity().contentResolver.takePersistableUriPermission(uri, takeFlags)
                     selectedImageUris.add(uri.toString())
                 }
-                imageAdapter.updateImages(selectedImageUris)
+                updateSelectedImages()
             }
 
         binding.buttonSelectWeaponImages.setOnClickListener {
