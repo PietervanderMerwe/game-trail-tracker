@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.database.entities.UserSettings
@@ -76,7 +75,7 @@ class UserSettingsFragment : Fragment() {
         }
 
         binding.spinnerMeasurementUnits.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val selectedMeasurement = parent.getItemAtPosition(position).toString()
                 userSettings.measurement = selectedMeasurement
                 userSettingsViewModel.updateUserSettings(userSettings)
@@ -88,7 +87,7 @@ class UserSettingsFragment : Fragment() {
         }
 
         binding.spinnerWeightUnits.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val selectedWeight = parent.getItemAtPosition(position).toString()
                 userSettings.weight = selectedWeight
                 userSettingsViewModel.updateUserSettings(userSettings)
