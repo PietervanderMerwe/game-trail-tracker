@@ -34,6 +34,7 @@ class HuntImageListFragment : Fragment() {
         binding = FragmentHuntImageListBinding.bind(view)
 
         getHuntImages()
+        checkDataAndUpdateUI()
     }
 
     override fun onCreateView(
@@ -65,6 +66,13 @@ class HuntImageListFragment : Fragment() {
                     GridLayoutManager(requireContext(), 3)
             }
         }
+    }
+
+    private fun checkDataAndUpdateUI() {
+        val hasData = ::imageAdapter.isInitialized && imageAdapter.itemCount > 0
+
+        binding.addHuntImageButtonFloat.visibility = if (hasData) View.VISIBLE else View.GONE
+        binding.addHuntImageButton.visibility = if (hasData) View.GONE else View.VISIBLE
     }
 
     companion object {

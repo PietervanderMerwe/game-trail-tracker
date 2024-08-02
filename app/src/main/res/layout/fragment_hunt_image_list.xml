@@ -12,4 +12,26 @@
         android:orientation="horizontal"
         tools:listitem="@layout/item_image" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_hunt_image_button_float"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:backgroundTint="@color/primary_color"
+        android:contentDescription="@string/add_hunt_images"
+        android:src="@drawable/ic_add"
+        android:tintMode="@color/white" />
+
+    <Button
+        android:id="@+id/add_hunt_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/primary_color"
+        android:textColor="@color/white"
+        android:text="@string/add_hunt_images"
+        android:visibility="gone"/>
+
 </FrameLayout>
