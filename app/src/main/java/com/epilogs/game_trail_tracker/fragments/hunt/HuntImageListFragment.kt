@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +25,8 @@ class HuntImageListFragment : Fragment() {
     private val huntViewModel: HuntViewModel by viewModels()
     private lateinit var binding: FragmentHuntImageListBinding
     private lateinit var imageAdapter: ImagesAdapter
+    private val selectedImageUris = mutableSetOf<String>()
+    private val temporaryImageUris = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +39,7 @@ class HuntImageListFragment : Fragment() {
 
         getHuntImages()
         checkDataAndUpdateUI()
+        setImagePicker()
     }
 
     override fun onCreateView(
@@ -66,6 +71,33 @@ class HuntImageListFragment : Fragment() {
                     GridLayoutManager(requireContext(), 3)
             }
         }
+    }
+
+    private fun setImagePicker() {
+        val pickMultipleMedia =
+            registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(5)) { uris ->
+                uris.forEach { uri ->
+                    val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    requireActivity().contentResolver.takePersistableUriPermission(uri, takeFlags)
+                    selectedImageUris.add(uri.toString())
+                }
+                updateSelectedImages()
+            }
+
+        binding.addHuntImageButtonFloat.setOnClickListener()
+        {
+            pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+        }
+        binding.addHuntImageButton.setOnClickListener()
+        {
+            pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+        }
+    }
+
+    private fun updateSelectedImages() {
+        selectedImageUris.clear()
+        selectedImageUris.addAll(temporaryImageUris)
+        imageAdapter.updateImages(selectedImageUris)
     }
 
     private fun checkDataAndUpdateUI() {
