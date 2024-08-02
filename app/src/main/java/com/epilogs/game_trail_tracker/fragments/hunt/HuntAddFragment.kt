@@ -1,6 +1,5 @@
 package com.epilogs.game_trail_tracker.fragments.hunt
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
@@ -9,10 +8,8 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -27,11 +24,13 @@ import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.database.entities.Hunt
 import com.epilogs.game_trail_tracker.databinding.FragmentHuntAddBinding
 import com.epilogs.game_trail_tracker.utils.DateConverter
-import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
 import com.epilogs.game_trail_tracker.viewmodels.SharedViewModel
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 class HuntAddFragment : Fragment() {
@@ -40,8 +39,8 @@ class HuntAddFragment : Fragment() {
     private lateinit var imageAdapter: ImagesAdapter
     private val selectedImageUris = mutableSetOf<String>()
     private val temporaryImageUris = mutableListOf<String>()
-    private var startDate: Calendar? = null
-    private var endDate: Calendar? = null
+    private var startDateCalendar: Calendar? = null
+    private var endDateCalendar: Calendar? = null
     private var huntId: Int? = null
     private lateinit var binding: FragmentHuntAddBinding
     private var currentHunt: Hunt? = null
@@ -77,8 +76,7 @@ class HuntAddFragment : Fragment() {
     private fun setupUI(view: View) {
         val dateConverter = DateConverter()
 
-        setupStartDatePicker(binding.editTextStartDate)
-        setupEndDatePicker(binding.editTextEndDate)
+        setupDateRangePicker(binding.editTextStartDate, binding.editTextEndDate)
 
         val pickMultipleMedia =
             registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(5)) { uris ->
@@ -123,27 +121,43 @@ class HuntAddFragment : Fragment() {
         }
     }
 
-    private fun setupStartDatePicker(editText: EditText) {
-        editText.setOnClickListener {
-            showDatePickerDialog(requireContext(), { selectedDate ->
-                editText.setText(selectedDate)
-                val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                startDate = Calendar.getInstance().apply {
-                    time = formatter.parse(selectedDate) ?: return@apply
-                }
-            }, maxDate = endDate)
-        }
-    }
+    private fun setupDateRangePicker(editTextStart: EditText, editTextEnd: EditText) {
+        val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
-    private fun setupEndDatePicker(editText: EditText) {
-        editText.setOnClickListener {
-            showDatePickerDialog(requireContext(), { selectedDate ->
-                editText.setText(selectedDate)
-                val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                endDate = Calendar.getInstance().apply {
-                    time = formatter.parse(selectedDate) ?: return@apply
+        editTextStart.setOnClickListener {
+            val constraintsBuilder = CalendarConstraints.Builder()
+
+            val dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
+                .setTitleText("Select Date Range")
+                .setCalendarConstraints(constraintsBuilder.build())
+                .setTheme(R.style.CustomDatePickerTheme)
+                .build()
+
+            dateRangePicker.show(parentFragmentManager, dateRangePicker.toString())
+
+            dateRangePicker.addOnPositiveButtonClickListener { selection ->
+                val startMillis = selection.first
+                val endMillis = selection.second
+
+                if (startMillis != null && endMillis != null) {
+                    val startDate = formatter.format(Date(startMillis))
+                    val endDate = formatter.format(Date(endMillis))
+
+                    editTextStart.setText(startDate)
+                    editTextEnd.setText(endDate)
+
+                    startDateCalendar = Calendar.getInstance().apply {
+                        timeInMillis = startMillis
+                    }
+                    endDateCalendar = Calendar.getInstance().apply {
+                        timeInMillis = endMillis
+                    }
                 }
-            }, minDate = startDate)
+            }
+        }
+
+        editTextEnd.setOnClickListener {
+            editTextStart.performClick()
         }
     }
 
