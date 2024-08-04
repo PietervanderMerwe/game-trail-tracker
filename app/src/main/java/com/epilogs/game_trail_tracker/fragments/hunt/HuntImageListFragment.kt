@@ -15,6 +15,8 @@ import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.databinding.FragmentHuntImageListBinding
+import com.epilogs.game_trail_tracker.utils.ImageAdapterSetup
+import com.epilogs.game_trail_tracker.utils.ImagePickerSetup
 import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -24,9 +26,9 @@ class HuntImageListFragment : Fragment() {
     private var huntId: Int? = null
     private val huntViewModel: HuntViewModel by viewModels()
     private lateinit var binding: FragmentHuntImageListBinding
-    private lateinit var imageAdapter: ImagesAdapter
     private val selectedImageUris = mutableSetOf<String>()
-    private val temporaryImageUris = mutableListOf<String>()
+    private lateinit var imagePickerSetup: ImagePickerSetup
+    private lateinit var imageAdapterSetup: ImageAdapterSetup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +40,6 @@ class HuntImageListFragment : Fragment() {
         binding = FragmentHuntImageListBinding.bind(view)
 
         getHuntImages()
-        checkDataAndUpdateUI()
         setImagePicker()
     }
 
@@ -51,73 +52,52 @@ class HuntImageListFragment : Fragment() {
 
     private fun getHuntImages() {
         huntViewModel.getHuntById(huntId!!).observe(viewLifecycleOwner) { hunt ->
+
             if (hunt?.imagePaths?.isEmpty() == true) {
                 binding.imagesHuntRecyclerViewViewDetail.visibility = View.GONE
+                setupImageAdapter(selectedImageUris)
+
+                binding.addHuntImageButton.visibility = View.VISIBLE
+                binding.addHuntImageButtonFloat.visibility = View.GONE
             } else {
                 binding.imagesHuntRecyclerViewViewDetail.visibility = View.VISIBLE
+                setupImageAdapter(hunt?.imagePaths?.toMutableSet() ?: mutableSetOf())
 
-                val imagePaths = hunt?.imagePaths?.toMutableList() ?: mutableListOf()
-                imageAdapter = ImagesAdapter(imagePaths) { imageUrl, position ->
-                    val intent = Intent(context, FullScreenImageActivity::class.java).apply {
-                        putStringArrayListExtra("image_urls", ArrayList(hunt?.imagePaths))
-                        putExtra("image_position", position)
-                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-                    }
-                    context?.startActivity(intent)
-                }
-
-                binding.imagesHuntRecyclerViewViewDetail.adapter = imageAdapter
                 binding.imagesHuntRecyclerViewViewDetail.layoutManager =
                     GridLayoutManager(requireContext(), 3)
+                binding.addHuntImageButtonFloat.visibility = View.VISIBLE
+                binding.addHuntImageButton.visibility = View.GONE
             }
         }
     }
 
     private fun setImagePicker() {
-        val pickMultipleMedia =
-            registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(5)) { uris ->
-                uris.forEach { uri ->
-                    val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    requireActivity().contentResolver.takePersistableUriPermission(uri, takeFlags)
-                    selectedImageUris.add(uri.toString())
-                }
-                updateSelectedImages()
+        imagePickerSetup = ImagePickerSetup(
+            fragment = this,
+            maxImages = 5,
+            onImagesSelected = { images ->
+                selectedImageUris.clear()
+                selectedImageUris.addAll(images)
+                imageAdapterSetup.updateImages(selectedImageUris.toMutableList())
             }
+        )
 
         binding.addHuntImageButtonFloat.setOnClickListener()
         {
-            pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+            imagePickerSetup.pickImages()
         }
         binding.addHuntImageButton.setOnClickListener()
         {
-            pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+            imagePickerSetup.pickImages()
         }
     }
 
-    private fun updateSelectedImages() {
-        selectedImageUris.clear()
-        selectedImageUris.addAll(temporaryImageUris)
-        if(!::imageAdapter.isInitialized && temporaryImageUris.isNotEmpty())
-        {
-            imageAdapter = ImagesAdapter(temporaryImageUris) { imageUrl, position ->
-                val intent = Intent(context, FullScreenImageActivity::class.java).apply {
-                    putStringArrayListExtra("image_urls", ArrayList(temporaryImageUris))
-                    putExtra("image_position", position)
-                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-                }
-                context?.startActivity(intent)
-            }
-        } else
-        {
-            imageAdapter.updateImages(selectedImageUris)
-        }
-    }
-
-    private fun checkDataAndUpdateUI() {
-        val hasData = ::imageAdapter.isInitialized && imageAdapter.itemCount > 0
-
-        binding.addHuntImageButtonFloat.visibility = if (hasData) View.VISIBLE else View.GONE
-        binding.addHuntImageButton.visibility = if (hasData) View.GONE else View.VISIBLE
+    private fun setupImageAdapter(imageUris: MutableSet<String>) {
+        imageAdapterSetup = ImageAdapterSetup(
+            recyclerView = binding.imagesHuntRecyclerViewViewDetail,
+            imageUris = imageUris
+        )
+        imageAdapterSetup.setupAdapter()
     }
 
     companion object {
