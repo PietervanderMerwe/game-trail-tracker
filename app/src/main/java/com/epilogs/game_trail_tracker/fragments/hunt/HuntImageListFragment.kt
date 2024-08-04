@@ -97,7 +97,20 @@ class HuntImageListFragment : Fragment() {
     private fun updateSelectedImages() {
         selectedImageUris.clear()
         selectedImageUris.addAll(temporaryImageUris)
-        imageAdapter.updateImages(selectedImageUris)
+        if(!::imageAdapter.isInitialized && temporaryImageUris.isNotEmpty())
+        {
+            imageAdapter = ImagesAdapter(temporaryImageUris) { imageUrl, position ->
+                val intent = Intent(context, FullScreenImageActivity::class.java).apply {
+                    putStringArrayListExtra("image_urls", ArrayList(temporaryImageUris))
+                    putExtra("image_position", position)
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+                }
+                context?.startActivity(intent)
+            }
+        } else
+        {
+            imageAdapter.updateImages(selectedImageUris)
+        }
     }
 
     private fun checkDataAndUpdateUI() {
