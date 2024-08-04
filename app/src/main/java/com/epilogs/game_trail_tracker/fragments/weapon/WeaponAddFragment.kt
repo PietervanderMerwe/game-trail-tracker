@@ -77,7 +77,7 @@ class WeaponAddFragment : Fragment() {
             imageAdapterSetup.updateImages(selectedImageUris.toMutableList())
         }
 
-        setupImageAdapter(selectedImageUris)
+        if (weaponId == 0) setupImageAdapter(selectedImageUris)
         observeViewModel()
     }
 
