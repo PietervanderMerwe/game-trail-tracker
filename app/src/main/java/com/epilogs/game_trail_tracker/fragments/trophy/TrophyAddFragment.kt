@@ -37,7 +37,6 @@ class TrophyAddFragment : Fragment() {
     private val viewModel: AnimalViewModel by activityViewModels()
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val selectedImageUris = mutableSetOf<String>()
-    private lateinit var imageAdapter: ImagesAdapter
     private var trophyId: Int? = null
     private var weaponId: Int? = null
     private lateinit var binding: FragmentTrophyAddBinding
