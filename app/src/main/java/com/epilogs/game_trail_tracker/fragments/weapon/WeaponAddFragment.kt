@@ -1,40 +1,35 @@
 package com.epilogs.game_trail_tracker.fragments.weapon
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.PickVisualMediaRequest
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 import com.epilogs.game_trail_tracker.viewmodels.SharedViewModel
 import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.databinding.FragmentWeaponAddBinding
+import com.epilogs.game_trail_tracker.utils.ImageAdapterSetup
+import com.epilogs.game_trail_tracker.utils.ImagePickerSetup
 
 class WeaponAddFragment : Fragment() {
     private val viewModel: WeaponViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by activityViewModels()
-    private lateinit var imageAdapter: ImagesAdapter
     private val selectedImageUris = mutableSetOf<String>()
-    private val temporaryImageUris = mutableListOf<String>()
     private var weaponId: Int? = null
     private lateinit var binding: FragmentWeaponAddBinding
     private var currentWeapon: Weapon? = null
+    private lateinit var imagePickerSetup: ImagePickerSetup
+    private lateinit var imageAdapterSetup: ImageAdapterSetup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,12 +50,6 @@ class WeaponAddFragment : Fragment() {
         setupUI()
     }
 
-    private fun updateSelectedImages() {
-        selectedImageUris.clear()
-        selectedImageUris.addAll(temporaryImageUris)
-        imageAdapter.updateImages(selectedImageUris)
-    }
-
     private fun setupUI() {
         binding.buttonSaveWeapon.setOnClickListener {
             setupSaveListener()
@@ -68,27 +57,27 @@ class WeaponAddFragment : Fragment() {
 
         if (weaponId != 0) setupEdit()
 
-        val pickMultipleMedia =
-            registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(5)) { uris ->
-                uris.forEach { uri ->
-                    val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    requireActivity().contentResolver.takePersistableUriPermission(uri, takeFlags)
-                    selectedImageUris.add(uri.toString())
-                }
-                updateSelectedImages()
+        imagePickerSetup = ImagePickerSetup(
+            fragment = this,
+            maxImages = 5,
+            onImagesSelected = { images ->
+                selectedImageUris.clear()
+                selectedImageUris.addAll(images)
+                imageAdapterSetup.updateImages(selectedImageUris.toMutableList())
             }
+        )
 
         binding.buttonSelectWeaponImages.setOnClickListener {
-            pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+            imagePickerSetup.pickImages()
         }
 
         sharedViewModel.selectedImages.observe(viewLifecycleOwner) { images ->
             selectedImageUris.clear()
             selectedImageUris.addAll(images)
-            imageAdapter.updateImages(selectedImageUris)
+            imageAdapterSetup.updateImages(selectedImageUris.toMutableList())
         }
 
-        setupRecyclerView(binding.imagesWeaponRecyclerView)
+        if (weaponId == 0) setupImageAdapter(selectedImageUris)
         observeViewModel()
     }
 
@@ -105,22 +94,7 @@ class WeaponAddFragment : Fragment() {
             currentWeapon = weapon
             binding.editTextWeaponName.setText(weapon?.name)
             binding.editTextWeaponNotes.setText(weapon?.notes)
-            setupImageAdapter(weapon?.imagePaths?.toMutableList() ?: mutableListOf())
-
-            imageAdapter = ImagesAdapter(
-                weapon?.imagePaths?.toMutableList() ?: mutableListOf()
-            ) { imageUrl, position ->
-                val intent = Intent(context, FullScreenImageActivity::class.java).apply {
-                    putStringArrayListExtra("image_urls", ArrayList(weapon?.imagePaths))
-                    putExtra("image_position", position)
-                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION and Intent.FLAG_GRANT_WRITE_URI_PERMISSION and Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-                }
-                context?.startActivity(intent)
-            }
-
-            binding.imagesWeaponRecyclerView.adapter = imageAdapter
-            binding.imagesWeaponRecyclerView.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            setupImageAdapter(weapon?.imagePaths?.toMutableSet() ?: mutableSetOf())
 
             selectedImageUris.addAll(weapon?.imagePaths ?: mutableListOf())
         }
@@ -143,21 +117,12 @@ class WeaponAddFragment : Fragment() {
 
     }
 
-    private fun setupRecyclerView(recyclerView: RecyclerView) {
-        setupImageAdapter(selectedImageUris.toMutableList())
-        recyclerView.adapter = imageAdapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-    }
-
-    private fun setupImageAdapter(imageUris: MutableList<String>) {
-        imageAdapter = ImagesAdapter(imageUris) { imageUri, position ->
-            val intent = Intent(context, FullScreenImageActivity::class.java).apply {
-                putStringArrayListExtra("image_urls", ArrayList(imageUris))
-                putExtra("image_position", position)
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION and Intent.FLAG_GRANT_WRITE_URI_PERMISSION and Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-            }
-            context?.startActivity(intent)
-        }
+    private fun setupImageAdapter(imageUris: MutableSet<String>) {
+        imageAdapterSetup = ImageAdapterSetup(
+            recyclerView = binding.imagesWeaponRecyclerView,
+            imageUris = imageUris
+        )
+        imageAdapterSetup.setupAdapter()
     }
 
     private fun observeViewModel() {
@@ -166,7 +131,7 @@ class WeaponAddFragment : Fragment() {
                 binding.editTextWeaponName.text?.clear()
                 binding.editTextWeaponNotes.text?.clear()
                 viewModel.resetInsertionSuccess()
-                imageAdapter.clearImages()
+                imageAdapterSetup.clearImages()
                 showCheckMark()
 
                 viewModel.insertionId.observe(viewLifecycleOwner) { id ->

@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +15,8 @@ import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.databinding.FragmentHuntImageListBinding
+import com.epilogs.game_trail_tracker.utils.ImageAdapterSetup
+import com.epilogs.game_trail_tracker.utils.ImagePickerSetup
 import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -22,7 +26,9 @@ class HuntImageListFragment : Fragment() {
     private var huntId: Int? = null
     private val huntViewModel: HuntViewModel by viewModels()
     private lateinit var binding: FragmentHuntImageListBinding
-    private lateinit var imageAdapter: ImagesAdapter
+    private val selectedImageUris = mutableSetOf<String>()
+    private lateinit var imagePickerSetup: ImagePickerSetup
+    private lateinit var imageAdapterSetup: ImageAdapterSetup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +40,7 @@ class HuntImageListFragment : Fragment() {
         binding = FragmentHuntImageListBinding.bind(view)
 
         getHuntImages()
+        setImagePicker()
     }
 
     override fun onCreateView(
@@ -45,26 +52,52 @@ class HuntImageListFragment : Fragment() {
 
     private fun getHuntImages() {
         huntViewModel.getHuntById(huntId!!).observe(viewLifecycleOwner) { hunt ->
+
             if (hunt?.imagePaths?.isEmpty() == true) {
                 binding.imagesHuntRecyclerViewViewDetail.visibility = View.GONE
+                setupImageAdapter(selectedImageUris)
+
+                binding.addHuntImageButton.visibility = View.VISIBLE
+                binding.addHuntImageButtonFloat.visibility = View.GONE
             } else {
                 binding.imagesHuntRecyclerViewViewDetail.visibility = View.VISIBLE
+                setupImageAdapter(hunt?.imagePaths?.toMutableSet() ?: mutableSetOf())
 
-                val imagePaths = hunt?.imagePaths?.toMutableList() ?: mutableListOf()
-                imageAdapter = ImagesAdapter(imagePaths) { imageUrl, position ->
-                    val intent = Intent(context, FullScreenImageActivity::class.java).apply {
-                        putStringArrayListExtra("image_urls", ArrayList(hunt?.imagePaths))
-                        putExtra("image_position", position)
-                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-                    }
-                    context?.startActivity(intent)
-                }
-
-                binding.imagesHuntRecyclerViewViewDetail.adapter = imageAdapter
                 binding.imagesHuntRecyclerViewViewDetail.layoutManager =
                     GridLayoutManager(requireContext(), 3)
+                binding.addHuntImageButtonFloat.visibility = View.VISIBLE
+                binding.addHuntImageButton.visibility = View.GONE
             }
         }
+    }
+
+    private fun setImagePicker() {
+        imagePickerSetup = ImagePickerSetup(
+            fragment = this,
+            maxImages = 5,
+            onImagesSelected = { images ->
+                selectedImageUris.clear()
+                selectedImageUris.addAll(images)
+                imageAdapterSetup.updateImages(selectedImageUris.toMutableList())
+            }
+        )
+
+        binding.addHuntImageButtonFloat.setOnClickListener()
+        {
+            imagePickerSetup.pickImages()
+        }
+        binding.addHuntImageButton.setOnClickListener()
+        {
+            imagePickerSetup.pickImages()
+        }
+    }
+
+    private fun setupImageAdapter(imageUris: MutableSet<String>) {
+        imageAdapterSetup = ImageAdapterSetup(
+            recyclerView = binding.imagesHuntRecyclerViewViewDetail,
+            imageUris = imageUris
+        )
+        imageAdapterSetup.setupAdapter()
     }
 
     companion object {

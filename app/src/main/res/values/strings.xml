@@ -84,6 +84,8 @@
     <string name="button_update">Update</string>
     <string name="update_hunt">Update Hunt</string>
     <string name="home">Home</string>
+    <string name="add_hunt_images">Add Hunt Images</string>
+
     <string-array name="measurements_array">
         <item>cm</item>
         <item>inch</item>

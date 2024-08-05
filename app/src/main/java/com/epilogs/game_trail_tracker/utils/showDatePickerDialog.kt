@@ -1,10 +1,14 @@
 package com.epilogs.game_trail_tracker.utils
 
-import android.app.DatePickerDialog
 import android.content.Context
-import android.view.ContextThemeWrapper
+import androidx.appcompat.app.AppCompatActivity
 import com.epilogs.game_trail_tracker.R
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.MaterialDatePicker
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 fun showDatePickerDialog(
     context: Context,
@@ -12,27 +16,30 @@ fun showDatePickerDialog(
     minDate: Calendar? = null,
     maxDate: Calendar? = null
 ) {
-    val calendar = Calendar.getInstance()
-    val year = calendar.get(Calendar.YEAR)
-    val month = calendar.get(Calendar.MONTH)
-    val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
-    val datePickerDialog = DatePickerDialog(
-        ContextThemeWrapper(context, R.style.CustomDatePickerDialogTheme),
-        { _, selectedYear, selectedMonth, selectedDay ->
-            val selectedDate = "${selectedDay}/${selectedMonth + 1}/${selectedYear}"
-            setDate(selectedDate)
-        },
-        year, month, dayOfMonth
-    )
+    val constraintsBuilder = CalendarConstraints.Builder()
 
     minDate?.let {
-        datePickerDialog.datePicker.minDate = it.timeInMillis
+        constraintsBuilder.setStart(it.timeInMillis)
     }
-
     maxDate?.let {
-        datePickerDialog.datePicker.maxDate = it.timeInMillis
+        constraintsBuilder.setEnd(it.timeInMillis)
     }
 
-    datePickerDialog.show()
+    val datePicker = MaterialDatePicker.Builder.datePicker()
+        .setTitleText("Select Date")
+        .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+        .setCalendarConstraints(constraintsBuilder.build())
+        .setTheme(R.style.CustomDatePickerTheme)
+        .build()
+
+    datePicker.show((context as AppCompatActivity).supportFragmentManager, datePicker.toString())
+
+    datePicker.addOnPositiveButtonClickListener { selection ->
+        selection?.let {
+            val selectedDate = formatter.format(Date(it))
+            setDate(selectedDate)
+        }
+    }
 }

@@ -1,50 +1,45 @@
 package com.epilogs.game_trail_tracker.fragments.hunt
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
-import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.database.entities.Hunt
 import com.epilogs.game_trail_tracker.databinding.FragmentHuntAddBinding
 import com.epilogs.game_trail_tracker.utils.DateConverter
-import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
+import com.epilogs.game_trail_tracker.utils.ImageAdapterSetup
+import com.epilogs.game_trail_tracker.utils.ImagePickerSetup
 import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
 import com.epilogs.game_trail_tracker.viewmodels.SharedViewModel
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 class HuntAddFragment : Fragment() {
     private val viewModel: HuntViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
-    private lateinit var imageAdapter: ImagesAdapter
     private val selectedImageUris = mutableSetOf<String>()
-    private val temporaryImageUris = mutableListOf<String>()
-    private var startDate: Calendar? = null
-    private var endDate: Calendar? = null
+    private var startDateCalendar: Calendar? = null
+    private var endDateCalendar: Calendar? = null
     private var huntId: Int? = null
     private lateinit var binding: FragmentHuntAddBinding
     private var currentHunt: Hunt? = null
+    private lateinit var imagePickerSetup: ImagePickerSetup
+    private lateinit var imageAdapterSetup: ImageAdapterSetup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,8 +51,8 @@ class HuntAddFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHuntAddBinding.bind(view)
-        setupUI(view)
-        imageAdapter.updateImages(selectedImageUris)
+        setupUI()
+        imageAdapterSetup.updateImages(selectedImageUris.toMutableList())
     }
 
     override fun onCreateView(
@@ -68,33 +63,26 @@ class HuntAddFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_hunt_add, container, false)
     }
 
-    private fun updateSelectedImages() {
-        selectedImageUris.clear()
-        selectedImageUris.addAll(temporaryImageUris)
-        imageAdapter.updateImages(selectedImageUris)
-    }
-
-    private fun setupUI(view: View) {
+    private fun setupUI() {
         val dateConverter = DateConverter()
 
-        setupStartDatePicker(binding.editTextStartDate)
-        setupEndDatePicker(binding.editTextEndDate)
+        setupDateRangePicker(binding.editTextStartDate, binding.editTextEndDate)
 
-        val pickMultipleMedia =
-            registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(5)) { uris ->
-                uris.forEach { uri ->
-                    val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    requireActivity().contentResolver.takePersistableUriPermission(uri, takeFlags)
-                    selectedImageUris.add(uri.toString())
-                }
-                updateSelectedImages()
+        imagePickerSetup = ImagePickerSetup(
+            fragment = this,
+            maxImages = 5,
+            onImagesSelected = { images ->
+                selectedImageUris.clear()
+                selectedImageUris.addAll(images)
+                imageAdapterSetup.updateImages(selectedImageUris.toMutableList())
             }
+        )
 
         binding.buttonSelectLocationImages.setOnClickListener {
-            pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+            imagePickerSetup.pickImages()
         }
 
-        setupImagesRecyclerView(view)
+        setupImageAdapter(selectedImageUris)
         setupSaveButton(dateConverter)
         setupObserveInsertion()
         if (huntId != 0) {
@@ -119,46 +107,56 @@ class HuntAddFragment : Fragment() {
             binding.editTextStartDate.setText(hunt?.startDate?.let { dateFormat.format(it) })
             binding.editTextEndDate.setText(hunt?.endDate?.let { dateFormat.format(it) })
             selectedImageUris.addAll(hunt?.imagePaths ?: emptyList())
-            imageAdapter.updateImages(selectedImageUris)
+            imageAdapterSetup.updateImages(selectedImageUris.toMutableList())
         }
     }
 
-    private fun setupStartDatePicker(editText: EditText) {
-        editText.setOnClickListener {
-            showDatePickerDialog(requireContext(), { selectedDate ->
-                editText.setText(selectedDate)
-                val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                startDate = Calendar.getInstance().apply {
-                    time = formatter.parse(selectedDate) ?: return@apply
+    private fun setupDateRangePicker(editTextStart: EditText, editTextEnd: EditText) {
+        val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+        editTextStart.setOnClickListener {
+            val constraintsBuilder = CalendarConstraints.Builder()
+
+            val dateRangePicker = MaterialDatePicker.Builder.dateRangePicker()
+                .setTitleText("Select Date Range")
+                .setCalendarConstraints(constraintsBuilder.build())
+                .setTheme(R.style.CustomDatePickerTheme)
+                .build()
+
+            dateRangePicker.show(parentFragmentManager, dateRangePicker.toString())
+
+            dateRangePicker.addOnPositiveButtonClickListener { selection ->
+                val startMillis = selection.first
+                val endMillis = selection.second
+
+                if (startMillis != null && endMillis != null) {
+                    val startDate = formatter.format(Date(startMillis))
+                    val endDate = formatter.format(Date(endMillis))
+
+                    editTextStart.setText(startDate)
+                    editTextEnd.setText(endDate)
+
+                    startDateCalendar = Calendar.getInstance().apply {
+                        timeInMillis = startMillis
+                    }
+                    endDateCalendar = Calendar.getInstance().apply {
+                        timeInMillis = endMillis
+                    }
                 }
-            }, maxDate = endDate)
-        }
-    }
-
-    private fun setupEndDatePicker(editText: EditText) {
-        editText.setOnClickListener {
-            showDatePickerDialog(requireContext(), { selectedDate ->
-                editText.setText(selectedDate)
-                val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                endDate = Calendar.getInstance().apply {
-                    time = formatter.parse(selectedDate) ?: return@apply
-                }
-            }, minDate = startDate)
-        }
-    }
-
-    private fun setupImagesRecyclerView(view: View) {
-        imageAdapter = ImagesAdapter(selectedImageUris.toMutableList()) { imageUri, position ->
-            val intent = Intent(context, FullScreenImageActivity::class.java).apply {
-                putStringArrayListExtra("image_urls", ArrayList(selectedImageUris))
-                putExtra("image_position", position)
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION and Intent.FLAG_GRANT_WRITE_URI_PERMISSION and Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
             }
-            context?.startActivity(intent)
         }
-        binding.imagesLocationRecyclerView.adapter = imageAdapter
-        binding.imagesLocationRecyclerView.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+        editTextEnd.setOnClickListener {
+            editTextStart.performClick()
+        }
+    }
+
+    private fun setupImageAdapter(imageUris: MutableSet<String>) {
+        imageAdapterSetup = ImageAdapterSetup(
+            recyclerView = binding.imagesLocationRecyclerView,
+            imageUris = imageUris
+        )
+        imageAdapterSetup.setupAdapter()
     }
 
     private fun setupSaveButton(dateConverter: DateConverter) {
@@ -213,7 +211,7 @@ class HuntAddFragment : Fragment() {
         binding.editTextEndDate.text.clear()
         viewModel.resetInsertionSuccess()
         viewModel.resetUpdateSuccess()
-        imageAdapter.clearImages()
+        imageAdapterSetup.clearImages()
         binding.buttonDeleteWeapon.visibility = View.GONE
     }
     private fun showCheckMark() {

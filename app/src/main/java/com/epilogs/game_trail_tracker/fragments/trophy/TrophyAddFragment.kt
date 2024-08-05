@@ -1,7 +1,6 @@
 package com.epilogs.game_trail_tracker.fragments.trophy
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,17 +8,11 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.adapters.LocationAdapter
@@ -29,6 +22,8 @@ import com.epilogs.game_trail_tracker.database.entities.Hunt
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 import com.epilogs.game_trail_tracker.databinding.FragmentTrophyAddBinding
 import com.epilogs.game_trail_tracker.utils.DateConverter
+import com.epilogs.game_trail_tracker.utils.ImageAdapterSetup
+import com.epilogs.game_trail_tracker.utils.ImagePickerSetup
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
@@ -42,8 +37,6 @@ class TrophyAddFragment : Fragment() {
     private val viewModel: AnimalViewModel by activityViewModels()
     private val sharedViewModel: SharedViewModel by activityViewModels()
     private val selectedImageUris = mutableSetOf<String>()
-    private val temporaryImageUris = mutableListOf<String>()
-    private lateinit var imageAdapter: ImagesAdapter
     private var trophyId: Int? = null
     private var weaponId: Int? = null
     private lateinit var binding: FragmentTrophyAddBinding
@@ -51,6 +44,8 @@ class TrophyAddFragment : Fragment() {
     private val userSettingsViewModel: UserSettingsViewModel by viewModels()
     private val huntViewModel : HuntViewModel by viewModels()
     private var currentTrophy: Animal? = null
+    private lateinit var imagePickerSetup: ImagePickerSetup
+    private lateinit var imageAdapterSetup: ImageAdapterSetup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,24 +74,25 @@ class TrophyAddFragment : Fragment() {
 
     private fun setupAddUI() {
 
-        val pickMultipleMedia =
-            registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(5)) { uris ->
-                uris.forEach { uri ->
-                    val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    requireActivity().contentResolver.takePersistableUriPermission(uri, takeFlags)
-                    selectedImageUris.add(uri.toString())
-                }
-                updateSelectedImages()
+        imagePickerSetup = ImagePickerSetup(
+            fragment = this,
+            maxImages = 5,
+            onImagesSelected = { images ->
+                selectedImageUris.clear()
+                selectedImageUris.addAll(images)
+                imageAdapterSetup.updateImages(selectedImageUris.toMutableList())
             }
+        )
 
         binding.buttonSelectAnimalImages.setOnClickListener {
-            pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo))
+            imagePickerSetup.pickImages()
         }
 
         setupHuntSpinner(binding.spinnerHunt)
         setupWeaponSpinner(binding.spinnerWeapon)
         setupWeightAndMeasurementSpinner()
-        setupImageView(binding.imagesAnimalRecyclerView)
+
+        if (trophyId == 0) setupImageAdapter(selectedImageUris)
 
         setupSaveListener()
         setupObserveInsertion()
@@ -105,12 +101,6 @@ class TrophyAddFragment : Fragment() {
         if (trophyId != 0) {
             setupEditScreen()
         }
-    }
-
-    private fun updateSelectedImages() {
-        selectedImageUris.clear()
-        selectedImageUris.addAll(temporaryImageUris)
-        imageAdapter.updateImages(selectedImageUris)
     }
 
     private fun setupEditScreen() {
@@ -131,20 +121,7 @@ class TrophyAddFragment : Fragment() {
             binding.editTextDate.setText(trophy?.harvestDate?.let { dateFormat.format(it) }
                 ?: "N/A")
 
-            imageAdapter = ImagesAdapter(
-                trophy?.imagePaths?.toMutableList() ?: mutableListOf()
-            ) { imageUrl, position ->
-                val intent = Intent(context, FullScreenImageActivity::class.java).apply {
-                    putStringArrayListExtra("image_urls", ArrayList(trophy?.imagePaths))
-                    putExtra("image_position", position)
-                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION and Intent.FLAG_GRANT_WRITE_URI_PERMISSION and Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-                }
-                context?.startActivity(intent)
-            }
-
-            binding.imagesAnimalRecyclerView.adapter = imageAdapter
-            binding.imagesAnimalRecyclerView.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            setupImageAdapter(trophy?.imagePaths?.toMutableSet() ?: mutableSetOf())
 
             selectedImageUris.addAll(trophy?.imagePaths ?: mutableListOf())
         }
@@ -216,7 +193,7 @@ class TrophyAddFragment : Fragment() {
         binding.editTextDate.text.clear()
         binding.editTextWeight.text.clear()
         binding.editTextMeasurement.text.clear()
-        imageAdapter.clearImages()
+        imageAdapterSetup.clearImages()
         binding.buttonDeleteWeapon.visibility = View.GONE
     }
 
@@ -364,18 +341,12 @@ class TrophyAddFragment : Fragment() {
             if (binding.buttonLinkWeapon.visibility == View.GONE) View.VISIBLE else View.GONE
     }
 
-    private fun setupImageView(imagesRecyclerView: RecyclerView) {
-        imageAdapter = ImagesAdapter(selectedImageUris.toMutableList()) { imageUri, position ->
-            val intent = Intent(context, FullScreenImageActivity::class.java).apply {
-                putStringArrayListExtra("image_urls", ArrayList(selectedImageUris))
-                putExtra("image_position", position)
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION and Intent.FLAG_GRANT_WRITE_URI_PERMISSION and Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-            }
-            context?.startActivity(intent)
-        }
-        imagesRecyclerView.adapter = imageAdapter
-        imagesRecyclerView.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+    private fun setupImageAdapter(imageUris: MutableSet<String>) {
+        imageAdapterSetup = ImageAdapterSetup(
+            recyclerView = binding.imagesAnimalRecyclerView,
+            imageUris = imageUris
+        )
+        imageAdapterSetup.setupAdapter()
     }
 
     private fun setupWeightAndMeasurementSpinner() {
