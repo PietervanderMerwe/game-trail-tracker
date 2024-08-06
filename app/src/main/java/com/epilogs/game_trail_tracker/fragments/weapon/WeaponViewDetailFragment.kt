@@ -1,35 +1,22 @@
 package com.epilogs.game_trail_tracker.fragments.weapon
 
-import android.app.AlertDialog
-import android.content.Intent
-import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
-import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
-import com.epilogs.game_trail_tracker.database.entities.Weapon
+import com.epilogs.game_trail_tracker.adapters.WeaponViewPagerAdapter
 import com.epilogs.game_trail_tracker.databinding.FragmentWeaponViewDetailBinding
 import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
-import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 class WeaponViewDetailFragment : Fragment() {
     private var weaponId: Int? = null
     private val viewModel: WeaponViewModel by viewModels()
-    private lateinit var imageAdapter: ImagesAdapter
-    private var currentWeapon: Weapon? = null
     private lateinit var binding: FragmentWeaponViewDetailBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,31 +36,17 @@ class WeaponViewDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentWeaponViewDetailBinding.bind(view)
 
-        binding.fabEditWeapon.setOnClickListener {
+        binding.editIcon.setOnClickListener {
             navigateToEdit()
         }
 
-        getWeaponById()
+        getWeapon()
+        setAdapter()
     }
 
-    private fun getWeaponById() {
+    private fun getWeapon() {
         viewModel.getWeaponById(weaponId!!).observe(viewLifecycleOwner, Observer { weapon ->
-            currentWeapon = weapon
-            binding.textViewWeaponNameViewDetail.text = weapon?.name
-            binding.textViewWeaponNotesViewDetail.text = weapon?.notes
-
-            imageAdapter = ImagesAdapter(weapon?.imagePaths?.toMutableList() ?: mutableListOf()) { imageUrl, position ->
-                val intent = Intent(context, FullScreenImageActivity::class.java).apply {
-                    putStringArrayListExtra("image_urls", ArrayList(weapon?.imagePaths))
-                    putExtra("image_position", position)
-                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION and Intent.FLAG_GRANT_WRITE_URI_PERMISSION and Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-                }
-                context?.startActivity(intent)
-            }
-
-            binding.imagesWeaponRecyclerViewViewDetail.adapter = imageAdapter
-            binding.imagesWeaponRecyclerViewViewDetail.layoutManager =
-                GridLayoutManager(requireContext(), 3)
+            binding.weaponName.text = weapon?.name
         })
     }
 
@@ -82,13 +55,28 @@ class WeaponViewDetailFragment : Fragment() {
         findNavController().navigate(action)
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(weaponId: Int) =
-            WeaponViewDetailFragment().apply {
-                arguments = Bundle().apply {
-                    putInt("weaponId", weaponId)
+    private fun setAdapter() {
+        weaponId?.let {
+            val adapter = WeaponViewPagerAdapter(requireActivity(), weaponId)
+            binding.viewPager.adapter = adapter
+
+            TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+                tab.text = when (position) {
+                    0 -> "Bullets"
+                    1 -> "Images"
+                    else -> null
                 }
-            }
+            }.attach()
+        }
+    }
+
+    companion object {
+        fun newInstance(weaponId: Int): WeaponViewDetailFragment {
+            val fragment = WeaponViewDetailFragment()
+            val args = Bundle()
+            args.putInt("weaponId", weaponId)
+            fragment.arguments = args
+            return fragment
+        }
     }
 }

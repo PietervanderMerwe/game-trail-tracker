@@ -5,10 +5,34 @@
     android:layout_height="match_parent"
     tools:context=".fragments.weapon.WeaponImageListFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/imagesWeaponRecyclerViewViewDetail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="horizontal"
+        tools:listitem="@layout/item_image" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_weapon_image_button_float"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:backgroundTint="@color/primary_color"
+        android:contentDescription="@string/add_weapon_images"
+        android:src="@android:drawable/ic_menu_edit"
+        android:tintMode="@color/white" />
+
+    <Button
+        android:id="@+id/add_weapon_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/primary_color"
+        android:textColor="@color/white"
+        android:text="@string/add_weapon_images"
+        android:visibility="gone"/>
+
 
 </FrameLayout>
