@@ -86,6 +86,8 @@
     <string name="home">Home</string>
     <string name="add_hunt_images">Add Hunt Images</string>
     <string name="add_weapon_images">Add Weapon Images</string>
+    <string name="add_bullet">Add new bullet</string>
+    <string name="bullet_image_description">bullet image</string>
 
     <string-array name="measurements_array">
         <item>cm</item>

@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import com.epilogs.game_trail_tracker.database.entities.Animal
 import com.epilogs.game_trail_tracker.database.entities.Bullet
 
 @Dao
@@ -19,4 +20,6 @@ interface BulletDao {
     suspend fun getAllBullets(): List<Bullet>
     @Query("SELECT * FROM Bullet WHERE id = :bulletId")
     suspend fun getBulletById(bulletId: Int): Bullet?
+    @Query("SELECT * FROM Bullet WHERE weaponId = :weaponId")
+    suspend fun getBulletsByWeaponId(weaponId: Int): List<Bullet>
 }

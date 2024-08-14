@@ -195,6 +195,12 @@
         <action
             android:id="@+id/action_weaponViewDetailFragment_to_trophyViewDetailFragment"
             app:destination="@id/trophyViewDetailFragment" />
+        <action
+            android:id="@+id/action_weaponViewDetailFragment_to_bulletViewDetailFragment"
+            app:destination="@id/bulletViewDetailFragment" />
+        <action
+            android:id="@+id/action_weaponViewDetailFragment_to_bulletAddFragment"
+            app:destination="@id/bulletAddFragment" />
     </fragment>
     <fragment
         android:id="@+id/userSettingsFragment"
@@ -227,5 +233,31 @@
         <action
             android:id="@+id/action_huntTrophyListFragment_to_trophyViewDetailFragment"
             app:destination="@id/trophyViewDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bulletViewDetailFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.bullet.BulletViewDetailFragment"
+        android:label="fragment_bullet_view_detail"
+        tools:layout="@layout/fragment_bullet_view_detail" >
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <action
+            android:id="@+id/action_bulletViewDetailFragment_to_weaponViewDetailFragment"
+            app:destination="@id/weaponViewDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bulletAddFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.bullet.BulletAddFragment"
+        android:label="fragment_bullet_add"
+        tools:layout="@layout/fragment_bullet_add" >
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <action
+            android:id="@+id/action_bulletAddFragment_to_weaponViewDetailFragment"
+            app:destination="@id/weaponViewDetailFragment" />
     </fragment>
 </navigation>

@@ -27,25 +27,25 @@
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_weapon_button_float"
+        android:id="@+id/add_bullet_button_float"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:backgroundTint="@color/primary_color"
-        android:contentDescription="@string/add_trophy"
+        android:contentDescription="@string/add_bullet"
         android:src="@drawable/ic_add"
         android:tintMode="@color/white" />
 
     <Button
-        android:id="@+id/add_weapon_button"
+        android:id="@+id/add_bullet_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:backgroundTint="@color/primary_color"
         android:textColor="@color/white"
-        android:text="@string/add_weapon"
+        android:text="@string/add_bullet"
         android:visibility="gone" />
 
 </FrameLayout>
