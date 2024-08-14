@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "3ffdfa50967495bcd6b51c32881418dc",
+    "identityHash": "05db06d41de7b9713a6d78fd52dfd1f5",
     "entities": [
       {
         "tableName": "Hunt",
@@ -229,12 +229,24 @@
       },
       {
         "tableName": "Bullet",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `bulletBrand` TEXT NOT NULL, `bulletGrain` REAL NOT NULL, `caseBrand` TEXT NOT NULL, `cartridgeLoad` REAL NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `type` TEXT NOT NULL, `manufacturer` TEXT, `bulletBrand` TEXT NOT NULL, `bulletWeight` REAL NOT NULL, `bulletType` TEXT NOT NULL, `caseBrand` TEXT, `powderType` TEXT, `powderWeight` REAL, `notes` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "manufacturer",
+            "columnName": "manufacturer",
+            "affinity": "TEXT",
             "notNull": false
           },
           {
@@ -244,21 +256,39 @@
             "notNull": true
           },
           {
-            "fieldPath": "bulletGrain",
-            "columnName": "bulletGrain",
+            "fieldPath": "bulletWeight",
+            "columnName": "bulletWeight",
             "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bulletType",
+            "columnName": "bulletType",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
             "fieldPath": "caseBrand",
             "columnName": "caseBrand",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
-            "fieldPath": "cartridgeLoad",
-            "columnName": "cartridgeLoad",
+            "fieldPath": "powderType",
+            "columnName": "powderType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "powderWeight",
+            "columnName": "powderWeight",
             "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "notes",
+            "columnName": "notes",
+            "affinity": "TEXT",
             "notNull": true
           }
         ],
@@ -275,7 +305,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3ffdfa50967495bcd6b51c32881418dc')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '05db06d41de7b9713a6d78fd52dfd1f5')"
     ]
   }
 }
