@@ -14,7 +14,7 @@ data class Bullet (
     var bulletWeight: Double, // in grains, applicable to both
     var bulletType: String, // e.g., hollow point, FMJ, etc.
     var caseBrand: String?, // applicable for self-loaded bullets
-    var powderType: String?, // applicable for self-loaded bullets
+    var powderName: String?, // applicable for self-loaded bullets
     var powderWeight: Double?, // in grains, applicable for self-loaded bullets
     var notes: String, // additional information
     var weaponId: Int?, // link to weapon

@@ -42,8 +42,10 @@ class WeaponBulletLoadListFragment : Fragment(R.layout.fragment_weapon_bullet_lo
         binding = FragmentWeaponBulletLoadListBinding.bind(view)
 
         setupRecyclerView()
-        getBullet()
+        getBullets()
         setButton()
+        setupInsertAndUpdateCheck()
+        checkDataAndUpdateUI()
     }
 
     override fun onBulletItemClick(bullet: Bullet) {
@@ -60,7 +62,7 @@ class WeaponBulletLoadListFragment : Fragment(R.layout.fragment_weapon_bullet_lo
         }
     }
 
-    private fun getBullet() {
+    private fun getBullets() {
         viewModel.getBulletsByWeaponId(weaponId!!).observe(viewLifecycleOwner) { bullets ->
             adapter.updateBullets(bullets)
         }
@@ -81,6 +83,22 @@ class WeaponBulletLoadListFragment : Fragment(R.layout.fragment_weapon_bullet_lo
                 weaponId!!
             )
         findNavController().navigate(action)
+    }
+
+    private fun setupInsertAndUpdateCheck() {
+        viewModel.getInsertionSuccess().observe(viewLifecycleOwner) {
+            getBullets()
+        }
+        viewModel.getUpdateSuccess().observe(viewLifecycleOwner) {
+            getBullets()
+        }
+    }
+
+    private fun checkDataAndUpdateUI() {
+        val hasData = adapter.itemCount > 0
+
+        binding.addBulletButtonFloat.visibility = if (hasData) View.VISIBLE else View.GONE
+        binding.addBulletButton.visibility = if (hasData) View.GONE else View.VISIBLE
     }
 
     companion object {

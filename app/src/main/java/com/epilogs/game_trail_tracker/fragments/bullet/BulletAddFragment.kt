@@ -9,11 +9,12 @@ import com.epilogs.game_trail_tracker.R
 
 class BulletAddFragment : Fragment() {
 
+    private var weaponId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-
+            weaponId = it.getInt("weaponId")
         }
     }
 

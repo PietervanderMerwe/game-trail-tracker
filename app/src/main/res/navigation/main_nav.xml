@@ -240,7 +240,7 @@
         android:label="fragment_bullet_view_detail"
         tools:layout="@layout/fragment_bullet_view_detail" >
         <argument
-            android:name="id"
+            android:name="weaponId"
             app:argType="integer"
             android:defaultValue="0" />
         <action
@@ -253,7 +253,7 @@
         android:label="fragment_bullet_add"
         tools:layout="@layout/fragment_bullet_add" >
         <argument
-            android:name="id"
+            android:name="weaponId"
             app:argType="integer"
             android:defaultValue="0" />
         <action
