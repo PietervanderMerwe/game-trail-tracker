@@ -17,5 +17,6 @@
     <color name="border_color_focused">#407c31</color>
     <color name="primary_color_dark">#000000</color>
     <color name="background_color">#FFFFFF</color>
+    <color name="gray">#808080</color>
 
 </resources>

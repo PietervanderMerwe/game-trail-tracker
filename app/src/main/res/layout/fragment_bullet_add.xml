@@ -18,6 +18,32 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textStyle="bold" />
 
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/tabToggleGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:singleSelection="true"
+        app:selectionRequired="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/storeBoughtToggle"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/bullet_store_bought"
+            style="@style/CustomMaterialButton" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/handLoadedToggle"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/bullet_self_load"
+            style="@style/CustomMaterialButton" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,9 +53,100 @@
         android:theme="@style/TextInputLayoutStyle">
 
         <EditText
-            android:id="@+id/editTextName"
+            android:id="@+id/manufacturer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/location" />
+            android:hint="@string/manufacturer" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        style="@style/CustomTextInputLayout"
+        app:cursorColor="@color/secondary_color"
+        android:theme="@style/TextInputLayoutStyle">
+
+        <EditText
+            android:id="@+id/bulletWeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/bulletWeight" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        style="@style/CustomTextInputLayout"
+        app:cursorColor="@color/secondary_color"
+        android:theme="@style/TextInputLayoutStyle">
+
+        <EditText
+            android:id="@+id/bulletType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/bulletType" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        style="@style/CustomTextInputLayout"
+        app:cursorColor="@color/secondary_color"
+        android:theme="@style/TextInputLayoutStyle">
+
+        <EditText
+            android:id="@+id/bulletCaseBrand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/bulletCaseBrand" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        style="@style/CustomTextInputLayout"
+        app:cursorColor="@color/secondary_color"
+        android:theme="@style/TextInputLayoutStyle">
+
+        <EditText
+            android:id="@+id/bulletPowderBrand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/bulletPowderBrand" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        style="@style/CustomTextInputLayout"
+        app:cursorColor="@color/secondary_color"
+        android:theme="@style/TextInputLayoutStyle">
+
+        <EditText
+            android:id="@+id/bulletPowderWeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/bulletPowderWeight" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        style="@style/CustomTextInputLayout"
+        app:cursorColor="@color/secondary_color"
+        android:theme="@style/TextInputLayoutStyle">
+
+        <EditText
+            android:id="@+id/bulletNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/bulletNotes" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 </LinearLayout>

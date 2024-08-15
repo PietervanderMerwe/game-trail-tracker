@@ -89,6 +89,15 @@
     <string name="add_bullet">Add new bullet</string>
     <string name="bullet_image_description">bullet image</string>
     <string name="add_bullet_Text">Add Bullet</string>
+    <string name="bullet_self_load">Hand loaded</string>
+    <string name="bullet_store_bought">Store bought</string>
+    <string name="manufacturer">Manufacturer</string>
+    <string name="bulletWeight">Bullet Weight</string>
+    <string name="bulletType">Bullet Type</string>
+    <string name="bulletNotes">Notes</string>
+    <string name="bulletCaseBrand">Case Brand</string>
+    <string name="bulletPowderBrand">Powder Brand</string>
+    <string name="bulletPowderWeight">Powder Weight</string>
 
     <string-array name="measurements_array">
         <item>cm</item>
