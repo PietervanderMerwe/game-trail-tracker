@@ -65,6 +65,7 @@ class WeaponBulletLoadListFragment : Fragment(R.layout.fragment_weapon_bullet_lo
     private fun getBullets() {
         viewModel.getBulletsByWeaponId(weaponId!!).observe(viewLifecycleOwner) { bullets ->
             adapter.updateBullets(bullets)
+            checkDataAndUpdateUI()
         }
     }
 
