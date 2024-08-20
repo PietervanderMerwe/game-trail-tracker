@@ -256,6 +256,10 @@
             android:name="weaponId"
             app:argType="integer"
             android:defaultValue="0" />
+        <argument
+            android:name="bulletId"
+            app:argType="integer"
+            android:defaultValue="0" />
         <action
             android:id="@+id/action_bulletAddFragment_to_weaponViewDetailFragment"
             app:destination="@id/weaponViewDetailFragment" />

@@ -55,12 +55,14 @@
             </com.google.android.material.button.MaterialButtonToggleGroup>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/manufacturerContainer"
                 style="@style/CustomTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
                 android:theme="@style/TextInputLayoutStyle"
-                app:cursorColor="@color/secondary_color">
+                app:cursorColor="@color/secondary_color"
+                android:visibility="gone">
 
                 <EditText
                     android:id="@+id/manufacturer"
@@ -70,12 +72,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/bulletWeightContainer"
                 style="@style/CustomTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
                 android:theme="@style/TextInputLayoutStyle"
-                app:cursorColor="@color/secondary_color">
+                app:cursorColor="@color/secondary_color"
+                android:visibility="gone">
 
                 <EditText
                     android:id="@+id/bulletWeight"
@@ -85,12 +89,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/bulletTypeContainer"
                 style="@style/CustomTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
                 android:theme="@style/TextInputLayoutStyle"
-                app:cursorColor="@color/secondary_color">
+                app:cursorColor="@color/secondary_color"
+                android:visibility="gone">
 
                 <EditText
                     android:id="@+id/bulletType"
@@ -100,12 +106,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/bulletCaseBrandContainer"
                 style="@style/CustomTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
                 android:theme="@style/TextInputLayoutStyle"
-                app:cursorColor="@color/secondary_color">
+                app:cursorColor="@color/secondary_color"
+                android:visibility="gone">
 
                 <EditText
                     android:id="@+id/bulletCaseBrand"
@@ -115,12 +123,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/bulletPowderBrandContainer"
                 style="@style/CustomTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
                 android:theme="@style/TextInputLayoutStyle"
-                app:cursorColor="@color/secondary_color">
+                app:cursorColor="@color/secondary_color"
+                android:visibility="gone">
 
                 <EditText
                     android:id="@+id/bulletPowderBrand"
@@ -130,12 +140,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/bulletPowderWeightContainer"
                 style="@style/CustomTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
                 android:theme="@style/TextInputLayoutStyle"
-                app:cursorColor="@color/secondary_color">
+                app:cursorColor="@color/secondary_color"
+                android:visibility="gone">
 
                 <EditText
                     android:id="@+id/bulletPowderWeight"
@@ -145,12 +157,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/bulletNotesContainer"
                 style="@style/CustomTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
                 android:theme="@style/TextInputLayoutStyle"
-                app:cursorColor="@color/secondary_color">
+                app:cursorColor="@color/secondary_color"
+                android:visibility="gone">
 
                 <EditText
                     android:id="@+id/bulletNotes"

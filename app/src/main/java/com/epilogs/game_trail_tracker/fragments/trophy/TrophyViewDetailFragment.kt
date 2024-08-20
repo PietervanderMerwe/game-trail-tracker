@@ -143,17 +143,6 @@ class TrophyViewDetailFragment : Fragment() {
         })
     }
 
-    private fun showDeleteConfirmationDialog() {
-        AlertDialog.Builder(context)
-            .setTitle("Confirm Delete")
-            .setMessage("Are you sure you want to delete this animal?")
-            .setPositiveButton("Delete") { dialog, which ->
-                animalViewModel.deleteAnimal(currentAnimal!!)
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
-    }
-
     companion object {
         @JvmStatic
         fun newInstance(animalId: Int) =
