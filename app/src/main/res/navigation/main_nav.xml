@@ -57,6 +57,9 @@
         <action
             android:id="@+id/action_weaponFragment_to_weaponViewDetailFragment"
             app:destination="@id/weaponViewDetailFragment" />
+        <action
+            android:id="@+id/action_weaponFragment_to_bulletAddFragment"
+            app:destination="@id/bulletAddFragment" />
     </fragment>
     <fragment
         android:id="@+id/huntAddFragment"
@@ -246,6 +249,9 @@
         <action
             android:id="@+id/action_bulletViewDetailFragment_to_weaponViewDetailFragment"
             app:destination="@id/weaponViewDetailFragment" />
+        <action
+            android:id="@+id/action_bulletViewDetailFragment_to_bulletAddFragment"
+            app:destination="@id/bulletAddFragment" />
     </fragment>
     <fragment
         android:id="@+id/bulletAddFragment"
@@ -263,5 +269,11 @@
         <action
             android:id="@+id/action_bulletAddFragment_to_weaponViewDetailFragment"
             app:destination="@id/weaponViewDetailFragment" />
+        <action
+            android:id="@+id/action_bulletAddFragment_to_bulletViewDetailFragment"
+            app:destination="@id/bulletViewDetailFragment" />
+        <action
+            android:id="@+id/action_bulletAddFragment_to_weaponFragment"
+            app:destination="@id/weaponFragment" />
     </fragment>
 </navigation>

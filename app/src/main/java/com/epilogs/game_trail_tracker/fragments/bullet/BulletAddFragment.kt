@@ -159,7 +159,7 @@ class BulletAddFragment : Fragment() {
                 viewModel.insertionId.observe(viewLifecycleOwner) { id ->
                     id?.let {
                         val action =
-                            WeaponAddFragmentDirections.actionWeaponAddFragmentToWeaponViewDetailFragment(
+                            BulletAddFragmentDirections.actionBulletAddFragmentToBulletViewDetailFragment(
                                 id.toInt()
                             )
                         findNavController().navigate(action)
@@ -196,7 +196,6 @@ class BulletAddFragment : Fragment() {
         else {
             viewModel.insertBullet(bullet)
         }
-
     }
 
     private fun showDeleteConfirmationDialog() {
@@ -205,7 +204,7 @@ class BulletAddFragment : Fragment() {
             .setMessage("Are you sure you want to delete this bullet?")
             .setPositiveButton("Delete") { dialog, which ->
                 viewModel.deleteBullet(currentBullet!!)
-                val action = BulletAddFragmentDirections.actionBulletAddFragmentToWeaponViewDetailFragment()
+                val action = BulletAddFragmentDirections.actionBulletAddFragmentToWeaponFragment()
                 findNavController().navigate(action)
             }
             .setNegativeButton("Cancel", null)
