@@ -177,6 +177,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/CaseBrandLinearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -210,6 +211,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/PowderBrandLinearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -243,6 +245,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/PowderWeightLinearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"

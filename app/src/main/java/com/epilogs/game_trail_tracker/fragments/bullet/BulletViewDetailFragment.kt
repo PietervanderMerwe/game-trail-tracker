@@ -62,15 +62,15 @@ class BulletViewDetailFragment : Fragment() {
     }
 
     private fun showHandLoaded() {
-        binding.textInputLayoutBulletCaseBrandViewDetail.visibility = View.VISIBLE
-        binding.textInputLayoutBulletPowderBrandViewDetail.visibility = View.VISIBLE
-        binding.textInputLayoutBulletPowderWeightViewDetail.visibility = View.VISIBLE
+        binding.CaseBrandLinearLayout.visibility = View.VISIBLE
+        binding.PowderBrandLinearLayout.visibility = View.VISIBLE
+        binding.PowderWeightLinearLayout.visibility = View.VISIBLE
     }
 
     private fun hideHandLoaded() {
-        binding.textInputLayoutBulletCaseBrandViewDetail.visibility = View.GONE
-        binding.textInputLayoutBulletPowderBrandViewDetail.visibility = View.GONE
-        binding.textInputLayoutBulletPowderWeightViewDetail.visibility = View.GONE
+        binding.CaseBrandLinearLayout.visibility = View.GONE
+        binding.PowderBrandLinearLayout.visibility = View.GONE
+        binding.PowderWeightLinearLayout.visibility = View.GONE
     }
 
     companion object {
