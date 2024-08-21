@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.epilogs.game_trail_tracker.R
+import com.epilogs.game_trail_tracker.database.entities.Bullet
 import com.epilogs.game_trail_tracker.databinding.FragmentBulletViewDetailBinding
 import com.epilogs.game_trail_tracker.viewmodels.BulletViewModel
 import java.text.SimpleDateFormat
@@ -42,12 +43,34 @@ class BulletViewDetailFragment : Fragment() {
 
     private fun getBullet() {
         viewModel.getBulletById(bulletId!!).observe(viewLifecycleOwner) { bullet ->
-            binding.locationName.text = hunt?.name
-            val startDateStr = hunt?.startDate?.let { dateFormat.format(it) } ?: "N/A"
-            val endDateStr = hunt?.endDate?.let { dateFormat.format(it) } ?: "N/A"
-            val dateRange = getString(R.string.date_range, startDateStr, endDateStr)
-            binding.dateRange.text = dateRange
+            if(bullet?.type == "Hand") {
+                handLoad(bullet)
+            } else {
+                selfLoad(bullet!!)
+            }
         }
+    }
+
+    private fun handLoad(bullet : Bullet) {
+        showHandLoaded()
+        binding.textViewBrandOrManViewDetail.setText(bullet.bulletBrand)
+        binding.textViewTypeViewDetail.setText(bullet.type)
+    }
+
+    private fun selfLoad(bullet : Bullet) {
+        hideHandLoaded()
+    }
+
+    private fun showHandLoaded() {
+        binding.textInputLayoutBulletCaseBrandViewDetail.visibility = View.VISIBLE
+        binding.textInputLayoutBulletPowderBrandViewDetail.visibility = View.VISIBLE
+        binding.textInputLayoutBulletPowderWeightViewDetail.visibility = View.VISIBLE
+    }
+
+    private fun hideHandLoaded() {
+        binding.textInputLayoutBulletCaseBrandViewDetail.visibility = View.GONE
+        binding.textInputLayoutBulletPowderBrandViewDetail.visibility = View.GONE
+        binding.textInputLayoutBulletPowderWeightViewDetail.visibility = View.GONE
     }
 
     companion object {
