@@ -48,23 +48,23 @@ class BulletViewDetailFragment : Fragment() {
             } else {
                 selfLoad(bullet!!)
             }
+            binding.textViewTypeViewDetail.setText(bullet.type)
+            binding.textViewBulletWeightViewDetail.setText(bullet.bulletWeight.toString())
+            binding.textViewBulletTypeViewDetail.setText(bullet.bulletType)
+            binding.textViewBulletNotesViewDetail.setText(bullet.notes)
         }
     }
 
     private fun handLoad(bullet : Bullet) {
-        showHandLoaded()
         binding.textViewBrandOrManViewDetail.setText(bullet.bulletBrand)
-        binding.textViewTypeViewDetail.setText(bullet.type)
+        binding.textViewBulletCaseBrandViewDetail.setText(bullet.caseBrand)
+        binding.textViewBulletPowderBrandViewDetail.setText(bullet.powderName)
+        binding.textViewBulletPowderWeightViewDetail.setText(bullet.powderWeight.toString())
     }
 
     private fun selfLoad(bullet : Bullet) {
         hideHandLoaded()
-    }
-
-    private fun showHandLoaded() {
-        binding.CaseBrandLinearLayout.visibility = View.VISIBLE
-        binding.PowderBrandLinearLayout.visibility = View.VISIBLE
-        binding.PowderWeightLinearLayout.visibility = View.VISIBLE
+        binding.textViewBrandOrManViewDetail.setText(bullet.manufacturer)
     }
 
     private fun hideHandLoaded() {
