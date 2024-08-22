@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
@@ -14,8 +15,6 @@ import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.database.entities.Bullet
 import com.epilogs.game_trail_tracker.databinding.FragmentBulletViewDetailBinding
 import com.epilogs.game_trail_tracker.viewmodels.BulletViewModel
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class BulletViewDetailFragment : Fragment() {
 
@@ -76,6 +75,15 @@ class BulletViewDetailFragment : Fragment() {
                 binding.imagesBulletRecyclerViewViewDetail.adapter = imageAdapter
                 binding.imagesBulletRecyclerViewViewDetail.layoutManager =
                     GridLayoutManager(requireContext(), 3)
+            }
+
+            binding.fabEditTrophy.setOnClickListener {
+                val action =
+                    BulletViewDetailFragmentDirections.actionBulletViewDetailFragmentToBulletAddFragment(
+                        bullet.weaponId!!,
+                        bulletId!!
+                    )
+                findNavController().navigate(action)
             }
         }
     }

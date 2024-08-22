@@ -133,9 +133,12 @@ class BulletAddFragment : Fragment() {
             currentBullet = bullet
             if(bullet?.type == "Store") {
                 binding.manufacturer.setText(bullet.manufacturer)
+                binding.tabToggleGroup.check(binding.storeBoughtToggle.id)
             }
             else {
                 binding.manufacturer.setText(bullet?.bulletBrand)
+                binding.tabToggleGroup.check(binding.handLoadedToggle.id)
+                showHandLoaded()
             }
             binding.bulletType.setText(bullet?.bulletType)
             binding.bulletWeight.setText(bullet?.bulletWeight.toString())

@@ -322,4 +322,18 @@
                 tools:listitem="@layout/item_image" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_edit_trophy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/primary_color"
+        android:contentDescription="@string/edit"
+        android:tintMode="@color/white"
+        app:fabCustomSize="56dp"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
 </RelativeLayout>
