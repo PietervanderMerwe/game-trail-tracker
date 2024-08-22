@@ -81,9 +81,9 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabIndicatorColor="@color/white"
+        app:tabIndicatorColor="@color/text_white_black"
         android:layout_below="@id/separatorTrophies"
-        app:tabTextColor="@color/white" />
+        app:tabTextColor="@color/text_white_black" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"

@@ -64,8 +64,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/weaponDetailAppBar"
-        app:tabIndicatorColor="@color/white"
-        app:tabTextColor="@color/white" />
+        app:tabIndicatorColor="@color/text_white_black"
+        app:tabTextColor="@color/text_white_black" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
