@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
+import com.epilogs.game_trail_tracker.database.entities.Hunt
 import com.epilogs.game_trail_tracker.databinding.FragmentHuntImageListBinding
 import com.epilogs.game_trail_tracker.utils.ImageAdapterSetup
 import com.epilogs.game_trail_tracker.utils.ImagePickerSetup
@@ -29,6 +30,7 @@ class HuntImageListFragment : Fragment() {
     private val selectedImageUris = mutableSetOf<String>()
     private lateinit var imagePickerSetup: ImagePickerSetup
     private lateinit var imageAdapterSetup: ImageAdapterSetup
+    private lateinit var currentHunt: Hunt
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +55,9 @@ class HuntImageListFragment : Fragment() {
     private fun getHuntImages() {
         huntViewModel.getHuntById(huntId!!).observe(viewLifecycleOwner) { hunt ->
 
-            if (hunt?.imagePaths?.isEmpty() == true) {
+            currentHunt = hunt!!
+
+            if (hunt.imagePaths?.isEmpty() == true) {
                 binding.imagesHuntRecyclerViewViewDetail.visibility = View.GONE
                 setupImageAdapter(selectedImageUris)
 
@@ -61,7 +65,7 @@ class HuntImageListFragment : Fragment() {
                 binding.addHuntImageButtonFloat.visibility = View.GONE
             } else {
                 binding.imagesHuntRecyclerViewViewDetail.visibility = View.VISIBLE
-                setupImageAdapter(hunt?.imagePaths?.toMutableSet() ?: mutableSetOf())
+                setupImageAdapter(hunt.imagePaths?.toMutableSet() ?: mutableSetOf())
 
                 binding.imagesHuntRecyclerViewViewDetail.layoutManager =
                     GridLayoutManager(requireContext(), 3)
@@ -79,6 +83,8 @@ class HuntImageListFragment : Fragment() {
                 selectedImageUris.clear()
                 selectedImageUris.addAll(images)
                 imageAdapterSetup.updateImages(selectedImageUris.toMutableList())
+                currentHunt.imagePaths = selectedImageUris.toMutableList()
+                saveImages()
             }
         )
 
@@ -92,6 +98,9 @@ class HuntImageListFragment : Fragment() {
         }
     }
 
+    private fun saveImages() {
+        huntViewModel.updateHunt(currentHunt)
+    }
     private fun setupImageAdapter(imageUris: MutableSet<String>) {
         imageAdapterSetup = ImageAdapterSetup(
             recyclerView = binding.imagesHuntRecyclerViewViewDetail,

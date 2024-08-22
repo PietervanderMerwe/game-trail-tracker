@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.epilogs.game_trail_tracker.R
+import com.epilogs.game_trail_tracker.database.entities.Weapon
 import com.epilogs.game_trail_tracker.databinding.FragmentWeaponImageListBinding
 import com.epilogs.game_trail_tracker.utils.ImageAdapterSetup
 import com.epilogs.game_trail_tracker.utils.ImagePickerSetup
@@ -21,6 +22,7 @@ class WeaponImageListFragment : Fragment() {
     private val selectedImageUris = mutableSetOf<String>()
     private lateinit var imagePickerSetup: ImagePickerSetup
     private lateinit var imageAdapterSetup: ImageAdapterSetup
+    private lateinit var currentWeapon: Weapon
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +47,9 @@ class WeaponImageListFragment : Fragment() {
     private fun getWeaponImages() {
         viewModel.getWeaponById(weaponId!!).observe(viewLifecycleOwner, Observer { weapon ->
 
-            if (weapon?.imagePaths?.isEmpty() == true) {
+            currentWeapon = weapon!!
+
+            if (weapon.imagePaths?.isEmpty() == true) {
                 binding.imagesWeaponRecyclerViewViewDetail.visibility = View.GONE
                 setupImageAdapter(selectedImageUris)
 
@@ -53,7 +57,7 @@ class WeaponImageListFragment : Fragment() {
                 binding.addWeaponImageButtonFloat.visibility = View.GONE
             } else {
                 binding.imagesWeaponRecyclerViewViewDetail.visibility = View.VISIBLE
-                setupImageAdapter(weapon?.imagePaths?.toMutableSet() ?: mutableSetOf())
+                setupImageAdapter(weapon.imagePaths?.toMutableSet() ?: mutableSetOf())
 
                 binding.imagesWeaponRecyclerViewViewDetail.layoutManager =
                     GridLayoutManager(requireContext(), 3)
@@ -71,6 +75,8 @@ class WeaponImageListFragment : Fragment() {
                 selectedImageUris.clear()
                 selectedImageUris.addAll(images)
                 imageAdapterSetup.updateImages(selectedImageUris.toMutableList())
+                currentWeapon.imagePaths = selectedImageUris.toMutableList()
+                saveImages()
             }
         )
 
@@ -82,6 +88,10 @@ class WeaponImageListFragment : Fragment() {
         {
             imagePickerSetup.pickImages()
         }
+    }
+
+    private fun saveImages() {
+        viewModel.updateWeapon(currentWeapon)
     }
 
     private fun setupImageAdapter(imageUris: MutableSet<String>) {
