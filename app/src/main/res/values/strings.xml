@@ -103,6 +103,7 @@
     <string name="bullet_details">Bullet Details</string>
     <string name="brandOrMan">Brand Or Manufacturer</string>
     <string name="type">Type</string>
+    <string name="grains">grains (gr)</string>
     <string-array name="measurements_array">
         <item>cm</item>
         <item>inch</item>
@@ -111,6 +112,34 @@
     <string-array name="weights_array">
         <item>kg</item>
         <item>pounds</item>
+    </string-array>
+
+    <string-array name="bullet_type_array">
+        <item>Full Metal Jacket (FMJ)</item>
+        <item>Hollow Point (HP)</item>
+        <item>Soft Point (SP)</item>
+        <item>Ballistic Tip</item>
+        <item>Boat Tail Hollow Point (BTHP)</item>
+        <item>Jacketed Hollow Point (JHP)</item>
+        <item>Wad Cutter</item>
+        <item>Semi-Wad Cutter</item>
+        <item>Round Nose (RN)</item>
+        <item>Flat Nose (FN)</item>
+        <item>Polymer Tip</item>
+        <item>Bonded Hollow Point (BHP)</item>
+        <item>Lead Round Nose (LRN)</item>
+        <item>Jacketed Soft Point (JSP)</item>
+        <item>Spire Point</item>
+        <item>Open Tip Match (OTM)</item>
+        <item>Tracer</item>
+        <item>Armor Piercing (AP)</item>
+        <item>Frangible</item>
+        <item>Silvertip</item>
+        <item>Gas Check</item>
+        <item>Monolithic Solid</item>
+        <item>Plastic Tipped Hollow Point</item>
+        <item>Subsonic</item>
+        <item>Varmint</item>
     </string-array>
 
     <!--Image content descriptions-->

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -105,6 +106,7 @@ class BulletAddFragment : Fragment() {
         }
 
         setupImageAdapter(selectedImageUris)
+        setupBulletTypeArray()
         observeViewModel()
 
         if (bulletId != 0) {
@@ -140,7 +142,7 @@ class BulletAddFragment : Fragment() {
                 binding.tabToggleGroup.check(binding.handLoadedToggle.id)
                 showHandLoaded()
             }
-            binding.bulletType.setText(bullet?.bulletType)
+            binding.bulletTypeDropdown.setText(bullet?.bulletType)
             binding.bulletWeight.setText(bullet?.bulletWeight.toString())
             binding.bulletCaseBrand.setText(bullet?.caseBrand)
             binding.bulletPowderBrand.setText(bullet?.powderName)
@@ -182,7 +184,7 @@ class BulletAddFragment : Fragment() {
             type = type,
             manufacturer = binding.manufacturer.text.toString(),
             bulletBrand = binding.manufacturer.text.toString(),
-            bulletType = binding.bulletType.text.toString(),
+            bulletType = binding.bulletTypeDropdown.text.toString(),
             bulletWeight = binding.bulletWeight.text.toString().toDoubleOrNull() ?: 0.0,
             caseBrand = binding.bulletCaseBrand.text.toString(),
             powderName = binding.bulletPowderBrand.text.toString(),
@@ -201,6 +203,19 @@ class BulletAddFragment : Fragment() {
         }
     }
 
+    private fun setupBulletTypeArray() {
+        val bulletTypeDropdown = binding.bulletTypeDropdown
+
+        val adapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.bullet_type_array,
+            android.R.layout.simple_dropdown_item_1line
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+
+        bulletTypeDropdown.setAdapter(adapter)
+    }
     private fun showDeleteConfirmationDialog() {
         val dialog = AlertDialog.Builder(context)
             .setTitle("Confirm Delete")
@@ -225,21 +240,20 @@ class BulletAddFragment : Fragment() {
 
     private fun showInputs() {
         binding.manufacturerContainer.visibility = View.VISIBLE
-        binding.bulletWeightContainer.visibility = View.VISIBLE
+        binding.bulletWeightLinearLayout.visibility = View.VISIBLE
         binding.bulletTypeContainer.visibility = View.VISIBLE
         binding.bulletNotesContainer.visibility = View.VISIBLE
     }
 
     private fun showHandLoaded() {
         binding.bulletCaseBrandContainer.visibility = View.VISIBLE
-        binding.bulletPowderBrandContainer.visibility = View.VISIBLE
-        binding.bulletPowderWeightContainer.visibility = View.VISIBLE
+        binding.bulletPowderWeightLinearLayout.visibility = View.VISIBLE
     }
 
     private fun hideHandLoaded() {
         binding.bulletCaseBrandContainer.visibility = View.GONE
         binding.bulletPowderBrandContainer.visibility = View.GONE
-        binding.bulletPowderWeightContainer.visibility = View.GONE
+        binding.bulletPowderWeightLinearLayout.visibility = View.GONE
     }
 
     companion object {
