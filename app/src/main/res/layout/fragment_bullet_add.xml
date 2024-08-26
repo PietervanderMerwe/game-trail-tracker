@@ -113,19 +113,19 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
                 android:theme="@style/TextInputLayoutStyle"
-                app:endIconMode="dropdown_menu"
-                android:visibility="gone">
+                android:visibility="gone"
+                app:endIconMode="dropdown_menu">
 
                 <AutoCompleteTextView
                     android:id="@+id/bulletTypeDropdown"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:hint="@string/bulletType"
-                    android:inputType="none"
+                    android:inputType="text"
                     android:padding="4dp"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                    android:focusable="false"
-                    android:clickable="true"/>
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -175,10 +175,10 @@
                     style="@style/CustomTextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="3"
                     android:paddingTop="8dp"
                     android:theme="@style/TextInputLayoutStyle"
-                    app:cursorColor="@color/secondary_color"
-                    android:layout_weight="3">
+                    app:cursorColor="@color/secondary_color">
 
                     <EditText
                         android:id="@+id/bulletPowderWeight"
