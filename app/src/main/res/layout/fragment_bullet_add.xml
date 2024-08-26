@@ -223,7 +223,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/buttonSelectImages"
-                android:textColor="@color/secondary_color" />
+                android:textColor="@color/secondary_color"
+                android:visibility="gone"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/imagesBulletRecyclerView"

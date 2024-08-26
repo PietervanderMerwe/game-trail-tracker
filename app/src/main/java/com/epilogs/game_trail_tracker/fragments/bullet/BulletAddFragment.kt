@@ -243,11 +243,13 @@ class BulletAddFragment : Fragment() {
         binding.bulletWeightLinearLayout.visibility = View.VISIBLE
         binding.bulletTypeContainer.visibility = View.VISIBLE
         binding.bulletNotesContainer.visibility = View.VISIBLE
+        binding.buttonSelectBulletImages.visibility = View.VISIBLE
     }
 
     private fun showHandLoaded() {
         binding.bulletCaseBrandContainer.visibility = View.VISIBLE
         binding.bulletPowderWeightLinearLayout.visibility = View.VISIBLE
+        binding.bulletPowderBrandContainer.visibility = View.VISIBLE
     }
 
     private fun hideHandLoaded() {
