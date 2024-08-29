@@ -74,6 +74,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.preference)
+    implementation(libs.fishBun)
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)
     implementation(libs.gson)

@@ -4,9 +4,9 @@
     <string name="editTextName">Name</string>
     <string name="buttonSelectImages">Select Images</string>
     <string name="editTextSpecieName">Specie Name</string>
-    <string name="weaponFragment">Weapon</string>
-    <string name="huntFragment">Hunt</string>
-    <string name="trophyFragment">Trophy</string>
+    <string name="weaponFragment">Weapons</string>
+    <string name="huntFragment">Hunts</string>
+    <string name="trophyFragment">Trophies</string>
     <string name="checkBoxIsContinues">No date</string>
     <string name="buttonSaveLocation">Save hunt</string>
     <string name="check_mark_image_description">Check mark</string>
