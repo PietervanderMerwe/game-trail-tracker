@@ -50,21 +50,27 @@ class WeaponImageListFragment : Fragment() {
             currentWeapon = weapon!!
 
             if (weapon.imagePaths?.isEmpty() == true) {
-                binding.imagesWeaponRecyclerViewViewDetail.visibility = View.GONE
                 setupImageAdapter(selectedImageUris)
-
-                binding.addWeaponImageButton.visibility = View.VISIBLE
-                binding.addWeaponImageButtonFloat.visibility = View.GONE
+                hideRecyclerView()
             } else {
-                binding.imagesWeaponRecyclerViewViewDetail.visibility = View.VISIBLE
                 setupImageAdapter(weapon.imagePaths?.toMutableSet() ?: mutableSetOf())
-
-                binding.imagesWeaponRecyclerViewViewDetail.layoutManager =
-                    GridLayoutManager(requireContext(), 3)
-                binding.addWeaponImageButtonFloat.visibility = View.VISIBLE
-                binding.addWeaponImageButton.visibility = View.GONE
+                setupRecyclerView()
             }
         })
+    }
+
+    private fun setupRecyclerView() {
+        binding.imagesWeaponRecyclerViewViewDetail.visibility = View.VISIBLE
+        binding.imagesWeaponRecyclerViewViewDetail.layoutManager =
+            GridLayoutManager(requireContext(), 3)
+        binding.addWeaponImageButtonFloat.visibility = View.VISIBLE
+        binding.addWeaponImageButton.visibility = View.GONE
+    }
+
+    private fun hideRecyclerView() {
+        binding.imagesWeaponRecyclerViewViewDetail.visibility = View.GONE
+        binding.addWeaponImageButton.visibility = View.VISIBLE
+        binding.addWeaponImageButtonFloat.visibility = View.GONE
     }
 
     private fun setImagePicker() {
@@ -92,6 +98,12 @@ class WeaponImageListFragment : Fragment() {
 
     private fun saveImages() {
         viewModel.updateWeapon(currentWeapon)
+
+        if(currentWeapon.imagePaths?.isEmpty() == true) {
+            hideRecyclerView()
+        } else {
+            setupRecyclerView()
+        }
     }
 
     private fun setupImageAdapter(imageUris: MutableSet<String>) {

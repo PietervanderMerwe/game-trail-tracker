@@ -54,21 +54,28 @@ class TrophyImageTabFragment : Fragment() {
             currentTrophy = animal!!
 
             if (animal.imagePaths?.isEmpty() == true) {
-                binding.imagesTrophyRecyclerViewViewDetail.visibility = View.GONE
                 setupImageAdapter(selectedImageUris)
+                hideRecyclerView()
 
-                binding.addTrophyImageButton.visibility = View.VISIBLE
-                binding.addTrophyImageButtonFloat.visibility = View.GONE
             } else {
-                binding.imagesTrophyRecyclerViewViewDetail.visibility = View.VISIBLE
                 setupImageAdapter(animal.imagePaths?.toMutableSet() ?: mutableSetOf())
-
-                binding.imagesTrophyRecyclerViewViewDetail.layoutManager =
-                    GridLayoutManager(requireContext(), 3)
-                binding.addTrophyImageButtonFloat.visibility = View.VISIBLE
-                binding.addTrophyImageButton.visibility = View.GONE
+                setupRecyclerView()
             }
         })
+    }
+
+    private fun setupRecyclerView() {
+        binding.imagesTrophyRecyclerViewViewDetail.visibility = View.VISIBLE
+        binding.imagesTrophyRecyclerViewViewDetail.layoutManager =
+            GridLayoutManager(requireContext(), 3)
+        binding.addTrophyImageButtonFloat.visibility = View.VISIBLE
+        binding.addTrophyImageButton.visibility = View.GONE
+    }
+
+    private fun hideRecyclerView() {
+        binding.imagesTrophyRecyclerViewViewDetail.visibility = View.GONE
+        binding.addTrophyImageButton.visibility = View.VISIBLE
+        binding.addTrophyImageButtonFloat.visibility = View.GONE
     }
 
     private fun setImagePicker() {
@@ -96,6 +103,12 @@ class TrophyImageTabFragment : Fragment() {
 
     private fun saveImages() {
         viewModel.updateAnimal(currentTrophy)
+
+        if(currentTrophy.imagePaths?.isEmpty() == true) {
+            hideRecyclerView()
+        } else {
+            setupRecyclerView()
+        }
     }
 
     private fun setupImageAdapter(imageUris: MutableSet<String>) {

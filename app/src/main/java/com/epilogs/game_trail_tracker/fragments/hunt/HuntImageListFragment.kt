@@ -58,21 +58,27 @@ class HuntImageListFragment : Fragment() {
             currentHunt = hunt!!
 
             if (hunt.imagePaths?.isEmpty() == true) {
-                binding.imagesHuntRecyclerViewViewDetail.visibility = View.GONE
                 setupImageAdapter(selectedImageUris)
-
-                binding.addHuntImageButton.visibility = View.VISIBLE
-                binding.addHuntImageButtonFloat.visibility = View.GONE
+                hideRecyclerView()
             } else {
-                binding.imagesHuntRecyclerViewViewDetail.visibility = View.VISIBLE
                 setupImageAdapter(hunt.imagePaths?.toMutableSet() ?: mutableSetOf())
-
-                binding.imagesHuntRecyclerViewViewDetail.layoutManager =
-                    GridLayoutManager(requireContext(), 3)
-                binding.addHuntImageButtonFloat.visibility = View.VISIBLE
-                binding.addHuntImageButton.visibility = View.GONE
+                setupRecyclerView()
             }
         }
+    }
+
+    private fun setupRecyclerView() {
+        binding.imagesHuntRecyclerViewViewDetail.visibility = View.VISIBLE
+        binding.imagesHuntRecyclerViewViewDetail.layoutManager =
+            GridLayoutManager(requireContext(), 3)
+        binding.addHuntImageButtonFloat.visibility = View.VISIBLE
+        binding.addHuntImageButton.visibility = View.GONE
+    }
+
+    private fun hideRecyclerView() {
+        binding.imagesHuntRecyclerViewViewDetail.visibility = View.GONE
+        binding.addHuntImageButton.visibility = View.VISIBLE
+        binding.addHuntImageButtonFloat.visibility = View.GONE
     }
 
     private fun setImagePicker() {
@@ -100,6 +106,12 @@ class HuntImageListFragment : Fragment() {
 
     private fun saveImages() {
         huntViewModel.updateHunt(currentHunt)
+
+        if(currentHunt.imagePaths?.isEmpty() == true) {
+            hideRecyclerView()
+        } else {
+            setupRecyclerView()
+        }
     }
     private fun setupImageAdapter(imageUris: MutableSet<String>) {
         imageAdapterSetup = ImageAdapterSetup(
