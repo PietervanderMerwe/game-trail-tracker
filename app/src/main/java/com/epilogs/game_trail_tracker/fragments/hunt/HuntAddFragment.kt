@@ -79,7 +79,7 @@ class HuntAddFragment : Fragment() {
         )
 
         binding.buttonSelectLocationImages.setOnClickListener {
-            imagePickerSetup.pickImages()
+            imagePickerSetup.pickImages(selectedImageUris.toMutableList())
         }
 
         setupImageAdapter(selectedImageUris)

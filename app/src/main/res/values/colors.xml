@@ -19,4 +19,6 @@
     <color name="background_color">#FFFFFF</color>
     <color name="gray">#808080</color>
     <color name="text_white_black">#000000</color>
+    <color name="ted_image_picker_primary">#4f7c31</color>
+    <color name="ted_image_picker_primary_pressed">#407c31</color>
 </resources>

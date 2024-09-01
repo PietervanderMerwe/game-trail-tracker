@@ -53,6 +53,7 @@ class WeaponImageListFragment : Fragment() {
                 setupImageAdapter(selectedImageUris)
                 hideRecyclerView()
             } else {
+                selectedImageUris.addAll(weapon.imagePaths?.toMutableSet()!!)
                 setupImageAdapter(weapon.imagePaths?.toMutableSet() ?: mutableSetOf())
                 setupRecyclerView()
             }
@@ -88,11 +89,11 @@ class WeaponImageListFragment : Fragment() {
 
         binding.addWeaponImageButtonFloat.setOnClickListener()
         {
-            imagePickerSetup.pickImages()
+            imagePickerSetup.pickImages(selectedImageUris.toMutableList())
         }
         binding.addWeaponImageButton.setOnClickListener()
         {
-            imagePickerSetup.pickImages()
+            imagePickerSetup.pickImages(selectedImageUris.toMutableList())
         }
     }
 

@@ -102,7 +102,7 @@ class BulletAddFragment : Fragment() {
         )
 
         binding.buttonSelectBulletImages.setOnClickListener {
-            imagePickerSetup.pickImages()
+            imagePickerSetup.pickImages(selectedImageUris.toMutableList())
         }
 
         setupImageAdapter(selectedImageUris)

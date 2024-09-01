@@ -42,6 +42,7 @@ android {
     buildFeatures {
         viewBinding = true
         compose = true
+        dataBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.10"
@@ -74,7 +75,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.preference)
-    implementation(libs.fishBun)
+    implementation(libs.tedimagepicker)
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)
     implementation(libs.gson)

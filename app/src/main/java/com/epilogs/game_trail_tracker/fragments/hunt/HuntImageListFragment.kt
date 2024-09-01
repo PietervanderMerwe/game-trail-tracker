@@ -61,6 +61,7 @@ class HuntImageListFragment : Fragment() {
                 setupImageAdapter(selectedImageUris)
                 hideRecyclerView()
             } else {
+                selectedImageUris.addAll(hunt.imagePaths?.toMutableSet()!!)
                 setupImageAdapter(hunt.imagePaths?.toMutableSet() ?: mutableSetOf())
                 setupRecyclerView()
             }
@@ -96,11 +97,11 @@ class HuntImageListFragment : Fragment() {
 
         binding.addHuntImageButtonFloat.setOnClickListener()
         {
-            imagePickerSetup.pickImages()
+            imagePickerSetup.pickImages(selectedImageUris.toMutableList())
         }
         binding.addHuntImageButton.setOnClickListener()
         {
-            imagePickerSetup.pickImages()
+            imagePickerSetup.pickImages(selectedImageUris.toMutableList())
         }
     }
 

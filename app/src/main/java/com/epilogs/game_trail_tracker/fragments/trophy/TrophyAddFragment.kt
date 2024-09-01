@@ -84,7 +84,7 @@ class TrophyAddFragment : Fragment() {
         )
 
         binding.buttonSelectAnimalImages.setOnClickListener {
-            imagePickerSetup.pickImages()
+            imagePickerSetup.pickImages(selectedImageUris.toMutableList())
         }
 
         setupHuntSpinner(binding.spinnerHunt)

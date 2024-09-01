@@ -58,6 +58,7 @@ class TrophyImageTabFragment : Fragment() {
                 hideRecyclerView()
 
             } else {
+                selectedImageUris.addAll(animal.imagePaths?.toMutableSet()!!)
                 setupImageAdapter(animal.imagePaths?.toMutableSet() ?: mutableSetOf())
                 setupRecyclerView()
             }
@@ -93,11 +94,11 @@ class TrophyImageTabFragment : Fragment() {
 
         binding.addTrophyImageButtonFloat.setOnClickListener()
         {
-            imagePickerSetup.pickImages()
+            imagePickerSetup.pickImages(selectedImageUris.toMutableList())
         }
         binding.addTrophyImageButton.setOnClickListener()
         {
-            imagePickerSetup.pickImages()
+            imagePickerSetup.pickImages(selectedImageUris.toMutableList())
         }
     }
 

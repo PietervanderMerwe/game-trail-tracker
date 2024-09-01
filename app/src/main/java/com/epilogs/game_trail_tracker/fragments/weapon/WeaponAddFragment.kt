@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 import com.epilogs.game_trail_tracker.viewmodels.SharedViewModel
 import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
@@ -68,7 +67,7 @@ class WeaponAddFragment : Fragment() {
         )
 
         binding.buttonSelectWeaponImages.setOnClickListener {
-            imagePickerSetup.pickImages()
+            imagePickerSetup.pickImages(selectedImageUris.toMutableList())
         }
 
         sharedViewModel.selectedImages.observe(viewLifecycleOwner) { images ->
