@@ -13,7 +13,7 @@ android {
         applicationId = "com.epilogs.game_trail_tracker"
         minSdk = 31
         targetSdk = 34
-        versionCode = 7
+        versionCode = 8
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
