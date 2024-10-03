@@ -80,11 +80,11 @@ class TrophyDetailsTabFragment : Fragment() {
             binding.textViewDateViewDetail.text =
                 animal?.harvestDate?.let { dateFormat.format(it) } ?: "N/A"
             val weight = animal?.weight?.toString() ?: ""
-            val weightType = animal?.weightType ?: ""
+            val weightType = animal?.weightUnit ?: ""
             binding.textViewWeightViewDetail.text = getString(R.string.weight_detail, weight, weightType)
 
-            val measurement = animal?.measurement?.toString() ?: ""
-            val measurementType = animal?.measurementType ?: ""
+            val measurement = ""//animal?.measurement?.toString() ?: ""
+            val measurementType = ""//animal?.measurementType ?: ""
             binding.textViewMeasurementViewDetail.text = getString(R.string.measurement_detail, measurement, measurementType)
 
             if (animal?.weaponId != null) {

@@ -116,7 +116,7 @@ class TrophyAddFragment : Fragment() {
             currentTrophy = trophy
             binding.editTextSpecieName.setText(trophy?.name)
             binding.editTextWeight.setText(trophy?.weight.toString())
-            binding.editTextMeasurement.setText(trophy?.measurement.toString())
+            //binding.editTextMeasurement.setText(trophy?.measurement.toString())
             binding.editTextDate.setText(trophy?.harvestDate?.let { dateFormat.format(it) }
                 ?: "N/A")
 
@@ -133,20 +133,21 @@ class TrophyAddFragment : Fragment() {
             val animal = Animal(
                 name = binding.editTextSpecieName.text.toString(),
                 weight = binding.editTextWeight.text.toString().toDoubleOrNull() ?: 0.0,
-                weightType = binding.spinnerWeightUnits.selectedItem.toString(),
-                measurement = binding.editTextMeasurement.text.toString().toDoubleOrNull() ?: 0.0,
-                measurementType = binding.spinnerMeasurementUnits.selectedItem.toString(),
+                weightUnit = binding.spinnerWeightUnits.selectedItem.toString(),
+                //measurement = binding.editTextMeasurement.text.toString().toDoubleOrNull() ?: 0.0,
+                //measurementType = binding.spinnerMeasurementUnits.selectedItem.toString(),
                 harvestDate = dateConverter.parseDate(binding.editTextDate.text.toString()),
                 notes = "Some notes",
                 huntId = huntId?.takeIf { it > 0 },
                 weaponId = weaponId?.takeIf { it > 0 },
-                imagePaths = selectedImageUris.toMutableList()
+                imagePaths = selectedImageUris.toMutableList(),
+                category = ""
             )
 
             if (trophyId == 0) {
                 viewModel.insertAnimal(animal)
             } else {
-                animal.id = trophyId
+                animal.id = trophyId!!
                 viewModel.updateAnimal(animal)
             }
         }

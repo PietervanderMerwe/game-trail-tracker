@@ -2,6 +2,7 @@ package com.epilogs.game_trail_tracker.database
 
 import android.content.Context
 import androidx.room.Room
+import com.epilogs.game_trail_tracker.database.migration.MIGRATION_3_4
 
 object DatabaseProvider {
     @Volatile
@@ -13,7 +14,9 @@ object DatabaseProvider {
                 context.applicationContext,
                 AppDatabase::class.java,
                 "game_trail_tracker_db"
-            ).build()
+            )
+                .addMigrations(MIGRATION_3_4)
+                .build()
             INSTANCE = instance
             instance
         }
