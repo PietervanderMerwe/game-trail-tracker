@@ -103,6 +103,8 @@ class WeaponAddFragment : Fragment() {
         val weapon = Weapon(
             name = binding.editTextWeaponName.text.toString(),
             notes = binding.editTextWeaponNotes.text.toString(),
+            type = ""//TODO: Create type list
+                     ,
             imagePaths = selectedImageUris.toMutableList())
 
         if(this.weaponId != 0) {

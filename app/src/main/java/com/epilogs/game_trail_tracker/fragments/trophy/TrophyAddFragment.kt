@@ -278,7 +278,7 @@ class TrophyAddFragment : Fragment() {
 
         viewModel.getAllWeapons().observe(viewLifecycleOwner) { newWeapons ->
             val modifiedWeapons = mutableListOf<Weapon>().apply {
-                add(Weapon(null, "None", "", mutableListOf<String>()))
+                add(Weapon(null, "None", "", "",mutableListOf<String>()))
                 addAll(newWeapons)
             }
             weaponAdapter.clear()

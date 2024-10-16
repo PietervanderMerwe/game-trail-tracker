@@ -2,8 +2,6 @@ package com.epilogs.game_trail_tracker.utils
 
 import android.content.Intent
 import android.net.Uri
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import gun0912.tedimagepicker.builder.TedImagePicker
 

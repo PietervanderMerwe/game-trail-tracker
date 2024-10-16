@@ -10,5 +10,6 @@ data class Weapon (
     @PrimaryKey(autoGenerate = true) var id: Int? = null,
     var name: String,
     var notes: String,
+    var type: String?,
     @TypeConverters(ImagePathListConverter::class) var imagePaths: List<String>?
 )
