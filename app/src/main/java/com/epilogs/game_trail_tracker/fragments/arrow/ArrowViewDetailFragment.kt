@@ -1,32 +1,34 @@
 package com.epilogs.game_trail_tracker.fragments.arrow
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
+import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
+import com.epilogs.game_trail_tracker.databinding.FragmentArrowViewDetailBinding
+import com.epilogs.game_trail_tracker.databinding.FragmentBulletViewDetailBinding
+import com.epilogs.game_trail_tracker.fragments.bullet.BulletViewDetailFragmentDirections
+import com.epilogs.game_trail_tracker.viewmodels.ArrowViewModel
+import com.epilogs.game_trail_tracker.viewmodels.BulletViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ArrowViewDetailFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ArrowViewDetailFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private var arrowId: Int? = null
+    private lateinit var binding: FragmentArrowViewDetailBinding
+    private val viewModel: ArrowViewModel by viewModels()
+    private lateinit var imageAdapter: ImagesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            arrowId = it.getInt("arrowId")
         }
     }
 
@@ -34,26 +36,65 @@ class ArrowViewDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_arrow_view_detail, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding = FragmentArrowViewDetailBinding.bind(view)
+
+        getArrow()
+    }
+
+    private fun getArrow() {
+        viewModel.getArrowById(arrowId!!).observe(viewLifecycleOwner) { arrow ->
+
+            binding.textViewBrandOrManViewDetail.setText(arrow?.manufacturer)
+            binding.textViewShaftMaterialViewDetail.setText(arrow?.shaftMaterial)
+            binding.textViewLengthViewDetail.setText(arrow?.length.toString())
+            binding.textViewFletchingTypeViewDetail.setText(arrow?.fletchingType)
+            binding.textViewPointTypeViewDetail.setText(arrow?.pointType)
+            binding.textViewPointWeightViewDetail.setText(arrow?.pointWeight.toString())
+            binding.textViewNockTypeViewDetail.setText(arrow?.nockType)
+            binding.textViewNotesViewDetail.setText(arrow?.notes)
+
+            if(arrow?.imagePaths?.isEmpty() == true) {
+                binding.imagesArrowRecyclerViewViewDetail.visibility = View.GONE
+            } else {
+                binding.imagesArrowRecyclerViewViewDetail.visibility = View.VISIBLE
+
+                val imagePaths = arrow?.imagePaths?.toMutableList() ?: mutableListOf()
+                imageAdapter = ImagesAdapter(imagePaths) { imageUrl, position ->
+                    val intent = Intent(context, FullScreenImageActivity::class.java).apply {
+                        putStringArrayListExtra("image_urls", ArrayList(arrow?.imagePaths))
+                        putExtra("image_position", position)
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+                    }
+                    context?.startActivity(intent)
+                }
+
+                binding.imagesArrowRecyclerViewViewDetail.adapter = imageAdapter
+                binding.imagesArrowRecyclerViewViewDetail.layoutManager =
+                    GridLayoutManager(requireContext(), 3)
+            }
+
+            binding.fabEditArrow.setOnClickListener {
+                val action =
+                    BulletViewDetailFragmentDirections.actionBulletViewDetailFragmentToBulletAddFragment(
+                        arrow?.weaponId!!,
+                        arrowId!!
+                    )
+                findNavController().navigate(action)
+            }
+        }
+    }
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ArrowViewDetailFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
             ArrowViewDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+
                 }
             }
     }
