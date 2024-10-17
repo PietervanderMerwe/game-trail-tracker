@@ -96,6 +96,7 @@
     <string name="manufacturer">Manufacturer</string>
     <string name="bulletWeight">Bullet Weight</string>
     <string name="bulletType">Bullet Type</string>
+    <string name="weaponType">Weapon Type</string>
     <string name="bulletNotes">Notes</string>
     <string name="bulletCaseBrand">Case Brand</string>
     <string name="bulletPowderBrand">Powder Brand</string>
@@ -159,7 +160,7 @@
         <item>Rifle</item>
         <item>Pistol</item>
         <item>Bow</item>
-
+        <item>Crossbow</item>
     </string-array>
     <!--Image content descriptions-->
     <string name="mountain_range">Mountain Range</string>

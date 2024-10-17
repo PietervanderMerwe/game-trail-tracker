@@ -7,6 +7,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.epilogs.game_trail_tracker.database.entities.Weapon
@@ -76,6 +77,7 @@ class WeaponAddFragment : Fragment() {
             imageAdapterSetup.updateImages(selectedImageUris.toMutableList())
         }
 
+        setupWeaponTypeArray()
         if (weaponId == 0) setupImageAdapter(selectedImageUris)
         observeViewModel()
     }
@@ -93,6 +95,7 @@ class WeaponAddFragment : Fragment() {
             currentWeapon = weapon
             binding.editTextWeaponName.setText(weapon?.name)
             binding.editTextWeaponNotes.setText(weapon?.notes)
+            binding.weaponTypeDropdown.setText(weapon?.type)
             setupImageAdapter(weapon?.imagePaths?.toMutableSet() ?: mutableSetOf())
 
             selectedImageUris.addAll(weapon?.imagePaths ?: mutableListOf())
@@ -103,8 +106,7 @@ class WeaponAddFragment : Fragment() {
         val weapon = Weapon(
             name = binding.editTextWeaponName.text.toString(),
             notes = binding.editTextWeaponNotes.text.toString(),
-            type = ""//TODO: Create type list
-                     ,
+            type = binding.weaponTypeDropdown.text.toString(),
             imagePaths = selectedImageUris.toMutableList())
 
         if(this.weaponId != 0) {
@@ -115,7 +117,6 @@ class WeaponAddFragment : Fragment() {
         else {
             viewModel.insertWeapon(weapon)
         }
-
     }
 
     private fun setupImageAdapter(imageUris: MutableSet<String>) {
@@ -131,6 +132,7 @@ class WeaponAddFragment : Fragment() {
             if (success == true) {
                 binding.editTextWeaponName.text?.clear()
                 binding.editTextWeaponNotes.text?.clear()
+                binding.weaponTypeDropdown.text?.clear()
                 viewModel.resetInsertionSuccess()
                 imageAdapterSetup.clearImages()
                 showCheckMark()
@@ -184,5 +186,19 @@ class WeaponAddFragment : Fragment() {
             }, 3000)
         }
         sharedViewModel.notifyWeaponsUpdated()
+    }
+
+    private fun setupWeaponTypeArray() {
+        val bulletTypeDropdown = binding.weaponTypeDropdown
+
+        val adapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.weapon_type_array,
+            android.R.layout.simple_dropdown_item_1line
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+
+        bulletTypeDropdown.setAdapter(adapter)
     }
 }

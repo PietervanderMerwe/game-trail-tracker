@@ -18,6 +18,7 @@ class WeaponViewDetailFragment : Fragment() {
     private var weaponId: Int? = null
     private val viewModel: WeaponViewModel by viewModels()
     private lateinit var binding: FragmentWeaponViewDetailBinding
+    private var shouldShowBullets: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -41,12 +42,16 @@ class WeaponViewDetailFragment : Fragment() {
         }
 
         getWeapon()
-        setAdapter()
     }
 
     private fun getWeapon() {
         viewModel.getWeaponById(weaponId!!).observe(viewLifecycleOwner, Observer { weapon ->
             binding.weaponName.text = weapon?.name
+
+            if(weapon?.type == "Pistol" || weapon?.type == "Rifle") {
+                shouldShowBullets = true
+            }
+            setAdapter()
         })
     }
 
@@ -59,24 +64,20 @@ class WeaponViewDetailFragment : Fragment() {
         weaponId?.let {
             val availableTabs = mutableListOf<String>()
 
-            if (shouldShowBullets()) {
+            if (shouldShowBullets) {
                 availableTabs.add("Bullets")
             } else {
                 availableTabs.add("Arrows")
             }
             availableTabs.add("Images")
 
-            val adapter = WeaponViewPagerAdapter(requireActivity(), weaponId, shouldShowBullets())
+            val adapter = WeaponViewPagerAdapter(requireActivity(), weaponId, shouldShowBullets)
             binding.viewPager.adapter = adapter
 
             TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
                 tab.text = availableTabs[position]
             }.attach()
         }
-    }
-
-    private fun shouldShowBullets(): Boolean {
-        return true
     }
 
     companion object {
