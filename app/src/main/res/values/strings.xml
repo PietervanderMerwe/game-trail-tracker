@@ -88,7 +88,9 @@
     <string name="add_weapon_images">Add Weapon Images</string>
     <string name="add_bullet">Add new bullet</string>
     <string name="bullet_image_description">bullet image</string>
+    <string name="arrow_image_description">arrow image</string>
     <string name="add_bullet_Text">Add Bullet</string>
+    <string name="add_arrow_Text">Add Arrow</string>
     <string name="bullet_self_load">Hand loaded</string>
     <string name="bullet_store_bought">Store bought</string>
     <string name="manufacturer">Manufacturer</string>
@@ -99,12 +101,21 @@
     <string name="bulletPowderBrand">Powder Brand</string>
     <string name="bulletPowderWeight">Powder Weight</string>
     <string name="buttonSaveBullet">Save bullet</string>
+    <string name="buttonSaveArrow">Save arrow</string>
     <string name="update_bullet">Update Bullet</string>
     <string name="bullet_details">Bullet Details</string>
     <string name="brandOrMan">Brand Or Manufacturer</string>
     <string name="type">Type</string>
     <string name="grains">grains (gr)</string>
     <string name="add_trophy_images">Add Trophy Images</string>
+    <string name="add_arrow">Add new arrow</string>
+    <string name="arrow_details">Arrow Details</string>
+    <string name="shaftMaterial">Shaft Material</string>
+    <string name="length">Length</string>
+    <string name="fletchingType">Fletching Type</string>
+    <string name="pointType">Point Type</string>
+    <string name="pointWeight">Point Weight</string>
+    <string name="nockType">Nock Type</string>
     <string-array name="measurements_array">
         <item>cm</item>
         <item>inch</item>
@@ -143,6 +154,12 @@
         <item>Varmint</item>
     </string-array>
 
+    <string-array name="weapon_type_array">
+        <item>Rifle</item>
+        <item>Pistol</item>
+        <item>Bow</item>
+
+    </string-array>
     <!--Image content descriptions-->
     <string name="mountain_range">Mountain Range</string>
     <string name="trophy_image_description">Trophy image</string>

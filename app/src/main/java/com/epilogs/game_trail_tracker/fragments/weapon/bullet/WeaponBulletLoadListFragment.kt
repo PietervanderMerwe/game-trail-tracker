@@ -1,4 +1,4 @@
-package com.epilogs.game_trail_tracker.fragments.weapon
+package com.epilogs.game_trail_tracker.fragments.weapon.bullet
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,12 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.InvalidationTracker
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.BulletViewAdapter
 import com.epilogs.game_trail_tracker.database.entities.Bullet
 import com.epilogs.game_trail_tracker.databinding.FragmentWeaponBulletLoadListBinding
-import com.epilogs.game_trail_tracker.fragments.hunt.HuntViewDetailFragmentDirections
+import com.epilogs.game_trail_tracker.fragments.weapon.WeaponViewDetailFragmentDirections
 import com.epilogs.game_trail_tracker.interfaces.OnBulletItemClickListener
 import com.epilogs.game_trail_tracker.viewmodels.BulletViewModel
 

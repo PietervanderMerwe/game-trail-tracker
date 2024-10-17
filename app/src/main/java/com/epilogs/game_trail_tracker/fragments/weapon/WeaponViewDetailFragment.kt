@@ -57,17 +57,26 @@ class WeaponViewDetailFragment : Fragment() {
 
     private fun setAdapter() {
         weaponId?.let {
-            val adapter = WeaponViewPagerAdapter(requireActivity(), weaponId)
+            val availableTabs = mutableListOf<String>()
+
+            if (shouldShowBullets()) {
+                availableTabs.add("Bullets")
+            } else {
+                availableTabs.add("Arrows")
+            }
+            availableTabs.add("Images")
+
+            val adapter = WeaponViewPagerAdapter(requireActivity(), weaponId, shouldShowBullets())
             binding.viewPager.adapter = adapter
 
             TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-                tab.text = when (position) {
-                    0 -> "Bullets"
-                    1 -> "Images"
-                    else -> null
-                }
+                tab.text = availableTabs[position]
             }.attach()
         }
+    }
+
+    private fun shouldShowBullets(): Boolean {
+        return true
     }
 
     companion object {

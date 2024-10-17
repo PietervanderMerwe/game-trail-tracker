@@ -60,6 +60,9 @@
         <action
             android:id="@+id/action_weaponFragment_to_bulletAddFragment"
             app:destination="@id/bulletAddFragment" />
+        <action
+            android:id="@+id/action_weaponFragment_to_arrowAddFragment"
+            app:destination="@id/arrowAddFragment" />
     </fragment>
     <fragment
         android:id="@+id/huntAddFragment"
@@ -204,6 +207,12 @@
         <action
             android:id="@+id/action_weaponViewDetailFragment_to_bulletAddFragment"
             app:destination="@id/bulletAddFragment" />
+        <action
+            android:id="@+id/action_weaponViewDetailFragment_to_arrowAddFragment"
+            app:destination="@id/arrowAddFragment" />
+        <action
+            android:id="@+id/action_weaponViewDetailFragment_to_arrowViewDetailFragment"
+            app:destination="@id/arrowViewDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/userSettingsFragment"
@@ -275,5 +284,44 @@
         <action
             android:id="@+id/action_bulletAddFragment_to_weaponFragment"
             app:destination="@id/weaponFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/arrowAddFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.arrow.ArrowAddFragment"
+        android:label="fragment_arrow_add"
+        tools:layout="@layout/fragment_arrow_add" >
+        <argument
+            android:name="weaponId"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="bulletId"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <action
+            android:id="@+id/action_arrowAddFragment_to_weaponViewDetailFragment"
+            app:destination="@id/weaponViewDetailFragment" />
+        <action
+            android:id="@+id/action_arrowAddFragment_to_weaponFragment"
+            app:destination="@id/weaponFragment" />
+        <action
+            android:id="@+id/action_arrowAddFragment_to_arrowViewDetailFragment"
+            app:destination="@id/arrowViewDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/arrowViewDetailFragment"
+        android:name="com.epilogs.game_trail_tracker.fragments.arrow.ArrowViewDetailFragment"
+        android:label="fragment_arrow_view_detail"
+        tools:layout="@layout/fragment_arrow_view_detail" >
+        <argument
+            android:name="arrowId"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <action
+            android:id="@+id/action_arrowViewDetailFragment_to_weaponViewDetailFragment"
+            app:destination="@id/weaponViewDetailFragment" />
+        <action
+            android:id="@+id/action_arrowViewDetailFragment_to_arrowAddFragment"
+            app:destination="@id/arrowAddFragment" />
     </fragment>
 </navigation>
