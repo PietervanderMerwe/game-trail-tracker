@@ -103,6 +103,7 @@
     <string name="buttonSaveBullet">Save bullet</string>
     <string name="buttonSaveArrow">Save arrow</string>
     <string name="update_bullet">Update Bullet</string>
+    <string name="update_arrow">Update Arrow</string>
     <string name="bullet_details">Bullet Details</string>
     <string name="brandOrMan">Brand Or Manufacturer</string>
     <string name="type">Type</string>

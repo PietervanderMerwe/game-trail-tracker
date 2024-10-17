@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 5,
-    "identityHash": "ae2eac02e3e75667edf7e3ff66dbc5e0",
+    "identityHash": "21e3e47655d4fa72a1a8500911f3fac1",
     "entities": [
       {
         "tableName": "Hunt",
@@ -357,19 +357,13 @@
       },
       {
         "tableName": "Arrow",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `type` TEXT NOT NULL, `manufacturer` TEXT, `shaftMaterial` TEXT NOT NULL, `length` REAL NOT NULL, `fletchingType` TEXT NOT NULL, `pointType` TEXT NOT NULL, `pointWeight` REAL, `nockType` TEXT, `notes` TEXT NOT NULL, `weaponId` INTEGER, `imagePaths` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `manufacturer` TEXT, `shaftMaterial` TEXT NOT NULL, `length` REAL NOT NULL, `fletchingType` TEXT NOT NULL, `pointType` TEXT NOT NULL, `pointWeight` REAL, `nockType` TEXT, `notes` TEXT NOT NULL, `weaponId` INTEGER, `imagePaths` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
             "notNull": false
-          },
-          {
-            "fieldPath": "type",
-            "columnName": "type",
-            "affinity": "TEXT",
-            "notNull": true
           },
           {
             "fieldPath": "manufacturer",
@@ -445,7 +439,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ae2eac02e3e75667edf7e3ff66dbc5e0')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '21e3e47655d4fa72a1a8500911f3fac1')"
     ]
   }
 }

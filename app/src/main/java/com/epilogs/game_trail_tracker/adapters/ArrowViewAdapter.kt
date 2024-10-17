@@ -26,7 +26,6 @@ class ArrowViewAdapter (
         RecyclerView.ViewHolder(view) {
         fun bind(arrow: Arrow) {
             itemView.findViewById<TextView>(R.id.arrow_view_item_name).text = arrow.manufacturer
-            itemView.findViewById<TextView>(R.id.arrow_view_item_type).text = arrow.type
 
             arrow.imagePaths?.let {
                 if (it.isNotEmpty()) {

@@ -14,7 +14,6 @@ class WeaponViewPagerAdapter(fragmentActivity: FragmentActivity,
     override fun getItemCount(): Int = 2
 
     override fun createFragment(position: Int): Fragment {
-        // Adjust which fragment to show based on the dynamic position
         return when (position) {
             0 -> {
                 if (showBullets) {

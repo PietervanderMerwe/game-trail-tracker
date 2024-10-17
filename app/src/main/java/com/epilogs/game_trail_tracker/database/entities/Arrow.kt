@@ -8,7 +8,6 @@ import com.epilogs.game_trail_tracker.utils.ImagePathListConverter
 @Entity
 data class Arrow (
     @PrimaryKey(autoGenerate = true) var id: Int? = null,
-    var type: String, // determines store-bought or self-made
     var manufacturer: String?, // store-bought, nullable for self-made
     var shaftMaterial: String, // e.g., carbon, aluminum, wood, etc.
     var length: Double, // in inches, applicable to all arrows
