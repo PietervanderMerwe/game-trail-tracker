@@ -12,8 +12,7 @@ import com.epilogs.game_trail_tracker.utils.ImagePathListConverter
 @Database(
     entities = [Hunt::class, Animal::class, Weapon::class, UserSettings::class, Bullet::class, Arrow::class],
     version = 5,
-    exportSchema = true,
-    autoMigrations = [AutoMigration(from = 4, to = 5)]
+    exportSchema = true
 )@TypeConverters(DateConverter::class, ImagePathListConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun huntDao(): HuntDao
