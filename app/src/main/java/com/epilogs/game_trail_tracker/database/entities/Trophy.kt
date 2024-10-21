@@ -24,7 +24,7 @@ import java.util.Date
         )
     ]
 )
-data class Animal(
+data class Trophy(
     @PrimaryKey(autoGenerate = true) var id: Int = 0,
     var name: String,
     var category: String,

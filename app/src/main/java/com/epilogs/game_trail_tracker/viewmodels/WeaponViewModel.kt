@@ -9,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import com.epilogs.game_trail_tracker.database.AppDatabase
 import com.epilogs.game_trail_tracker.database.DatabaseProvider
 import com.epilogs.game_trail_tracker.database.daos.WeaponDao
-import com.epilogs.game_trail_tracker.database.entities.Animal
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 import kotlinx.coroutines.launch
 

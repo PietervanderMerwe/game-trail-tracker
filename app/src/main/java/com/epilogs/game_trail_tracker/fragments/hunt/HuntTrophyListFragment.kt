@@ -1,18 +1,16 @@
 package com.epilogs.game_trail_tracker.fragments.hunt
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.TrophyViewAdapter
-import com.epilogs.game_trail_tracker.database.entities.Animal
+import com.epilogs.game_trail_tracker.database.entities.Trophy
 import com.epilogs.game_trail_tracker.databinding.FragmentHuntTrophyListBinding
 import com.epilogs.game_trail_tracker.interfaces.OnTrophyItemClickListener
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
@@ -84,10 +82,10 @@ class HuntTrophyListFragment : Fragment(), OnTrophyItemClickListener {
         findNavController().navigate(action)
     }
 
-    override fun onTrophyItemClick(animal: Animal) {
+    override fun onTrophyItemClick(trophy: Trophy) {
         val action =
             HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToTrophyViewDetailFragment(
-                animal.id!!
+                trophy.id!!
             )
         findNavController().navigate(action)
     }

@@ -6,19 +6,16 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
-import androidx.core.os.bundleOf
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.TrophyViewAdapter
 import com.epilogs.game_trail_tracker.data.TrophyFilterCriteria
-import com.epilogs.game_trail_tracker.database.entities.Animal
+import com.epilogs.game_trail_tracker.database.entities.Trophy
 import com.epilogs.game_trail_tracker.databinding.FragmentTrophyBinding
-import com.epilogs.game_trail_tracker.fragments.view.filter.AdvancedTrophyFilterFragment
 import com.epilogs.game_trail_tracker.interfaces.FilterTrophyCriteriaListener
 import com.epilogs.game_trail_tracker.interfaces.OnTrophyItemClickListener
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
@@ -90,8 +87,8 @@ class TrophyFragment : Fragment(R.layout.fragment_trophy), OnTrophyItemClickList
         }
     }
 
-    override fun onTrophyItemClick(animal: Animal) {
-        val action = TrophyFragmentDirections.actionTrophyFragmentToTrophyViewDetailFragment(animal.id!!)
+    override fun onTrophyItemClick(trophy: Trophy) {
+        val action = TrophyFragmentDirections.actionTrophyFragmentToTrophyViewDetailFragment(trophy.id!!)
         findNavController().navigate(action)
     }
 

@@ -6,9 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.epilogs.game_trail_tracker.database.AppDatabase
 import com.epilogs.game_trail_tracker.database.DatabaseProvider
-import com.epilogs.game_trail_tracker.database.daos.AnimalDao
+import com.epilogs.game_trail_tracker.database.daos.TrophyDao
 import com.epilogs.game_trail_tracker.database.daos.HuntDao
-import com.epilogs.game_trail_tracker.database.entities.Animal
+import com.epilogs.game_trail_tracker.database.entities.Trophy
 import kotlinx.coroutines.launch
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
@@ -18,7 +18,7 @@ import com.epilogs.game_trail_tracker.database.entities.Weapon
 
 class AnimalViewModel (application: Application) : AndroidViewModel(application) {
     private val db: AppDatabase = DatabaseProvider.getDatabase(application)
-    private val animalDao: AnimalDao = db.animalDao()
+    private val trophyDao: TrophyDao = db.animalDao()
     private val huntDao: HuntDao = db.huntDao()
     private val weaponDao: WeaponDao = db.weaponDao()
 
@@ -30,13 +30,13 @@ class AnimalViewModel (application: Application) : AndroidViewModel(application)
     fun getDeleteSuccess(): LiveData<Boolean?> = deleteSuccess
     fun getInsertionSuccess(): MutableLiveData<Boolean?> = insertionSuccess
 
-    fun insertAnimal(animal: Animal) = viewModelScope.launch {
-        animalDao.insertAnimal(animal)
+    fun insertAnimal(trophy: Trophy) = viewModelScope.launch {
+        trophyDao.insertTrophy(trophy)
         insertionSuccess.postValue(true)
     }
 
-    fun getAllAnimals(): LiveData<List<Animal>> = liveData {
-        val animals = animalDao.getAllAnimals()
+    fun getAllAnimals(): LiveData<List<Trophy>> = liveData {
+        val animals = trophyDao.getAllTrophies()
         emit(animals)
     }
 
@@ -50,27 +50,27 @@ class AnimalViewModel (application: Application) : AndroidViewModel(application)
         emit(weapons)
     }
 
-    fun getAnimalById(id: Int): LiveData<Animal?> = liveData {
-        val animal = animalDao.getAnimalById(id)
+    fun getAnimalById(id: Int): LiveData<Trophy?> = liveData {
+        val animal = trophyDao.getTrophyById(id)
         emit(animal)
     }
-    fun updateAnimal(animal: Animal) = viewModelScope.launch {
-        animalDao.updateAnimal(animal)
+    fun updateAnimal(trophy: Trophy) = viewModelScope.launch {
+        trophyDao.updateTrophy(trophy)
         updateSuccess.postValue(true)
     }
 
-    fun deleteAnimal(animal: Animal) = viewModelScope.launch {
-        animalDao.deleteAnimal(animal)
+    fun deleteAnimal(trophy: Trophy) = viewModelScope.launch {
+        trophyDao.deleteTrophy(trophy)
         deleteSuccess.postValue(true)
     }
 
-    fun getLatestAnimal(): LiveData<Animal?> = liveData {
-        val animal = animalDao.getLatestAnimal()
+    fun getLatestAnimal(): LiveData<Trophy?> = liveData {
+        val animal = trophyDao.getLatestTrophy()
         emit(animal)
     }
 
-    fun getAnimalsByHuntId(huntId: Int): LiveData<List<Animal>> = liveData {
-        val trophies = animalDao.getAnimalsByHuntId(huntId)
+    fun getAnimalsByHuntId(huntId: Int): LiveData<List<Trophy>> = liveData {
+        val trophies = trophyDao.getTrophiesByHuntId(huntId)
         emit(trophies)
     }
 

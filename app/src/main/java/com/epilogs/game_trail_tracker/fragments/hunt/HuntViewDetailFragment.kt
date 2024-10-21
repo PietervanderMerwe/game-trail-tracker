@@ -1,6 +1,5 @@
 package com.epilogs.game_trail_tracker.fragments.hunt
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,16 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.epilogs.game_trail_tracker.FullScreenImageActivity
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.HuntViewPagerAdapter
-import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
-import com.epilogs.game_trail_tracker.adapters.TrophyViewAdapter
-import com.epilogs.game_trail_tracker.database.entities.Animal
 import com.epilogs.game_trail_tracker.databinding.FragmentHuntViewDetailBinding
-import com.epilogs.game_trail_tracker.interfaces.OnTrophyItemClickListener
-import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import java.text.SimpleDateFormat

@@ -16,7 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.LocationAdapter
 import com.epilogs.game_trail_tracker.adapters.WeaponAdapter
-import com.epilogs.game_trail_tracker.database.entities.Animal
+import com.epilogs.game_trail_tracker.database.entities.Trophy
 import com.epilogs.game_trail_tracker.database.entities.Hunt
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 import com.epilogs.game_trail_tracker.databinding.FragmentTrophyAddBinding
@@ -42,7 +42,7 @@ class TrophyAddFragment : Fragment() {
     private var huntId: Int? = null
     private val userSettingsViewModel: UserSettingsViewModel by viewModels()
     private val huntViewModel : HuntViewModel by viewModels()
-    private var currentTrophy: Animal? = null
+    private var currentTrophy: Trophy? = null
     private lateinit var imagePickerSetup: ImagePickerSetup
     private lateinit var imageAdapterSetup: ImageAdapterSetup
 
@@ -130,7 +130,7 @@ class TrophyAddFragment : Fragment() {
         val dateConverter = DateConverter()
         binding.buttonSaveAnimal.setOnClickListener {
 
-            val animal = Animal(
+            val trophy = Trophy(
                 name = binding.editTextSpecieName.text.toString(),
                 weight = binding.editTextWeight.text.toString().toDoubleOrNull() ?: 0.0,
                 weightUnit = binding.spinnerWeightUnits.selectedItem.toString(),
@@ -145,10 +145,10 @@ class TrophyAddFragment : Fragment() {
             )
 
             if (trophyId == 0) {
-                viewModel.insertAnimal(animal)
+                viewModel.insertAnimal(trophy)
             } else {
-                animal.id = trophyId!!
-                viewModel.updateAnimal(animal)
+                trophy.id = trophyId!!
+                viewModel.updateAnimal(trophy)
             }
         }
     }

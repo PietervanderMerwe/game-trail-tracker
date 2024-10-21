@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.epilogs.game_trail_tracker.R
-import com.epilogs.game_trail_tracker.database.entities.Animal
+import com.epilogs.game_trail_tracker.database.entities.Trophy
 import com.epilogs.game_trail_tracker.databinding.FragmentTrophyDetailsTabBinding
 import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
@@ -23,7 +23,7 @@ class TrophyDetailsTabFragment : Fragment() {
     private val animalViewModel: AnimalViewModel by viewModels()
     private val weaponViewModel: WeaponViewModel by viewModels()
     private val huntViewModel: HuntViewModel by viewModels()
-    private var currentAnimal: Animal? = null
+    private var currentTrophy: Trophy? = null
     private var huntId: Int? = 0;
     private var weaponId: Int? = 0;
     private lateinit var binding: FragmentTrophyDetailsTabBinding
@@ -75,7 +75,7 @@ class TrophyDetailsTabFragment : Fragment() {
         }
 
         animalViewModel.getAnimalById(trophyId!!).observe(viewLifecycleOwner, Observer { animal ->
-            currentAnimal = animal
+            currentTrophy = animal
             binding.textViewSpecieNameViewDetail.text = animal?.name
             binding.textViewDateViewDetail.text =
                 animal?.harvestDate?.let { dateFormat.format(it) } ?: "N/A"

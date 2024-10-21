@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.adapters.ImagesAdapter
-import com.epilogs.game_trail_tracker.database.entities.Animal
+import com.epilogs.game_trail_tracker.database.entities.Trophy
 import com.epilogs.game_trail_tracker.databinding.FragmentTrophyImageTabBinding
 import com.epilogs.game_trail_tracker.utils.ImageAdapterSetup
 import com.epilogs.game_trail_tracker.utils.ImagePickerSetup
@@ -22,7 +22,7 @@ class TrophyImageTabFragment : Fragment() {
     private lateinit var imageAdapter: ImagesAdapter
     private val viewModel: AnimalViewModel by viewModels()
     private lateinit var binding: FragmentTrophyImageTabBinding
-    private lateinit var currentTrophy: Animal
+    private lateinit var currentTrophy: Trophy
     private val selectedImageUris = mutableSetOf<String>()
     private lateinit var imagePickerSetup: ImagePickerSetup
     private lateinit var imageAdapterSetup: ImageAdapterSetup
