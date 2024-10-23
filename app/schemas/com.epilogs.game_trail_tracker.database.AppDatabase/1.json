@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e25e365ddf8724d77bba7185c0d829f8",
+    "identityHash": "6fc9dbcc7fc2b3dc5eb0548795d5fe62",
     "entities": [
       {
         "tableName": "Hunt",
@@ -450,7 +450,7 @@
       },
       {
         "tableName": "MeasurementType",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `measurementCategoryId` INTEGER NOT NULL, FOREIGN KEY(`measurementCategoryId`) REFERENCES `MeasurementCategory`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
         "fields": [
           {
             "fieldPath": "id",
@@ -463,6 +463,12 @@
             "columnName": "name",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "measurementCategoryId",
+            "columnName": "measurementCategoryId",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -472,7 +478,19 @@
           ]
         },
         "indices": [],
-        "foreignKeys": []
+        "foreignKeys": [
+          {
+            "table": "MeasurementCategory",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "measurementCategoryId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       },
       {
         "tableName": "MeasurementCategory",
@@ -504,7 +522,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e25e365ddf8724d77bba7185c0d829f8')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6fc9dbcc7fc2b3dc5eb0548795d5fe62')"
     ]
   }
 }
