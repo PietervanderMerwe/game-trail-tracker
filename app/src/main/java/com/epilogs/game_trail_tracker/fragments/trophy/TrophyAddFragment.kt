@@ -191,7 +191,6 @@ class TrophyAddFragment : Fragment() {
         binding.editTextSpecieName.text.clear()
         binding.editTextDate.text.clear()
         binding.editTextWeight.text.clear()
-        //binding.editTextMeasurement.text.clear()
         imageAdapterSetup.clearImages()
         binding.buttonDeleteWeapon.visibility = View.GONE
     }

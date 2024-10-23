@@ -121,7 +121,8 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingLeft="8dp"
-        android:paddingRight="8dp">
+        android:paddingRight="8dp"
+        android:paddingBottom="8dp">
 
         <Button
             android:id="@+id/buttonSaveWeapon"
