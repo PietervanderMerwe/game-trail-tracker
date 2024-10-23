@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.trophy.TrophyAddFragment"
-    android:padding="16dp">
+    tools:context=".fragments.trophy.TrophyAddFragment">
 
-    <ScrollView
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/trophyDetailAppBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/buttonSaveAnimalContainer">
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <LinearLayout
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/primary_color"
+                app:layout_collapseMode="pin" />
 
             <TextView
                 android:id="@+id/addTrophyText"
@@ -28,13 +36,28 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textStyle="bold" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/buttonSaveAnimalContainer"
+        android:layout_below="@+id/trophyDetailAppBar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <com.google.android.material.textfield.TextInputLayout
                 style="@style/CustomTextInputLayout"
-                app:cursorColor="@color/secondary_color"
-                android:theme="@style/TextInputLayoutStyle">
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                app:cursorColor="@color/secondary_color">
 
                 <EditText
                     android:id="@+id/editTextSpecieName"
@@ -58,8 +81,8 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:focusable="false"
-                    android:inputType="none"
                     android:hint="@string/measurementType"
+                    android:inputType="none"
                     android:padding="16dp"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -71,20 +94,20 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/CustomTextInputLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="7"
                     android:paddingTop="8dp"
-                    style="@style/CustomTextInputLayout"
-                    app:cursorColor="@color/secondary_color"
-                    android:theme="@style/TextInputLayoutStyle">
+                    android:theme="@style/TextInputLayoutStyle"
+                    app:cursorColor="@color/secondary_color">
 
                     <EditText
                         android:id="@+id/editTextWeight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/editTextWeight"
-                        android:inputType="numberDecimal"/>
+                        android:inputType="numberDecimal" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Spinner
@@ -96,13 +119,13 @@
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/CustomTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
-                style="@style/CustomTextInputLayout"
-                app:cursorColor="@color/secondary_color"
-                android:theme="@style/TextInputLayoutStyle">
+                android:theme="@style/TextInputLayoutStyle"
+                app:cursorColor="@color/secondary_color">
 
                 <EditText
                     android:id="@+id/editTextDate"
@@ -129,8 +152,8 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:focusable="false"
-                    android:inputType="none"
                     android:hint="@string/selectHunt"
+                    android:inputType="none"
                     android:padding="16dp"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -150,8 +173,8 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:focusable="false"
-                    android:inputType="none"
                     android:hint="@string/selectWeapon"
+                    android:inputType="none"
                     android:padding="16dp"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -163,7 +186,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/buttonSelectImages"
-                android:textColor="@color/secondary_color"/>
+                android:textColor="@color/secondary_color" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/imagesAnimalRecyclerView"
@@ -180,7 +203,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
 
         <Button
             android:id="@+id/buttonSaveAnimal"
@@ -188,8 +213,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.9"
             android:backgroundTint="@color/primary_color"
-            android:textColor="@color/white"
-            android:text="@string/buttonSaveAnimal" />
+            android:text="@string/buttonSaveAnimal"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/buttonDeleteWeapon"
@@ -197,9 +222,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.9"
             android:backgroundTint="@color/red"
-            android:textColor="@color/white"
             android:text="@string/delete"
-            android:visibility="gone"/>
+            android:textColor="@color/white"
+            android:visibility="gone" />
     </LinearLayout>
 
     <ImageView

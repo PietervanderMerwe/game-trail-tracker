@@ -1,34 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     tools:context=".fragments.weapon.WeaponAddFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/weaponDetailAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/primary_color"
+                app:layout_collapseMode="pin" />
+
+            <TextView
+                android:id="@+id/addWeaponText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="@string/addWeaponText"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/addWeaponText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="16dp"
-            android:text="@string/addWeaponText"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textStyle="bold" />
+        android:orientation="vertical"
+        android:layout_below="@+id/weaponDetailAppBar"
+        android:padding="16dp">
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
-            style="@style/CustomTextInputLayout"
-            app:cursorColor="@color/secondary_color"
-            android:theme="@style/TextInputLayoutStyle">
+            android:theme="@style/TextInputLayoutStyle"
+            app:cursorColor="@color/secondary_color">
 
             <EditText
                 android:id="@+id/editTextWeaponName"
@@ -52,19 +75,19 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="false"
-                android:inputType="none"
                 android:hint="@string/weaponType"
+                android:inputType="none"
                 android:padding="16dp"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
-            style="@style/CustomTextInputLayout"
-            app:cursorColor="@color/secondary_color"
-            android:theme="@style/TextInputLayoutStyle">
+            android:theme="@style/TextInputLayoutStyle"
+            app:cursorColor="@color/secondary_color">
 
             <EditText
                 android:id="@+id/editTextWeaponNotes"
@@ -88,33 +111,36 @@
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
             android:layout_weight="1" />
+    </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/buttonSaveAnimalContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+
+        <Button
+            android:id="@+id/buttonSaveWeapon"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_weight="0.9"
+            android:backgroundTint="@color/primary_color"
+            android:text="@string/buttonSaveWeapon"
+            android:textColor="@color/white" />
 
-            <Button
-                android:id="@+id/buttonSaveWeapon"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.9"
-                android:backgroundTint="@color/primary_color"
-                android:textColor="@color/white"
-                android:text="@string/buttonSaveWeapon" />
-
-            <Button
-                android:id="@+id/buttonDeleteWeapon"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.9"
-                android:backgroundTint="@color/red"
-                android:textColor="@color/white"
-                android:text="@string/delete"
-                android:visibility="gone"/>
-        </LinearLayout>
+        <Button
+            android:id="@+id/buttonDeleteWeapon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.9"
+            android:backgroundTint="@color/red"
+            android:text="@string/delete"
+            android:textColor="@color/white"
+            android:visibility="gone" />
     </LinearLayout>
 
     <ImageView
@@ -126,4 +152,4 @@
         android:src="@drawable/ic_checkmark"
         android:visibility="gone" />
 
-</FrameLayout>
+</RelativeLayout>

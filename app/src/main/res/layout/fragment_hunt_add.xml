@@ -1,97 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="16dp"
     tools:context=".fragments.hunt.HuntAddFragment">
 
-    <TextView
-        android:id="@+id/addHuntText"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/huntDetailAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="16dp"
-        android:text="@string/addHuntText"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textStyle="bold" />
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        style="@style/CustomTextInputLayout"
-        app:cursorColor="@color/secondary_color"
-        android:theme="@style/TextInputLayoutStyle">
-
-        <EditText
-            android:id="@+id/editTextName"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/location" />
-    </com.google.android.material.textfield.TextInputLayout>
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        style="@style/CustomTextInputLayout"
-        app:cursorColor="@color/secondary_color"
-        android:theme="@style/TextInputLayoutStyle">
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/primary_color"
+                app:layout_collapseMode="pin" />
 
-        <EditText
-            android:id="@+id/editTextStartDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:cursorVisible="false"
-            android:focusable="false"
-            android:hint="@string/startDate"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        style="@style/CustomTextInputLayout"
-        app:cursorColor="@color/secondary_color"
-        android:theme="@style/TextInputLayoutStyle">
-
-        <EditText
-            android:id="@+id/editTextEndDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:cursorVisible="false"
-            android:focusable="false"
-            android:hint="@string/endtDate" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-        android:id="@+id/buttonSelectLocationImages"
-        style="?android:attr/buttonBarButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/buttonSelectImages"
-        android:textColor="@color/secondary_color"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/imagesLocationRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="16dp" />
+            <TextView
+                android:id="@+id/addHuntText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="@string/addHuntText"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_below="@+id/huntDetailAppBar">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutStyle"
+            app:cursorColor="@color/secondary_color">
+
+            <EditText
+                android:id="@+id/editTextName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/location" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:theme="@style/TextInputLayoutStyle"
+            app:cursorColor="@color/secondary_color">
+
+            <EditText
+                android:id="@+id/editTextStartDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:hint="@string/startDate" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:theme="@style/TextInputLayoutStyle"
+            app:cursorColor="@color/secondary_color">
+
+            <EditText
+                android:id="@+id/editTextEndDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:hint="@string/endtDate" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/buttonSelectLocationImages"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/buttonSelectImages"
+            android:textColor="@color/secondary_color" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/imagesLocationRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttonSaveAnimalContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
 
         <Button
             android:id="@+id/buttonSaveLocation"
@@ -99,8 +130,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.9"
             android:backgroundTint="@color/primary_color"
-            android:textColor="@color/white"
-            android:text="@string/buttonSaveLocation"/>
+            android:text="@string/buttonSaveLocation"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/buttonDeleteWeapon"
@@ -108,9 +139,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.9"
             android:backgroundTint="@color/red"
-            android:textColor="@color/white"
             android:text="@string/delete"
-            android:visibility="gone"/>
+            android:textColor="@color/white"
+            android:visibility="gone" />
     </LinearLayout>
 
     <ImageView
@@ -123,4 +154,4 @@
         android:src="@drawable/ic_checkmark"
         android:visibility="gone" />
 
-</LinearLayout>
+</RelativeLayout>
