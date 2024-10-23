@@ -5,17 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.epilogs.game_trail_tracker.R
-import com.epilogs.game_trail_tracker.adapters.LocationAdapter
-import com.epilogs.game_trail_tracker.adapters.WeaponAdapter
+import com.epilogs.game_trail_tracker.adapters.HuntDropdownAdapter
+import com.epilogs.game_trail_tracker.adapters.WeaponDropdownAdapter
 import com.epilogs.game_trail_tracker.database.entities.Trophy
 import com.epilogs.game_trail_tracker.database.entities.Hunt
 import com.epilogs.game_trail_tracker.database.entities.Weapon
@@ -28,6 +26,7 @@ import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
 import com.epilogs.game_trail_tracker.viewmodels.SharedViewModel
 import com.epilogs.game_trail_tracker.viewmodels.UserSettingsViewModel
+import com.epilogs.game_trail_tracker.viewmodels.WeaponViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -42,6 +41,7 @@ class TrophyAddFragment : Fragment() {
     private var huntId: Int? = null
     private val userSettingsViewModel: UserSettingsViewModel by viewModels()
     private val huntViewModel : HuntViewModel by viewModels()
+    private val weaponViewModel : WeaponViewModel by viewModels()
     private var currentTrophy: Trophy? = null
     private lateinit var imagePickerSetup: ImagePickerSetup
     private lateinit var imageAdapterSetup: ImageAdapterSetup
@@ -87,9 +87,9 @@ class TrophyAddFragment : Fragment() {
             imagePickerSetup.pickImages(selectedImageUris.toMutableList())
         }
 
-        setupHuntSpinner(binding.spinnerHunt)
-        setupWeaponSpinner(binding.spinnerWeapon)
-        setupWeightAndMeasurementSpinner()
+        setupHuntDropdown()
+        setupWeaponDropdown()
+        setupWeightSpinner()
 
         if (trophyId == 0) setupImageAdapter(selectedImageUris)
 
@@ -191,153 +191,39 @@ class TrophyAddFragment : Fragment() {
         binding.editTextSpecieName.text.clear()
         binding.editTextDate.text.clear()
         binding.editTextWeight.text.clear()
-        binding.editTextMeasurement.text.clear()
+        //binding.editTextMeasurement.text.clear()
         imageAdapterSetup.clearImages()
         binding.buttonDeleteWeapon.visibility = View.GONE
     }
 
-    private fun setupHuntSpinner(spinnerLocation: Spinner) {
-        val locations = mutableListOf<Hunt>()
-        val locationAdapter = LocationAdapter(requireContext(), locations)
-        spinnerLocation.adapter = locationAdapter
+    private fun setupHuntDropdown() {
+        val huntDropdown = binding.selectHuntDropdown
 
-        viewModel.getAllLocations().observe(viewLifecycleOwner) { newLocations ->
-            val modifiedLocations = mutableListOf<Hunt>().apply {
-                add(
-                    Hunt(null, "None", null, null, mutableListOf<String>())
-                )
-                addAll(newLocations)
+        huntViewModel.getAllHunts().observe(viewLifecycleOwner) { hunts ->
+            val adapter = HuntDropdownAdapter(requireContext(), hunts)
+            huntDropdown.setAdapter(adapter)
+
+            huntDropdown.setOnItemClickListener { parent, view, position, id ->
+                val selectedHunt = hunts[position]
+                huntDropdown.setText(selectedHunt.name, false)
+                huntId = selectedHunt.id
             }
-            locationAdapter.clear()
-            locationAdapter.addAll(modifiedLocations)
-            locationAdapter.notifyDataSetChanged()
-
-            val defaultPosition = modifiedLocations.indexOfFirst { it.id == huntId }
-
-            if (defaultPosition >= 0) {
-                spinnerLocation.setSelection(defaultPosition)
-            }
-        }
-
-        spinnerLocation.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View,
-                position: Int,
-                id: Long
-            ) {
-                val selectedLocation = parent.getItemAtPosition(position) as Hunt
-                huntId = selectedLocation.id
-                setupDatePicker()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // Handle case when nothing is selected if needed
-            }
-        }
-
-        sharedViewModel.getLocationsUpdateSignal().observe(viewLifecycleOwner) { updated ->
-            if (updated) {
-                viewModel.getAllLocations().observe(viewLifecycleOwner) { newLocations ->
-                    newLocations?.let { locations ->
-                        locationAdapter.clear()
-                        locationAdapter.addAll(locations)
-                        locationAdapter.notifyDataSetChanged()
-                        sharedViewModel.resetLocationsUpdatedSignal()
-                    } ?: run {
-                        sharedViewModel.resetLocationsUpdatedSignal()
-                    }
-                }
-            }
-        }
-
-        if (huntId != 0) {
-            showSpinnerHunt()
-        }
-
-        binding.buttonLinkToHunt.setOnClickListener {
-            showSpinnerHunt()
         }
     }
 
-    private fun showSpinnerHunt() {
-        binding.spinnerHunt.visibility =
-            if (binding.spinnerHunt.visibility == View.GONE) View.VISIBLE else View.GONE
-        binding.selectHuntTextView.visibility =
-            if (binding.selectHuntTextView.visibility == View.GONE) View.VISIBLE else View.GONE
-        binding.buttonLinkToHunt.visibility =
-            if (binding.buttonLinkToHunt.visibility == View.GONE) View.VISIBLE else View.GONE
-    }
+    private fun setupWeaponDropdown() {
+        val weaponDropdown = binding.selectWeaponDropdown
 
-    private fun setupWeaponSpinner(spinnerWeapon: Spinner) {
+        weaponViewModel.getAllWeapons().observe(viewLifecycleOwner) { weapons ->
+            val adapter = WeaponDropdownAdapter(requireContext(), weapons)
+            weaponDropdown.setAdapter(adapter)
 
-        val weapons = mutableListOf<Weapon>()
-        val weaponAdapter = WeaponAdapter(requireContext(), weapons)
-        spinnerWeapon.adapter = weaponAdapter
-
-        viewModel.getAllWeapons().observe(viewLifecycleOwner) { newWeapons ->
-            val modifiedWeapons = mutableListOf<Weapon>().apply {
-                add(Weapon(null, "None", "", "",mutableListOf<String>()))
-                addAll(newWeapons)
-            }
-            weaponAdapter.clear()
-            weaponAdapter.addAll(modifiedWeapons)
-            weaponAdapter.notifyDataSetChanged()
-
-            val defaultPosition = modifiedWeapons.indexOfFirst { it.id == weaponId }
-
-            if (defaultPosition >= 0) {
-                spinnerWeapon.setSelection(defaultPosition)
-            }
-        }
-
-        sharedViewModel.getWeaponsUpdateSignal().observe(viewLifecycleOwner) { updated ->
-            if (updated) {
-                viewModel.getAllWeapons().observe(viewLifecycleOwner) { newWeapons ->
-                    newWeapons?.let { weapons ->
-                        weaponAdapter.clear()
-                        weaponAdapter.addAll(weapons)
-                        weaponAdapter.notifyDataSetChanged()
-                        sharedViewModel.resetWeaponsUpdatedSignal()
-                    } ?: run {
-                        sharedViewModel.resetWeaponsUpdatedSignal()
-                    }
-                }
-            }
-        }
-
-        spinnerWeapon.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View,
-                position: Int,
-                id: Long
-            ) {
-                val selectedWeapon = parent.getItemAtPosition(position) as Weapon
+            weaponDropdown.setOnItemClickListener { parent, view, position, id ->
+                val selectedWeapon = weapons[position]
+                weaponDropdown.setText(selectedWeapon.name, false)
                 weaponId = selectedWeapon.id
             }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // Handle case when nothing is selected if needed
-            }
         }
-
-        if (weaponId != 0) {
-            showSpinnerWeapon()
-        }
-
-        binding.buttonLinkWeapon.setOnClickListener {
-            showSpinnerWeapon()
-        }
-    }
-
-    private fun showSpinnerWeapon() {
-        binding.spinnerWeapon.visibility =
-            if (binding.spinnerWeapon.visibility == View.GONE) View.VISIBLE else View.GONE
-        binding.selectWeaponTextView.visibility =
-            if (binding.selectWeaponTextView.visibility == View.GONE) View.VISIBLE else View.GONE
-        binding.buttonLinkWeapon.visibility =
-            if (binding.buttonLinkWeapon.visibility == View.GONE) View.VISIBLE else View.GONE
     }
 
     private fun setupImageAdapter(imageUris: MutableSet<String>) {
@@ -348,16 +234,7 @@ class TrophyAddFragment : Fragment() {
         imageAdapterSetup.setupAdapter()
     }
 
-    private fun setupWeightAndMeasurementSpinner() {
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.measurements_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.spinnerMeasurementUnits.adapter = adapter
-        }
-
+    private fun setupWeightSpinner() {
         ArrayAdapter.createFromResource(
             requireContext(),
             R.array.weights_array,
@@ -368,10 +245,6 @@ class TrophyAddFragment : Fragment() {
         }
 
         userSettingsViewModel.getUserSettingsById(1).observe(viewLifecycleOwner) { userSetting ->
-            val measurementUnitsAdapter = binding.spinnerMeasurementUnits.adapter as ArrayAdapter<String>
-            val measurementUnitsPosition = measurementUnitsAdapter.getPosition(userSetting?.measurement)
-            binding.spinnerMeasurementUnits.setSelection(measurementUnitsPosition)
-
             val weightUnitsAdapter = binding.spinnerWeightUnits.adapter as ArrayAdapter<String>
             val weightUnitsPosition = weightUnitsAdapter.getPosition(userSetting?.weight)
             binding.spinnerWeightUnits.setSelection(weightUnitsPosition)

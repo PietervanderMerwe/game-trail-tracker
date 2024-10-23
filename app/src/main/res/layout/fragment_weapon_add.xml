@@ -54,7 +54,7 @@
                 android:focusable="false"
                 android:inputType="none"
                 android:hint="@string/weaponType"
-                android:padding="4dp"
+                android:padding="16dp"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
         </com.google.android.material.textfield.TextInputLayout>
 

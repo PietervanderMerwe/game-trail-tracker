@@ -10,13 +10,13 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/buttonSaveAnimalContainer"
-        android:padding="16dp">
+        android:layout_above="@+id/buttonSaveAnimalContainer">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/addTrophyText"
@@ -31,7 +31,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="8dp"
+
                 style="@style/CustomTextInputLayout"
                 app:cursorColor="@color/secondary_color"
                 android:theme="@style/TextInputLayoutStyle">
@@ -42,6 +42,28 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/editTextSpecieName" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/trophyCategoryContainer"
+                style="@style/CustomTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:theme="@style/TextInputLayoutStyle"
+                app:endIconMode="dropdown_menu">
+
+                <AutoCompleteTextView
+                    android:id="@+id/trophyCategoryDropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:hint="@string/measurementType"
+                    android:padding="16dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -73,36 +95,6 @@
                     android:gravity="end" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="7"
-                    android:paddingTop="8dp"
-                    style="@style/CustomTextInputLayout"
-                    app:cursorColor="@color/secondary_color"
-                    android:theme="@style/TextInputLayoutStyle">
-
-                    <EditText
-                        android:id="@+id/editTextMeasurement"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/editTextMeasurement"
-                        android:inputType="numberDecimal" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <Spinner
-                    android:id="@+id/spinnerMeasurementUnits"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:gravity="end" />
-            </LinearLayout>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -122,49 +114,47 @@
                     android:hint="@string/editTextDate" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/buttonLinkToHunt"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/selectHuntContainer"
+                style="@style/CustomTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/addToHunt"
-                android:backgroundTint="@color/primary_color"
-                android:textColor="@color/white"/>
+                android:paddingTop="8dp"
+                android:theme="@style/TextInputLayoutStyle"
+                app:endIconMode="dropdown_menu">
 
-            <TextView
-                android:id="@+id/selectHuntTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/selectHunt"
-                android:padding="8dp"
-                android:visibility="gone" />
+                <AutoCompleteTextView
+                    android:id="@+id/selectHuntDropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:hint="@string/selectHunt"
+                    android:padding="16dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <Spinner
-                android:id="@+id/spinnerHunt"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/selectWeaponContainer"
+                style="@style/CustomTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone" />
+                android:paddingTop="8dp"
+                android:theme="@style/TextInputLayoutStyle"
+                app:endIconMode="dropdown_menu">
 
-            <Button
-                android:id="@+id/buttonLinkWeapon"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/addWeapon"
-                android:backgroundTint="@color/primary_color"
-                android:textColor="@color/white"/>
-
-            <TextView
-                android:id="@+id/selectWeaponTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/selectWeapon"
-                android:padding="8dp"
-                android:visibility="gone" />
-
-            <Spinner
-                android:id="@+id/spinnerWeapon"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone" />
+                <AutoCompleteTextView
+                    android:id="@+id/selectWeaponDropdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:hint="@string/selectWeapon"
+                    android:padding="16dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/buttonSelectAnimalImages"
