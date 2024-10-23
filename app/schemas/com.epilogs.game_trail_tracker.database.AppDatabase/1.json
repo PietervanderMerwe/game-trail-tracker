@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "4558674f70ff76f94756bdc32e97ac39",
+    "identityHash": "e25e365ddf8724d77bba7185c0d829f8",
     "entities": [
       {
         "tableName": "Hunt",
@@ -50,7 +50,7 @@
       },
       {
         "tableName": "Trophy",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `category` TEXT NOT NULL, `weight` REAL, `weightUnit` TEXT, `antlerPoints` INTEGER, `antlerLength` REAL, `antlerCircumference` REAL, `hornLength` REAL, `hornBaseCircumference` REAL, `skullLength` REAL, `skullWidth` REAL, `harvestDate` INTEGER, `notes` TEXT, `huntId` INTEGER, `weaponId` INTEGER, `imagePaths` TEXT, FOREIGN KEY(`huntId`) REFERENCES `Hunt`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL , FOREIGN KEY(`weaponId`) REFERENCES `Weapon`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `weight` REAL, `weightUnit` TEXT, `harvestDate` INTEGER, `notes` TEXT, `huntId` INTEGER, `weaponId` INTEGER, `imagePaths` TEXT, FOREIGN KEY(`huntId`) REFERENCES `Hunt`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL , FOREIGN KEY(`weaponId`) REFERENCES `Weapon`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
         "fields": [
           {
             "fieldPath": "id",
@@ -65,12 +65,6 @@
             "notNull": true
           },
           {
-            "fieldPath": "category",
-            "columnName": "category",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
             "fieldPath": "weight",
             "columnName": "weight",
             "affinity": "REAL",
@@ -80,48 +74,6 @@
             "fieldPath": "weightUnit",
             "columnName": "weightUnit",
             "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "antlerPoints",
-            "columnName": "antlerPoints",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
-            "fieldPath": "antlerLength",
-            "columnName": "antlerLength",
-            "affinity": "REAL",
-            "notNull": false
-          },
-          {
-            "fieldPath": "antlerCircumference",
-            "columnName": "antlerCircumference",
-            "affinity": "REAL",
-            "notNull": false
-          },
-          {
-            "fieldPath": "hornLength",
-            "columnName": "hornLength",
-            "affinity": "REAL",
-            "notNull": false
-          },
-          {
-            "fieldPath": "hornBaseCircumference",
-            "columnName": "hornBaseCircumference",
-            "affinity": "REAL",
-            "notNull": false
-          },
-          {
-            "fieldPath": "skullLength",
-            "columnName": "skullLength",
-            "affinity": "REAL",
-            "notNull": false
-          },
-          {
-            "fieldPath": "skullWidth",
-            "columnName": "skullWidth",
-            "affinity": "REAL",
             "notNull": false
           },
           {
@@ -434,12 +386,125 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "TrophyMeasurement",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `trophyId` INTEGER NOT NULL, `measurementTypeId` INTEGER NOT NULL, `measurement` REAL NOT NULL, FOREIGN KEY(`measurementTypeId`) REFERENCES `MeasurementType`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL , FOREIGN KEY(`trophyId`) REFERENCES `Trophy`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "trophyId",
+            "columnName": "trophyId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "measurementTypeId",
+            "columnName": "measurementTypeId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "measurement",
+            "columnName": "measurement",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "MeasurementType",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "measurementTypeId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "Trophy",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "trophyId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "MeasurementType",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "MeasurementCategory",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4558674f70ff76f94756bdc32e97ac39')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e25e365ddf8724d77bba7185c0d829f8')"
     ]
   }
 }

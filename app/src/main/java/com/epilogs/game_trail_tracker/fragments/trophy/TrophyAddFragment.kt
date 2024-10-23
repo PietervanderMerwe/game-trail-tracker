@@ -141,7 +141,6 @@ class TrophyAddFragment : Fragment() {
                 huntId = huntId?.takeIf { it > 0 },
                 weaponId = weaponId?.takeIf { it > 0 },
                 imagePaths = selectedImageUris.toMutableList(),
-                category = ""
             )
 
             if (trophyId == 0) {

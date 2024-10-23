@@ -9,7 +9,7 @@ import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.ImagePathListConverter
 
 @Database(
-    entities = [Hunt::class, Trophy::class, Weapon::class, UserSettings::class, Bullet::class, Arrow::class],
+    entities = [Hunt::class, Trophy::class, Weapon::class, UserSettings::class, Bullet::class, Arrow::class, TrophyMeasurement::class, MeasurementType::class, MeasurementCategory::class],
     version = 1,
     exportSchema = true
 )@TypeConverters(DateConverter::class, ImagePathListConverter::class)
@@ -20,4 +20,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun userSettingsDao(): UserSettingsDao
     abstract fun bulletDao(): BulletDao
     abstract fun arrowDao(): ArrowDao
+    abstract fun trophyMeasurementDao(): TrophyMeasurementDao
+    abstract fun measurementTypeDao(): MeasurementTypeDao
+    abstract fun measurementCategoryDao(): MeasurementCategoryDao
 }
