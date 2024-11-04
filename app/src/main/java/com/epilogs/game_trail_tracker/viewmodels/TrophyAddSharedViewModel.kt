@@ -11,10 +11,7 @@ import com.epilogs.game_trail_tracker.database.DatabaseProvider
 import com.epilogs.game_trail_tracker.database.daos.HuntDao
 import com.epilogs.game_trail_tracker.database.daos.TrophyDao
 import com.epilogs.game_trail_tracker.database.daos.WeaponDao
-import com.epilogs.game_trail_tracker.database.entities.Hunt
 import com.epilogs.game_trail_tracker.database.entities.Trophy
-import com.epilogs.game_trail_tracker.database.entities.TrophyMeasurement
-import com.epilogs.game_trail_tracker.database.entities.Weapon
 import kotlinx.coroutines.launch
 
 class TrophyAddSharedViewModel(application: Application) : AndroidViewModel(application) {
@@ -22,8 +19,8 @@ class TrophyAddSharedViewModel(application: Application) : AndroidViewModel(appl
     private val trophyDao: TrophyDao = db.animalDao()
     private val huntDao: HuntDao = db.huntDao()
     private val weaponDao: WeaponDao = db.weaponDao()
-    val trophyEntity = MutableLiveData<Trophy?>()
-    val measurementCategoryId = MutableLiveData<Int?>()
+    private val trophyEntity = MutableLiveData<Trophy?>()
+    private val measurementCategoryId = MutableLiveData<Int?>()
 
     private val insertionSuccess = MutableLiveData<Boolean?>()
     private val updateSuccess = MutableLiveData<Boolean?>()
@@ -44,6 +41,14 @@ class TrophyAddSharedViewModel(application: Application) : AndroidViewModel(appl
         trophyEntity.value = trophy
         measurementCategoryId.value = categoryId
     }
+
+    fun getTrophyDetails(): LiveData<Trophy> = liveData {
+        emit(trophyEntity.value!!)
+    }
+    fun getMeasurementCategoryId(): LiveData<Int> = liveData {
+        emit(measurementCategoryId.value!!)
+    }
+
 
     fun resetInsertionSuccess() {
         insertionSuccess.value = null

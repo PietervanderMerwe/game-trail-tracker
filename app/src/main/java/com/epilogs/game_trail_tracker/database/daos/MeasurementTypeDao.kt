@@ -19,4 +19,6 @@ interface MeasurementTypeDao {
     suspend fun getAllMeasurementTypes(): List<MeasurementType>
     @Query("SELECT * FROM MeasurementType WHERE id = :measurementTypeId")
     suspend fun getMeasurementTypeById(measurementTypeId: Int): MeasurementType?
+    @Query("SELECT * FROM MeasurementType WHERE measurementCategoryId = :measurementCategoryId")
+    suspend fun getAllMeasurementTypesByCategoryId(measurementCategoryId: Int): List<MeasurementType?>
 }

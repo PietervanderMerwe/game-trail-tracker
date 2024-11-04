@@ -80,6 +80,70 @@
                     android:layout_weight="3"
                     android:gravity="end" />
             </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/editTextMeasurementOneContainer"
+                style="@style/CustomTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                app:cursorColor="@color/secondary_color"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/editTextMeasurementOne"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/measurement" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/editTextMeasurementTwoContainer"
+                style="@style/CustomTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                app:cursorColor="@color/secondary_color"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/editTextMeasurementTwo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/measurement"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/editTextMeasurementThreeContainer"
+                style="@style/CustomTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                app:cursorColor="@color/secondary_color"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/editTextMeasurementThree"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/measurement"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/editTextMeasurementFourContainer"
+                style="@style/CustomTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/TextInputLayoutStyle"
+                app:cursorColor="@color/secondary_color"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/editTextMeasurementFour"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/measurement" />
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </ScrollView>
 
@@ -100,7 +164,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.9"
             android:backgroundTint="@color/primary_color"
-            android:text="@string/buttonSaveAnimal"
+            android:text="@string/Next"
             android:textColor="@color/white" />
     </LinearLayout>
 

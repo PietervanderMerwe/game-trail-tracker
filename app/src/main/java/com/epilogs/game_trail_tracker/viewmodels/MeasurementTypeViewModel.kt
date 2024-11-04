@@ -45,6 +45,11 @@ class MeasurementTypeViewModel(application: Application) : AndroidViewModel(appl
         emit(measurementType)
     }
 
+    fun getAllMeasurementTypesByCategoryId(id: Int): LiveData<List<MeasurementType?>> = liveData {
+        val measurementType = measurementTypeDao.getAllMeasurementTypesByCategoryId(id)
+        emit(measurementType)
+    }
+
     fun updateMeasurementType(measurementType: MeasurementType) = viewModelScope.launch {
         measurementTypeDao.updateMeasurementType(measurementType)
         updateSuccess.postValue(true)
