@@ -38,16 +38,6 @@ class TrophyAddSharedViewModel(application: Application) : AndroidViewModel(appl
         }
     }
 
-    fun getAllLocations(): LiveData<List<Hunt>> = liveData {
-        val locations = huntDao.getAllHunts()
-        emit(locations)
-    }
-
-    fun getAllWeapons(): LiveData<List<Weapon>> = liveData {
-        val weapons = weaponDao.getAllWeapons()
-        emit(weapons)
-    }
-
     fun resetInsertionSuccess() {
         insertionSuccess.value = null
     }

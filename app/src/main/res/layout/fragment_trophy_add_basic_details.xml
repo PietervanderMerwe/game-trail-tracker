@@ -67,7 +67,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/trophyCategoryContainer"
+                android:id="@+id/trophyMeasurementCategoryContainer"
                 style="@style/CustomTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                 app:endIconMode="dropdown_menu">
 
                 <AutoCompleteTextView
-                    android:id="@+id/trophyCategoryDropdown"
+                    android:id="@+id/trophyMeasurementCategoryDropdown"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
