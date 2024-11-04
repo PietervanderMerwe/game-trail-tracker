@@ -18,6 +18,8 @@ import com.epilogs.game_trail_tracker.database.entities.Trophy
 import com.epilogs.game_trail_tracker.database.entities.Hunt
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 import com.epilogs.game_trail_tracker.databinding.FragmentTrophyAddBinding
+import com.epilogs.game_trail_tracker.fragments.trophy.add.TrophyAddBasicDetailsFragmentDirections
+import com.epilogs.game_trail_tracker.fragments.trophy.add.TrophyAddMeasurementDetailsFragmentDirections
 import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.ImageAdapterSetup
 import com.epilogs.game_trail_tracker.utils.ImagePickerSetup
@@ -160,15 +162,15 @@ class TrophyAddFragment : Fragment() {
                 val originFragment = arguments?.getString("originFragment")
                 when (originFragment) {
                     "huntFragment" -> {
-                        val action = TrophyAddFragmentDirections.actionTrophyAddFragmentToHuntViewDetailFragment(huntId!!)
+                        val action = TrophyAddBasicDetailsFragmentDirections.actionTrophyAddBasicDetailsFragmentToHuntViewDetailFragment(huntId!!)
                         findNavController().navigate(action)
                     }
                     "trophyFragment" -> {
-                        val action = TrophyAddFragmentDirections.actionTrophyAddFragmentToTrophyFragment()
+                        val action = TrophyAddBasicDetailsFragmentDirections.actionTrophyAddBasicDetailsFragmentToTrophyFragment()
                         findNavController().navigate(action)
                     }
                     "TrophyDetailFragment" -> {
-                        val action = TrophyAddFragmentDirections.actionTrophyAddFragmentToTrophyViewDetailFragment(trophyId!!)
+                        val action = TrophyAddBasicDetailsFragmentDirections.actionTrophyAddBasicDetailsFragmentToTrophyViewDetailFragment(trophyId!!)
                         findNavController().navigate(action)
                     }
                     else -> findNavController().navigateUp()
@@ -285,7 +287,7 @@ class TrophyAddFragment : Fragment() {
             .setMessage("Are you sure you want to delete this trophy?")
             .setPositiveButton("Delete") { dialog, which ->
                 viewModel.deleteAnimal(currentTrophy!!)
-                val action = TrophyAddFragmentDirections.actionTrophyAddFragmentToTrophyFragment()
+                val action = TrophyAddBasicDetailsFragmentDirections.actionTrophyAddBasicDetailsFragmentToTrophyFragment()
                 findNavController().navigate(action)
             }
             .setNegativeButton("Cancel", null)

@@ -73,7 +73,7 @@ class HuntTrophyListFragment : Fragment(), OnTrophyItemClickListener {
 
     private fun navigateToAdd()  {
         val action =
-            HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToTrophyAddFragment(
+            HuntViewDetailFragmentDirections.actionHuntViewDetailFragmentToTrophyAddBasicDetailsFragment(
                 "huntFragment",
                 huntId!!,
                 0,

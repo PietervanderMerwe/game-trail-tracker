@@ -1,0 +1,62 @@
+package com.epilogs.game_trail_tracker.viewmodels
+
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
+import com.epilogs.game_trail_tracker.database.AppDatabase
+import com.epilogs.game_trail_tracker.database.DatabaseProvider
+import com.epilogs.game_trail_tracker.database.daos.HuntDao
+import com.epilogs.game_trail_tracker.database.daos.TrophyDao
+import com.epilogs.game_trail_tracker.database.daos.WeaponDao
+import com.epilogs.game_trail_tracker.database.entities.Hunt
+import com.epilogs.game_trail_tracker.database.entities.Trophy
+import com.epilogs.game_trail_tracker.database.entities.Weapon
+import kotlinx.coroutines.launch
+
+class TrophyAddSharedViewModel(application: Application) : AndroidViewModel(application) {
+    private val db: AppDatabase = DatabaseProvider.getDatabase(application)
+    private val trophyDao: TrophyDao = db.animalDao()
+    private val huntDao: HuntDao = db.huntDao()
+    private val weaponDao: WeaponDao = db.weaponDao()
+    val trophyEntity = MutableLiveData<Trophy?>()
+
+    private val insertionSuccess = MutableLiveData<Boolean?>()
+    private val updateSuccess = MutableLiveData<Boolean?>()
+    private val deleteSuccess = MutableLiveData<Boolean?>()
+
+    fun getUpdateSuccess(): LiveData<Boolean?> = updateSuccess
+    fun getDeleteSuccess(): LiveData<Boolean?> = deleteSuccess
+    fun getInsertionSuccess(): MutableLiveData<Boolean?> = insertionSuccess
+
+    fun insertTrophy(trophy: Trophy) = viewModelScope.launch {
+        trophyEntity.value?.let {
+            trophyDao.insertTrophy(it)
+            insertionSuccess.postValue(true)
+        }
+    }
+
+    fun getAllLocations(): LiveData<List<Hunt>> = liveData {
+        val locations = huntDao.getAllHunts()
+        emit(locations)
+    }
+
+    fun getAllWeapons(): LiveData<List<Weapon>> = liveData {
+        val weapons = weaponDao.getAllWeapons()
+        emit(weapons)
+    }
+
+    fun resetInsertionSuccess() {
+        insertionSuccess.value = null
+    }
+
+    fun resetUpdateSuccess() {
+        updateSuccess.value = null
+    }
+
+    fun resetDeleteSuccess() {
+        deleteSuccess.value = null
+    }
+}

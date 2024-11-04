@@ -113,7 +113,7 @@ class TrophyFragment : Fragment(R.layout.fragment_trophy), OnTrophyItemClickList
     }
 
     private fun navigateToAddTrophy() {
-        val action = TrophyFragmentDirections.actionTrophyFragmentToTrophyAddFragment("trophyFragment")
+        val action = TrophyFragmentDirections.actionTrophyFragmentToTrophyAddBasicDetailsFragment("trophyFragment")
         findNavController().navigate(action)
     }
 
