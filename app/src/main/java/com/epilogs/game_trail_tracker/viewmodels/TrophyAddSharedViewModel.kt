@@ -13,6 +13,7 @@ import com.epilogs.game_trail_tracker.database.daos.TrophyDao
 import com.epilogs.game_trail_tracker.database.daos.WeaponDao
 import com.epilogs.game_trail_tracker.database.entities.Hunt
 import com.epilogs.game_trail_tracker.database.entities.Trophy
+import com.epilogs.game_trail_tracker.database.entities.TrophyMeasurement
 import com.epilogs.game_trail_tracker.database.entities.Weapon
 import kotlinx.coroutines.launch
 
@@ -22,6 +23,7 @@ class TrophyAddSharedViewModel(application: Application) : AndroidViewModel(appl
     private val huntDao: HuntDao = db.huntDao()
     private val weaponDao: WeaponDao = db.weaponDao()
     val trophyEntity = MutableLiveData<Trophy?>()
+    val measurementCategoryId = MutableLiveData<Int?>()
 
     private val insertionSuccess = MutableLiveData<Boolean?>()
     private val updateSuccess = MutableLiveData<Boolean?>()
@@ -36,6 +38,11 @@ class TrophyAddSharedViewModel(application: Application) : AndroidViewModel(appl
             trophyDao.insertTrophy(it)
             insertionSuccess.postValue(true)
         }
+    }
+
+    fun setBasicTrophyDetails(trophy: Trophy, categoryId: Int?) {
+        trophyEntity.value = trophy
+        measurementCategoryId.value = categoryId
     }
 
     fun resetInsertionSuccess() {

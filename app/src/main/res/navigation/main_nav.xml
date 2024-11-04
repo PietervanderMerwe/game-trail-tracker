@@ -315,7 +315,7 @@
             app:argType="integer"
             android:defaultValue="0" />
         <argument
-            android:name="measurementTypeId"
+            android:name="measurementCategoryId"
             app:argType="integer"
             android:defaultValue="0" />
         <action
@@ -328,8 +328,8 @@
             android:id="@+id/action_trophyAddBasicDetailsFragment_to_huntViewDetailFragment"
             app:destination="@id/huntViewDetailFragment" />
         <action
-            android:id="@+id/action_trophyAddBasicDetailsFragment_to_trophyAddImagesFragment"
-            app:destination="@id/trophyAddImagesFragment" />
+            android:id="@+id/action_trophyAddBasicDetailsFragment_to_trophyAddMeasurementDetailsFragment"
+            app:destination="@id/trophyAddMeasurementDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/trophyAddImagesFragment"
@@ -337,8 +337,8 @@
         android:label="fragment_trophy_add_images"
         tools:layout="@layout/fragment_trophy_add_images" >
         <action
-            android:id="@+id/action_trophyAddImagesFragment_to_trophyAddMeasurementDetailsFragment"
-            app:destination="@id/trophyAddMeasurementDetailsFragment" />
+            android:id="@+id/action_trophyAddImagesFragment_to_trophyViewDetailFragment"
+            app:destination="@id/trophyViewDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/trophyAddMeasurementDetailsFragment"
@@ -346,7 +346,7 @@
         android:label="fragment_trophy_add_measurement_details"
         tools:layout="@layout/fragment_trophy_add_measurement_details" >
         <action
-            android:id="@+id/action_trophyAddMeasurementDetailsFragment_to_trophyViewDetailFragment"
-            app:destination="@id/trophyViewDetailFragment" />
+            android:id="@+id/action_trophyAddMeasurementDetailsFragment_to_trophyAddImagesFragment"
+            app:destination="@id/trophyAddImagesFragment" />
     </fragment>
 </navigation>

@@ -13,7 +13,9 @@ import com.epilogs.game_trail_tracker.adapters.HuntDropdownAdapter
 import com.epilogs.game_trail_tracker.adapters.MeasurementCategoryDropdownAdapter
 import com.epilogs.game_trail_tracker.adapters.MeasurementTypeDropdownAdapter
 import com.epilogs.game_trail_tracker.adapters.WeaponDropdownAdapter
+import com.epilogs.game_trail_tracker.database.entities.Trophy
 import com.epilogs.game_trail_tracker.databinding.FragmentTrophyAddBasicDetailsBinding
+import com.epilogs.game_trail_tracker.utils.DateConverter
 import com.epilogs.game_trail_tracker.utils.showDatePickerDialog
 import com.epilogs.game_trail_tracker.viewmodels.HuntViewModel
 import com.epilogs.game_trail_tracker.viewmodels.MeasurementCategoryViewModel
@@ -31,7 +33,7 @@ class TrophyAddBasicDetailsFragment : Fragment() {
     private var trophyId: Int? = null
     private var weaponId: Int? = null
     private var huntId: Int? = null
-    private var measurementTypeId: Int? = null
+    private var measurementCategoryId: Int? = null
     private lateinit var binding: FragmentTrophyAddBasicDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +42,7 @@ class TrophyAddBasicDetailsFragment : Fragment() {
             trophyId = it.getInt("trophyId")
             huntId = it.getInt("huntId")
             weaponId = it.getInt("weaponId")
-            measurementTypeId = it.getInt("measurementTypeId")
+            measurementCategoryId = it.getInt("measurementCategoryId")
         }
     }
 
@@ -60,6 +62,7 @@ class TrophyAddBasicDetailsFragment : Fragment() {
         setupWeaponDropdown()
         setupMeasurementDropdown()
         setupDatePicker()
+        setupNextPageListener()
     }
 
     private fun setupMeasurementDropdown() {
@@ -77,7 +80,7 @@ class TrophyAddBasicDetailsFragment : Fragment() {
             measurementCategoryDropdown.setOnItemClickListener { parent, view, position, id ->
                 val selected = measurementCategory[position]
                 measurementCategoryDropdown.setText(selected.name, false)
-                measurementTypeId = selected.id
+                measurementCategoryId = selected.id
             }
         }
     }
@@ -153,28 +156,21 @@ class TrophyAddBasicDetailsFragment : Fragment() {
         }
     }
 
-    private fun setupObserveInsertion() {
-        viewModel.getInsertionSuccess().observe(viewLifecycleOwner) { success ->
-            if (success == true) {
-                viewModel.resetInsertionSuccess()
-                clearScreen()
-                val originFragment = arguments?.getString("originFragment")
-                when (originFragment) {
-                    "huntFragment" -> {
-                        val action = TrophyAddBasicDetailsFragmentDirections.actionTrophyAddBasicDetailsFragmentToHuntViewDetailFragment(huntId!!)
-                        findNavController().navigate(action)
-                    }
-                    "trophyFragment" -> {
-                        val action = TrophyAddBasicDetailsFragmentDirections.actionTrophyAddBasicDetailsFragmentToTrophyFragment()
-                        findNavController().navigate(action)
-                    }
-                    "TrophyDetailFragment" -> {
-                        val action = TrophyAddBasicDetailsFragmentDirections.actionTrophyAddBasicDetailsFragmentToTrophyViewDetailFragment(trophyId!!)
-                        findNavController().navigate(action)
-                    }
-                    else -> findNavController().navigateUp()
-                }
-            }
+    private fun setupNextPageListener() {
+        val dateConverter = DateConverter()
+        binding.buttonNextAddAnimal.setOnClickListener {
+
+            val trophy = Trophy(
+                name = binding.editTextSpecieName.text.toString(),
+                harvestDate = dateConverter.parseDate(binding.editTextDate.text.toString()),
+                huntId = huntId?.takeIf { it > 0 },
+                weaponId = weaponId?.takeIf { it > 0 },
+            )
+
+            viewModel.setBasicTrophyDetails(trophy, measurementCategoryId)
+
+            val action = TrophyAddBasicDetailsFragmentDirections.actionTrophyAddBasicDetailsFragmentToTrophyAddMeasurementDetailsFragment()
+            findNavController().navigate(action)
         }
     }
 
