@@ -159,7 +159,7 @@
         android:paddingBottom="8dp">
 
         <Button
-            android:id="@+id/buttonSaveAnimal"
+            android:id="@+id/buttonNextAddAnimal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.9"
