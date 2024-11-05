@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.databinding.FragmentTrophyAddImagesBinding
@@ -19,7 +21,7 @@ class TrophyAddImagesFragment : Fragment() {
     private lateinit var imagePickerSetup: ImagePickerSetup
     private lateinit var imageAdapterSetup: ImageAdapterSetup
     private val selectedImageUris = mutableSetOf<String>()
-    private val viewModel: TrophyAddSharedViewModel by viewModels()
+    private val viewModel: TrophyAddSharedViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +39,11 @@ class TrophyAddImagesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentTrophyAddImagesBinding.bind(view)
-
-        setupRecyclerView()
         hideRecyclerView()
         setImagePicker()
         saveTrophySetup()
+        imageAdapterSetup.updateImages(selectedImageUris.toMutableList())
+        setupObserveInsertion()
     }
 
     private fun setupRecyclerView() {
@@ -66,17 +68,17 @@ class TrophyAddImagesFragment : Fragment() {
                 selectedImageUris.clear()
                 selectedImageUris.addAll(images)
                 imageAdapterSetup.updateImages(selectedImageUris.toMutableList())
-                //setupImageAdapter(images.toMutableSet())
                 viewModel.setImages(images.toMutableSet())
+                setupRecyclerView()
             }
         )
 
-        binding.addTrophyImageButtonFloat.setOnClickListener()
-        {
+        setupImageAdapter(selectedImageUris)
+
+        binding.addTrophyImageButtonFloat.setOnClickListener() {
             imagePickerSetup.pickImages(selectedImageUris.toMutableList())
         }
-        binding.addTrophyImageButton.setOnClickListener()
-        {
+        binding.addTrophyImageButton.setOnClickListener() {
             imagePickerSetup.pickImages(selectedImageUris.toMutableList())
         }
     }
@@ -87,13 +89,37 @@ class TrophyAddImagesFragment : Fragment() {
         }
     }
 
-//    private fun setupImageAdapter(imageUris: MutableSet<String>) {
-//        imageAdapterSetup = ImageAdapterSetup(
-//            recyclerView = binding.imagesTrophyRecyclerViewViewDetail,
-//            imageUris = imageUris
-//        )
-//        imageAdapterSetup.setupAdapter()
-//    }
+    private fun setupObserveInsertion() {
+        viewModel.getInsertionSuccess().observe(viewLifecycleOwner) { success ->
+            if (success == true) {
+                viewModel.resetInsertionSuccess()
+                val originFragment = arguments?.getString("originFragment")
+                when (originFragment) {
+                    "huntFragment" -> {
+                        val action = TrophyAddBasicDetailsFragmentDirections.actionTrophyAddBasicDetailsFragmentToHuntViewDetailFragment(huntId!!)
+                        findNavController().navigate(action)
+                    }
+                    "trophyFragment" -> {
+                        val action = TrophyAddBasicDetailsFragmentDirections.actionTrophyAddBasicDetailsFragmentToTrophyFragment()
+                        findNavController().navigate(action)
+                    }
+                    "TrophyDetailFragment" -> {
+                        val action = TrophyAddBasicDetailsFragmentDirections.actionTrophyAddBasicDetailsFragmentToTrophyViewDetailFragment(trophyId!!)
+                        findNavController().navigate(action)
+                    }
+                    else -> findNavController().navigateUp()
+                }
+            }
+        }
+    }
+
+    private fun setupImageAdapter(imageUris: MutableSet<String>) {
+        imageAdapterSetup = ImageAdapterSetup(
+            recyclerView = binding.imagesTrophyRecyclerViewViewDetail,
+            imageUris = imageUris
+        )
+        imageAdapterSetup.setupAdapter()
+    }
 
     companion object {
         @JvmStatic

@@ -63,6 +63,7 @@ class TrophyAddBasicDetailsFragment : Fragment() {
         setupMeasurementDropdown()
         setupDatePicker()
         setupNextPageListener()
+        setArguments()
     }
 
     private fun setupMeasurementDropdown() {
@@ -179,6 +180,9 @@ class TrophyAddBasicDetailsFragment : Fragment() {
         binding.editTextDate.text.clear()
     }
 
+    private fun setArguments() {
+        viewModel.setArguments(trophyId, huntId, arguments?.getString("originFragment"))
+    }
     companion object {
         @JvmStatic
         fun newInstance() =

@@ -11,6 +11,8 @@ import com.epilogs.game_trail_tracker.database.entities.TrophyMeasurement
 interface TrophyMeasurementDao {
     @Insert
     suspend fun insertTrophyMeasurement(trophyMeasurement: TrophyMeasurement) : Long
+    @Insert
+    suspend fun insertTrophyMeasurements(trophyMeasurements: List<TrophyMeasurement>): List<Long>
     @Update
     suspend fun updateTrophyMeasurement(trophyMeasurement: TrophyMeasurement)
     @Delete
