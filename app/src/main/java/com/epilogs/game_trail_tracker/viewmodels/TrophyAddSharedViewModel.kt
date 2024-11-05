@@ -24,12 +24,13 @@ class TrophyAddSharedViewModel(application: Application) : AndroidViewModel(appl
     private val insertionSuccess = MutableLiveData<Boolean?>()
     private val updateSuccess = MutableLiveData<Boolean?>()
     private val deleteSuccess = MutableLiveData<Boolean?>()
+    private var imageUris = mutableSetOf<String>()
 
     fun getUpdateSuccess(): LiveData<Boolean?> = updateSuccess
     fun getDeleteSuccess(): LiveData<Boolean?> = deleteSuccess
     fun getInsertionSuccess(): MutableLiveData<Boolean?> = insertionSuccess
 
-    fun insertTrophy(trophy: Trophy) = viewModelScope.launch {
+    fun insertTrophy() = viewModelScope.launch {
         trophyEntity.value?.let {
             trophyDao.insertTrophy(it)
             insertionSuccess.postValue(true)
@@ -39,6 +40,11 @@ class TrophyAddSharedViewModel(application: Application) : AndroidViewModel(appl
     fun setBasicTrophyDetails(trophy: Trophy, categoryId: Int?) {
         trophyEntity.value = trophy
         measurementCategoryId.value = categoryId
+    }
+
+    fun setTrophyWeight(weight: Double, weightUnit: String) {
+        trophyEntity.value?.weight = weight
+        trophyEntity.value?.weightUnit = weightUnit
     }
 
     fun setTrophyMeasurements(trophyMeasurements: List<TrophyMeasurement>) {
@@ -52,6 +58,9 @@ class TrophyAddSharedViewModel(application: Application) : AndroidViewModel(appl
         emit(measurementCategoryId.value!!)
     }
 
+    fun setImages(images: MutableSet<String>) {
+        imageUris = images
+    }
 
     fun resetInsertionSuccess() {
         insertionSuccess.value = null
