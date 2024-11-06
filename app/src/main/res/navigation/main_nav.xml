@@ -339,6 +339,12 @@
         <action
             android:id="@+id/action_trophyAddImagesFragment_to_trophyViewDetailFragment"
             app:destination="@id/trophyViewDetailFragment" />
+        <action
+            android:id="@+id/action_trophyAddImagesFragment_to_trophyFragment"
+            app:destination="@id/trophyFragment" />
+        <action
+            android:id="@+id/action_trophyAddImagesFragment_to_huntViewDetailFragment"
+            app:destination="@id/huntViewDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/trophyAddMeasurementDetailsFragment"

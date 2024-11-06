@@ -75,6 +75,19 @@ class TrophyAddSharedViewModel(application: Application) : AndroidViewModel(appl
     fun getTrophyDetails(): LiveData<Trophy> = liveData {
         emit(trophyEntity.value!!)
     }
+
+    fun getTrophyId(): LiveData<Int> = liveData {
+        emit(trophyId!!)
+    }
+
+    fun getHuntId(): LiveData<Int> = liveData {
+        emit(huntId!!)
+    }
+
+    fun getOriginFragment(): LiveData<String> = liveData {
+        emit(originFragment!!)
+    }
+
     fun getMeasurementCategoryId(): LiveData<Int> = liveData {
         emit(measurementCategoryId.value!!)
     }

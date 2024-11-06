@@ -1,6 +1,7 @@
 package com.epilogs.game_trail_tracker.fragments.trophy.add
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -93,41 +94,56 @@ class TrophyAddImagesFragment : Fragment() {
         viewModel.getInsertionSuccess().observe(viewLifecycleOwner) { success ->
             if (success == true) {
                 viewModel.resetInsertionSuccess()
-                val originFragment = arguments?.getString("originFragment")
+                viewModel.getOriginFragment().observe(viewLifecycleOwner) { originFragment ->
                 when (originFragment) {
                     "huntFragment" -> {
-                        val action = TrophyAddBasicDetailsFragmentDirections.actionTrophyAddBasicDetailsFragmentToHuntViewDetailFragment(huntId!!)
-                        findNavController().navigate(action)
+                        viewModel.getHuntId().observe(viewLifecycleOwner) { huntId ->
+                            val action =
+                                TrophyAddImagesFragmentDirections.actionTrophyAddImagesFragmentToHuntViewDetailFragment(
+                                    huntId
+                                )
+                            findNavController().navigate(action)
+                        }
                     }
+
                     "trophyFragment" -> {
-                        val action = TrophyAddBasicDetailsFragmentDirections.actionTrophyAddBasicDetailsFragmentToTrophyFragment()
+                        val action =
+                            TrophyAddImagesFragmentDirections.actionTrophyAddImagesFragmentToTrophyFragment()
                         findNavController().navigate(action)
                     }
+
                     "TrophyDetailFragment" -> {
-                        val action = TrophyAddBasicDetailsFragmentDirections.actionTrophyAddBasicDetailsFragmentToTrophyViewDetailFragment(trophyId!!)
-                        findNavController().navigate(action)
+                        viewModel.getTrophyId().observe(viewLifecycleOwner) { trophyId ->
+                            val action =
+                                TrophyAddImagesFragmentDirections.actionTrophyAddImagesFragmentToTrophyViewDetailFragment(
+                                    trophyId
+                                )
+                            findNavController().navigate(action)
+                        }
                     }
+
                     else -> findNavController().navigateUp()
                 }
             }
         }
     }
+}
 
-    private fun setupImageAdapter(imageUris: MutableSet<String>) {
-        imageAdapterSetup = ImageAdapterSetup(
-            recyclerView = binding.imagesTrophyRecyclerViewViewDetail,
-            imageUris = imageUris
-        )
-        imageAdapterSetup.setupAdapter()
-    }
+private fun setupImageAdapter(imageUris: MutableSet<String>) {
+    imageAdapterSetup = ImageAdapterSetup(
+        recyclerView = binding.imagesTrophyRecyclerViewViewDetail,
+        imageUris = imageUris
+    )
+    imageAdapterSetup.setupAdapter()
+}
 
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            TrophyAddImagesFragment().apply {
-                arguments = Bundle().apply {
+companion object {
+    @JvmStatic
+    fun newInstance() =
+        TrophyAddImagesFragment().apply {
+            arguments = Bundle().apply {
 
-                }
             }
-    }
+        }
+}
 }
