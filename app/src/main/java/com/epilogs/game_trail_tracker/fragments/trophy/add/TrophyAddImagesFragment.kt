@@ -121,7 +121,6 @@ class TrophyAddImagesFragment : Fragment() {
                             findNavController().navigate(action)
                         }
                     }
-
                     else -> findNavController().navigateUp()
                 }
             }

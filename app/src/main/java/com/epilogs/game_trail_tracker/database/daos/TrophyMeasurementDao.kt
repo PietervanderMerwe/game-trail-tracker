@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import com.epilogs.game_trail_tracker.DTOs.MeasurementTypes.TrophyMeasurementWithType
 import com.epilogs.game_trail_tracker.database.entities.TrophyMeasurement
 
 @Dao
@@ -21,4 +22,8 @@ interface TrophyMeasurementDao {
     suspend fun getAllTrophyMeasurements(): List<TrophyMeasurement>
     @Query("SELECT * FROM TrophyMeasurement WHERE id = :trophyMeasurementId")
     suspend fun getTrophyMeasurementById(trophyMeasurementId: Int): TrophyMeasurement?
+    @Query("SELECT TrophyMeasurement.*, MeasurementType.name " +
+            "FROM TrophyMeasurement INNER JOIN MeasurementType ON TrophyMeasurement.measurementTypeId = MeasurementType.id " +
+            "WHERE TrophyMeasurement.trophyId = :trophyId")
+    suspend fun getTrophyMeasurementsByTrophyId(trophyId: Int): List<TrophyMeasurementWithType>
 }

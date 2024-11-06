@@ -86,15 +86,17 @@
                 style="@style/CustomTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="8dp"
                 android:theme="@style/TextInputLayoutStyle"
-                app:cursorColor="@color/secondary_color"
-                android:visibility="gone">
+                android:visibility="visible"
+                app:cursorColor="@color/secondary_color">
 
                 <EditText
                     android:id="@+id/editTextMeasurementOne"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/measurement" />
+                    android:hint="@string/measurement"
+                    android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -102,15 +104,17 @@
                 style="@style/CustomTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="8dp"
                 android:theme="@style/TextInputLayoutStyle"
-                app:cursorColor="@color/secondary_color"
-                android:visibility="gone">
+                android:visibility="visible"
+                app:cursorColor="@color/secondary_color">
 
                 <EditText
                     android:id="@+id/editTextMeasurementTwo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/measurement"/>
+                    android:hint="@string/measurement"
+                    android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -118,15 +122,17 @@
                 style="@style/CustomTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="8dp"
                 android:theme="@style/TextInputLayoutStyle"
-                app:cursorColor="@color/secondary_color"
-                android:visibility="gone">
+                android:visibility="visible"
+                app:cursorColor="@color/secondary_color">
 
                 <EditText
                     android:id="@+id/editTextMeasurementThree"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/measurement"/>
+                    android:hint="@string/measurement"
+                    android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -134,15 +140,53 @@
                 style="@style/CustomTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="8dp"
                 android:theme="@style/TextInputLayoutStyle"
-                app:cursorColor="@color/secondary_color"
-                android:visibility="gone">
+                android:visibility="visible"
+                app:cursorColor="@color/secondary_color">
 
                 <EditText
                     android:id="@+id/editTextMeasurementFour"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/measurement" />
+                    android:hint="@string/measurement"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/editTextMeasurementFiveContainer"
+                style="@style/CustomTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:theme="@style/TextInputLayoutStyle"
+                android:visibility="visible"
+                app:cursorColor="@color/secondary_color">
+
+                <EditText
+                    android:id="@+id/editTextMeasurementFive"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/measurement"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/editTextMeasurementSixContainer"
+                style="@style/CustomTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:theme="@style/TextInputLayoutStyle"
+                android:visibility="visible"
+                app:cursorColor="@color/secondary_color">
+
+                <EditText
+                    android:id="@+id/editTextMeasurementSix"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/measurement"
+                    android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </ScrollView>

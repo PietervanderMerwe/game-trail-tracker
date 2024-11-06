@@ -35,7 +35,15 @@ class DatabaseSeeder(
                     name = "Horn Thickness at Base",
                     measurementCategoryId = 1),
                 MeasurementType(
-                    name = "Horn Thickness at 1/4, 1/2, and 3/4 Length",
+                    name = "Horn Thickness at 1/4 Length",
+                    measurementCategoryId = 1
+                ),
+                MeasurementType(
+                    name = "Horn Thickness at 1/2 Length",
+                    measurementCategoryId = 1
+                ),
+                MeasurementType(
+                    name = "Horn Thickness at 3/4 Length",
                     measurementCategoryId = 1
                 ),
                 MeasurementType(

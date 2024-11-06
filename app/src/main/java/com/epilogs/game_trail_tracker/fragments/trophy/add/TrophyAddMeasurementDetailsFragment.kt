@@ -50,13 +50,17 @@ class TrophyAddMeasurementDetailsFragment : Fragment() {
             binding.editTextMeasurementOneContainer,
             binding.editTextMeasurementTwoContainer,
             binding.editTextMeasurementThreeContainer,
-            binding.editTextMeasurementFourContainer
+            binding.editTextMeasurementFourContainer,
+            binding.editTextMeasurementFiveContainer,
+            binding.editTextMeasurementSixContainer
         );
         editTexts = listOf(
             binding.editTextMeasurementOne,
             binding.editTextMeasurementTwo,
             binding.editTextMeasurementThree,
-            binding.editTextMeasurementFour
+            binding.editTextMeasurementFour,
+            binding.editTextMeasurementFive,
+            binding.editTextMeasurementSix
         );
         setUpEditTextFields()
         setupNextPageListener()
