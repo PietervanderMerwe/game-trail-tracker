@@ -83,14 +83,13 @@ class TrophyDetailsTabFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        animalViewModel.getAnimalById(trophyId!!).observe(viewLifecycleOwner, Observer { animal ->
+        animalViewModel.getAnimalById(trophyId!!).observe(viewLifecycleOwner) { animal ->
             currentTrophy = animal
             binding.textViewSpecieNameViewDetail.text = animal?.name
             binding.textViewDateViewDetail.text =
                 animal?.harvestDate?.let { dateFormat.format(it) } ?: "N/A"
             val weight = animal?.weight?.toString() ?: ""
-            val weightType = animal?.weightUnit ?: ""
-            binding.textViewWeightViewDetail.text = getString(R.string.weight_detail, weight, weightType)
+            binding.textViewWeightViewDetail.text = weight
 
             trophyMeasurementViewModel.getTrophyMeasurementsByTrophyId(animal?.id!!).observe(viewLifecycleOwner) { trophyMeasurements ->
                 for (i in measurementLayouts.indices) {
@@ -104,31 +103,31 @@ class TrophyDetailsTabFragment : Fragment() {
                 }
             }
 
-            if (animal?.weaponId != null) {
+            if (animal.weaponId != null) {
                 binding.WeaponLayoutViewDetail.visibility = View.VISIBLE
                 binding.textViewWeaponTitleViewDetail.visibility = View.VISIBLE
                 weaponViewModel.getWeaponById(animal.weaponId!!)
-                    .observe(viewLifecycleOwner, Observer { weapon ->
+                    .observe(viewLifecycleOwner) { weapon ->
                         binding.textViewWeaponViewDetail.text = weapon?.name
-                    })
+                    }
                 weaponId = animal.weaponId
             } else {
                 binding.textViewWeaponTitleViewDetail.visibility = View.GONE
                 binding.WeaponLayoutViewDetail.visibility = View.GONE
             }
 
-            if (animal?.huntId != null) {
+            if (animal.huntId != null) {
                 binding.textViewLocationTitleViewDetail.visibility = View.VISIBLE
                 huntViewModel.getHuntById(animal.huntId!!)
-                    .observe(viewLifecycleOwner, Observer { hunt ->
+                    .observe(viewLifecycleOwner) { hunt ->
                         binding.textViewLocationViewDetail.text = hunt?.name
-                    })
+                    }
                 huntId = animal.huntId
             } else {
                 binding.textViewLocationTitleViewDetail.visibility = View.GONE
                 binding.textViewLocationViewDetail.visibility = View.GONE
             }
-        })
+        }
     }
 
     private fun setBindings() {

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6fc9dbcc7fc2b3dc5eb0548795d5fe62",
+    "identityHash": "c9545add3a182f9a74b7c187e8c07b37",
     "entities": [
       {
         "tableName": "Hunt",
@@ -50,7 +50,7 @@
       },
       {
         "tableName": "Trophy",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `weight` REAL, `weightUnit` TEXT, `harvestDate` INTEGER, `notes` TEXT, `huntId` INTEGER, `weaponId` INTEGER, `imagePaths` TEXT, FOREIGN KEY(`huntId`) REFERENCES `Hunt`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL , FOREIGN KEY(`weaponId`) REFERENCES `Weapon`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `weight` REAL, `harvestDate` INTEGER, `notes` TEXT, `huntId` INTEGER, `weaponId` INTEGER, `imagePaths` TEXT, FOREIGN KEY(`huntId`) REFERENCES `Hunt`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL , FOREIGN KEY(`weaponId`) REFERENCES `Weapon`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
         "fields": [
           {
             "fieldPath": "id",
@@ -68,12 +68,6 @@
             "fieldPath": "weight",
             "columnName": "weight",
             "affinity": "REAL",
-            "notNull": false
-          },
-          {
-            "fieldPath": "weightUnit",
-            "columnName": "weightUnit",
-            "affinity": "TEXT",
             "notNull": false
           },
           {
@@ -522,7 +516,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6fc9dbcc7fc2b3dc5eb0548795d5fe62')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c9545add3a182f9a74b7c187e8c07b37')"
     ]
   }
 }

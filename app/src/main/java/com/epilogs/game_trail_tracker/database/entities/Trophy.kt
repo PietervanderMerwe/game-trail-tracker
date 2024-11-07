@@ -28,7 +28,6 @@ data class Trophy(
     @PrimaryKey(autoGenerate = true) var id: Int = 0,
     var name: String,
     var weight: Double? = null,
-    var weightUnit: String? = null,
     @TypeConverters(DateConverter::class) var harvestDate: Date? = null,
     var notes: String? = null,
     var huntId: Int? = null,

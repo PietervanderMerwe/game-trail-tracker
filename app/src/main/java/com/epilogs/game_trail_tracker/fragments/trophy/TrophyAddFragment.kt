@@ -134,7 +134,6 @@ class TrophyAddFragment : Fragment() {
             val trophy = Trophy(
                 name = binding.editTextSpecieName.text.toString(),
                 weight = binding.editTextWeight.text.toString().toDoubleOrNull() ?: 0.0,
-                weightUnit = binding.spinnerWeightUnits.selectedItem.toString(),
                 harvestDate = dateConverter.parseDate(binding.editTextDate.text.toString()),
                 notes = "Some notes",
                 huntId = huntId?.takeIf { it > 0 },

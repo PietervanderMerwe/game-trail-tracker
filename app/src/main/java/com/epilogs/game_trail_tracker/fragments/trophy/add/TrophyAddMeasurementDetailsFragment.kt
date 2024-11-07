@@ -28,7 +28,6 @@ class TrophyAddMeasurementDetailsFragment : Fragment() {
     private lateinit var editTexts: List<EditText>
     private lateinit var measurementTypeList: List<MeasurementType?>
     private var measurementAmount: Int = 0
-    private val userSettingsViewModel: UserSettingsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +63,6 @@ class TrophyAddMeasurementDetailsFragment : Fragment() {
         );
         setUpEditTextFields()
         setupNextPageListener()
-        setupWeightSpinner()
     }
 
     private fun setUpEditTextFields() {
@@ -90,7 +88,7 @@ class TrophyAddMeasurementDetailsFragment : Fragment() {
         binding.buttonNextAddAnimal.setOnClickListener {
 
             viewModel.setTrophyMeasurements(getFilledTrophyMeasurements())
-            viewModel.setTrophyWeight(binding.editTextWeight.text.toString().toDoubleOrNull() ?: 0.0, binding.spinnerWeightUnits.selectedItem.toString())
+            viewModel.setTrophyWeight(binding.editTextWeight.text.toString().toDoubleOrNull() ?: 0.0)
 
             val action =
                 TrophyAddMeasurementDetailsFragmentDirections.actionTrophyAddMeasurementDetailsFragmentToTrophyAddImagesFragment()
@@ -120,23 +118,6 @@ class TrophyAddMeasurementDetailsFragment : Fragment() {
             }
         }
         return trophyMeasurements
-    }
-
-    private fun setupWeightSpinner() {
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.weights_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.spinnerWeightUnits.adapter = adapter
-        }
-
-        userSettingsViewModel.getUserSettingsById(1).observe(viewLifecycleOwner) { userSetting ->
-            val weightUnitsAdapter = binding.spinnerWeightUnits.adapter as ArrayAdapter<String>
-            val weightUnitsPosition = weightUnitsAdapter.getPosition(userSetting?.weight)
-            binding.spinnerWeightUnits.setSelection(weightUnitsPosition)
-        }
     }
 
     companion object {

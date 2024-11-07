@@ -63,9 +63,8 @@ class TrophyAddSharedViewModel(application: Application) : AndroidViewModel(appl
         this.originFragment = originFragment
     }
 
-    fun setTrophyWeight(weight: Double, weightUnit: String) {
+    fun setTrophyWeight(weight: Double) {
         trophyEntity.value?.weight = weight
-        trophyEntity.value?.weightUnit = weightUnit
     }
 
     fun setTrophyMeasurements(trophyMeasurements: List<TrophyMeasurement>) {
