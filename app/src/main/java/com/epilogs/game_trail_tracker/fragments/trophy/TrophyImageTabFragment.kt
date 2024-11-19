@@ -19,7 +19,6 @@ import com.epilogs.game_trail_tracker.viewmodels.AnimalViewModel
 class TrophyImageTabFragment : Fragment() {
 
     private var trophyId: Int? = null
-    private lateinit var imageAdapter: ImagesAdapter
     private val viewModel: AnimalViewModel by viewModels()
     private lateinit var binding: FragmentTrophyImageTabBinding
     private lateinit var currentTrophy: Trophy
@@ -50,7 +49,7 @@ class TrophyImageTabFragment : Fragment() {
     }
 
     private fun getTrophyImages() {
-        viewModel.getAnimalById(trophyId!!).observe(viewLifecycleOwner, Observer { animal ->
+        viewModel.getAnimalById(trophyId!!).observe(viewLifecycleOwner) { animal ->
             currentTrophy = animal!!
 
             if (animal.imagePaths?.isEmpty() == true) {
@@ -62,7 +61,7 @@ class TrophyImageTabFragment : Fragment() {
                 setupImageAdapter(animal.imagePaths?.toMutableSet() ?: mutableSetOf())
                 setupRecyclerView()
             }
-        })
+        }
     }
 
     private fun setupRecyclerView() {

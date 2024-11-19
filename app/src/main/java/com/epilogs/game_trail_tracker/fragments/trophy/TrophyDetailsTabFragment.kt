@@ -1,6 +1,7 @@
 package com.epilogs.game_trail_tracker.fragments.trophy
 
 import android.os.Bundle
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +9,8 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.epilogs.game_trail_tracker.R
 import com.epilogs.game_trail_tracker.database.entities.Trophy
 import com.epilogs.game_trail_tracker.databinding.FragmentTrophyDetailsTabBinding
@@ -29,12 +30,9 @@ class TrophyDetailsTabFragment : Fragment() {
     private val huntViewModel: HuntViewModel by viewModels()
     private val trophyMeasurementViewModel: TrophyMeasurementViewModel by viewModels()
     private var currentTrophy: Trophy? = null
-    private var huntId: Int? = 0;
-    private var weaponId: Int? = 0;
+    private var huntId: Int? = 0
+    private var weaponId: Int? = 0
     private lateinit var binding: FragmentTrophyDetailsTabBinding
-    private lateinit var measurementLayouts: List<LinearLayout>
-    private lateinit var measurementDescriptions: List<TextView>
-    private lateinit var measurementValues: List<TextView>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -53,8 +51,6 @@ class TrophyDetailsTabFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentTrophyDetailsTabBinding.bind(view)
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-
-        setBindings()
 
         binding.textInputLayoutLocationViewDetail.setOnClickListener {
             val action =
@@ -91,19 +87,35 @@ class TrophyDetailsTabFragment : Fragment() {
             val weight = animal?.weight?.toString() ?: ""
             binding.textViewWeightViewDetail.text = weight
 
-            trophyMeasurementViewModel.getTrophyMeasurementsByTrophyId(animal?.id!!).observe(viewLifecycleOwner) { trophyMeasurements ->
-                for (i in measurementLayouts.indices) {
-                    if (i < trophyMeasurements.size) {
-                        measurementLayouts[i].visibility = View.VISIBLE
-                        measurementDescriptions[i].text = trophyMeasurements[i].name
-                        measurementValues[i].text = trophyMeasurements[i].measurement.toString()
-                    } else {
-                        measurementLayouts[i].visibility = View.GONE
-                    }
+            if (!animal?.imagePaths.isNullOrEmpty()) {
+                val displayMetrics = resources.displayMetrics
+                val screenHeight = displayMetrics.heightPixels
+
+                val newHeight = (screenHeight * 0.6).toInt()
+                binding.imageTrophyView.layoutParams.height = newHeight
+                binding.imageTrophyView.requestLayout()
+
+                animal?.let {
+                    Glide.with(this)
+                        .load(animal.imagePaths?.first())
+                        .into(binding.imageTrophyView)
                 }
             }
 
+            trophyMeasurementViewModel.getTrophyMeasurementsByTrophyId(animal?.id!!)
+                .observe(viewLifecycleOwner) { trophyMeasurements ->
+                    for (i in trophyMeasurements.indices) {
+                        binding.parentLinearLayout.addView(
+                            createMeasurementLayout(
+                                trophyMeasurements[i].name,
+                                trophyMeasurements[i].measurement.toString()
+                            )
+                        )
+                    }
+                }
+
             if (animal.weaponId != null) {
+                binding.textViewWeaponLayout.visibility = View.VISIBLE
                 binding.WeaponLayoutViewDetail.visibility = View.VISIBLE
                 binding.textViewWeaponTitleViewDetail.visibility = View.VISIBLE
                 weaponViewModel.getWeaponById(animal.weaponId!!)
@@ -112,11 +124,13 @@ class TrophyDetailsTabFragment : Fragment() {
                     }
                 weaponId = animal.weaponId
             } else {
+                binding.textViewWeaponLayout.visibility = View.GONE
                 binding.textViewWeaponTitleViewDetail.visibility = View.GONE
                 binding.WeaponLayoutViewDetail.visibility = View.GONE
             }
 
             if (animal.huntId != null) {
+                binding.textViewLocationLayout.visibility = View.VISIBLE
                 binding.textViewLocationTitleViewDetail.visibility = View.VISIBLE
                 huntViewModel.getHuntById(animal.huntId!!)
                     .observe(viewLifecycleOwner) { hunt ->
@@ -124,37 +138,76 @@ class TrophyDetailsTabFragment : Fragment() {
                     }
                 huntId = animal.huntId
             } else {
+                binding.textViewLocationLayout.visibility = View.GONE
                 binding.textViewLocationTitleViewDetail.visibility = View.GONE
                 binding.textViewLocationViewDetail.visibility = View.GONE
             }
         }
     }
 
-    private fun setBindings() {
-        measurementLayouts = listOf(
-            binding.linearLayoutMeasurementOne,
-            binding.linearLayoutMeasurementTwo,
-            binding.linearLayoutMeasurementThree,
-            binding.linearLayoutMeasurementFour,
-            binding.linearLayoutMeasurementFive,
-            binding.linearLayoutMeasurementSix
-        );
-        measurementDescriptions = listOf(
-            binding.textViewMeasurementOne,
-            binding.textViewMeasurementTwo,
-            binding.textViewMeasurementThree,
-            binding.textViewMeasurementFour,
-            binding.textViewMeasurementFive,
-            binding.textViewMeasurementSix
-        );
-        measurementValues = listOf(
-            binding.textViewMeasurementViewDetailOne,
-            binding.textViewMeasurementViewDetailTwo,
-            binding.textViewMeasurementViewDetailThree,
-            binding.textViewMeasurementViewDetailFour,
-            binding.textViewMeasurementViewDetailFive,
-            binding.textViewMeasurementViewDetailSix
-        );
+    private fun createMeasurementLayout(name: String, description: String): LinearLayout {
+        val linearLayout = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.HORIZONTAL
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                weightSum = 3f
+            }
+        }
+
+        val textViewMeasurement = TextView(requireContext()).apply {
+            id = View.generateViewId()
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                2f
+            )
+            text = shortenText(name, 4)
+            setTextAppearance(com.google.android.material.R.style.TextAppearance_MaterialComponents_Body1)
+            setPadding(0, 0, 0, 8.dpToPx())
+        }
+
+        val textInputLayout = TextInputLayout(requireContext()).apply {
+            id = View.generateViewId()
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            )
+            setPadding(0, 0, 0, 8.dpToPx())
+        }
+
+        val textViewMeasurementDetail = TextView(requireContext()).apply {
+            id = View.generateViewId()
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            gravity = Gravity.END
+            visibility = View.VISIBLE
+            setTextAppearance(com.google.android.material.R.style.TextAppearance_MaterialComponents_Body1)
+            text = description
+
+        }
+
+        textInputLayout.addView(textViewMeasurementDetail)
+
+        linearLayout.addView(textViewMeasurement)
+        linearLayout.addView(textInputLayout)
+
+        return linearLayout
+    }
+
+    fun Int.dpToPx(): Int = (this * resources.displayMetrics.density).toInt()
+
+    fun shortenText(text: String, wordLimit: Int): String {
+        val words = text.split(" ")
+        return if (words.size > wordLimit) {
+            words.take(wordLimit).joinToString(" ") + "..."
+        } else {
+            text
+        }
     }
 
     companion object {

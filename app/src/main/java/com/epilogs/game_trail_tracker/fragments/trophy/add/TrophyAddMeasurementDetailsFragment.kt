@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.EditText
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -16,7 +15,6 @@ import com.epilogs.game_trail_tracker.database.entities.TrophyMeasurement
 import com.epilogs.game_trail_tracker.databinding.FragmentTrophyAddMeasurementDetailsBinding
 import com.epilogs.game_trail_tracker.viewmodels.MeasurementTypeViewModel
 import com.epilogs.game_trail_tracker.viewmodels.TrophyAddSharedViewModel
-import com.epilogs.game_trail_tracker.viewmodels.UserSettingsViewModel
 import com.google.android.material.textfield.TextInputLayout
 
 class TrophyAddMeasurementDetailsFragment : Fragment() {
@@ -52,7 +50,7 @@ class TrophyAddMeasurementDetailsFragment : Fragment() {
             binding.editTextMeasurementFourContainer,
             binding.editTextMeasurementFiveContainer,
             binding.editTextMeasurementSixContainer
-        );
+        )
         editTexts = listOf(
             binding.editTextMeasurementOne,
             binding.editTextMeasurementTwo,
@@ -60,7 +58,7 @@ class TrophyAddMeasurementDetailsFragment : Fragment() {
             binding.editTextMeasurementFour,
             binding.editTextMeasurementFive,
             binding.editTextMeasurementSix
-        );
+        )
         setUpEditTextFields()
         setupNextPageListener()
     }

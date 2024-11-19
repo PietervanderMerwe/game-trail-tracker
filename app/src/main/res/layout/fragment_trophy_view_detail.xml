@@ -6,44 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".fragments.trophy.TrophyViewDetailFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/trophyDetailAppBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/primary_color"
-                app:layout_collapseMode="pin" />
-
-            <TextView
-                android:id="@+id/appNameTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="16dp"
-                android:text="@string/trophy_details"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textStyle="bold" />
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
-
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/trophyDetailAppBar"
         app:tabIndicatorColor="@color/text_white_black"
         app:tabTextColor="@color/text_white_black" />
 
